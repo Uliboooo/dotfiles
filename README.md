@@ -1,5 +1,13 @@
 # README
 
+## usage
+
+download
+
+```bash
+
+```
+
 ## What will be installed?
 
 * zsh
