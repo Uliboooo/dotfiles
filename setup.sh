@@ -1,11 +1,5 @@
 #!/bin/bash
 
-load_scripts() {
-  local dir="$1"
-  for file in "$dir"/*.sh; do
-    [ -f "$file" ] && source "$file"
-  done
-}
 set -e
 
 dir=$(pwd)
@@ -17,7 +11,8 @@ else
     false
 fi
 
-load_scripts $dir/setup
+source $dir/setup/abstract_install.sh
+
 sh $dir/setup/update.sh
 
 ab_install "zsh"
