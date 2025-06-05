@@ -15,6 +15,7 @@ ab_install() {
 }
 
 ab_installs() {
-for i in "$@"; do
-    ab_install "${i}"
+    for i in "$@"; do
+        ab_install "${i}"
+    done
 }
