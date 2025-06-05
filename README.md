@@ -1,8 +1,14 @@
 # README
 
-## needed tools
+## What will be installed?
 
-- cargo(rust)
-- zsh
-- brew
-- starship
+* zsh
+* git
+* tree
+* neovim
+* vim
+* starship
+* rustup
+* zed
+
+and, create Symbolic links for configuration
