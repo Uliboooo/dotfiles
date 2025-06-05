@@ -2,7 +2,7 @@
 
 set -e
 
-dir=$(pwd)
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ $(basename "${dir}") = "dotfiles" ]; then
     echo "start setup"
@@ -17,7 +17,7 @@ source "${dir}"/setup/abstract_install.sh
 sh "${dir}"/setup/update.sh
 
 ab_install "zsh"
-sudo chsh -s /bin/zsh $(basename $HOME)
+sudo chsh -s /bin/zsh "$USER"
 
 sh "${dir}"/setup/installs.sh
 sh "${dir}"/setup/links.sh
