@@ -1,0 +1,22 @@
+# Empty values reset the configuration to the default value
+font-family = "0xProto"
+font-size = 11
+
+# ウィンドウの初期サイズ
+window-height = 60
+window-width = 120
+
+# 背景の透明度
+background-opacity = 0.97
+# 背景をぼかす
+background-blur-radius = 10
+
+theme = tokyonight_night
+
+cursor-style-blink = true
+cursor-style = bar
+
+quick-terminal-position = "top"
+quick-terminal-screen = "main"
+quick-terminal-animation-duration = 0.3
+keybind = "global:option+shift+t=toggle_quick_terminal"

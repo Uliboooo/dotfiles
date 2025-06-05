@@ -1,0 +1,113 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent": {
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "ollama",
+      "model": "codellama:7b"
+    },
+    "version": "2",
+    "dock": "right"
+  },
+  "icon_theme": "Catppuccin Macchiato",
+  "theme": "Catppuccin Macchiato",
+  "indent_guides": {
+    "coloring": "indent_aware",
+    "active_line_width": 2
+  },
+  "project_panel": {
+    "dock": "right",
+    "indent_size": 10
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "auto_install_extensions": {
+    "html": true
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 600
+    }
+  },
+  "restore_on_startup": "last_workspace",
+  "autoscroll_on_clicks": true,
+  "auto_update": true,
+  "base_keymap": "VSCode",
+  "buffer_font_family": "0xProto",
+  "buffer_font_fallbacks": ["Cica"],
+  "buffer_font_features": {
+    "calt": false
+  },
+  "buffer_font_size": 10,
+  "buffer_font_weight": 400,
+  "ui_font_family": "0xProto",
+  "ui_font_size": 12,
+
+  "terminal": {
+    "font_family": "0xProto",
+    "cursor_shape": "bar",
+    "blinking": "on"
+  },
+
+  "edit_predictions": {
+    "mode": "eager",
+    "disabled_globs": [".env"]
+  },
+  
+
+  "tabs": {
+    "close_position": "left",
+    "file_icons": true,
+    "git_status": true,
+    "activate_on_close": "history",
+    "show_close_button": "hover"
+  },
+  "format_on_save": "on",
+  "show_whitespaces": "all",
+  "show_edit_predictions": false,
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "languages": {
+    "HTML": {
+      "language_servers": ["vscode-html-language-server", "superhtml"],
+      "formatter": { "language_server": { "name": "superhtml" } },
+      "tab_size": 2
+    },
+    "C": {
+      "format_on_save": "on",
+      "tab_size": 4
+    },
+    "C++": {
+      "format_on_save": "on",
+      "tab_size": 4
+    }
+  },
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true
+  },
+  "wrap_guides": [100],
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy"
+        }
+      }
+    }
+  }
+}
