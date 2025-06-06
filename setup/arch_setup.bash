@@ -1,5 +1,10 @@
-sudo pacman -Syyu
-sudo pacman -S git tree neovim vim
+sudo pacman -Syyu --noconfirm
+
+sudo pacman -S zsh --noconfirm
+
+chsh -s $(wihch zsh)
+
+sudo pacman -S git tree neovim vim --noconfirm
 
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
