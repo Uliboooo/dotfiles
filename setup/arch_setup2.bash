@@ -18,3 +18,4 @@ ln -fs "$self_dir"/zsh/.zshrc $HOME/.zshrc
 ln -fs "$self_dir"/.vimrc $HOME/.vimrc
 
 curl -sS https://starship.rs/install.sh | sh -s -- -y
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
