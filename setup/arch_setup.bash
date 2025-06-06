@@ -2,7 +2,7 @@ sudo pacman -Syyu --noconfirm
 
 sudo pacman -S zsh --noconfirm
 
-chsh -s $(wihch zsh)
+chsh -s $(which zsh)
 
 sudo pacman -S git tree neovim vim --noconfirm
 
