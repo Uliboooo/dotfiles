@@ -12,7 +12,7 @@ mkdir -p $HOME/.config/nvim
 sudo pacman -S git tree neovim vim --noconfirm
 
 curl -sS https://starship.rs/install.sh | sh -s -- -y
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # curl https://zed.dev/install.sh | sh -s -- -y
 
 self_dir=$(dirname $(cd $(dirname $0); pwd))
