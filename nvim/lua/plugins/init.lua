@@ -23,6 +23,16 @@ return {
         cmd = "Mason",
         opts = {}
     },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = { "williamboman/mason.nvim" },
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = { "marksman" }, -- Markdown 用 LSP
+                automatic_installation = true,
+            })
+        end
+    },
 
     {
         "windwp/nvim-autopairs",
@@ -46,7 +56,7 @@ return {
                     width = 30,
                 },
                 renderer = {
-                    group_wmpty = true,
+                    group_empty = true,
                 },
                 filters = {
                     dotfiles = false,

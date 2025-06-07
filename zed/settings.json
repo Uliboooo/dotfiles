@@ -7,11 +7,13 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_font_size": 13,
   "agent": {
+    "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
       "provider": "ollama",
-      "model": "codellama:7b"
+      "model": "gemma3:12b"
     },
     "version": "2",
     "dock": "right"
@@ -64,7 +66,6 @@
     "mode": "eager",
     "disabled_globs": [".env"]
   },
-  
 
   "tabs": {
     "close_position": "left",
@@ -108,6 +109,25 @@
           "command": "clippy"
         }
       }
+    }
+  },
+  "language_models": {
+    "ollama": {
+      "api_url": "http://192.168.1.7:11434",
+      "available_models": [
+        {
+          "name": "gemma3:12b",
+          "max_tokens": 32768,
+          "display_name": "gemma3 12b"
+          // "supports_tools": true
+        },
+        {
+          "name": "gemma3:4b",
+          "max_tokens": 32768,
+          "display_name": "gemma3 4b"
+          // "supports_tools": true
+        }
+      ]
     }
   }
 }

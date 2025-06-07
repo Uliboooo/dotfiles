@@ -42,6 +42,9 @@ alias cdd='cd ~/Develop'
 alias newzenn='npx zenn new:article --title $1'
 alias prezenn='npx zenn preview'
 
+alias zenn_push='bash $HOME/dotfiles/tools/zenn_push.bash'
+#  && git add . && git commit -m "wip" && git push
+
 alias py='python3 $1'
 
 alias helpme="echo -e "gitlog=git log graph\ncdd=cd ~/Develop\nnewzenn=new zenn article\npreview zenn""
@@ -69,3 +72,8 @@ alias vm_sus_ubuntu='vmrun -T fusion suspend "~/Virtual Machines.localized/Ubunt
 alias vm_commands='cat $HOME/dotfiles/vm_command/vm_command_help.md'
 
 export PATH="/Library/TeX/texbin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/yuki/.lmstudio/bin"
+# End of LM Studio CLI section
+
