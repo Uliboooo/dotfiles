@@ -113,7 +113,7 @@
   },
   "language_models": {
     "ollama": {
-      "api_url": "http://192.168.1.7:11434",
+      "api_url": "http://192.168.1.150:11434",
       "available_models": [
         {
           "name": "gemma3:12b",
