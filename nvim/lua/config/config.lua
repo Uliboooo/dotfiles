@@ -28,6 +28,7 @@ vim.keymap.set("n", "<leader>f", ":NvimTreeFocus<CR>", { noremap = true, silent 
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { noremap = true, silent = true, desc = ""})
 -- vim.keymap.set("n", "<Leader>rh", function()
 --     vim.lsp.buf.inlay_hint(0, nil)
 -- end, { desc = "Toggle inlay hints" })

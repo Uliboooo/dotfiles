@@ -80,7 +80,7 @@ return {
         -- },
         opts = {
             size = 80,
-            open_mapping = [[<c-t>]],
+            open_mapping = [[<c-\>]],
             direction = "float", -- デフォルトをフローティングに設定
             shade_filetypes = {},
             hide_numbers = false,
