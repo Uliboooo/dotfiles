@@ -1,6 +1,8 @@
 local wezterm = require 'wezterm'
 
 return {
+    audible_bell = "SystemBeep",
+
     font = wezterm.font("0xProto"),
     font_size = 10.0,
 
@@ -11,3 +13,4 @@ return {
     initial_cols = 170,
     initial_rows = 70,
 }
+
