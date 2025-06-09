@@ -39,6 +39,11 @@ return {
       dependencies = {
         "hrsh7th/cmp-nvim-lsp",
       },
+      opts = {
+        servers = {
+          rust_analyzer = false, -- <- これで Mason + LSPConfig 側の rust-analyzer を無効化
+        },
+      },
       config = function()
         -- rust-analyzer の設定は rust.lua で行うため、ここでは一般的な設定のみ
         local lspconfig = require("lspconfig")

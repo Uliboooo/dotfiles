@@ -22,17 +22,14 @@ return {
                                 command = "clippy"
                             },
                             checkOnSave = true,
-                            inlayHints = {
+                            --inlayHints = {
                                 -- enable = true,
-                                typeHints = true,
-                                changingHints = true,
-                                parameterHints = true,
-                                closureReturnTypeHints = "always",
+                          --      typeHints = true,
+                                --changingHints = true,
+                            --    parameterHints = true,
+                              --  closureReturnTypeHints = "always",
                                 -- enable = true,
-                            },
-                            parameterHints = {
-                                enable = true,
-                            }
+                           -- },
                         },
                     },
                 },

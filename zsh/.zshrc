@@ -26,7 +26,7 @@ alias gitlog='git log --all --date-order --date=format:"%Y-%m-%d" --graph --form
 alias cdd='cd $HOME/Develop/'
 
 alias nzenn='npx zenn new:article --title $1'
-alias pzenn='npx preview'
+alias pzenn='npx zenn preview --open'
 
 # run c program
 alias crun='clang $1 && ./a.out'

@@ -110,19 +110,6 @@ return {
         end
     },
 
-
-    --     config = function()
-    --         require("lsp-hover").setup {
-    --             delay = 300,
-    --             max_width = 80,
-    --             close_events = { "CursorMoved", "InsertEnter" },
-    --         }
-    --         vim.cmd [[
-    --             autocmd CursorHold * lua require("lsp-hover").hover()
-    --         ]]
-    --     end
-    -- },
-
     {
         "akinsho/toggleterm.nvim",
         version = "*",
