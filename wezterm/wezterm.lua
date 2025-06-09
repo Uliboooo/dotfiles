@@ -16,5 +16,8 @@ return {
 
     initial_cols = 170,
     initial_rows = 70,
+
+    default_cursor_style = "BlinkingBar",
+    cursor_blink_rate = 600,
 }
 
