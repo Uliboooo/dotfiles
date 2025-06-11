@@ -13,8 +13,8 @@
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "ollama",
-      "model": "gemma3:12b"
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
     },
     "version": "2",
     "dock": "right"

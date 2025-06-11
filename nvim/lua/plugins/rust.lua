@@ -22,22 +22,9 @@ return {
                                 command = "clippy"
                             },
                             checkOnSave = true,
-                            --inlayHints = {
-                                -- enable = true,
-                          --      typeHints = true,
-                                --changingHints = true,
-                            --    parameterHints = true,
-                              --  closureReturnTypeHints = "always",
-                                -- enable = true,
-                           -- },
                         },
                     },
                 },
-                -- on_attach = function (client, bufnr)
-                --     if client.server_capabilities.inlayHintProvider then
-                --         vim.lsp.inlay_hint.enable(bufnr, true)
-                --     end
-                -- end,
                 dap = {
                     adapters = {
                         {

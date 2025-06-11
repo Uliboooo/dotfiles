@@ -1,15 +1,10 @@
 # zmodload zsh/zprof
 
-autoload -Uz compinit
-compinit -C
-
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# brew git
-export PATH=/opt/homebrew/bin/git:$PATH
-# nano
-export PATH=/opt/homebrew/bin/nano:$PATH
+# brew
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
 # adb
