@@ -21,5 +21,7 @@ return {
 
     default_cursor_style = "BlinkingBar",
     cursor_blink_rate = 600,
+
+    exit_behavior = "Close",
 }
 

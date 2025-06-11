@@ -49,9 +49,12 @@ return {
         local lspconfig = require("lspconfig")
         local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-        -- ここで直接 rust-analyzer を設定することも可能ですが、rustaceanvim がそれを管理するため、
-        -- rustaceanvim 経由で capabilities を渡すことになります。
-        -- 参考: rustaceanvim の opts.server.capabilities に capabilities を渡す
+        lspconfig.clangd.setup({
+            capabilities = capabilities,
+            cmd = {"clangd"},
+            filetypes = {"c", "cpp", "objc", "objcpp"},
+            root_dir = lspconfig.util.root_pattern("complie_command.json", ".git"),
+        })
       end,
     },
 }

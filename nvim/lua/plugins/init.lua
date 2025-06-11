@@ -28,10 +28,10 @@ return {
         dependencies = { "williamboman/mason.nvim" },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "marksman" }, -- Markdown 用 LSP
+                ensure_installed = { "marksman", "clangd" },
                 automatic_installation = true,
             })
-        end
+        end,
     },
 
     {
@@ -130,5 +130,29 @@ return {
         keys = {
             { "<c-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" },
         },
-    }
+    },
+
+    {
+      'HiPhish/rainbow-delimiters.nvim',
+      config = function()
+        local rainbow_delimiters = require 'rainbow-delimiters'
+        vim.g.rainbow_delimiters = {
+          strategy = {
+            [''] = rainbow_delimiters.strategy['global'],
+          },
+          query = {
+            [''] = 'rainbow-delimiters',
+          },
+          highlight = {
+            'RainbowDelimiterRed',
+            'RainbowDelimiterYellow',
+            'RainbowDelimiterBlue',
+            'RainbowDelimiterOrange',
+            'RainbowDelimiterGreen',
+            'RainbowDelimiterViolet',
+            'RainbowDelimiterCyan',
+          },
+        }
+      end
+    },
 }
