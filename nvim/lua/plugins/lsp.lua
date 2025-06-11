@@ -49,12 +49,12 @@ return {
         local lspconfig = require("lspconfig")
         local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-        lspconfig.clangd.setup({
-            capabilities = capabilities,
-            cmd = {"clangd"},
-            filetypes = {"c", "cpp", "objc", "objcpp"},
-            root_dir = lspconfig.util.root_pattern("complie_command.json", ".git"),
-        })
+       -- lspconfig.clangd.setup({
+         --   capabilities = capabilities,
+           -- cmd = {"clangd"},
+           -- filetypes = {"c", "cpp", "objc", "objcpp"},
+           -- root_dir = lspconfig.util.root_pattern("complie_command.json", ".git"),
+        -- })
       end,
     },
 }
