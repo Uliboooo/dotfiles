@@ -1,7 +1,7 @@
 return {
     {
         "vhyrro/luarocks.nvim",
-        priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+        priority = 1000,
         config = true,
     },
 
@@ -64,34 +64,6 @@ return {
             })
         end
     },
-    -- {
-    --     "akinsho/toggleterm.nvim",
-    --     version = "*",  -- 最新バージョンを使用
-    --     cmd = "ToggleTerm", -- :ToggleTerm コマンドを有効にする
-    --     opts = {
-    --         size = 80,
-    --         open_mapping = [[<c-\>]],
-    --         direction = "float",
-    --         shade_filetypes = {},
-    --         hide_numbers = false,
-    --         insert_mappings = true,
-    --         terminal_mappings = true,
-    --         start_in_insert = true,
-    --         close_on_exit = true,
-    --         -- フローティングターミナルの外観設定
-    --         float_opts = {
-    --             border = "curved", -- 角が丸いボーダー
-    --             winblend = 5, -- 透明度
-    --             height = 30, -- 高さ
-    --             width = 80, -- 幅
-    --             row = nil, -- 中央配置
-    --             col = nil, -- 中央配置
-    --         },
-    --     },
-    --     config = function(_, opts)
-    --         require("toggleterm").setup(opts)
-    --     end,
-    -- },
     {
         "numToStr/Comment.nvim",
         event = { "BufReadPre", "BufNewFile" },
@@ -107,28 +79,6 @@ return {
             end, {desc = "toggle comment fort v-mode", noremap = true })
         end,
     },
-
-    -- {
-    --     "akinsho/toggleterm.nvim",
-    --     version = "*",
-    --     config = function()
-    --         require("toggleterm").setup({
-    --             open_mapping = [[<c-\>]], -- Ctrl+\ で開閉
-    --             direction = "float",  -- 浮動ウィンドウモードに設定
-    --             float_opts = {
-    --                 border = "curved", -- 角丸の枠（他に "single", "double", "shadow" など）
-    --                 width = 80,
-    --                 height = 20,
-    --                 winblend = 10,  -- 透明度（0-100の数値で調整）
-    --             },
-    --             start_in_insert = true, -- 開いたら自動で挿入モードに入る
-    --             close_on_exit = true, -- シェル終了時に自動で閉じる
-    --         })
-    --     end,
-    --     keys = {
-    --         { "<c-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" },
-    --     },
-    -- },
 
     {
     "akinsho/toggleterm.nvim",
