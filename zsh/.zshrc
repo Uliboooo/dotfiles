@@ -1,5 +1,12 @@
 # zmodload zsh/zprof
 
+OS_NAME=$(uname -s)
+if [ "$OS_NAME" = "Linux" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [ "$OS_NAME" = "Darwin" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # brew gnu utiles
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # cargo
@@ -15,13 +22,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(starship init zsh)"
-
-OS_NAME=$(uname -s)
-if [ "$OS_NAME" = "Linux" ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-elif [ "$OS_NAME" = "Darwin" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
 
 alias gitlog='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 alias cdd='cd $HOME/Develop/'
