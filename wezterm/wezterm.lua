@@ -1,5 +1,5 @@
 local wezterm = require 'wezterm'
-
+local config = {};
 return {
     audible_bell = "SystemBeep",
 
@@ -21,6 +21,8 @@ return {
 
     default_cursor_style = "BlinkingBar",
     cursor_blink_rate = 600,
+
+    default_cwd = "$HOME",
 
     exit_behavior = "Close",
 }

@@ -28,7 +28,7 @@ return {
         dependencies = { "williamboman/mason.nvim","neovim/nvim-lspconfig" },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "rust_analyzer","marksman", "clangd" },
+                ensure_installed = {"marksman", "clangd" },
                 automatic_installation = true,
             })
         end

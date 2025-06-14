@@ -1,6 +1,6 @@
 # Empty values reset the configuration to the default value
 font-family = "0xProto"
-font-size = 11
+font-size = 10
 
 # ウィンドウの初期サイズ
 window-height = 60

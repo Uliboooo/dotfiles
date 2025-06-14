@@ -1,9 +1,6 @@
 # zmodload zsh/zprof
 
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# brew
+# brew gnu utiles
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
@@ -14,8 +11,11 @@ export PATH="$HOME/.lmstudio/bin/:$PATH"
 # Tex
 export PATH="/Library/TeX/texbin/:$PATH"
 
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(starship init zsh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 alias gitlog='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 alias cdd='cd $HOME/Develop/'
@@ -26,5 +26,7 @@ alias pzenn='npx zenn preview --open'
 # run c program
 alias crun='clang $1 && ./a.out'
 alias cprun='clang++ main.c && ./a.out'
+
+alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
 # zprof
