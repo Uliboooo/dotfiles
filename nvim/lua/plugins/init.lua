@@ -1,86 +1,57 @@
 return {
-    {
-        "vhyrro/luarocks.nvim",
-        priority = 1000,
-        config = true,
-    },
+  {
+    'catppuccin/nvim',
+    lazy = false,
+    name = 'catppuccin',
+    priority = 1000,
+    config = function()
+        vim.cmd.colorscheme 'catppuccin-macchiato'
+    end
+  },
 
-    {
-        "catppuccin/nvim",
-        lazy = false,
-        name = "catppuccin",
-        priority = 1000,
-        config = function()
-            vim.cmd.colorscheme "catppuccin-macchiato"
-        end
-    },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true
+  },
 
-    {
-        "mason-org/mason.nvim",
-        dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-        },
-        cmd = "Mason",
-        opts = {}
+  {
+    "nvim-tree/nvim-tree.lua",
+    lazy = false,
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
     },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = { "williamboman/mason.nvim","neovim/nvim-lspconfig" },
-        config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = {"marksman", "clangd" },
-                automatic_installation = true,
-            })
-        end
-    },
+    config = function()
+        require("nvim-tree").setup({
+            sort = {
+                sorter = "case_sensitive",
+            },
+            view = {
+                width = 30,
+            },
+            renderer = {
+                group_empty = true,
+            },
+            filters = {
+                dotfiles = false,
+            },
+        })
+    end
+  },
 
-    {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        config = true
-        -- use opts = {} for passing setup options
-        -- this is equivalent to setup({}) function
-    },
-    {
-        "nvim-tree/nvim-tree.lua",
-        lazy = false,
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
-        config = function()
-            require("nvim-tree").setup({
-                sort = {
-                    sorter = "case_sensitive",
-                },
-                view = {
-                    width = 30,
-                },
-                renderer = {
-                    group_empty = true,
-                },
-                filters = {
-                    dotfiles = false,
-                },
-            })
-        end
-    },
-    {
-        "numToStr/Comment.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        config = function()
-            require('Comment').setup()
+  {
+    "numToStr/Comment.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+        require('Comment').setup()
 
-            vim.keymap.set("n", "gc", function()
-                require("Comment.api").toggle.linewise.current()
-            end, {desc = "toggle cooment for ", noremap = true})
+        vim.keymap.set("n", "gc", function()
+            require("Comment.api").toggle.linewise.current()
+        end, {desc = "toggle cooment for ", noremap = true})
+    end,
+  },
 
-            vim.keymap.set("x", "gc", function ()
-                require("Comment.api").toggle.linewise(vim.fn.visualmode())
-            end, {desc = "toggle comment fort v-mode", noremap = true })
-        end,
-    },
-
-    {
+  {
     "akinsho/toggleterm.nvim",
     version = "*",
     cmd = "ToggleTerm",
@@ -88,7 +59,7 @@ return {
         { "<c-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" },
     },
     opts = {
-        size = 80,
+        size = 100,
         open_mapping = [[<c-\>]],
         direction = "float",
         shade_filetypes = {},
@@ -100,38 +71,58 @@ return {
         float_opts = {
             border = "curved",
             winblend = 10,  -- ←ここだけ後の設定を優先
-            height = 30,    -- ←ここも前の設定を優先
-            width = 80,
-            row = nil,
-            col = nil,
+            -- -- height = 80,    -- ←ここも前の設定を優先
+            -- -- width = 140,
+            -- row = 100,
+            -- col = 100,
+            width = function()
+                return math.ceil(vim.o.columns * 0.8) -- 画面の総列数の80%
+            end,
+            height = function()
+                return math.ceil(vim.o.lines * 0.7) -- 画面の総行数の70%
+            end,
         },
     },
     config = function(_, opts)
         require("toggleterm").setup(opts)
     end,
-},
+  },
 
-    {
-      'HiPhish/rainbow-delimiters.nvim',
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    config = function()
+      local rainbow_delimiters = require 'rainbow-delimiters'
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [''] = rainbow_delimiters.strategy['global'],
+        },
+        query = {
+          [''] = 'rainbow-delimiters',
+        },
+        highlight = {
+          'RainbowDelimiterRed',
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterBlue',
+          'RainbowDelimiterOrange',
+          'RainbowDelimiterGreen',
+          'RainbowDelimiterViolet',
+          'RainbowDelimiterCyan',
+        },
+      }
+    end
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+  {
+      "neovim/nvim-lspconfig",
       config = function()
-        local rainbow_delimiters = require 'rainbow-delimiters'
-        vim.g.rainbow_delimiters = {
-          strategy = {
-            [''] = rainbow_delimiters.strategy['global'],
-          },
-          query = {
-            [''] = 'rainbow-delimiters',
-          },
-          highlight = {
-            'RainbowDelimiterRed',
-            'RainbowDelimiterYellow',
-            'RainbowDelimiterBlue',
-            'RainbowDelimiterOrange',
-            'RainbowDelimiterGreen',
-            'RainbowDelimiterViolet',
-            'RainbowDelimiterCyan',
-          },
+        require("lspconfig").rustowl.setup{
+          cmd = { "rustowl-lsp" }, -- Replace with the actual command if different
+          filetypes = { "rust" },
+          -- You can add more settings here if rustowl supports them
         }
-      end
+      end,
     },
 }

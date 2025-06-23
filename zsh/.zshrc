@@ -1,14 +1,19 @@
-# zmodload zsh/zprof
+fastfetch &!
+
+SAVEHOST=50000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_ALL_DUPS
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 
 OS_NAME=$(uname -s)
 if [ "$OS_NAME" = "Linux" ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 elif [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 fi
 
-# brew gnu utiles
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
 # adb
@@ -35,4 +40,3 @@ alias cprun='clang++ main.c && ./a.out'
 
 alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
-# zprof

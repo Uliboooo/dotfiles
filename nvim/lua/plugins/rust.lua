@@ -1,3 +1,5 @@
+-- rust.lua
+
 return {
     {
         "saecki/crates.nvim",
@@ -8,33 +10,25 @@ return {
     },
 
     {
-        "mrcjkb/rustaceanvim",
-        version = "^6",
-        lazy = false,
-        ft = {"rust"},
-        config = function ()
-            local cap = require("cmp_nvim_lsp").default_capabilities()
-            vim.g.rustaceanvim = {
-                server = {
-                    settings = {
-                        ["rust-analyzer"] = {
-                            check = {
-                                command = "clippy"
-                            },
-                            checkOnSave = true,
-                        },
-                    },
-                },
-                dap = {
-                    adapters = {
-                        {
-                            type = "executable",
-                            name = "lldb",
-                            command = "rust-debug-adapter",
-                        },
-                    },
-                },
-            }
-        end
+        "williamboman/mason.nvim",
+        opts = {
+            ensure_installed = {
+                "codelldb",
+            },
+        },
+    },
+
+    -- {
+    --     "mrcjkb/rustaceanvim",
+    --     version = "^6",
+    --     lazy = false,
+    --     ft = { 'rust' },
+    -- },
+    {
+      'cordx56/rustowl',
+      version = '*', -- Latest stable version
+      build = 'cargo binstall rustowl',
+      lazy = false, -- This plugin is already lazy
+      opts = {},
     },
 }

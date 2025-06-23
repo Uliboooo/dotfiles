@@ -26,10 +26,10 @@ return {
                     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- `select = true`
                 }),
                 sources = cmp.config.sources({
-                  { name = "nvim_lsp" }, -- LSPからの補完 (rust-analyzer)
-                  { name = "luasnip" },  -- スニペット補完
-                  { name = "buffer" },   -- 現在のバッファからの補完
-                  { name = "path" },     -- ファイルパス補完
+                  { name = "nvim_lsp" },
+                  { name = "luasnip" },
+                  { name = "buffer" },
+                  { name = "path" },
                 }),
             })
         end,
@@ -39,11 +39,7 @@ return {
       dependencies = {
         "hrsh7th/cmp-nvim-lsp",
       },
-      opts = {
-        servers = {
-          rust_analyzer = false, -- <- これで Mason + LSPConfig 側の rust-analyzer を無効化
-        },
-      },
+
       config = function()
         -- rust-analyzer の設定は rust.lua で行うため、ここでは一般的な設定のみ
         local lspconfig = require("lspconfig")

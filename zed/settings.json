@@ -7,14 +7,20 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "vim_mode": false,
-  "agent_font_size": 13,
+  "vim_mode": true,
+  "relative_line_numbers": true,
+  "vim": {
+    // "default_mode":"insert"
+    // "toggle_relative_line_numbers": true
+  },
+  "agent_font_size": 12,
   "agent": {
+    "play_sound_when_agent_done": true,
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "google",
+      "model": "gemini-2.0-flash-thinking-exp"
     },
     "version": "2",
     "dock": "right"
@@ -114,14 +120,14 @@
   },
   "language_models": {
     "ollama": {
-      "api_url": "http://192.168.1.150:11434",
+      "api_url": "http://localhost:11434",
       "available_models": [
-        {
-          "name": "gemma3:12b",
-          "max_tokens": 32768,
-          "display_name": "gemma3 12b"
-          // "supports_tools": true
-        },
+        // {
+        //   "name": "gemma3:12b",
+        //   "max_tokens": 32768,
+        //   "display_name": "gemma3 12b"
+        //   // "supports_tools": true
+        // },
         {
           "name": "gemma3:4b",
           "max_tokens": 32768,
