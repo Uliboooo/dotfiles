@@ -12,6 +12,7 @@ if [ "$OS_NAME" = "Linux" ]; then
 elif [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
     export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+    export PATH=/opt/homebrew/bin:$PATH
 fi
 
 # cargo
