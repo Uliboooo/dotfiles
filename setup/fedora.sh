@@ -6,7 +6,7 @@ sudo dnf -y install git tree sbcl vim neovim glow
 [ -d "$HOME/dotfiles" ] && rm -rf "$HOME/dotfiles/"
 git clone https://github.com/Uliboooo/dotfiles $HOME/dotfiles
 
-config_list="git nano nvim starship wezterm zed zsh"
+config_list="git nano nvim starship wezterm zed"
 dot_path="$HOME/dotfiles"
 config_path="$HOME/.config"
 
@@ -26,6 +26,8 @@ for t in $config_list; do
         echo "skip $t: $src not found"
     fi
 done
+
+ln -fs $HOME/dotfiles/zsh/.zshrc $HOME/.zshrc
 
 # ln -fs $HOME/dotfiles/git $config_path/git
 
