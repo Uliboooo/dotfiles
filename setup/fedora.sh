@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 sudo dnf -y update
 sudo dnf -y install git tree sbcl vim neovim glow
