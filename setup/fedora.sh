@@ -10,9 +10,21 @@ config_list="git nano nvim starship wezterm zed zsh"
 dot_path="$HOME/dotfiles"
 config_path="$HOME/.config"
 
+# for t in $config_list; do
+#     ln -fs "$HOME/dotfiles/$t" "$HOME/.config/$t"
+#     echo "linked $t"
+# done
+mkdir -p "$config_path"
+
 for t in $config_list; do
-    ln -fs "$HOME/dotfiles/$t" "$HOME/.config/$t"
-    echo "linked $t"
+    src="$dot_path/$t"
+    dest="$config_path/$t"
+    if [ -e "$src" ] || [ -d "$src" ]; then
+        ln -fs "$src" "$dest"
+        echo "linked $t"
+    else
+        echo "skip $t: $src not found"
+    fi
 done
 
 # ln -fs $HOME/dotfiles/git $config_path/git
