@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sudo dnf -y update
-sudo dnf -y install git tree sbcl
+sudo dnf -y install git tree sbcl vim neovim
 
 git clone https://github.com/Uliboooo/dotfiles $HOME/
 sh ./links.sh
