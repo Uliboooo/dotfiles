@@ -12,6 +12,7 @@ config_path="$HOME/.config"
 
 for t in $config_list; do
     ln -fs "$HOME/dotfiles/$t" "$HOME/.config/$t"
+    echo "linked $t"
 done
 
 # ln -fs $HOME/dotfiles/git $config_path/git
