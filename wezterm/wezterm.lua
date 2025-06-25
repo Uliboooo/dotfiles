@@ -25,5 +25,8 @@ return {
     default_cwd = "$HOME",
 
     exit_behavior = "Close",
+    keys = {
+        { key = 't', mods = 'SUPER', action = wezterm.action.SpawnCommandInNewTab { cwd = '~' } },
+    }
 }
 
