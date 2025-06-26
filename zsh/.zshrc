@@ -1,5 +1,3 @@
-fastfetch &!
-
 SAVEHOST=50000
 HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_ALL_DUPS
