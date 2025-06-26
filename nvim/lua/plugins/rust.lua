@@ -8,27 +8,28 @@ return {
             require("crates").setup()
         end,
     },
+    --
+    -- {
+    --     "williamboman/mason.nvim",
+    --     opts = {
+    --         ensure_installed = {
+    --             "codelldb",
+    --         },
+    --     },
+    -- },
 
     {
-        "williamboman/mason.nvim",
-        opts = {
-            ensure_installed = {
-                "codelldb",
-            },
-        },
+        "mrcjkb/rustaceanvim",
+        version = "^6",
+        lazy = false,
+        ft = { 'rust' },
     },
 
     -- {
-    --     "mrcjkb/rustaceanvim",
-    --     version = "^6",
-    --     lazy = false,
-    --     ft = { 'rust' },
+    --   'cordx56/rustowl',
+    --   version = '*', -- Latest stable version
+    --   build = 'cargo binstall rustowl',
+    --   lazy = false, -- This plugin is already lazy
+    --   opts = {},
     -- },
-    {
-      'cordx56/rustowl',
-      version = '*', -- Latest stable version
-      build = 'cargo binstall rustowl',
-      lazy = false, -- This plugin is already lazy
-      opts = {},
-    },
 }

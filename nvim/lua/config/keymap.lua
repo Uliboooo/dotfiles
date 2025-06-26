@@ -1,8 +1,7 @@
-vim.keymap.set("n", "<leader>ft", function()
-    vim.fn.system("cargo fmt")
-end, { desc = "cargo format" })
+vim.g.mapleader = "\\"
+
 vim.keymap.set("n", "<leader>f", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
-vim.keymap.set("n", "<leader>t", ":ToggleTerm<CR>", { noremap = true, silent = true, desc = ""})
+

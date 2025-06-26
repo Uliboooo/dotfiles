@@ -49,9 +49,9 @@ return {
             local opts = {buffer = bufnr, remap = false}
             vim.keymap.set("n", "gd", function() vim.lsp.buf.defintion() end, opts)
         end
-        lspconfig.rust_analyzer.setup({
-            on_attach = on_attach,
-        })
+        -- lspconfig.rust_analyzer.setup({
+        --     on_attach = on_attach,
+        -- })
       end,
     },
 }

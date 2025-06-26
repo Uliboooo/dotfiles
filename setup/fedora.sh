@@ -2,7 +2,10 @@
 set -e
 
 sudo dnf -y update
-sudo dnf -y install git tree sbcl vim neovim glow
+sudo dnf -y install zsh git tree sbcl vim neovim glow
+
+sudo chsh -s "$(which zsh)" "$(logname)"
+exec zsh
 
 [ -d "$HOME/dotfiles" ] && rm -rf "$HOME/dotfiles/"
 git clone https://github.com/Uliboooo/dotfiles $HOME/dotfiles

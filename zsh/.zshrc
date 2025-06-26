@@ -8,10 +8,17 @@ setopt SHARE_HISTORY
 
 OS_NAME=$(uname -s)
 if [ "$OS_NAME" = "Linux" ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    if [ -d "$HOME/.linuxbrew" ]; then
+        eval "$($HOME/.linuxbrew/bin/brew shellenv)"
+    elif [ -d "/home/linuxbrew/.linuxbrew" ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
 elif [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
     export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+    export PATH=$(brew --prefix zip)/bin:$PATH
+    export PATH=$(brew --prefix unzip)/bin:$PATH
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
