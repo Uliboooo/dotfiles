@@ -8,6 +8,7 @@ vim.g.mapleader = "\\"
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.list = true
+vim.opt.wrap = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hlsearch = true
 vim.o.tabstop = 4
