@@ -33,10 +33,12 @@ vim.g.rustaceanvim = {
     },
 }
 
-vim.keymap.set("n", "<leader>f", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>p", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+
+vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({ async = false })<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command(
   "W",           -- コマンド名
