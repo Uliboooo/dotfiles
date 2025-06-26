@@ -1,6 +1,7 @@
 vim.opt.listchars = {
-    tab = "▸ ",
-    trail = "·",
+    tab = "»-",
+    space = "·",
+    traild = "~",
     nbsp = "␣",
 }
 vim.g.mapleader = "\\"
@@ -16,6 +17,7 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.opt.termguicolors = true
 vim.o.updatetime = 1000
+vim.opt.cursorline = true
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldenable = true
@@ -47,6 +49,11 @@ vim.api.nvim_create_user_command(
     force = true -- 既存のコマンド名を上書きする場合に必要
   }
 )
+
+vim.api.nvim_exec([[
+  syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
+  highlight DangerousChars ctermbg=red guibg=red
+]], false)
 
 if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint.enable(true, { 0 })
