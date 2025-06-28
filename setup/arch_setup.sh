@@ -9,6 +9,14 @@ fi
 if ! type "git" > /dev/null 2>&1; then
     sudo pacman -S git --noconfirm
 fi
+if ! type "brew" > /dev/null 2>&1; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+if ! type "starship" > /dev/null 2>&1; then
+    sudo pacman -S starship --noconfirm
+fi
+
+brew install zsh-autosuggestions zsh-syntax-highlighting
 
 # echo "what's your name?"
 current_shell=$(getent passwd $USER | cut -d: -f7 | rev | cut -d/ -f1 | rev)
