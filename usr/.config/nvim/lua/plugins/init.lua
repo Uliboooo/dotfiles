@@ -27,13 +27,26 @@ return {
                 sorter = "case_sensitive",
             },
             view = {
-                width = 30,
+                width = 20,
+                signcolumn = "yes",
             },
             renderer = {
                 group_empty = true,
+                highlight_git = true,
+                highlight_opened_files = "icon",
+                indent_markers = {
+                  enable = true,             -- インデントのガイド線を表示
+                icons = {
+                  corner = "└",
+                  edge = "│",
+                  item = "│",
+                  none = " ",
+                },
+              },
             },
             filters = {
                 dotfiles = false,
+                gitignore = false,
             },
         })
     end
