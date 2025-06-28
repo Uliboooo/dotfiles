@@ -46,7 +46,7 @@ return {
             },
             filters = {
                 dotfiles = false,
-                gitignore = false,
+                git_ignore = false,
             },
         })
     end
