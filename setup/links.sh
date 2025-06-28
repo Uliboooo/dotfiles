@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# **wip**
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-DOT_DIR="$(dirname $SCRIPT_DIR)"
-ln -fs $DOT_DIR $HOME/.config
+ln -fs "$HOME/dotfiles/usr/.config" "$HOME/.config"
+ln -fs "$HOME/dotfiles/usr/.zshrc" "$HOME/.zshrc"
+
