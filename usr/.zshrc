@@ -47,6 +47,8 @@ alias cprun='clang++ main.c && ./a.out'
 
 alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
+alias g='git'
+alias t='tmux'
 
 function gitc() {
     echo "commit message: $1"
