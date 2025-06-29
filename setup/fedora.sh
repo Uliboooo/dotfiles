@@ -1,30 +1,24 @@
 #!/bin/sh
 
-
 sudo dnf -y update
-sudo dnf install -y wihch
-
-
 
 if ! type "zsh" > /dev/null 2>&1; then
-    sudo pacman -S zsh --noconfirm
+    sudo dnf install -y zsh
     echo "installing zsh..."
 fi
 
-git clone https://github.com/Uliboooo/dotfiles $HOME/dotfiles
+# git clone https://github.com/Uliboooo/dotfiles $HOME/dotfiles
 
-if ! type "git" > /dev/null 2>&1; then
-    sudo pacman -S git --noconfirm
-fi
 if ! type "brew" > /dev/null 2>&1; then
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-if ! type "starship" > /dev/null 2>&1; then
-    sudo pacman -S starship --noconfirm
-fi
 
-brew install zsh-autosuggestions zsh-syntax-highlighting
+ifinstall() {
+    if ! type $1 > /dev/null 2>&1; then
+    sudo dnf install -y $1
+}
 
+sh $HOME/dotfiles/setup/brew_installs.sh
 
 # set -e
 #
