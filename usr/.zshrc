@@ -49,6 +49,7 @@ alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
 alias g='git'
 alias t='tmux'
+alias nv='nvim'
 
 function gitc() {
     echo "commit message: $1"

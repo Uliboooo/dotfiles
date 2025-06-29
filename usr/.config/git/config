@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [user]
-	name = uliboooo
+	name = uliboooo_arch
 	email = uliboulibo@gmail.com
 [core]
 	excludesfile = ~/.gitignore_global
@@ -16,8 +16,14 @@
 ; 	external = difft
 [difftool]
 	prompt = false
-[difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
+; [difftool "difftastic"]
+; 	cmd = difft "$LOCAL" "$REMOTE"
 [pager]
 	difftool = true
 
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
