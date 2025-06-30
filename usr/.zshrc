@@ -1,8 +1,21 @@
-SAVEHOST=50000
+export GEMINI_API_KEY=AIzaSyD5N7UlLlqisTghKSZod1458WL_hUu-tI8
+# SAVEHOST=50000
+# HISTFILE=$HOME/.zsh_history
+# setopt HIST_IGNORE_ALL_DUPS
+# setopt INC_APPEND_HISTORY
+# setopt SHARE_HISTORY
+#
 HISTFILE=~/.zsh_history
-setopt HIST_IGNORE_ALL_DUPS
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+HISTSIZE=100000
+SAVEHIST=100000 # HISTFILESIZEと同じ値、またはそれ以下に設定
+
+# 履歴の追加・共有オプション
+setopt APPEND_HISTORY     # シェル終了時に履歴を追加する（上書きではなく）
+setopt INC_APPEND_HISTORY # コマンド入力後すぐに履歴ファイルに書き込む
+setopt SHARE_HISTORY      # 複数のセッションで履歴を共有する
+
+setopt HIST_IGNORE_ALL_DUPS # 連続して同じコマンドを入力した場合も除外する
+setopt HIST_SAVE_NO_DUPS  # 履歴ファイルに書き込む際に重複を保存しない
 
 OS_NAME=$(uname -s)
 if [ "$OS_NAME" = "Linux" ]; then
