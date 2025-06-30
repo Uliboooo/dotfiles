@@ -51,8 +51,6 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 eval "$(starship init zsh)"
 
-alias gitlog='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
-
 alias cdd='cd $HOME/Develop/'
 
 alias nzenn='npx zenn new:article --title $1'
@@ -65,10 +63,13 @@ alias cprun='clang++ main.c && ./a.out'
 alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
 alias g='git'
+alias gd='git diff'
+alias gitlog='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
+
 alias t='tmux'
 alias nv='nvim'
 
-function gitc() {
+function gc() {
     echo "commit message: $1"
   git add .
   git commit -m "$1"
