@@ -6,7 +6,6 @@ SAVEHIST=100000 # HISTFILESIZEと同じ値、またはそれ以下に設定
 setopt APPEND_HISTORY     # シェル終了時に履歴を追加する（上書きではなく）
 setopt INC_APPEND_HISTORY # コマンド入力後すぐに履歴ファイルに書き込む
 setopt SHARE_HISTORY      # 複数のセッションで履歴を共有する
-
 setopt HIST_SAVE_NO_DUPS 
 
 OS_NAME=$(uname -s)
