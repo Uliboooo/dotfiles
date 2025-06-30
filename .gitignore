@@ -2,3 +2,4 @@
 vscode/
 # **/_*
 old/*
+.api_keys

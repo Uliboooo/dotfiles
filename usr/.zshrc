@@ -20,6 +20,8 @@ elif [ "$OS_NAME" = "Darwin" ]; then
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
+[ -f "$HOME/.api_keys" ] && source "$HOME/.api_keys"
+
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
 # adb
@@ -28,6 +30,8 @@ export PATH=$HOME/Library/Android/sdk/platform-tools/:$PATH
 export PATH="$HOME/.lmstudio/bin/:$PATH"
 # Tex
 export PATH="/Library/TeX/texbin/:$PATH"
+# npm
+export PATH=$HOME/.npm-global/bin:$PATH
 
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
