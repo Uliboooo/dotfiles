@@ -11,13 +11,13 @@
 [alias]
 	lograph = log --all --date-order --date=format:%Y-%m-%d --graph --format="%h %ad [%an] %C(green)%d%Creset %s"
 
-; [diff]
-; 	tool = difftastic
-; 	external = difft
+[diff]
+	tool = difftastic
+	external = difft
 [difftool]
 	prompt = false
-; [difftool "difftastic"]
-; 	cmd = difft "$LOCAL" "$REMOTE"
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
 [pager]
 	difftool = true
 
