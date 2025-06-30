@@ -21,35 +21,38 @@ return {
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
-    config = function()
-        require("nvim-tree").setup({
-            sort = {
-                sorter = "case_sensitive",
+    opts = {
+        git = {
+            enable = true,
+            ignore = false,
+            timeout = 400,
+        },
+        sort = {
+            sorter = "case_sensitive",
+        },
+        view = {
+            width = 30,
+            signcolumn = "yes",
+        },
+        renderer = {
+            group_empty = true,
+            highlight_git = true,
+            highlight_opened_files = "icon",
+            indent_markers = {
+              enable = true,             -- インデントのガイド線を表示
+            icons = {
+              corner = "└",
+              edge = "│",
+              item = "│",
+              none = " ",
             },
-            view = {
-                width = 30,
-                signcolumn = "yes",
-            },
-            renderer = {
-                group_empty = true,
-                highlight_git = true,
-                highlight_opened_files = "icon",
-                indent_markers = {
-                  enable = true,             -- インデントのガイド線を表示
-                icons = {
-                  corner = "└",
-                  edge = "│",
-                  item = "│",
-                  none = " ",
-                },
-              },
-            },
-            filters = {
-                dotfiles = false,
-                git_ignore = false,
-            },
-        })
-    end
+          },
+        },
+        filters = {
+            dotfiles = false,
+            -- git_ignore = false,
+        },
+    },
   },
 
   {
