@@ -170,17 +170,5 @@ return {
           extensions = {}
         }
       end
-    },
-
-    {
-      "davidmh/cspell.nvim",
-      dependencies = { "nvim-lua/plenary.nvim" },
-      config = function()
-        require("cspell").setup({
-          diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.INFO
-          end,
-        })
-      end,
     }
 }
