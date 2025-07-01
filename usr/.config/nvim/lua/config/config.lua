@@ -56,6 +56,14 @@ vim.api.nvim_exec([[
   highlight DangerousChars ctermbg=red guibg=red
 ]], false)
 
+vim.opt.spell = true
+vim.opt.spelllang = "en_us"
+-- スペル機能時のキー割り当て
+vim.keymap.set("n", "]s", "]s", { desc = "Next misspelled word" })
+vim.keymap.set("n", "[s", "[s", { desc = "Previous misspelled word" })
+vim.keymap.set("n", "z=", "z=", { desc = "Spelling suggestions" })
+vim.keymap.set("n", "zg", "zg", { desc = "Add good word" })
+
 if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint.enable(true, { 0 })
 end
