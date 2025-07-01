@@ -86,16 +86,12 @@ return {
         close_on_exit = true,
         float_opts = {
             border = "curved",
-            winblend = 10,  -- ←ここだけ後の設定を優先
-            -- -- height = 80,    -- ←ここも前の設定を優先
-            -- -- width = 140,
-            -- row = 100,
-            -- col = 100,
+            winblend = 10,
             width = function()
-                return math.ceil(vim.o.columns * 0.8) -- 画面の総列数の80%
+                return math.ceil(vim.o.columns * 0.9)
             end,
             height = function()
-                return math.ceil(vim.o.lines * 0.7) -- 画面の総行数の70%
+                return math.ceil(vim.o.lines * 0.8)
             end,
         },
     },

@@ -44,10 +44,10 @@ vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({ async = false })<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command(
-  "W",           -- コマンド名
-  "wa",          -- 実行するコマンド
-  {              -- オプション
-    force = true -- 既存のコマンド名を上書きする場合に必要
+  "W",
+  "wa",
+  {
+    force = true
   }
 )
 
