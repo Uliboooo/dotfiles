@@ -20,7 +20,7 @@
     "default_profile": "ask",
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.0-flash-thinking-exp"
+      "model": "gemini-2.0-flash"
     },
     "version": "2",
     "dock": "right"
@@ -88,6 +88,9 @@
     "edit_prediction_provider": "zed"
   },
   "languages": {
+    "Rust": {
+      "show_edit_predictions": false
+    },
     "HTML": {
       "language_servers": ["vscode-html-language-server", "superhtml"],
       "formatter": { "language_server": { "name": "superhtml" } },

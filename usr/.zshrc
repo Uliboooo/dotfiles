@@ -57,6 +57,7 @@ alias helpme='glow $HOME/dotfiles/zsh/README.md'
 alias g='git'
 alias gd='git diff'
 alias gl='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
+alias gsc='git switch -c $1'
 
 alias t='tmux'
 alias nv='nvim'
