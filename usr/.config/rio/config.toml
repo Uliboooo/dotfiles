@@ -1,0 +1,49 @@
+theme = "catppuccin-macchiato"
+confirm-before-quit = false
+
+[editor]
+program = "nvim"
+
+[cursor]
+shape = 'beam'
+blinking = true
+blinking-interval = 600
+
+[fonts]
+size = 10.5
+
+[fonts.regular]
+family = "0xProto"
+style = "Normal"
+width = "Normal"
+weight = 400
+
+[fonts.bold]
+family = "0xProto"
+style = "Normal"
+width = "Normal"
+weight = 800
+
+[fonts.italic]
+family = "0xProto"
+style = "Italic"
+width = "Normal"
+weight = 400
+
+[fonts.bold-italic]
+family = "0xProto"
+style = "Italic"
+width = "Normal"
+weight = 800
+
+[fonts.emoji]
+family = "Apple Color Emoji"
+
+[renderer]
+filters = [
+  # Loads built-in crt
+  "NewPixieCrt",
+
+  # Or from a specific path
+  "/Users/raphael/Downloads/slang-shaders-master/crt/newpixie-crt.slangp"
+]
