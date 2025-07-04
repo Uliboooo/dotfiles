@@ -1,4 +1,8 @@
 return {
+  -- {
+  --     'AmberLehmann/candyland.nvim',
+  --     priority = 1000,
+  -- },
   {
     'catppuccin/nvim',
     lazy = false,
@@ -39,7 +43,7 @@ return {
             highlight_git = true,
             highlight_opened_files = "icon",
             indent_markers = {
-              enable = true,             -- インデントのガイド線を表示
+              enable = true,
             icons = {
               corner = "└",
               edge = "│",
