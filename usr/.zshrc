@@ -54,6 +54,8 @@ alias cprun='clang++ main.c && ./a.out'
 
 alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
+alias ff='fastfetch'
+
 alias g='git'
 alias gd='git diff'
 alias gl='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
