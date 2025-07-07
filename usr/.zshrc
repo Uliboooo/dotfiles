@@ -74,3 +74,4 @@ function gc() {
   git commit -m "$1"
 }
 
+export $(grep -v '^#' $HOME/.env | xargs)
