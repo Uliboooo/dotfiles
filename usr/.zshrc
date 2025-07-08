@@ -64,6 +64,10 @@ alias gsw='git switch $1'
 alias gst='git status'
 alias gaa='git add .'
 alias ga='git add $1'
+alias gf='git fetch'
+
+alias cf='cargo fmt'
+alias ch='cargo check'
 
 alias t='tmux'
 alias nv='nvim'
