@@ -25,7 +25,7 @@ elif [ "$OS_NAME" = "Darwin" ]; then
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
-[ -f "$HOME/.api_keys" ] && source "$HOME/.api_keys"
+# [ -f "$HOME/.api_keys" ] && source "$HOME/.api_keys"
 
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
