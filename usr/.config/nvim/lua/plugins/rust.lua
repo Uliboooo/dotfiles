@@ -23,6 +23,19 @@ return {
         version = "^6",
         lazy = false,
         ft = { 'rust' },
+        init = function()
+            vim.g.rustaceanvim = {
+                server = {
+                    on_attach = function(_, bufnr)
+                        local buf_map = function(lhs, rhs)
+                            vim.keymap.set('n', lhs, rhs, {buffer = bufnr})
+                        end
+                        buf_map("gd", vim.lsp.buf.definition)
+                        buf_map("K", vim.lsp.buf.hover)
+                    end,
+                },
+            }
+        end,
     },
 
     -- {
