@@ -72,7 +72,7 @@ alias ch='cargo check'
 
 alias t='tmux'
 alias nv='nvim'
-
+alias emacs='emacs -nw'
 function gc() {
     echo "commit message: $1"
   git add .

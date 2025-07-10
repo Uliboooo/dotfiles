@@ -1,6 +1,11 @@
+general.import = [
+    "catppuccin-macchiato.toml"
+]
+
 [font]
 normal.family = "0xProto"
 bold.family = "0xProto"
 italic.family = "0xProto"
 bold_italic.family = "0xProto"
-size = 10
+size = 10.5
+
