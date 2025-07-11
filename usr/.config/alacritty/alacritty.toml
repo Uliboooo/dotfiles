@@ -1,11 +1,16 @@
-general.import = [
+[general]
+import = [
     "catppuccin-macchiato.toml"
 ]
 
 [font]
-normal.family = "0xProto"
-bold.family = "0xProto"
-italic.family = "0xProto"
-bold_italic.family = "0xProto"
+normal.family = "0xProto Nerd Font"
+bold.family = "0xProto Nerd Font"
+italic.family = "0xProto Nerd Font"
+bold_italic.family = "0xProto Nerd Font"
 size = 10.5
+
+[cursor]
+style.shape = "Beam"
+style.blinking = "On"
 
