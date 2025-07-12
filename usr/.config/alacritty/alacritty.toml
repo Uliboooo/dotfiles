@@ -2,6 +2,7 @@
 import = [
     "catppuccin-macchiato.toml"
 ]
+working_directory = "$HOME"
 
 [font]
 normal.family = "0xProto Nerd Font"
