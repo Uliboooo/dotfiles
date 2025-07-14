@@ -7,6 +7,14 @@
 
 (package-initialize)
 
+;; Enable mouse support in terminal
+(xterm-mouse-mode 1)
+(setq mouse-wheel-scroll-amount '(5)) ;;
+
+;; Optional: Enable scrolling with mouse wheel
+(global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
+(global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1)))
+
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -16,8 +24,18 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; (use-package catppuccin-theme
+;; (use-package evil
 ;;   :ensure t
+;;   :config
+;;   (evil-mode 1))
+
+(use-package catppuccin-theme
+  :config
+  (setq catppuccin-flavor 'macchiato)
+  (load-theme 'catppuccin t))
+
+;; (use-package catppuccin-theme
+;;   :ensure tx
 ;;   :config
 ;;   (load-theme 'catppuccin-macchiato :no-confirm))
 
@@ -47,18 +65,28 @@
 (setq display-line-numbers-type 'relative) ;; always show line num
 (global-display-line-numbers-mode t)
 (setq-default indent-tabs-mode nil tab-width 4) ;; tab size 4
-(global-hl-line-mode 1) ;; hiright current line
+;;(global-hl-line-mode 1) ;; hiright current line
 ;; (display-line-numbers-type 'relative) ;; relative line num
 
 (use-package hideshow
   :hook (prog-mode . hs-minor-mode))
 
 (use-package treemacs  ;; show project struct in sidebar
-             :defer t) ;; lazy laod
+             :defer t ;; lazy laod
+             :bind
+             (:map global-map
+                   ("M-0" . treemacs))
+             :config
+             (setq treemacs-width 35)) ;; open
+
 
 (use-package smartparens
              :hook (prog-mode . smartparens-mode))
 (electric-pair-mode 1)
+;; シングルクオートはペア挿入しない、その他のペアは残す
+(setq electric-pair-pairs '((?\" . ?\" ) (?\( . ?\)) (?\{ . ?\}) (?\[ . ?\])))
+
+(setq electric-pair-text-pairs electric-pair-pairs)
 
 ;; toggle comments
 (use-package rainbow-delimiters
