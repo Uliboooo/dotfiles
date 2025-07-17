@@ -47,7 +47,11 @@
   :hook (prog-mode . lsp)
   :commands lsp
   :custom
-  (lsp-rust-analyzer-server-command '("rust-analyzer")))
+  (lsp-rust-analyzer-server-command '("rust-analyzer"))
+  :config
+  (setq lsp-inlay-hint-enable t))
+
+(add-hook 'lsp-mode-hook #'lsp-inlay-hints-mode)
 
 (with-eval-after-load 'lsp-mode
   (define-key lsp-mode-map (kbd "M-RET") 'lsp-execute-code-action))
@@ -85,7 +89,6 @@
 (electric-pair-mode 1)
 ;; シングルクオートはペア挿入しない、その他のペアは残す
 (setq electric-pair-pairs '((?\" . ?\" ) (?\( . ?\)) (?\{ . ?\}) (?\[ . ?\])))
-
 (setq electric-pair-text-pairs electric-pair-pairs)
 
 ;; toggle comments

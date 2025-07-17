@@ -13,15 +13,16 @@
     // "default_mode":"insert"
     // "toggle_relative_line_numbers": true
   },
-  "agent_font_size": 11,
+  "agent_font_size": 12,
   "agent": {
     "play_sound_when_agent_done": true,
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "google",
+      "model": "gemini-2.0-flash"
     },
+    "version": "2",
     "dock": "right"
   },
   "icon_theme": "Catppuccin Macchiato",
@@ -55,12 +56,12 @@
   "buffer_font_family": "0xProto",
   "buffer_font_fallbacks": ["Cica"],
   "buffer_font_features": {
-    "calt": true
+    "calt": false
   },
   "buffer_font_size": 10,
   "buffer_font_weight": 400,
   "ui_font_family": "0xProto",
-  "ui_font_size": 11,
+  "ui_font_size": 12,
 
   "terminal": {
     "font_family": "0xProto",

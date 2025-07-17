@@ -6,7 +6,7 @@ SAVEHIST=100000 # HISTFILESIZEと同じ値、またはそれ以下に設定
 setopt APPEND_HISTORY     # シェル終了時に履歴を追加する（上書きではなく）
 setopt INC_APPEND_HISTORY # コマンド入力後すぐに履歴ファイルに書き込む
 setopt SHARE_HISTORY      # 複数のセッションで履歴を共有する
-setopt HIST_SAVE_NO_DUPS 
+setopt HIST_SAVE_NO_DUPS
 
 OS_NAME=$(uname -s)
 
@@ -44,6 +44,7 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 eval "$(starship init zsh)"
 
 alias cdd='cd $HOME/Develop/'
+alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
 
 alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
@@ -66,6 +67,7 @@ alias gst='git status'
 alias gaa='git add .'
 alias ga='git add $1'
 alias gf='git fetch'
+alias gb='git branch'
 
 alias cf='cargo fmt'
 alias ch='cargo check'
@@ -74,6 +76,8 @@ alias t='tmux'
 alias nv='nvim'
 alias em='emacs -nw'
 
+alias ggw='/Users/yuki/Desktop/target/release/ghost_git_writer'
+
 function gc() {
     echo "commit message: $1"
   git add .
@@ -81,3 +85,10 @@ function gc() {
 }
 
 export $(grep -v '^#' $HOME/.env | xargs)
+export OPENSSL_DIR="$(brew --prefix openssl@3)"
+export PKG_CONFIG_PATH="$OPENSSL_DIR/lib/pkgconfig"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/yuki/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
