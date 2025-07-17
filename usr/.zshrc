@@ -65,7 +65,7 @@ alias gsc='git switch -c $1'
 alias gsw='git switch $1'
 alias gst='git status'
 alias gaa='git add .'
-alias ga='git add $1'
+alias ga='git add'
 alias gf='git fetch'
 alias gb='git branch'
 
@@ -78,11 +78,19 @@ alias em='emacs -nw'
 
 alias ggw='/Users/yuki/Desktop/target/release/ghost_git_writer'
 
+alias hs='history 0 | grep"'
+# alias r20='ffmpeg -i $1 -r 20 $2'
+
 function gc() {
     echo "commit message: $1"
   git add .
   git commit -m "$1"
 }
+
+function r2g() {
+  ffmpeg -i "$1" -r 20 "$2"
+}
+
 
 export $(grep -v '^#' $HOME/.env | xargs)
 export OPENSSL_DIR="$(brew --prefix openssl@3)"
