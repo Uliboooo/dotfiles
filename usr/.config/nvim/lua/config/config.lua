@@ -52,6 +52,15 @@ vim.api.nvim_create_user_command(
   }
 )
 
+vim.api.nvim_create_user_command(
+  "Wa",
+  "wa",
+  {
+    force = true
+  }
+)
+
+
 vim.api.nvim_exec([[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
   highlight DangerousChars ctermbg=red guibg=red

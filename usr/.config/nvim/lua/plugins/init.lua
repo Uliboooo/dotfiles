@@ -95,7 +95,7 @@ return {
                 return math.ceil(vim.o.columns * 0.9)
             end,
             height = function()
-                return math.ceil(vim.o.lines * 0.8)
+                return math.ceil(vim.o.lines * 0.95)
             end,
         },
     },

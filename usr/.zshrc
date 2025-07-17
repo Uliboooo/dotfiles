@@ -2,7 +2,6 @@ HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000 # HISTFILESIZEと同じ値、またはそれ以下に設定
 
-# 履歴の追加・共有オプション
 setopt APPEND_HISTORY     # シェル終了時に履歴を追加する（上書きではなく）
 setopt INC_APPEND_HISTORY # コマンド入力後すぐに履歴ファイルに書き込む
 setopt SHARE_HISTORY      # 複数のセッションで履歴を共有する
@@ -37,6 +36,8 @@ export PATH="$HOME/.lmstudio/bin/:$PATH"
 export PATH="/Library/TeX/texbin/:$PATH"
 # npm
 export PATH=$HOME/.npm-global/bin:$PATH
+#myapps
+export PATH=$HOME/my_apps/bin:$PATH
 
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -71,14 +72,15 @@ alias gb='git branch'
 
 alias cf='cargo fmt'
 alias ch='cargo check'
+alias cb='cargo build'
+alias cbr='cargo build --release'
+alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
 alias t='tmux'
 alias nv='nvim'
 alias em='emacs -nw'
 
-alias ggw='/Users/yuki/Desktop/target/release/ghost_git_writer'
-
-alias hs='history 0 | grep"'
+alias hs='history 0 | grep'
 # alias r20='ffmpeg -i $1 -r 20 $2'
 
 function gc() {
