@@ -24,8 +24,6 @@ elif [ "$OS_NAME" = "Darwin" ]; then
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
-# [ -f "$HOME/.api_keys" ] && source "$HOME/.api_keys"
-
 # cargo
 export PATH=$HOME/.cargo/bin/:$PATH
 # adb
@@ -51,7 +49,7 @@ alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
 
 
-alias helpme='glow $HOME/dotfiles/zsh/README.md'
+alias helpme='glow $HOME/dotfiles/alias_README.md'
 
 alias ff='fastfetch'
 
@@ -71,7 +69,6 @@ alias cf='cargo fmt'
 alias ch='cargo check'
 alias cr='cargo run'
 alias cb='cargo build'
-alias cbr='cargo build --release'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
 alias t='tmux'
