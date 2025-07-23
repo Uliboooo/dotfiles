@@ -50,9 +50,6 @@ alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
 alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
 
-# run c program
-alias crun='clang $1 && ./a.out'
-alias cprun='clang++ main.c && ./a.out'
 
 alias helpme='glow $HOME/dotfiles/zsh/README.md'
 
@@ -72,12 +69,14 @@ alias gb='git branch'
 
 alias cf='cargo fmt'
 alias ch='cargo check'
+alias cr='cargo run'
 alias cb='cargo build'
 alias cbr='cargo build --release'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
 alias t='tmux'
 alias nv='nvim'
+alias nvd='nvim .'
 alias em='emacs -nw'
 
 alias hs='history 0 | grep'

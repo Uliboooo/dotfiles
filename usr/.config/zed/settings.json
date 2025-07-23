@@ -25,20 +25,20 @@
     "dock": "right"
   },
   "icon_theme": "Catppuccin Macchiato",
-  "theme": "Catppuccin Macchiato",
+  "theme": "Catppuccin Mocha",
   "indent_guides": {
     "coloring": "indent_aware",
     "active_line_width": 2
   },
   "project_panel": {
-    "dock": "right",
+    "dock": "left",
     "indent_size": 10
   },
   "outline_panel": {
     "dock": "left"
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "right"
   },
   "auto_install_extensions": {
     "html": true
@@ -138,5 +138,21 @@
         }
       ]
     }
+  },
+  "diagnostics": {
+    "button": true,
+    "include_warnings": true,
+    "lsp_pull_diagnostics": {
+      "enabled": true,
+      "debounce_ms": 50
+    },
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150,
+      "padding": 4,
+      "min_column": 0,
+      "max_severity": null
+    },
+    "cargo": null
   }
 }
