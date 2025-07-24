@@ -77,3 +77,13 @@ vim.api.nvim_exec([[
 if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint.enable(true, { 0 })
 end
+
+-- vim.diagnostic.config({
+--   virtual_text = {
+--     spacing = 4,
+--     prefix = "",
+--     severity = vim.diagnostic.severity.WARN,
+--   },
+--   signs = true,
+--   underline = true,
+-- })
