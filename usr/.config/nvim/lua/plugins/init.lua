@@ -280,4 +280,15 @@ return {
 			})
 		end,
 	},
+	{
+		"simrat39/symbols-outline.nvim",
+		cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
+		keys = {
+			{ "<leader>so", "<cmd>SymbolsOutline<CR>", desc = "Toggle Symbols Outline" },
+		},
+		event = "VeryLazy",
+		config = function()
+			require("symbols-outline").setup()
+		end,
+	},
 }
