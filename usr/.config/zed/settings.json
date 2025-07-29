@@ -7,6 +7,34 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "ssh_connections": [
+    {
+      "host": "manjaro",
+      "username": "coyuki",
+      "projects": []
+    },
+    {
+      "host": "manjaro",
+      "username": "coyuki",
+      "projects": [
+        {
+          "paths": [
+            "/home/coyuki"
+          ]
+        },
+        {
+          "paths": [
+            "/home/coyuki/Develop"
+          ]
+        },
+        {
+          "paths": [
+            "/home/coyuki/Develop/ghost_git_writer"
+          ]
+        }
+      ]
+    }
+  ],
   "vim_mode": true,
   "relative_line_numbers": true,
   "vim": {
