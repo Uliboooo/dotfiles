@@ -291,4 +291,21 @@ return {
 			require("symbols-outline").setup()
 		end,
 	},
+    {
+        "ojroques/vim-oscyank",
+  event = "VeryLazy", -- 起動時に読み込む or 遅延ロード
+  config = function()
+    -- tmux 環境で OSC52 経由にする
+    vim.g.oscyank_term = 'tmux'
+
+    -- yank 後に自動で OSCYank を実行
+    vim.api.nvim_create_autocmd("TextYankPost", {
+      callback = function()
+        if vim.v.event.operator == "y" then
+          vim.cmd('OSCYankRegister "')
+        end
+      end
+    })
+  end,
+    }
 }

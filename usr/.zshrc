@@ -75,8 +75,8 @@ alias t='tmux'
 alias nv='nvim'
 alias nvd='nvim .'
 alias em='emacs -nw'
+alias r='rlwrap'
 
-alias hs='history 0 | grep'
 # alias r20='ffmpeg -i $1 -r 20 $2'
 
 function gc() {
