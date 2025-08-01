@@ -47,13 +47,13 @@
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "google",
+      "model": "gemini-2.5-pro"
     },
     "dock": "right"
   },
   "icon_theme": "Catppuccin Macchiato",
-  "theme": "Catppuccin Mocha",
+  "theme": "Catppuccin Macchiato",
   "indent_guides": {
     "coloring": "indent_aware",
     "active_line_width": 2
@@ -116,7 +116,7 @@
   },
   "languages": {
     "Rust": {
-      "show_edit_predictions": false
+      "show_edit_predictions": true
     },
     "HTML": {
       "language_servers": ["vscode-html-language-server", "superhtml"],
