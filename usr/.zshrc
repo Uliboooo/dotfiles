@@ -77,7 +77,7 @@ alias nvd='nvim .'
 alias em='emacs -nw'
 alias r='rlwrap'
 
-# alias r20='ffmpeg -i $1 -r 20 $2'
+alias sbcl='rlwrap sbcl'
 
 function gc() {
     echo "commit message: $1"
