@@ -27,6 +27,64 @@
   (evil-mode 1)
   (setq evil-want-C-u-scroll t))
 
+;; line numvers
+(global-display-line-number-mode 1)
+(setq display-line-number-type 'relative) ; relative numbers
+
+;; indent
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil) ; expandtab
+
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+
+(setq-default truncate-lines t)
+
+;; sharing clipboards
+(setq select-enable-clipboard t)
+;; mouse
+(xterm-mouse-mode 1)
+
+;; color theme (例: catppuccin)
+(load-theme 'catppuccin :no-confirm)
+
+;; list-chars 相当（whitespace-mode）
+(require 'whitespace)
+(setq whitespace-style '(face tabs spaces trailing space-mark tab-mark))
+(setq whitespace-display-mappings
+      '((space-mark ?\  [?·])
+        (tab-mark ?\t [?» ?\t])
+        (newline-mark ?\n [?$ ?\n])))
+(global-whitespace-mode t)
+
+;; file-tree
+(use-package neotree
+  :bind ("\\p" . neotree-toggle)
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-smart-open t)
+  (setq neo-window-width 30))
+
+(use-package catppuccin-theme
+  :config (load-theme 'catppuccin :no-confirm))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
+
+(use-package evil-nerd-commenter
+  :bind ("\\c" . evilnc-comment-or-uncomment-lines))
+
+(use-package clipetty
+  :hook (after-init . global-clipetty-mode))
+
+(use-package alert
+  :commands alert
+  :config
+  (setq alert-default-style 'notifications))
+
+
 ;; -------------------------------
 ;; SLIME + SBCL 設定（Common Lisp）
 ;; -------------------------------
