@@ -44,6 +44,8 @@ eval "$(starship init zsh)"
 
 alias cdd='cd $HOME/Develop/'
 alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
+alias cdz='cd $HOME/Documents/zenn_content/'
+alias nz='cdz && npx zenn new:article --title'
 
 alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
