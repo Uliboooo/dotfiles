@@ -176,43 +176,43 @@ return {
     end,
   },
   -- plugins.lua or lazy setup
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "MunifTanjim/nui.nvim", -- UI framework required by noice
-      "rcarriga/nvim-notify", -- optional: better notifications
-    },
-    config = function()
-      require("noice").setup({
-        -- enable inline LSP signature help and more
-        lsp = {
-          signature = {
-            enabled = true,
-          },
-          hover = {
-            enabled = true,
-          },
-        },
-        views = {
-          cmdline_popup = {
-            position = {
-              row = 5,
-              col = "50%",
-            },
-            size = {
-              width = 60,
-              height = "auto",
-            },
-          },
-        },
-      })
-
-      -- Optional: set as default notification backend
-      vim.notify = require("notify")
-    end,
-  },
-
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim", -- UI framework required by noice
+  --     "rcarriga/nvim-notify", -- optional: better notifications
+  --   },
+  --   config = function()
+  --     require("noice").setup({
+  --       -- enable inline LSP signature help and more
+  --       -- lsp = {
+  --       --   signature = {
+  --       --     enabled = true,
+  --       --   },
+  --       --   hover = {
+  --       --     enabled = true,
+  --       --   },
+  --       -- },
+  --       views = {
+  --         cmdline_popup = {
+  --           position = {
+  --             row = 5,
+  --             col = "50%",
+  --           },
+  --           size = {
+  --             width = 60,
+  --             height = "auto",
+  --           },
+  --         },
+  --       },
+  --     })
+  --
+  --     -- Optional: set as default notification backend
+  --     vim.notify = require("notify")
+  --   end,
+  -- },
+  --
   {
     "lewis6991/gitsigns.nvim",
     opts = {
