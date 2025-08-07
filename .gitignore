@@ -3,3 +3,13 @@ vscode/
 # **/_*
 old/*
 .api_keys
+**/lazy-lock.json
+
+
+# Emacs backup and autosave
+*.elc
+auto-save-list/
+eln-cache/
+elpa/
+parinfer-rust/*.so
+custom.el

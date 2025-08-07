@@ -116,7 +116,7 @@
   },
   "languages": {
     "Rust": {
-      "show_edit_predictions": true
+      "show_edit_predictions": false
     },
     "HTML": {
       "language_servers": ["vscode-html-language-server", "superhtml"],
