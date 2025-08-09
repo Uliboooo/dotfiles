@@ -1,7 +1,8 @@
 return {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-        ensure_installed = {"lua"},
-        sync_install = true,
-    },
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  opts = {
+    ensure_installed = { "lua", "ocaml" },
+    sync_install = true,
+  },
 }
