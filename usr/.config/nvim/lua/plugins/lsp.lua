@@ -47,7 +47,7 @@ return {
 
       lspconfig.ocamllsp.setup({
         capabilities = capabilities,
-        cmd({ "ocamllsp" }),
+        cmd = { "ocamllsp" },
         filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex" },
         root_dir = lspconfig.util.root_pattern("*.opam", "esy.json", "package.json", ".git"),
       })
