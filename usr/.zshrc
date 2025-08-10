@@ -77,7 +77,8 @@ alias cbrm='cargo build --release && cargo build --release --target x86_64-unkno
 alias t='tmux'
 alias nv='nvim'
 alias nvd='nvim .'
-alias em='emacs -nw'
+# alias em='emacs -nw'
+alias em='emacsclient -t'
 alias r='rlwrap'
 
 alias sbcl='rlwrap sbcl'
