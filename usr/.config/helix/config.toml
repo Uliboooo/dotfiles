@@ -1,0 +1,41 @@
+theme = "catppuccin_macchiato"
+
+[editor]
+line-number = "relative"
+mouse = true
+shell = ["zsh", "-c"]
+
+[editor.statusline]
+center = ["file-type"]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.lsp]
+display-inlay-hints = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.auto-save]
+after-delay.enable = true
+after-delay.timeout = 800
+
+[editor.whitespace]
+render = "all"
+
+[editor.indent-guides]
+render = true
+character = "|"
+skip-levels = 1
+
+[editor.whitespace.characters]
+space = "·"
+nbsp = "⍽"
+nnbsp = "␣"
+tab = "→"
+newline = "⏎"
+tabpad = "·"
+
