@@ -160,6 +160,26 @@
 (load-theme 'tango-dark t)
 
 ;; -------------------------------
+;; load opam env
+;; -------------------------------
+(let ((opam-share (substring (shell-command-to-string "opam config var share") 0 -1)))
+  (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+  (require 'merlin)
+  (add-hook 'tuareg-mode-hook 'merlin-mode))
+
+
+;; -------------------------------
+;; tuareg-mode
+;; -------------------------------
+(unless (package-installed-p 'tuareg)
+  (package-refresh-contents)
+  (package-install 'tuareg))
+
+(require 'utop)
+(add-hook 'tuareg-mode-hook 'utop-minor-mode)
+(setq utop-command "utop")
+
+;; -------------------------------
 ;; カスタムファイルを別に保存
 ;; -------------------------------
 (setq custom-file "~/.emacs.d/custom.el")
