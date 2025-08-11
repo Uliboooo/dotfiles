@@ -13,3 +13,4 @@ eln-cache/
 elpa/
 parinfer-rust/*.so
 custom.el
+usr/.config/zed/prompts/
