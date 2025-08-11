@@ -5,6 +5,9 @@ line-number = "relative"
 mouse = true
 shell = ["zsh", "-c"]
 
+[editor.file-picker]
+hidden = false
+
 [editor.statusline]
 center = ["file-type"]
 mode.normal = "NORMAL"
