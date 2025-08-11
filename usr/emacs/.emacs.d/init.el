@@ -26,10 +26,12 @@
   :config
   (evil-mode 1)
   (setq evil-want-C-u-scroll t))
+;;
+;; line numbers
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative) ; relative numbers
 
-;; line numvers
-(global-display-line-number-mode 1)
-(setq display-line-number-type 'relative) ; relative numbers
+(xterm-mouse-mode 1)
 
 ;; indent
 (setq-default tab-width 4)
@@ -45,7 +47,10 @@
 (xterm-mouse-mode 1)
 
 ;; color theme (例: catppuccin)
-(load-theme 'catppuccin :no-confirm)
+(use-package catppuccin-theme
+  :ensure t
+  :config
+  (load-theme 'catppuccin t))
 
 ;; list-chars 相当（whitespace-mode）
 (require 'whitespace)
@@ -57,15 +62,15 @@
 (global-whitespace-mode t)
 
 ;; file-tree
-(use-package neotree
-  :bind ("\\p" . neotree-toggle)
-  :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq neo-smart-open t)
-  (setq neo-window-width 30))
+;; (use-package neotree
+;;   :bind ("\\p" . neotree-toggle)
+;;   :config
+;;   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+;;   (setq neo-smart-open t)
+;;   (setq neo-window-width 30))
 
-(use-package catppuccin-theme
-  :config (load-theme 'catppuccin :no-confirm))
+;; (use-package catppuccin-theme
+;;   :config (load-theme 'catppuccin :no-confirm))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -74,7 +79,7 @@
   :init (doom-modeline-mode 1))
 
 (use-package evil-nerd-commenter
-  :bind ("\\c" . evilnc-comment-or-uncomment-lines))
+  :bind ("C-c c" . evilnc-comment-or-uncomment-lines))
 
 (use-package clipetty
   :hook (after-init . global-clipetty-mode))
@@ -155,29 +160,74 @@
 ;; -------------------------------
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
 (setq inhibit-startup-screen t)
-(load-theme 'tango-dark t)
 
 ;; -------------------------------
 ;; load opam env
 ;; -------------------------------
-(let ((opam-share (substring (shell-command-to-string "opam config var share") 0 -1)))
-  (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
-  (require 'merlin)
-  (add-hook 'tuareg-mode-hook 'merlin-mode))
+;; (use-package merlin
+;;   :ensure t
+;;   :config
+;;   (add-hook 'tuareg-mode-hook 'merlin-mode))
+;;
+;; (let ((opam-share (substring (shell-command-to-string "opam config var share") 0 -1)))
+;;   (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+;;   (require 'merlin)
+;;   (add-hook 'tuareg-mode-hook 'merlin-mode))
+;;
+;; ;; -------------------------------
+;; ;; tuareg-mode
+;; ;; -------------------------------
+;; (unless (package-installed-p 'tuareg)
+;;   (package-refresh-contents)
+;;   (package-install 'tuareg))
+;;
+;; (use-package utop
+;;   :ensure t
+;;   :hook (tuareg-mode . utop-minor-mode))
+;;
+;; (require 'utop)
+;; (add-hook 'tuareg-mode-hook 'utop-minor-mode)
+;; (setq utop-command "utop")
+;;
+;; (use-package company
+;;   :ensure t
+;;   :hook (after-init . global-company-mode))
+;;
+;; (use-package company-merlin
+;;   :after merlin
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'company-backends 'company-merlin))
 
 
-;; -------------------------------
 ;; tuareg-mode
-;; -------------------------------
-(unless (package-installed-p 'tuareg)
-  (package-refresh-contents)
-  (package-install 'tuareg))
+(add-to-list 'load-path (expand-file-name "~/.opam/default/share/emacs/site-lisp"))
+(require 'tuareg)
 
-(require 'utop)
-(add-hook 'tuareg-mode-hook 'utop-minor-mode)
-(setq utop-command "utop")
+;; merlin
+(add-to-list 'load-path (expand-file-name "~/.opam/default/share/emacs/site-lisp"))
+(require 'merlin)
+(add-hook 'tuareg-mode-hook 'merlin-mode)
+
+;; merlinの補完を有効化
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'merlin-company-backend))
+(add-hook 'tuareg-mode-hook 'company-mode)
+
+;; key bindings for merlin
+(eval-after-load 'merlin
+  '(progn
+     (define-key merlin-mode-map (kbd "C-c C-l") 'merlin-locate)
+     (define-key merlin-mode-map (kbd "C-c C-r") 'merlin-restart)))
+
+
+(use-package treemacs
+  :ensure t
+  :bind
+  (:map global-map
+        ("C-c t" . treemacs))) ;; F8で開くで表示/非表示を切替
+
 
 ;; -------------------------------
 ;; カスタムファイルを別に保存

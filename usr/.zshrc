@@ -79,6 +79,7 @@ alias nv='nvim'
 alias nvd='nvim .'
 # alias em='emacs -nw'
 alias em='emacsclient -t'
+alias reload_em='launchctl unload ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl list | grep emacs'
 alias r='rlwrap'
 
 alias sbcl='rlwrap sbcl'
