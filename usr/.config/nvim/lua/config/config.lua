@@ -1,8 +1,8 @@
 vim.opt.listchars = {
-  tab = "»-",
-  space = "·",
-  trail = "~",
-  nbsp = "␣",
+    tab = "»-",
+    space = "·",
+    trail = "~",
+    nbsp = "␣",
 }
 vim.g.mapleader = "\\"
 
@@ -28,11 +28,11 @@ vim.o.mouse = "a"
 vim.opt.signcolumn = "yes"
 
 vim.g.rustaceanvim = {
-  server = {
-    cmd = function()
-      return { "rust-analyzer" }
-    end,
-  },
+    server = {
+        cmd = function()
+            return { "rust-analyzer" }
+        end,
+    },
 }
 
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = trye })
@@ -43,26 +43,26 @@ vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 
 vim.api.nvim_set_keymap(
-  "n",
-  "<leader>f",
-  "<cmd>lua vim.lsp.buf.format({ async = false })<CR>",
-  { noremap = true, silent = true }
+    "n",
+    "<leader>f",
+    "<cmd>lua vim.lsp.buf.format({ async = false })<CR>",
+    { noremap = true, silent = true }
 )
 
 vim.api.nvim_create_user_command("W", "wa", {
-  force = true,
+    force = true,
 })
 
 vim.api.nvim_create_user_command("Wa", "wa", {
-  force = true,
+    force = true,
 })
 
 vim.api.nvim_exec(
-  [[
+    [[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
   highlight DangerousChars ctermbg=red guibg=red
 ]],
-  false
+    false
 )
 
 -- vim.opt.spell = true
@@ -74,14 +74,14 @@ vim.api.nvim_exec(
 -- vim.keymap.set("n", "zg", "zg", { desc = "Add good word" })
 
 if vim.lsp.inlay_hint then
-  vim.lsp.inlay_hint.enable(true, { 0 })
+    vim.lsp.inlay_hint.enable(true, { 0 })
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.lua",
-  callback = function()
-    vim.cmd("silent! !stylua %")
-  end,
+    pattern = "*.lua",
+    callback = function()
+        vim.cmd("silent! !stylua %")
+    end,
 })
 
 -- vim.diagnostic.config({

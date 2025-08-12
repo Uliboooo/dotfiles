@@ -2,8 +2,10 @@ theme = "catppuccin_macchiato"
 
 [editor]
 line-number = "relative"
-mouse = true
+#mouse = true
 shell = ["zsh", "-c"]
+clipboard-provider = "tmux"
+true-color = true
 
 [editor.file-picker]
 hidden = false
@@ -42,3 +44,9 @@ tab = "→"
 newline = "⏎"
 tabpad = "·"
 
+[keys.normal]
+C-s = ":w"
+C-o = ":open"
+g = { a = "code_action"}
+"0" = "goto_line_start"
+"$" = "goto_line_end"

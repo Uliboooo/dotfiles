@@ -74,7 +74,23 @@ alias cr='cargo run'
 alias cb='cargo build'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
-alias t='tmux'
+alias tl='tmux ls'
+#alias tn='tmux new -s'
+function t() {
+    if [[ "$#" -gt 0 ]]; then
+        tmux new -s "$1"
+    else
+        tmux
+    fi
+}
+function ta() {
+    if [[ "$#" -gt 0 ]]; then
+        tmux a -t "$1"
+    else
+        tmux a
+    fi
+}
+
 alias nv='nvim'
 alias nvd='nvim .'
 # alias em='emacs -nw'
@@ -103,3 +119,8 @@ fpath=(/Users/yuki/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/yuki/.lmstudio/bin"
+# End of LM Studio CLI section
+
