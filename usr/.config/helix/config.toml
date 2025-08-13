@@ -54,6 +54,7 @@ C-o = ":open ~/.config/helix/config.toml"
 #"dd" = "delete_line"
 "a" = "insert_at_line_end"
 "V" = "select_line_above"
+p = ":append-output tmux save-buffer -"
 
 [keys.normal.g]
 a = "code_action"
@@ -63,3 +64,5 @@ c = "toggle_comments"
 [keys.normal.d]
 d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
 
+[keys.select]
+y = [":pipe-to tmux load-buffder -", "yank"]
