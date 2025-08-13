@@ -5,8 +5,6 @@ old/*
 .api_keys
 **/lazy-lock.json
 
-
-# Emacs backup and autosave
 *.elc
 auto-save-list/
 eln-cache/

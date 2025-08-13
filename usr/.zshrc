@@ -54,6 +54,7 @@ alias pzenn='npx zenn preview --open'
 if [ "$OS_NAME" = "Linux" ]; then
     alias hx='helix'
 fi
+alias hxd = 'hx .'
 
 alias helpme='glow $HOME/dotfiles/alias_README.md'
 
