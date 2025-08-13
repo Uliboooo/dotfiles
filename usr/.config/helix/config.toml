@@ -46,7 +46,20 @@ tabpad = "·"
 
 [keys.normal]
 C-s = ":w"
-C-o = ":open"
-g = { a = "code_action"}
+C-o = ":open ~/.config/helix/config.toml"
 "0" = "goto_line_start"
 "$" = "goto_line_end"
+#"gg" = "goto_file_start"
+"G" = "goto_file_end"
+#"dd" = "delete_line"
+"a" = "insert_at_line_end"
+"V" = "select_line_above"
+
+[keys.normal.g]
+a = "code_action"
+g = "goto_file_start"
+c = "toggle_comments"
+
+[keys.normal.d]
+d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
+

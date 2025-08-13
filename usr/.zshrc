@@ -78,7 +78,7 @@ alias cb='cargo build'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
 alias tl='tmux ls'
-#alias tn='tmux new -s'
+# new tumx
 function t() {
     if [[ "$#" -gt 0 ]]; then
         tmux new -s "$1"
@@ -86,6 +86,7 @@ function t() {
         tmux
     fi
 }
+# attach tmux
 function ta() {
     if [[ "$#" -gt 0 ]]; then
         tmux a -t "$1"
@@ -93,6 +94,16 @@ function ta() {
         tmux a
     fi
 }
+
+# kill tmux sesstion
+function tr() {
+    if [[ "$#" -gt 0 ]]; then
+        exit
+    else
+        tmux kill-session -t "$1"
+    fi
+}
+
 
 alias nv='nvim'
 alias nvd='nvim .'
