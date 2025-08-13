@@ -51,6 +51,9 @@ alias nz='cdz && npx zenn new:article --title'
 alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
 
+if [ "$OS_NAME" = "Linux" ]; then
+    alias hx='helix'
+fi
 
 alias helpme='glow $HOME/dotfiles/alias_README.md'
 

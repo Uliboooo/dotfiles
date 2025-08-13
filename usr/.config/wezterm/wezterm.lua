@@ -4,6 +4,7 @@ return {
     audible_bell = "SystemBeep",
 
     font = wezterm.font_with_fallback{
+        "0xProto Nerd Font Mono",
         "0xProto",
         "Cica",
     },
@@ -27,6 +28,8 @@ return {
     exit_behavior = "Close",
     keys = {
         { key = 't', mods = 'SUPER', action = wezterm.action.SpawnCommandInNewTab { cwd = '~' } },
-    }
+    },
+
+    default_prog = {"tmux"},
 }
 
