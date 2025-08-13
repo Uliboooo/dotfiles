@@ -14,3 +14,4 @@ elpa/
 parinfer-rust/*.so
 custom.el
 usr/.config/zed/prompts/
+usr/.tmux/plugins/
