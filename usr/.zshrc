@@ -94,7 +94,6 @@ function ta() {
         tmux a
     fi
 }
-
 # kill tmux sesstion
 function tr() {
     if [[ "$#" -gt 0 ]]; then
@@ -103,7 +102,6 @@ function tr() {
         tmux kill-session -t "$1"
     fi
 }
-
 
 alias nv='nvim'
 alias nvd='nvim .'
