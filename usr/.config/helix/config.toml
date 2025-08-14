@@ -28,8 +28,12 @@ select = "underline"
 after-delay.enable = true
 after-delay.timeout = 800
 
-[editor.whitespace]
-render = "all"
+[editor.whitespace.render]
+space = "none"
+tab = "all"
+nbsp = "all"
+nnbsp = "all"
+newline = "all"
 
 [editor.indent-guides]
 render = true
