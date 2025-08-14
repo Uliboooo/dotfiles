@@ -53,7 +53,7 @@ C-o = ":open ~/.config/helix/config.toml"
 "G" = "goto_file_end"
 #"dd" = "delete_line"
 "a" = "insert_at_line_end"
-"V" = "select_line_above"
+"V" = ["goto_line_start", "select_mode", "extend_line_below", ]
 p = ":append-output tmux save-buffer -"
 
 [keys.normal.g]

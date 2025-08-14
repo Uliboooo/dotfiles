@@ -127,6 +127,7 @@ function r2g() {
 export $(grep -v '^#' $HOME/.env | xargs)
 export OPENSSL_DIR="$(brew --prefix openssl@3)"
 export PKG_CONFIG_PATH="$OPENSSL_DIR/lib/pkgconfig"
+
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/yuki/.docker/completions $fpath)
 autoload -Uz compinit
@@ -138,4 +139,12 @@ export PATH="$PATH:/Users/yuki/.lmstudio/bin"
 # End of LM Studio CLI section
 
 
-source /Users/yuki/.config/broot/launcher/bash/br
+# source /Users/yuki/.config/broot/launcher/bash/br
+
+export PATH=$PATH:/opt/rocm/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
+export ROCM_PATH=/opt/rocm
+
+export HSA_OVERRIDE_GFX_VERSION=10.3.0
+export OLLAMA_DEBUG=1 
+
