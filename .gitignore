@@ -13,4 +13,7 @@ parinfer-rust/*.so
 custom.el
 usr/.config/zed/prompts/
 usr/.tmux/plugins/
+usr/.config/broot/launcher/
+usr/.config/broot/skins
+usr/.config/broot/verbs.hjson
 **/.env

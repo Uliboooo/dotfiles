@@ -31,7 +31,7 @@ return {
   cursor_blink_rate = 600,
 
   default_cwd = "$HOME",
-  default_prog = { tm },
+  -- default_prog = { tm },
 
   exit_behavior = "Close",
   keys = {

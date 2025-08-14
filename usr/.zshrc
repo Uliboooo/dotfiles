@@ -137,3 +137,5 @@ compinit
 export PATH="$PATH:/Users/yuki/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+source /Users/yuki/.config/broot/launcher/bash/br

@@ -3,6 +3,7 @@ import = [
     "catppuccin-macchiato.toml"
 ]
 working_directory = "$HOME"
+live_config_reload = true
 
 [font]
 normal.family = "0xProto Nerd Font"
@@ -15,3 +16,8 @@ size = 10.5
 style.shape = "Beam"
 style.blinking = "On"
 
+# [terminal]
+
+# [terminal.shell]
+# program = "tmux"
+# args = ["new-session", "-A", "-s", "main"]
