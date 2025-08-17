@@ -6,6 +6,7 @@ line-number = "relative"
 shell = ["zsh", "-c"]
 clipboard-provider = "tmux"
 true-color = true
+rulers = [100, 120]
 
 [editor.file-picker]
 hidden = false
