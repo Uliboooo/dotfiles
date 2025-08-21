@@ -148,3 +148,4 @@ export ROCM_PATH=/opt/rocm
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
 export OLLAMA_DEBUG=1 
 
+export OLLAMA_HOST=0.0.0.0:11434
