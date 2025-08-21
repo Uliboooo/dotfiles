@@ -21,6 +21,7 @@ elif [ "$OS_NAME" = "Darwin" ]; then
     export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
     export PATH=$(brew --prefix zip)/bin:$PATH
     export PATH=$(brew --prefix unzip)/bin:$PATH
+    export PATH=$(brew --prefix gnu-sed)/libexec/gnubin:$PATH
     export PATH=/opt/homebrew/bin:$PATH
 fi
 
@@ -59,9 +60,12 @@ alias hxd='hx .'
 alias helpme='glow $HOME/dotfiles/alias_README.md'
 
 alias ff='fastfetch'
+alias ea='eza'
+alias et='exit'
 
 alias g='git'
 alias gd='git diff'
+alias gda='git --no-pager diff'
 alias gl='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 alias gla='git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 alias gsc='git switch -c $1'
@@ -121,6 +125,20 @@ function gc() {
 
 function r2g() {
   ffmpeg -i "$1" -r 20 "$2"
+}
+
+function bsii() {
+    if brew search "$1" | grep -q "$1"; then
+        brew info "$1"
+        read "?install? (y/n): " answer
+        if [[ "$answer" == [yY] ]]; then
+            brew install "$1"
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
 }
 
 
