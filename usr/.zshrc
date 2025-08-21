@@ -127,6 +127,20 @@ function r2g() {
   ffmpeg -i "$1" -r 20 "$2"
 }
 
+function bsii() {
+    if brew search "$1" | grep -q "$1"; then
+        brew info "$1"
+        read "?install? (y/n): " answer
+        if [[ "$answer" == [yY] ]]; then
+            brew install "$1"
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}
+
 
 export $(grep -v '^#' $HOME/.env | xargs)
 export OPENSSL_DIR="$(brew --prefix openssl@3)"
