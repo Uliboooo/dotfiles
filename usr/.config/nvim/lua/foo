@@ -1,0 +1,16 @@
+{
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  opts = {
+    explorer = {
+      enabled = true,
+      show_hidden = true,  -- ここで dotfiles を表示
+    },
+    picker = {
+      enabled = true,
+      show_hidden = true,  -- picker でも隠しファイル表示
+    },
+  },
+}
+
