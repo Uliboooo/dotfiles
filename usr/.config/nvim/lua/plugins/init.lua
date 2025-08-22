@@ -25,7 +25,7 @@ return {
     config = function()
       require("Comment").setup()
 
-      vim.keymap.set("n", "gc", function()
+      vim.keymap.set("n", "<C-c>", function()
         require("Comment.api").toggle.linewise.current()
       end, { desc = "toggle cooment for ", noremap = true })
     end,
@@ -87,10 +87,10 @@ return {
       }
     end,
   },
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
+  -- {
+  --   "nvim-lualine/lualine.nvim",
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -112,7 +112,6 @@ return {
           theme = "auto", -- 'auto', 'powerline_dark', 'nord', など好きなテーマを選択
           component_separators = { left = "", right = "" }, -- アイコンを使用する場合
           section_separators = { left = "", right = "" }, -- アイコンを使用する場合
-          -- その他のオプション
         },
         sections = {
           lualine_a = { "mode" },
@@ -284,16 +283,31 @@ return {
       -- refer to the configuration section below
       bigfile = { enabled = true },
       dashboard = { enabled = true },
-      explorer = { enabled = true, show_hidden = true },
+      explorer = { enabled = true, jump = { close = true } },
       indent = { enabled = true },
       input = { enabled = true },
-      picker = { enabled = true, show_hidden = true },
+      picker = {
+        enabled = true,
+        sources = {
+          explorer = {
+            hidden = true,
+          },
+          files = {
+            hidden = true,
+          },
+        },
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
+      lsp = {
+        references = {
+          method = "float",
+        },
+      },
     },
   },
 }

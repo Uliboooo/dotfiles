@@ -42,7 +42,7 @@ vim.diagnostic.config({
 
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+--vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 -- vim.keymap.set("n", "<leader>p", function()
@@ -59,6 +59,7 @@ vim.keymap.set("n", "<leader>e", function()
   require("snacks").explorer.open()
 end, { desc = "Focus Snacks Explorer input" })
 
+-- format buffer
 vim.api.nvim_set_keymap(
   "n",
   "<leader>f",
@@ -74,6 +75,10 @@ vim.api.nvim_create_user_command("Wa", "wa", {
   force = true,
 })
 
+vim.api.nvim_create_user_command("Wq", "wq", {
+  force = true,
+})
+
 vim.api.nvim_exec(
   [[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
@@ -82,24 +87,6 @@ vim.api.nvim_exec(
   false
 )
 
--- vim.opt.spell = true
--- vim.opt.spelllang = "en_us"
--- -- スペル機能時のキー割り当て
--- vim.keymap.set("n", "]s", "]s", { desc = "Next misspelled word" })
--- vim.keymap.set("n", "[s", "[s", { desc = "Previous misspelled word" })
--- vim.keymap.set("n", "z=", "z=", { desc = "Spelling suggestions" })
--- vim.keymap.set("n", "zg", "zg", { desc = "Add good word" })
-
 if vim.lsp.inlay_hint then
   vim.lsp.inlay_hint.enable(true, { 0 })
 end
-
--- vim.diagnostic.config({
---   virtual_text = {
---     spacing = 4,
---     prefix = "",
---     severity = vim.diagnostic.severity.WARN,
---   },
---   signs = true,
---   underline = true,
--- })
