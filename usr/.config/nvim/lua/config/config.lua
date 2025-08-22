@@ -45,9 +45,19 @@ vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Ac
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
-vim.keymap.set("n", "<leader>p", function()
-  require("snacks.picker").open()
-end, { noremap = true, silent = true, desc = "Snacks File Picker" })
+-- vim.keymap.set("n", "<leader>p", function()
+--   require("snacks.picker").open()
+-- end, { noremap = true, silent = true, desc = "Snacks File Picker" })
+
+-- show references
+vim.keymap.set("n", "gr", function()
+  snacks.lsp.references()
+end, { desc = "Show references" })
+
+-- open explorer by `\e`
+vim.keymap.set("n", "<leader>e", function()
+  require("snacks").explorer.open()
+end, { desc = "Focus Snacks Explorer input" })
 
 vim.api.nvim_set_keymap(
   "n",
