@@ -8,6 +8,13 @@ setopt SHARE_HISTORY      # 複数のセッションで履歴を共有する
 setopt HIST_SAVE_NO_DUPS
 
 OS_NAME=$(uname -s)
+IS_LINUX=0
+
+if [ "$OS_NAME" = "Linux" ]; then
+    IS_LINUX=1
+else
+    IS_LINUX=0
+fi
 
 if [ "$OS_NAME" = "Linux" ]; then
     # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -115,6 +122,8 @@ alias em='emacsclient -t'
 alias reload_em='launchctl unload ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl list | grep emacs'
 alias r='rlwrap'
 
+alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update'
+
 alias sbcl='rlwrap sbcl'
 
 function gc() {
@@ -157,13 +166,12 @@ export PATH="$PATH:/Users/yuki/.lmstudio/bin"
 # End of LM Studio CLI section
 
 
-# source /Users/yuki/.config/broot/launcher/bash/br
+if ((IS_LINUX)); then
+    export PATH=$PATH:/opt/rocm/bin
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
+    export ROCM_PATH=/opt/rocm
 
-export PATH=$PATH:/opt/rocm/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
-export ROCM_PATH=/opt/rocm
-
-export HSA_OVERRIDE_GFX_VERSION=10.3.0
-export OLLAMA_DEBUG=1 
-
-export OLLAMA_HOST=0.0.0.0:11434
+    export HSA_OVERRIDE_GFX_VERSION=10.3.0
+    export OLLAMA_DEBUG=1 
+    export OLLAMA_HOST=0.0.0.0:11434
+fi
