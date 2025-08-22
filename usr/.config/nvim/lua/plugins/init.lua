@@ -20,46 +20,6 @@ return {
   },
 
   {
-    "nvim-tree/nvim-tree.lua",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      git = {
-        enable = true,
-        ignore = false,
-        timeout = 400,
-      },
-      sort = {
-        sorter = "case_sensitive",
-      },
-      view = {
-        width = 30,
-        signcolumn = "yes",
-      },
-      renderer = {
-        group_empty = true,
-        highlight_git = true,
-        highlight_opened_files = "icon",
-        indent_markers = {
-          enable = true,
-          icons = {
-            corner = "└",
-            edge = "│",
-            item = "│",
-            none = " ",
-          },
-        },
-      },
-      filters = {
-        dotfiles = false,
-        -- git_ignore = false,
-      },
-    },
-  },
-
-  {
     "numToStr/Comment.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -313,22 +273,27 @@ return {
     opts = {},
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
   },
-  -- {
-  --   "nvim-telescope/telescope.nvim",
-  --   tag = "0.1.8",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  -- },
   {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
-    config = function()
-      require("telescope").setup({
-        defaults = {
-          layout_strategy = "horizontal",
-          layout_config = { width = 0.9, height = 0.9 },
-        },
-      })
-      require("telescope").load_extension("fzf")
-    end,
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      explorer = { enabled = true, show_hidden = true },
+      indent = { enabled = true },
+      input = { enabled = true },
+      picker = { enabled = true, show_hidden = true },
+      notifier = { enabled = true },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
   },
 }
