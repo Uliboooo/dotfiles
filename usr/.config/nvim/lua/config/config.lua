@@ -35,6 +35,16 @@ vim.g.rustaceanvim = {
   },
 }
 
+-- vim.o.updatetime = 250
+-- vim.cmd([[
+--   autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+-- ]])
+
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = { current_line = true },
+})
+
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = trye })
 vim.keymap.set("n", "<leader>p", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
@@ -77,12 +87,7 @@ if vim.lsp.inlay_hint then
   vim.lsp.inlay_hint.enable(true, { 0 })
 end
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.lua",
-  callback = function()
-    vim.cmd("silent! !stylua %")
-  end,
-})
+
 
 -- vim.diagnostic.config({
 --   virtual_text = {

@@ -308,4 +308,27 @@ return {
       })
     end,
   },
+  {
+    "stevearc/aerial.nvim",
+    opts = {},
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+  },
+  -- {
+  --   "nvim-telescope/telescope.nvim",
+  --   tag = "0.1.8",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  -- },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          layout_strategy = "horizontal",
+          layout_config = { width = 0.9, height = 0.9 },
+        },
+      })
+      require("telescope").load_extension("fzf")
+    end,
+  },
 }
