@@ -267,10 +267,23 @@ return {
       })
     end,
   },
-  -- {
-  --   "stevearc/aerial.nvim",
-  --   opts = {},
-  --   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-  -- },
-  
+  {
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("fzf-lua").setup({
+        -- ポップアップUIの全体的な設定
+        winopts = {
+          width = 0.8,
+          height = 0.8,
+          row = 0.5,
+          col = 0.5,
+          border = "rounded",
+        },
+        live_grep = {
+          args = { "--hidden", "--no-ignore-vcs", "--smart-case" },
+        },
+      })
+    end,
+  },
 }

@@ -89,6 +89,10 @@ alias cr='cargo run'
 alias cb='cargo build'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
+function note() {
+  nv  ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/note
+}
+
 alias tl='tmux ls'
 # new tumx
 function t() {

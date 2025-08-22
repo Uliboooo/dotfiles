@@ -16,3 +16,7 @@ end, { desc = "toggle cooment for ", noremap = true })
 vim.keymap.set("n", "<leader>f", function()
   require("snacks").picker.files({ cwd = vim.loop.cwd() })
 end, { desc = "プロジェクトルートでファイル検索" })
+
+vim.keymap.set("n", "<leader>/", function()
+  require("fzf-lua").live_grep()
+end, { desc = "Global search (fzf-lua)" })
