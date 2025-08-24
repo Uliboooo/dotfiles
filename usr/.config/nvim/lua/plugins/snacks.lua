@@ -17,6 +17,11 @@ return {
       sources = {
         explorer = {
           hidden = true,
+          layout = {
+            layout = {
+              width = 25, -- エクスプローラーの幅を40列に設定
+            },
+          },
         },
         files = {
           hidden = true,

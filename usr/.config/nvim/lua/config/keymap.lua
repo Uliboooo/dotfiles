@@ -16,6 +16,11 @@ end, { desc = "toggle cooment for ", noremap = true })
 -- vim.keymap.set("n", "<leader>f", function()
 --   require("snacks").picker.files({ cwd = vim.fn.getcwd() })
 -- end, { desc = "プロジェクトルートでファイル検索" })
+local path = vim.fn.argv(0)
+
+if path == nil or path == "" then
+  path = vim.fn.getcwd()
+end
 
 vim.keymap.set("n", "<Leader>f", function()
   -- require("snacks").picker.buffers()
@@ -32,9 +37,19 @@ vim.keymap.set("n", "<leader>/", function()
   require("fzf-lua").live_grep()
 end, { desc = "Global search (fzf-lua)" })
 
+vim.keymap.set("n", "<Leader>/", function()
+  require("snacks").picker.grep({
+    dirs = { path },
+  })
+end, { desc = "" })
+
 vim.keymap.set("n", "<Leader>u", function()
   require("snacks").picker.undo()
 end, { desc = "list undo" })
+
+vim.keymap.set("n", "<Leader>s", function()
+  require("snacks").picker.lsp_symbols()
+end, { desc = "symbol search" })
 
 vim.keymap.set("n", "gr", function()
   require("snacks").picker.lsp_references()
