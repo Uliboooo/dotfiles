@@ -54,6 +54,8 @@ eval "$(opam env)"
 alias cdd='cd $HOME/Develop/'
 alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
 alias cdz='cd $HOME/Documents/zenn_content/'
+alias cdc='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/'
+alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/notes'
 alias nz='cdz && npx zenn new:article --title'
 
 alias nzenn='npx zenn new:article --title $1'
@@ -90,7 +92,7 @@ alias cb='cargo build'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
 function note() {
-  nv  ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/note
+    nvim $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/notes
 }
 
 alias tl='tmux ls'
