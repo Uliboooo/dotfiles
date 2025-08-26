@@ -57,7 +57,7 @@ ZSH_DIR="${HOME}/dotfiles/usr/zsh"
 
 if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
     for f in ${ZSH_DIR}/**/*.zsh; do
-        [ -r $f ] && source $f && echo "loaded ${f}"
+        [ -r $f ] && source $f
     done
 fi
 
