@@ -76,3 +76,12 @@ vim.api.nvim_exec(
 if vim.lsp.inlay_hint then
   vim.lsp.inlay_hint.enable(true, { 0 })
 end
+
+-- enable autoread
+vim.opt.autoread = true
+
+-- autocmd FocusGained,BufEnter * checktime
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  pattern = "*",
+  command = "checktime",
+})
