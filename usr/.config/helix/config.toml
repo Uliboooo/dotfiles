@@ -10,7 +10,7 @@ rulers = [100, 120]
 preview-completion-insert = false
 
 [editor.file-picker]
-# hidden = false
+hidden = false
 
 [editor.statusline]
 center = ["file-type"]

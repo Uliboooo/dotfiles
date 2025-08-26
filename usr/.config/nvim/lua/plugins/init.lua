@@ -286,4 +286,41 @@ return {
       })
     end,
   },
+  -- {
+  --   "wsdjeg/flygrep.nvim",
+  --   cmd = "FlyGrep",
+  --   dependencies = { "wsdjeg/job.nvim" },
+  --   config = function()
+  --     require("flygrep").setup({
+  --       timeout = 200,
+  --       command = {
+  --         execute = "grep",
+  --         default_opts = {
+  --           "--no-heading",
+  --           "--color=never",
+  --           "--with-filename",
+  --           "--line-number",
+  --           "--column",
+  --           "-g",
+  --           "!.git",
+  --         },
+  --         recursive_opt = {},
+  --         expr_opt = { "-e" },
+  --         fixed_string_opt = { "-F" },
+  --         default_fopts = { "-N" },
+  --         smart_case = { "-S" },
+  --         ignore_case = { "-i" },
+  --         hidden_opt = { "--hidden" },
+  --       },
+  --       matched_higroup = "IncSearch",
+  --       enable_preview = true,
+  --       window = {
+  --         width = 0.8, -- flygrep screen width, default is vim.o.columns * 0.8
+  --         height = 0.8, -- flygrep screen height, default is vim.o.lines * 0.8
+  --         col = 0.1, -- flygrep screen start col, default is vim.o.columns * 0.1
+  --         row = 0.1, -- flygrep screen start row, default is vim.o.lines * 0.1
+  --       },
+  --     })
+  --   end,
+  -- },
 }

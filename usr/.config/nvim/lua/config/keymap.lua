@@ -37,11 +37,11 @@ vim.keymap.set("n", "<leader>/", function()
   require("fzf-lua").live_grep()
 end, { desc = "Global search (fzf-lua)" })
 
-vim.keymap.set("n", "<Leader>/", function()
-  require("snacks").picker.grep({
-    dirs = { path },
-  })
-end, { desc = "" })
+-- vim.keymap.set("n", "<Leader>/", function()
+--   require("snacks").picker.grep({
+--     dirs = { path },
+--   })
+-- end, { desc = "" })
 
 vim.keymap.set("n", "<Leader>u", function()
   require("snacks").picker.undo()
@@ -54,3 +54,7 @@ end, { desc = "symbol search" })
 vim.keymap.set("n", "gr", function()
   require("snacks").picker.lsp_references()
 end, { desc = "lsp_references" })
+
+-- vim.keymap.set("n", "<Leader>/", function()
+--   require("flygrep").open({ cwd = path })
+-- end, { desc = "global search" })
