@@ -26,6 +26,7 @@ vim.o.foldlevelstart = 99
 vim.o.foldcolumn = "1"
 vim.o.mouse = "a"
 vim.o.signcolumn = "yes"
+vim.opt.colorcolumn = "100"
 
 vim.g.rustaceanvim = {
   server = {
