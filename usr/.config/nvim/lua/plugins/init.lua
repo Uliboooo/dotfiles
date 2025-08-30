@@ -93,13 +93,13 @@ return {
   -- },
   {
     "neovim/nvim-lspconfig",
-    config = function()
-      require("lspconfig").rustowl.setup({
-        cmd = { "rustowl-lsp" }, -- Replace with the actual command if different
-        filetypes = { "rust" },
-        -- You can add more settings here if rustowl supports them
-      })
-    end,
+    -- config = function()
+    --   require("lspconfig").rustowl.setup({
+    --     cmd = { "Rustowl enable" }, -- Replace with the actual command if different
+    --     filetypes = { "rust" },
+    --     -- You can add more settings here if rustowl supports them
+    --   })
+    -- end,
   },
 
   {

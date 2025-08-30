@@ -25,7 +25,7 @@
     "dock": "right"
   },
   "icon_theme": "Catppuccin Macchiato",
-  "theme": "Catppuccin Macchiato",
+  "theme": "Catppuccin Frappé - No Italics",
   "indent_guides": {
     "coloring": "indent_aware",
     "active_line_width": 2
@@ -146,13 +146,13 @@
       "enabled": true,
       "debounce_ms": 50
     },
-    // "inline": {
-    //   "enabled": true,
-    //   "update_debounce_ms": 150,
-    //   "padding": 4,
-    //   "min_column": 0,
-    //   "max_severity": "hint"
-    // },
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150,
+      "padding": 4,
+      "min_column": 0,
+      "max_severity": "hint"
+    },
     "cargo": null
   }
 }
