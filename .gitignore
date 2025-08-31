@@ -17,3 +17,4 @@ usr/.config/broot/launcher/
 usr/.config/broot/skins
 usr/.config/broot/verbs.hjson
 **/.env
+usr/emacs/.emacs.d/.cache

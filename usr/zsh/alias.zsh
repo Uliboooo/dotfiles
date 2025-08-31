@@ -55,7 +55,7 @@ function ta() {
     if [[ "$#" -gt 0 ]]; then
         tmux a -t "$1"
     else
-        tmux a
+        tmux
     fi
 }
 # kill tmux sesstion
