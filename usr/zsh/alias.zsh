@@ -53,7 +53,7 @@ function t() {
 # attach tmux
 function ta() {
     if [[ "$#" -gt 0 ]]; then
-        tmux a -t "$1"
+        tmux new-session -A -s "$1"
     else
         tmux
     fi

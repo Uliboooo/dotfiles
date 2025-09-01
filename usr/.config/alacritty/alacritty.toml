@@ -21,3 +21,8 @@ style.blinking = "On"
 # [terminal.shell]
 # program = "tmux"
 # args = ["new-session", "-A", "-s", "main"]
+
+[keyboard]
+bindings = [
+  { key = "N", mods = "Control|Shift", action = "CreateNewWindow" }
+]
