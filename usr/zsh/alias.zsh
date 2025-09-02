@@ -73,6 +73,10 @@ alias em='emacsclient -t'
 alias reload_em='launchctl unload ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl list | grep emacs'
 alias r='rlwrap'
 
+function nvv() {
+    cd "$1" && nvim .
+}
+
 if ((IS_LINUX)); then
     alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update'
 else
