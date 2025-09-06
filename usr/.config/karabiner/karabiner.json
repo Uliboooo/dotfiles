@@ -20,6 +20,7 @@
                     },
                     {
                         "description": "Key 3 → Shift+Cmd+D",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": { "key_code": "3" },
