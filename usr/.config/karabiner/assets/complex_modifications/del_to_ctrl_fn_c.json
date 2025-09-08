@@ -1,0 +1,23 @@
+{
+  "title": "Del to Ctrl+Fn+C",
+  "rules": [
+    {
+      "description": "Map Del key to Ctrl+Fn+C",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "delete_forward"
+          },
+          "to": [
+            {
+              "key_code": "c",
+              "modifiers": ["control", "fn"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

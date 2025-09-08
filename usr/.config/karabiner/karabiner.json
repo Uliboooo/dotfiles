@@ -1,0 +1,59 @@
+{
+    "profiles": [
+        {
+            "complex_modifications": {
+                "rules": [
+                    {
+                        "description": "Kinsert-open-notice",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "insert" },
+                                "to": [
+                                    {
+                                        "key_code": "n",
+                                        "modifiers": ["left_control", "left_option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Key 3 → Shift+Cmd+D",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "3" },
+                                "to": [
+                                    {
+                                        "key_code": "d",
+                                        "modifiers": ["left_shift", "left_command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Map Del key to Ctrl+Fn+C",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "delete_forward" },
+                                "to": [
+                                    {
+                                        "key_code": "c",
+                                        "modifiers": ["control", "fn"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "name": "Default profile",
+            "selected": true,
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+        }
+    ]
+}

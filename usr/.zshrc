@@ -54,7 +54,6 @@ else
 fi
 
 eval "$(starship init zsh)"
-eval "$(opam env)"
 
 # load alias
 
@@ -90,3 +89,12 @@ if ((IS_LINUX)); then
     export OLLAMA_DEBUG=1 
     export OLLAMA_HOST=0.0.0.0:11434
 fi
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/coyuki/.opam/opam-init/init.zsh' ]] || source '/Users/coyuki/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
