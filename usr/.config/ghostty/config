@@ -1,17 +1,17 @@
 # Empty values reset the configuration to the default value
-font-family = "0xProto"
+font-family = "0xProto Nerd Font"
 font-size = 10
 
 # ウィンドウの初期サイズ
-window-height = 60
-window-width = 120
+window-height = 100
+window-width = 145
 
 # 背景の透明度
-background-opacity = 0.97
+background-opacity = 0.91
 # 背景をぼかす
 background-blur-radius = 10
 
-theme = tokyonight_night
+theme = catppuccin-macchiato
 
 cursor-style-blink = true
 cursor-style = bar

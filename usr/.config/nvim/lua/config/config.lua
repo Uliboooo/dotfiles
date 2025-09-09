@@ -1,8 +1,9 @@
 -- show white chars
 vim.opt.listchars = {
-	tab = "»-",
-	trail = "~",
-	nbsp = "␣",
+    tab = "»-",
+    trail = "~",
+    nbsp = "␣",
+
 }
 -- line numvers
 vim.opt.relativenumber = true
@@ -28,16 +29,16 @@ vim.o.signcolumn = "yes"
 vim.opt.colorcolumn = "100"
 
 vim.g.rustaceanvim = {
-	server = {
-		cmd = function()
-			return { "rust-analyzer" }
-		end,
-	},
+    server = {
+        cmd = function()
+            return { "rust-analyzer" }
+        end,
+    },
 }
 
 vim.diagnostic.config({
-	virtual_text = false,
-	virtual_lines = { current_line = true },
+    virtual_text = false,
+    virtual_lines = { current_line = true },
 })
 
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
@@ -54,27 +55,27 @@ vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
 -- )
 
 vim.api.nvim_create_user_command("W", "wa", {
-	force = true,
+    force = true,
 })
 
 vim.api.nvim_create_user_command("Wa", "wa", {
-	force = true,
+    force = true,
 })
 
 vim.api.nvim_create_user_command("Wq", "wq", {
-	force = true,
+    force = true,
 })
 
 vim.api.nvim_exec(
-	[[ 
+    [[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
   highlight DangerousChars ctermbg=red guibg=red
 ]],
-	false
+    false
 )
 
 if vim.lsp.inlay_hint then
-	vim.lsp.inlay_hint.enable(true, { 0 })
+    vim.lsp.inlay_hint.enable(true, { 0 })
 end
 
 -- enable autoread
@@ -82,6 +83,6 @@ vim.opt.autoread = true
 
 -- autocmd FocusGained,BufEnter * checktime
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-	pattern = "*",
-	command = "checktime",
+    pattern = "*",
+    command = "checktime",
 })

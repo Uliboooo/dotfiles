@@ -112,3 +112,5 @@ function bsii() {
 function add_alias() {
     echo "$1" >> ~/dotfiles/usr/zsh/alias.zsh
 }
+
+alias cow='cowsay'

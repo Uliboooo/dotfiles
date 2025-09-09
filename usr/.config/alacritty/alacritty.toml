@@ -1,6 +1,8 @@
 [general]
 import = [
-    "catppuccin-macchiato.toml"
+    # "~/dotfiles/usr/.config/alacritty/themes/themes/everforest_dark.toml"
+    # "~/dotfiles/usr/.config/alacritty/themes/themes/dark_pastels.toml"
+    "~/dotfiles/usr/.config/alacritty/themes/catppuccin-macchiato.toml"
 ]
 working_directory = "$HOME"
 live_config_reload = true
