@@ -2,6 +2,13 @@ return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
+    win = {
+      type = "float",
+      relative = "editor",
+      border = "rounded",
+      width = 0.9,
+      height = 0.7,
+    },
     -- ここに設定を記述します
     modes = {
       float = {

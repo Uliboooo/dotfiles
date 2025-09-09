@@ -1,10 +1,12 @@
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+-- vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "<leader>U", vim.cmd.redu, { desc = "redo" })
+
+vim.api.nvim_set_keymap("n", "dd", "ddk", { noremap = true, silent = true })
 
 vim.keymap.set({ "n", "i", "v", "x", "s" }, "<C-c>", function()
   require("Comment.api").toggle.linewise.current()
@@ -48,3 +50,11 @@ end, { desc = "symbol search" })
 vim.keymap.set("n", "gr", function()
   require("snacks").picker.lsp_references()
 end, { desc = "lsp_references" })
+
+vim.keymap.set("n", "<Leader>e", function()
+  require("trouble").toggle("diagnostics", {
+    mode = "document",
+    win = { type = "float", relative = "editor" },
+  })
+  vim.cmd("wincmd w")
+end, { desc = "open trouble" })
