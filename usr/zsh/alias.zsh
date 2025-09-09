@@ -29,6 +29,8 @@ alias gaa='git add .'
 alias ga='git add'
 alias gf='git fetch'
 alias gb='git branch'
+alias gdn='git diff --name-only'
+alias gdan='git --no-pager diff --name-only'
 
 alias cf='cargo fmt'
 alias ch='cargo check'
@@ -114,3 +116,4 @@ function add_alias() {
 }
 
 alias cow='cowsay'
+
