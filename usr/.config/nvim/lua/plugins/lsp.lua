@@ -23,7 +23,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- `select = true`
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
@@ -35,13 +35,12 @@ return {
     end,
   },
   {
-    "neovim/nvim-lspconfig", -- LSPクライアントの一般的な設定
+    "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
     },
 
     config = function()
-      -- rust-analyzer の設定は rust.lua で行うため、ここでは一般的な設定のみ
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
