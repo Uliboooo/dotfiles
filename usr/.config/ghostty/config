@@ -3,9 +3,12 @@ font-family = "0xProto Nerd Font"
 font-family = "Cica"
 font-size = 10
 
+cursor-opacity = 0.5
+cursor-style = "bar"
+
 # ウィンドウの初期サイズ
 window-height = 100
-window-width = 145
+window-width = 200
 
 # 背景の透明度
 background-opacity = 0.91
@@ -21,3 +24,6 @@ quick-terminal-position = "top"
 quick-terminal-screen = "main"
 quick-terminal-animation-duration = 0.3
 keybind = "global:option+shift+t=toggle_quick_terminal"
+
+working-directory = "home"
+window-inherit-working-directory = false
