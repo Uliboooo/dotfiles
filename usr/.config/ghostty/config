@@ -1,5 +1,6 @@
 # Empty values reset the configuration to the default value
 font-family = "0xProto Nerd Font"
+font-family = "Cica"
 font-size = 10
 
 # ウィンドウの初期サイズ

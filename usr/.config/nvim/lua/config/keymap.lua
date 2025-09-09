@@ -15,7 +15,6 @@ vim.keymap.set({ "n", "v", "x", "s" }, "<Leader>gc", function()
 end, { desc = "toggle cooment for ", noremap = true })
 
 local path = vim.fn.argv(0)
-
 if path == nil or path == "" then
   path = vim.fn.getcwd()
 end
