@@ -35,10 +35,10 @@ vim.g.rustaceanvim = {
   },
 }
 
-vim.diagnostic.config({
-  virtual_text = false,
-  virtual_lines = { current_line = true },
-})
+-- vim.diagnostic.config({
+--   virtual_text = false,
+--   virtual_lines = { current_line = true },
+-- })
 
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
 -- vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
@@ -98,8 +98,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
+-- vim.diagnostic.config({
+--   virtual_text = false,
+--   virtual_lines = { only_current_line = true }, -- 行下に表示
+--   underline = true,
+-- })
+
 vim.diagnostic.config({
-  virtual_text = false,
-  virtual_lines = { only_current_line = true }, -- 行下に表示
+  virtual_text = false, -- 横に常時表示はしない
+  virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
   underline = true,
+  signs = true,
+  update_in_insert = false,
+  severity_sort = true,
 })
