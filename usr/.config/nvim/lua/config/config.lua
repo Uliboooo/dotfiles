@@ -97,3 +97,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none", nocombine = true })
   end,
 })
+
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = { only_current_line = true }, -- 行下に表示
+  underline = true,
+})
