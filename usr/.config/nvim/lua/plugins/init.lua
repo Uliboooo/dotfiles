@@ -27,6 +27,10 @@ return {
       vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
       vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
       vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+      vim.cmd([[
+        hi DiagnosticUnderlineError gui=undercurl guisp=Red
+        hi DiagnosticUnderlineWarn  gui=undercurl guisp=Yellow
+      ]])
     end,
   },
 
