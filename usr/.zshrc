@@ -1,4 +1,4 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
@@ -100,4 +100,4 @@ eval $(opam env)
 # [[ ! -r '/Users/coyuki/.opam/opam-init/init.zsh' ]] || source '/Users/coyuki/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
 
-zprof
+# zprof
