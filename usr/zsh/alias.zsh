@@ -122,3 +122,7 @@ function add_alias() {
 
 alias cow='cowsay'
 alias copy='pbcopy'
+
+function touch-p() {
+    mkdir -p $(dirname "$1") && touch "$1"
+}
