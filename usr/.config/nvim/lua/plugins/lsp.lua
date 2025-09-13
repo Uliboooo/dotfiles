@@ -62,12 +62,8 @@ return {
         capabilities = capabilities,
         on_attach - on_attach,
         filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = lspconfig.util.root_pattern(".git"),
+        root_dir = lspconfig.util.root_pattern("compile_commands.json", ".git"),
       })
-
-      -- lspconfig.rust_analyzer.setup({
-      --     on_attach = on_attach,
-      -- })
     end,
   },
 }
