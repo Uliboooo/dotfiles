@@ -1,80 +1,81 @@
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     config = function()
+--       local path = vim.fn.argv(0)
+--       if path == nil or path == "" then
+--         path = vim.fn.getcwd()
+--       end
+--
+--       require("lspconfig").clangd.setup({
+--         on_attach = function(client, bufnr)
+--           print("clangd attached!") -- cppファイルを開いたときに表示される
+--         end,
+--         root_dir = path, -- カレントディレクトリをルートにする
+--       })
+--     end,
+--   },
+-- }
+
 return {
-  -- LSP, Formatter, Linter
+  -- nvim-cmp と snippet
   {
-    "neovim/nvim-lspconfig",
+    "hrsh7th/nvim-cmp",
     dependencies = {
-      "stevearc/conform.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
     },
     config = function()
-      local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
 
-      -- C/C++ (clangd)
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-        cmd = { "/usr/bin/clangd" },
-      })
-
-      -- Formatter (conform.nvim)
-      local conform = require("conform")
-      conform.setup({
-        formatters_by_ft = {
-          c = { "clang-format" },
-          cpp = { "clang-format" },
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
         },
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_fallback = true,
-        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
       })
     end,
   },
 
-  -- -- Debugger
-  -- {
-  --   "mfussenegger/nvim-dap",
-  --   config = function()
-  --     local dap = require("dap")
-  --     -- C/C++ Debug Adapter
-  --     dap.adapters.cppdbg = {
-  --       id = "cppdbg",
-  --       type = "executable",
-  --       command = "cpp-debug-adapter",
-  --     }
-  --
-  --     dap.configurations.cpp = {
-  --       {
-  --         name = "Launch file",
-  --         type = "cppdbg",
-  --         request = "launch",
-  --         program = function()
-  --           return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-  --         end,
-  --         cwd = "${workspaceFolder}",
-  --         stopAtEntry = false,
-  --       },
-  --     }
-  --     dap.configurations.c = dap.configurations.cpp
-  --   end,
-  -- },
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   dependencies = { "mfussenegger/nvim-dap" },
-  --   config = function()
-  --     local dap = require("dap")
-  --     local dapui = require("dapui")
-  --
-  --     dapui.setup()
-  --
-  --     dap.listeners.after.event_initialized["dapui_config"] = function()
-  --       dapui.open()
-  --     end
-  --     dap.listeners.before.event_terminated["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --     dap.listeners.before.event_exited["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --   end,
-  -- },
+  -- clangd
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      local on_attach = function(client, bufnr)
+        local opts = { buffer = bufnr, remap = false }
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      end
+
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+        root_dir = lspconfig.util.root_pattern(".git"), -- ここだけでOK
+      })
+    end,
+  },
 }

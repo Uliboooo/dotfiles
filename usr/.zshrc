@@ -101,3 +101,4 @@ eval $(opam env)
 # END opam configuration
 
 # zprof
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

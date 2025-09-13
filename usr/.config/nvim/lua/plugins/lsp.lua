@@ -50,12 +50,21 @@ return {
         filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex" },
         root_dir = lspconfig.util.root_pattern("*.opam", "esy.json", "package.json", ".git"),
       })
+
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, remap = false }
         vim.keymap.set("n", "gd", function()
           vim.lsp.buf.defintion()
         end, opts)
       end
+
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        on_attach - on_attach,
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+        root_dir = lspconfig.util.root_pattern(".git"),
+      })
+
       -- lspconfig.rust_analyzer.setup({
       --     on_attach = on_attach,
       -- })
