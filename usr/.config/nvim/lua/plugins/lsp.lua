@@ -1,4 +1,5 @@
 return {
+  -- nvim-cmpの設定 (これは変更なし)
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -6,7 +7,7 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
-      "L3MON4D3/LuaSnip", -- snip engine
+      "L3MON4D3/LuaSnip",
     },
     config = function()
       local cmp = require("cmp")
@@ -34,35 +35,44 @@ return {
       })
     end,
   },
+
+  -- nvim-lspconfigの設定 (ここを修正・統合)
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-    },
-
+    event = "VeryLazy", -- Neovim起動直後ではなく、少し遅れて読み込む
+    dependencies = { "hrsh7th/cmp-nvim-lsp" },
     config = function()
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      -- 全てのLSPで共通して使うキーマップなどの設定
       local on_attach = function(client, bufnr)
-        local opts = { buffer = bufnr, remap = false }
-        vim.keymap.set("n", "gd", function()
-          vim.lsp.buf.defintion()
-        end, opts)
+        local opts = { buffer = bufnr, silent = true }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        -- keymap.luaで設定しているものは、ここで上書きしないように注意
+        -- vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, opts)
+        -- vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       end
 
-      lspconfig.ocamllsp.setup({
+      -- C/C++ (clangd)
+      lspconfig.clangd.setup({
+        on_attach = on_attach,
         capabilities = capabilities,
-        cmd = { "ocamllsp" },
-        filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex" },
-        root_dir = lspconfig.util.root_pattern("*.opam", "esy.json", "package.json", ".git"),
+        filetypes = { "c", "cpp", "objc", "objcpp" },
       })
 
-      lspconfig.clangd.setup({
+      -- OCaml (ocamllsp)
+      lspconfig.ocamllsp.setup({
+        on_attach = on_attach,
         capabilities = capabilities,
-        on_attach - on_attach,
-        filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = lspconfig.util.root_pattern("compile_commands.json", ".git"),
+      })
+
+      -- Swift (sourcekit)
+      lspconfig.sourcekit.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "swift" },
       })
     end,
   },

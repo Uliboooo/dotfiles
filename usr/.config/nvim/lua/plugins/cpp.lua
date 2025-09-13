@@ -1,1 +1,30 @@
+-- print("✅ cpp.lua is being loaded by lazy.nvim")
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     ft = { "c", "cpp", "objc", "objcpp", "cuda" }, -- C/C++系のファイルを開いたときにプラグインをロード
+--     config = function()
+--       print("🚀 Configuring clangd now...")
+--       local lspconfig = require("lspconfig")
+--       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+--
+--       local on_attach = function(client, bufnr)
+--         -- C/C++に特化した設定やキーマップが必要な場合はここに記述
+--         -- 例えば、以下は共通設定だが、こちらに書いても良い
+--         local opts = { buffer = bufnr, remap = false }
+--         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+--         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+--       end
+--
+--       -- clangd のセットアップ
+--       lspconfig.clangd.setup({
+--         capabilities = capabilities,
+--         on_attach = on_attach,
+--         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+--         root_dir = lspconfig.util.root_pattern("compile_commands.json", ".git"),
+--       })
+--       print("👍 clangd setup complete.")
+--     end,
+--   },
+-- }
 return {}
