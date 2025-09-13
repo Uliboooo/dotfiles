@@ -85,6 +85,10 @@ else
     alias update='brew update && brew upgrade && rustup update'
 fi
 
+alias bs='brew search'
+alias bi='brew install'
+alias bu='brew update && brew upgrade'
+
 alias sbcl='rlwrap sbcl'
 
 function gc() {
@@ -117,4 +121,4 @@ function add_alias() {
 }
 
 alias cow='cowsay'
-
+alias copy='pbcopy'
