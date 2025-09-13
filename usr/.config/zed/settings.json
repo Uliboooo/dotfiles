@@ -15,12 +15,16 @@
   },
   "agent_font_size": 11,
   "agent": {
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
     "play_sound_when_agent_done": true,
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.5-pro"
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
     },
     "dock": "right"
   },

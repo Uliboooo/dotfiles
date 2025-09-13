@@ -8,9 +8,12 @@ clipboard-provider = "tmux"
 true-color = true
 rulers = [100, 120]
 preview-completion-insert = false
+color-modes = true
+trim-trailing-whitespace = true
 
 [editor.file-picker]
 hidden = false
+ignore = true
 
 [editor.statusline]
 center = ["file-type"]
@@ -63,19 +66,28 @@ C-r = ":reload"
 "G" = "goto_file_end"
 #"dd" = "delete_line"
 "a" = "insert_at_line_end"
-"V" = ["goto_line_start", "select_mode", "extend_line_below", ]
+# "V" = ["goto_line_start", "select_mode", "extend_line_below", ]
+"V" = ["goto_line_start", "select_mode"]
 p = ":append-output tmux save-buffer -"
-
+# d = "delete_selection_to_clipboard"
 [keys.normal.g]
 a = "code_action"
 g = "goto_file_start"
 c = "toggle_comments"
 
 [keys.normal.d]
-d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
+# d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
+# d = [ "extend_to_line_bounds", "delete_selection_to_clipboard"]
+d = [
+  "goto_line_start",
+  "yank_to_clipboard",   # 行全体をコピー
+  "kill_to_line_end",
+  "delete_char_backward"
+]
 
 [keys.select]
 y = [":pipe-to tmux load-buffder -", "yank"]
+# z = ["shrink_to_line_bounds"]
 
 [keys.insert]
 C-r = ":reload"

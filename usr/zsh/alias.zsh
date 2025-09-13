@@ -126,3 +126,5 @@ alias copy='pbcopy'
 function touch-p() {
     mkdir -p $(dirname "$1") && touch "$1"
 }
+
+alias cppr='clang++ main.cpp -o out && ./out'
