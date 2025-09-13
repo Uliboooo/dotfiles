@@ -24,13 +24,13 @@ vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldcolumn = "1"
 
--- vim.o.mouse = ""
+vim.o.mouse = "a"
 -- noremap <ScrollWheelUp> <C-Y>
 -- noremap <ScrollWheelDown> <C-E>
 
-vim.o.mouse = "" -- disable all mouse features
-vim.keymap.set("n", "<ScrollWheelUp>", "<C-Y>", { noremap = true, silent = true })
-vim.keymap.set("n", "<ScrollWheelDown>", "<C-E>", { noremap = true, silent = true })
+-- vim.o.mouse = "" -- disable all mouse features
+-- vim.keymap.set("n", "<ScrollWheelUp>", "<C-Y>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<ScrollWheelDown>", "<C-E>", { noremap = true, silent = true })
 
 vim.o.signcolumn = "yes"
 vim.opt.colorcolumn = "100"
@@ -112,11 +112,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 --   underline = true,
 -- })
 
--- vim.diagnostic.config({
---   virtual_text = false, -- 横に常時表示はしない
---   virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
---   underline = true,
---   signs = true,
---   update_in_insert = false,
---   severity_sort = true,
--- })
+vim.diagnostic.config({
+  virtual_text = false, -- 横に常時表示はしない
+  -- virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
+  underline = true,
+  signs = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
