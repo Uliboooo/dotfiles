@@ -1,5 +1,4 @@
 return {
-  -- nvim-cmpの設定 (これは変更なし)
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -36,7 +35,6 @@ return {
     end,
   },
 
-  -- nvim-lspconfigの設定 (ここを修正・統合)
   {
     "neovim/nvim-lspconfig",
     event = "VeryLazy", -- Neovim起動直後ではなく、少し遅れて読み込む
@@ -73,6 +71,14 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { "swift" },
+      })
+
+      -- zig
+      lspconfig.zls.setup({
+        cmd = { "zls" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "zig" },
       })
     end,
   },
