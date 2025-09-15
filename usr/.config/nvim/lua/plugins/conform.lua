@@ -6,6 +6,7 @@ return {
       formatters_by_ft = {
         cpp = { "clang-format" }, -- clangd ではなく clang-format 推奨
         c = { "clang-format" },
+        rs = { "rustfmt" },
       },
     })
 
