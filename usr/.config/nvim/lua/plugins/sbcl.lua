@@ -12,10 +12,10 @@ return {
       })
     end,
   },
-  {
-    "sheerun/vim-polyglot",
-    ft = { "lisp", "scheme", "clojure" },
-  },
+  -- {
+  --   "sheerun/vim-polyglot",
+  --   ft = { "lisp", "scheme", "clojure" },
+  -- },
   -- nvim-cmp 補完
   {
     "hrsh7th/nvim-cmp",
