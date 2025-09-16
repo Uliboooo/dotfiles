@@ -44,24 +44,22 @@ function note() {
 
 alias tl='tmux ls'
 
-# new tumx
-function t() {
+function t() { # new tmux
     if [[ "$#" -gt 0 ]]; then
         tmux new -s "$1"
     else
         tmux
     fi
 }
-# attach tmux
-function ta() {
+
+function ta() { # attach tmux with name
     if [[ "$#" -gt 0 ]]; then
         tmux new-session -A -s "$1"
     else
         tmux
     fi
 }
-# kill tmux sesstion
-function tr() {
+function tr() { # kill tmux sesstion
     if [[ "$#" -gt 0 ]]; then
         exit
     else
@@ -75,7 +73,7 @@ alias em='emacsclient -t'
 alias reload_em='launchctl unload ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl list | grep emacs'
 alias r='rlwrap'
 
-function nvv() {
+function nvv() { # cd foo && nv foo
     cd "$1" && nvim .
 }
 
@@ -91,17 +89,17 @@ alias bu='brew update && brew upgrade'
 
 alias sbcl='rlwrap sbcl'
 
-function gc() {
+function gc() { # git add . && commit
     echo "commit message: $1"
   git add .
   git commit -m "$1"
 }
 
-function r2g() {
+function r2g() { # reduce video framerate
   ffmpeg -i "$1" -r 20 "$2"
 }
 
-function bsii() {
+function bsii() { # brew search and install?
     if brew search "$1" | grep -q "$1"; then
         brew info "$1"
         read "?install? (y/n): " answer
@@ -115,7 +113,7 @@ function bsii() {
     fi
 }
 
-function add_alias() {
+function add_alias() { # append alias to this filr
     echo "$1" >> ~/dotfiles/usr/zsh/alias.zsh
     echo "" >> ~/dotfiles/usr/zsh/alias.zsh
 }
@@ -123,8 +121,11 @@ function add_alias() {
 alias cow='cowsay'
 alias copy='pbcopy'
 
-function touch-p() {
+function touch-p() { # mkdir -p like touch command
     mkdir -p $(dirname "$1") && touch "$1"
 }
 
 alias cppr='clang++ main.cpp -o out && ./out'
+alias alias-edit='nvim $HOME/dotfiles/usr/zsh/alias.zsh'
+alias ls='ea'
+alias f-l='rg "function" $HOME/dotfiles/usr/zsh/alias.zsh'
