@@ -53,6 +53,10 @@ return {
         -- vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       end
 
+      lspconfig.rust_analyzer.setup({
+        on_attach = on_attach,
+      })
+
       -- C/C++ (clangd)
       lspconfig.clangd.setup({
         on_attach = on_attach,

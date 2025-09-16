@@ -8,15 +8,6 @@ return {
       require("crates").setup()
     end,
   },
-  --
-  -- {
-  --     "williamboman/mason.nvim",
-  --     opts = {
-  --         ensure_installed = {
-  --             "codelldb",
-  --         },
-  --     },
-  -- },
 
   {
     "mrcjkb/rustaceanvim",
@@ -26,7 +17,7 @@ return {
     init = function()
       vim.g.rustaceanvim = {
         server = {
-          path = "$HOME/.cargo/bin//rust-analyzer",
+          -- path = "$HOME/.cargo/bin//rust-nalyzer",
           on_attach = function(_, bufnr)
             local buf_map = function(lhs, rhs)
               vim.keymap.set("n", lhs, rhs, { buffer = bufnr })
@@ -38,20 +29,19 @@ return {
       }
     end,
   },
-
-  {
-    "cordx56/rustowl",
-    version = "*", -- Latest stable version
-    build = "cargo binstall rustowl",
-    lazy = false, -- This plugin is already lazy
-    opts = {
-      client = {
-        on_attach = function(_, buffer)
-          vim.keymap.set("n", "<leader>o", function()
-            require("rustowl").toggle(buffer)
-          end, { buffer = buffer, desc = "Toggle RustOwl" })
-        end,
-      },
-    },
-  },
+  -- {
+  --   "cordx56/rustowl",
+  --   version = "*", -- Latest stable version
+  --   build = "cargo binstall rustowl",
+  --   lazy = false, -- This plugin is already lazy
+  --   opts = {
+  --     client = {
+  --       on_attach = function(_, buffer)
+  --         vim.keymap.set("n", "<leader>o", function()
+  --           require("rustowl").toggle(buffer)
+  --         end, { buffer = buffer, desc = "Toggle RustOwl" })
+  --       end,
+  --     },
+  --   },
+  -- },
 }

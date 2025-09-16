@@ -102,3 +102,5 @@ eval $(opam env)
 
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+source /Users/coyuki/.config/broot/launcher/bash/br
