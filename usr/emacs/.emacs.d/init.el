@@ -115,11 +115,11 @@
 ;;           smart-tab
 ;;           smart-yank)))
 
-(use-package parinfer-rust-mode
-  :hook ((lisp-mode . parinfer-rust-mode)
-         (emacs-lisp-mode . parinfer-rust-mode))
-  :config
-  (setq parinfer-rust-auto-download t))
+;; (use-package parinfer-rust-mode
+;;   :hook ((lisp-mode . parinfer-rust-mode)
+;;          (emacs-lisp-mode . parinfer-rust-mode))
+;;   :config
+;;   (setq parinfer-rust-auto-download t))
 
 ;; -------------------------------
 ;; paredit（括弧の構造編集）
@@ -236,3 +236,21 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(use-package rusttic
+   :ensure t
+   :mode ("\\.rs\\" . rusttic-mode)
+  :custom
+  (rustic-format-on-save t);; fmt when save
+  :config
+  (add-hook 'rust-mode-hook 'lsp))
+
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook (rustic-mode . lsp))
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :bind (:map lsp-mode-map
+    ("C-c C-l C-c" . company-complete)))

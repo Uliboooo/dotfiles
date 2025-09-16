@@ -32,13 +32,22 @@ return {
           { name = "path" },
         }),
       })
+
+      cmp.setup.filetype("rust", {
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
+      })
     end,
   },
 
   {
     "neovim/nvim-lspconfig",
-    event = "VeryLazy", -- Neovim起動直後ではなく、少し遅れて読み込む
     dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    lazy = false,
     config = function()
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -48,13 +57,19 @@ return {
         local opts = { buffer = bufnr, silent = true }
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        -- keymap.luaで設定しているものは、ここで上書きしないように注意
-        -- vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, opts)
-        -- vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
       end
 
       lspconfig.rust_analyzer.setup({
         on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "rust" },
+        settings = {
+          ["rust-analyzer"] = {
+            check = {
+              command = "clippy",
+            },
+          },
+        },
       })
 
       -- C/C++ (clangd)
