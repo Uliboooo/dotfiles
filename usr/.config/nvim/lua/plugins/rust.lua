@@ -17,7 +17,7 @@ return {
     init = function()
       vim.g.rustaceanvim = {
         server = {
-          -- path = "$HOME/.cargo/bin//rust-nalyzer",
+          path = "$HOME/.cargo/bin//rust-nalyzer",
           on_attach = function(_, bufnr)
             local buf_map = function(lhs, rhs)
               vim.keymap.set("n", lhs, rhs, { buffer = bufnr })
