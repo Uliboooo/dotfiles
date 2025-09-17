@@ -16,6 +16,7 @@ background-opacity = 0.91
 background-blur-radius = 10
 
 theme = catppuccin-macchiato
+# theme = catppuccin-mocha
 
 cursor-style-blink = true
 cursor-style = bar
