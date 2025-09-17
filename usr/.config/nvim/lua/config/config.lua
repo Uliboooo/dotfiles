@@ -35,13 +35,13 @@ vim.o.mouse = "a"
 vim.o.signcolumn = "yes"
 vim.opt.colorcolumn = "100"
 
-vim.g.rustaceanvim = {
-  server = {
-    cmd = function()
-      return { "rust-analyzer" }
-    end,
-  },
-}
+-- vim.g.rustaceanvim = {
+--   server = {
+--     cmd = function()
+--       return { "rust-analyzer" }
+--     end,
+--   },
+-- }
 
 -- vim.diagnostic.config({
 --   virtual_text = false,
@@ -112,9 +112,33 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 --   underline = true,
 -- })
 
+-- vim.diagnostic.config({
+--   virtual_text = false, -- 横に常時表示はしない
+--   virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
+--   underline = true,
+--   signs = true,
+--   update_in_insert = false,
+--   severity_sort = true,
+-- })
+
 vim.diagnostic.config({
-  virtual_text = false, -- 横に常時表示はしない
-  -- virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
+  virtual_text = false,
+  virtual_lines = {
+    only_current_line = true,
+    format = function(diagnostic)
+      local msg = diagnostic.message
+      -- アクティブウィンドウの幅を取得
+      local width = math.max(vim.api.nvim_win_get_width(0) - 10, 20)
+
+      local lines = {}
+      local start = 1
+      while start <= #msg do
+        table.insert(lines, msg:sub(start, start + width - 1))
+        start = start + width
+      end
+      return table.concat(lines, "\n")
+    end,
+  },
   underline = true,
   signs = true,
   update_in_insert = false,
