@@ -51,7 +51,6 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
       -- 全てのLSPで共通して使うキーマップなどの設定
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, silent = true }
@@ -59,7 +58,7 @@ return {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
       end
 
-      lspconfig.rust_analyzer.setup({
+      vim.lsp.config("rust_analyzer", {
         on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { "rust" },
@@ -71,34 +70,39 @@ return {
           },
         },
       })
+      vim.lsp.enable("rust_analyzer")
 
       -- C/C++ (clangd)
-      lspconfig.clangd.setup({
+      vim.lsp.config("clangd", {
         on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { "c", "cpp", "objc", "objcpp" },
       })
+      vim.lsp.enable("clangd")
 
       -- OCaml (ocamllsp)
-      lspconfig.ocamllsp.setup({
+      vim.lsp.config("ocamllsp", {
         on_attach = on_attach,
         capabilities = capabilities,
       })
+      vim.lsp.enable("ocamllsp")
 
       -- Swift (sourcekit)
-      lspconfig.sourcekit.setup({
+      vim.lsp.config("sourcekit", {
         on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { "swift" },
       })
+      vim.lsp.enable("sourcekit")
 
       -- zig
-      lspconfig.zls.setup({
+      vim.lsp.config("zls", {
         cmd = { "zls" },
         capabilities = capabilities,
         on_attach = on_attach,
         filetypes = { "zig" },
       })
+      vim.lsp.enable("zls")
     end,
   },
 }
