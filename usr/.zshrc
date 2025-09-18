@@ -103,3 +103,7 @@ eval $(opam env)
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
+
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
