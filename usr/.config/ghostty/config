@@ -11,9 +11,12 @@ window-height = 100
 window-width = 200
 
 # 背景の透明度
-background-opacity = 0.98
+background-opacity = 0.92
+# if linux
+# 0.98
+
 # 背景をぼかす
-background-blur-radius = 90
+background-blur-radius = 20
 
 theme = catppuccin-macchiato
 # theme = catppuccin-mocha

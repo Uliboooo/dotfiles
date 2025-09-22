@@ -130,3 +130,6 @@ alias alias-edit='nvim $HOME/dotfiles/usr/zsh/alias.zsh'
 alias ls='ea'
 alias f-l='rg "function" $HOME/dotfiles/usr/zsh/alias.zsh'
 alias load_z='source ~/.zshrc'
+
+alias li='limactl'
+alias lili='limactl list'
