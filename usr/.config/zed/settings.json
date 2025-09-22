@@ -106,6 +106,9 @@
     "C++": {
       "format_on_save": "on",
       "tab_size": 4
+    },
+    "Markdown": {
+      "tab_size": 4
     }
   },
   "inlay_hints": {

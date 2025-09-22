@@ -49,6 +49,11 @@ return {
     dependencies = { "hrsh7th/cmp-nvim-lsp" },
     lazy = false,
     config = function()
+      vim.diagnostic.config({
+        virtual_text = {
+          severity = vim.diagnostic.severity.ERROR,
+        },
+      })
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
