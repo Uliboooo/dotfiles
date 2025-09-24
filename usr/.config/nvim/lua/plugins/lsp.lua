@@ -49,24 +49,24 @@ return {
     dependencies = { "hrsh7th/cmp-nvim-lsp" },
     lazy = false,
     config = function()
--- diagnostic
-vim.diagnostic.config({
-  virtual_text = {
-    severity = { min = vim.diagnostic.severity.ERROR },
-    -- source = "always",
-    spacing = 7,
-    -- severity_sort = true,
-    -- signs = false,
-  },
-  signs = {
-    severity = { min = vim.diagnostic.severity.ERROR },
-  },
-  underline = {
-    severity = { min = vim.diagnostic.severity.ERROR },
-  },
-  update_in_insert = false,
-  severity_sort = true,
-})
+      -- diagnostic
+      vim.diagnostic.config({
+        virtual_text = {
+          severity = { min = vim.diagnostic.severity.ERROR },
+          -- source = "always",
+          spacing = 7,
+          -- severity_sort = true,
+          -- signs = false,
+        },
+        signs = {
+          severity = { min = vim.diagnostic.severity.ERROR },
+        },
+        underline = {
+          severity = { min = vim.diagnostic.severity.ERROR },
+        },
+        update_in_insert = false,
+        severity_sort = true,
+      })
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       -- 全てのLSPで共通して使うキーマップなどの設定
@@ -82,6 +82,9 @@ vim.diagnostic.config({
         filetypes = { "rust" },
         settings = {
           ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+            },
             check = {
               command = "clippy",
             },
