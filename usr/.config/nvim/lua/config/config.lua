@@ -106,41 +106,32 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
--- vim.diagnostic.config({
---   virtual_text = false,
---   virtual_lines = { only_current_line = true }, -- 行下に表示
---   underline = true,
--- })
-
--- vim.diagnostic.config({
---   virtual_text = false, -- 横に常時表示はしない
---   virtual_lines = { only_current_line = true }, -- カーソル行だけ行下に表示
---   underline = true,
---   signs = true,
---   update_in_insert = false,
---   severity_sort = true,
--- })
-
+-- Diagnostic display settings
 vim.diagnostic.config({
+  -- virtual_text は完全にオフ
   virtual_text = false,
-  virtual_lines = {
-    only_current_line = true,
-    format = function(diagnostic)
-      local msg = diagnostic.message
-      -- アクティブウィンドウの幅を取得
-      local width = math.max(vim.api.nvim_win_get_width(0) - 10, 20)
-
-      local lines = {}
-      local start = 1
-      while start <= #msg do
-        table.insert(lines, msg:sub(start, start + width - 1))
-        start = start + width
-      end
-      return table.concat(lines, "\n")
-    end,
-  },
   underline = true,
   signs = true,
   update_in_insert = false,
   severity_sort = true,
+  virtual_lines = {
+    only_current_line = true,
+    format = function(diagnostic)
+      -- エラーは常に表示
+      if diagnostic.severity == vim.diagnostic.severity.ERROR then
+        return diagnostic.message
+      end
+
+      -- WARN はカーソル行のみ表示
+      if diagnostic.severity == vim.diagnostic.severity.WARN then
+        local cursor = vim.api.nvim_win_get_cursor(0)
+        if diagnostic.lnum + 1 == cursor[1] then
+          return diagnostic.message
+        end
+      end
+
+      -- INFO/HINT は表示しない
+      return nil
+    end,
+  },
 })
