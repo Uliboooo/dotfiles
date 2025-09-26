@@ -12,6 +12,15 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
+      -- cmp.setup({
+      --   sources = {
+      --     { name = "buffer" },
+      --     {
+      --       name = "sly",
+      --     },
+      --   },
+      -- })
+
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -30,6 +39,7 @@ return {
           { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
+          { name = "sly" },
         }),
       })
 

@@ -44,6 +44,11 @@ export PATH="$HOME/.lmstudio/bin/:$PATH"
 export PATH="/Library/TeX/texbin/:$PATH"
 # npm
 export PATH=$HOME/.npm-global/bin:$PATH
+# clangd
+# export PATH="$(brew --prefix llvm)/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+# export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
 
 if ((IS_LINUX)); then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -76,7 +81,7 @@ compinit
 # End of Docker CLI completions
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/yuki/.lmstudio/bin"
+# export PATH="$PATH:/Users/yuki/.lmstudio/bin"
 # End of LM Studio CLI section
 
 

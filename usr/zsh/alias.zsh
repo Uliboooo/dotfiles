@@ -70,7 +70,7 @@ function tr() { # kill tmux sesstion
 alias nv='nvim'
 alias nvd='nvim .'
 alias em='emacsclient -t'
-alias reload_em='launchctl unload ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/gnu.emacs.daemon.plist && launchctl list | grep emacs'
+alias reload_em='launchctl unload ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl list | rg emacs'
 alias r='rlwrap'
 
 function nvv() { # cd foo && nv foo
@@ -87,7 +87,8 @@ alias bs='brew search'
 alias bi='brew install'
 alias bu='brew update && brew upgrade'
 
-alias sbcl='rlwrap sbcl'
+alias sbclr='sbcl'
+alias sbcl='rlwrap sbcl --noinform'
 
 function gc() { # git add . && commit
     echo "commit message: $1"

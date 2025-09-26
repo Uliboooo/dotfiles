@@ -61,3 +61,11 @@ vim.keymap.set("n", "<Leader>e", function()
   })
   vim.cmd("wincmd w")
 end, { desc = "open trouble" })
+
+-- sbcl
+vim.g.slime_target = "tmux"
+vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
+
+-- sbcl keymap
+vim.keymap.set("v", "<C-c><C-c>", "<Plug>SlimeRegionSend", {})
+vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeParagraphSend", {})
