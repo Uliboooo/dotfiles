@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/plugins/vlime.lua
-eturn({
+return {
   {
     "l04m33/vlime",
     ft = { "lisp", "scheme", "clojure" },
@@ -34,4 +34,4 @@ eturn({
       })
     end,
   },
-})
+}
