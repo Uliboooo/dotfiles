@@ -1,0 +1,46 @@
+// Niri config example (modern + tmux-like)
+
+exec "waybar"
+exec "mako"
+exec "swaybg -i /usr/share/backgrounds/archlinux/archbtw.png -m fill"
+
+// Keybinds
+keybind "Mod+Return" "exec alacritty"
+keybind "Mod+d" "exec fuzzel"
+keybind "Mod+Shift+q" "close-window"
+
+// Tmux-like splits
+keybind "Mod+v" "split vertical"
+keybind "Mod+h" "split horizontal"
+
+// Focus navigation (vim style)
+keybind "Mod+j" "focus down"
+keybind "Mod+k" "focus up"
+keybind "Mod+h" "focus left"
+keybind "Mod+l" "focus right"
+
+// Move windows (vim style + Shift)
+keybind "Mod+Shift+j" "move down"
+keybind "Mod+Shift+k" "move up"
+keybind "Mod+Shift+h" "move left"
+keybind "Mod+Shift+l" "move right"
+
+// Workspaces
+keybind "Mod+1" "workspace 1"
+keybind "Mod+2" "workspace 2"
+keybind "Mod+3" "workspace 3"
+keybind "Mod+4" "workspace 4"
+keybind "Mod+5" "workspace 5"
+keybind "Mod+6" "workspace 6"
+keybind "Mod+7" "workspace 7"
+keybind "Mod+8" "workspace 8"
+keybind "Mod+9" "workspace 9"
+keybind "Mod+0" "workspace 10"
+
+// System controls
+keybind "XF86AudioRaiseVolume" "exec pamixer -i 5"
+keybind "XF86AudioLowerVolume" "exec pamixer -d 5"
+keybind "XF86AudioMute" "exec pamixer -t"
+keybind "XF86MonBrightnessUp" "exec brightnessctl s +5%"
+keybind "XF86MonBrightnessDown" "exec brightnessctl s 5%-"
+
