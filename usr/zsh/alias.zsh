@@ -134,3 +134,8 @@ alias load_z='source ~/.zshrc'
 
 alias li='limactl'
 alias lili='limactl list'
+
+alias ':wq'='exit'
+alias ':q'='exit'
+alias ':Wq'='exit'
+alias ':Q'='exit'
