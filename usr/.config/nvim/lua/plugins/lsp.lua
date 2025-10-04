@@ -61,21 +61,35 @@ return {
     config = function()
       -- diagnostic
       vim.diagnostic.config({
-        virtual_text = {
-          severity = { min = vim.diagnostic.severity.ERROR },
-          -- source = "always",
-          spacing = 7,
-          -- severity_sort = true,
-          -- signs = false,
-        },
-        signs = {
-          severity = { min = vim.diagnostic.severity.ERROR },
-        },
-        underline = {
-          severity = { min = vim.diagnostic.severity.ERROR },
-        },
+        virtual_text = false,
+        underline = true,
+        signs = true,
         update_in_insert = false,
         severity_sort = true,
+        float = {
+          border = "rounded",
+          source = "always",
+        },
+        virtual_lines = {
+          only_current_line = true,
+          format = function(diagnostic)
+            -- エラーは常に表示
+            if diagnostic.severity == vim.diagnostic.severity.ERROR then
+              return diagnostic.message
+            end
+
+            -- WARN はカーソル行のみ表示
+            if diagnostic.severity == vim.diagnostic.severity.WARN then
+              local cursor = vim.api.nvim_win_get_cursor(0)
+              if diagnostic.lnum + 1 == cursor[1] then
+                return diagnostic.message
+              end
+            end
+
+            -- INFO/HINT は表示しない
+            return nil
+          end,
+        },
       })
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()

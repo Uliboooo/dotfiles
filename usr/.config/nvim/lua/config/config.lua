@@ -106,32 +106,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
--- Diagnostic display settings
-vim.diagnostic.config({
-  -- virtual_text は完全にオフ
-  virtual_text = false,
-  underline = true,
-  signs = true,
-  update_in_insert = false,
-  severity_sort = true,
-  virtual_lines = {
-    only_current_line = true,
-    format = function(diagnostic)
-      -- エラーは常に表示
-      if diagnostic.severity == vim.diagnostic.severity.ERROR then
-        return diagnostic.message
-      end
 
-      -- WARN はカーソル行のみ表示
-      if diagnostic.severity == vim.diagnostic.severity.WARN then
-        local cursor = vim.api.nvim_win_get_cursor(0)
-        if diagnostic.lnum + 1 == cursor[1] then
-          return diagnostic.message
-        end
-      end
-
-      -- INFO/HINT は表示しない
-      return nil
-    end,
-  },
-})
