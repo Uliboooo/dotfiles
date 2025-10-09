@@ -140,3 +140,7 @@ alias ':wq'='exit'
 alias ':q'='exit'
 alias ':Wq'='exit'
 alias ':Q'='exit'
+
+# ocaml
+alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
+alias 'oc'='ocaml'
