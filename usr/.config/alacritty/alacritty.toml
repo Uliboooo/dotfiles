@@ -8,7 +8,7 @@ working_directory = "$HOME"
 live_config_reload = true
 
 [window]
-opacity = 0.9
+opacity = 0.95
 
 [font]
 normal.family = "0xProto Nerd Font"
