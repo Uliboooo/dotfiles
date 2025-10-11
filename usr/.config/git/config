@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [user]
-	name = uliboooo
+	name = uliboooo-arch
 	email = uliboulibo@gmail.com
 [core]
 	excludesfile = ~/.gitignore_global
