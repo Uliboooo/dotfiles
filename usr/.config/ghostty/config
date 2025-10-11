@@ -11,7 +11,7 @@ window-height = 100
 window-width = 200
 
 # 背景の透明度
-background-opacity = 0.92
+background-opacity = 0.98
 # if linux
 # 0.98
 
