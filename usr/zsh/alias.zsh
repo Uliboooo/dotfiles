@@ -78,8 +78,16 @@ function nvv() { # cd foo && nv foo
     cd "$1" && nvim .
 }
 
+function distro() {
+    cat /etc/os-release | rg '^NAME=' | rg '^NAME=".*"'
+}
+
 if ((IS_LINUX)); then
-    alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update'
+    if [[ $(distro) == *"Fedora"* ]]; then
+        alias update='sudo dnf update -y && brew update && brew upgrade && rustup update'
+    else
+        alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update'
+    fi
 else
     alias update='brew update && brew upgrade && rustup update'
 fi
