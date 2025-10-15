@@ -144,3 +144,4 @@ alias ':Q'='exit'
 # ocaml
 alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
 alias 'oc'='ocaml'
+alias 'tree'='eza -T'

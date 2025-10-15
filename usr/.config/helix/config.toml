@@ -78,7 +78,7 @@ a = "code_action"
 g = "goto_file_start"
 c = "toggle_comments"
 
-[keys.normal.d]
+# [keys.normal.d]
 # d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
 # d = [ "extend_to_line_bounds", "delete_selection_to_clipboard"]
 # d = [
