@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [user]
-	name = uliboooo-arch
+	name = uliboooo
 	email = uliboulibo@gmail.com
 [core]
 	excludesfile = ~/.gitignore_global
@@ -22,8 +22,8 @@
 	difftool = true
 
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !gh auth git-credential
