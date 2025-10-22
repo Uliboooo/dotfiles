@@ -7,13 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "helix_mode": true,
   "vim_mode": true,
   "relative_line_numbers": true,
   "vim": {
     // "default_mode":"insert"
     // "toggle_relative_line_numbers": true
   },
-  "agent_font_size": 11,
+  "agent_ui_font_size": 11,
   "agent": {
     "inline_assistant_model": {
       "provider": "zed.dev",

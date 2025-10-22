@@ -7,22 +7,26 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "helix_mode": true,
   "vim_mode": true,
   "relative_line_numbers": true,
   "vim": {
     // "default_mode":"insert"
     // "toggle_relative_line_numbers": true
   },
-  "agent_font_size": 12,
+  "agent_font_size": 11,
   "agent": {
+    "inline_assistant_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
     "play_sound_when_agent_done": true,
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.0-flash"
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
     },
-    "version": "2",
     "dock": "right"
   },
   "icon_theme": "Catppuccin Macchiato",
@@ -32,14 +36,14 @@
     "active_line_width": 2
   },
   "project_panel": {
-    "dock": "right",
+    "dock": "left",
     "indent_size": 10
   },
   "outline_panel": {
     "dock": "left"
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "right"
   },
   "auto_install_extensions": {
     "html": true
@@ -53,18 +57,18 @@
   "autoscroll_on_clicks": true,
   "auto_update": true,
   "base_keymap": "VSCode",
-  "buffer_font_family": "0xProto",
+  "buffer_font_family": "0xProto Nerd Font Mono",
   "buffer_font_fallbacks": ["Cica"],
   "buffer_font_features": {
     "calt": false
   },
   "buffer_font_size": 10,
   "buffer_font_weight": 400,
-  "ui_font_family": "0xProto",
-  "ui_font_size": 12,
+  "ui_font_family": "0xProto Nerd Font Mono",
+  "ui_font_size": 11,
 
   "terminal": {
-    "font_family": "0xProto",
+    "font_family": "0xProto Nerd Font Mono",
     "cursor_shape": "bar",
     "blinking": "on"
   },
@@ -103,6 +107,9 @@
     "C++": {
       "format_on_save": "on",
       "tab_size": 4
+    },
+    "Markdown": {
+      "tab_size": 4
     }
   },
   "inlay_hints": {
@@ -138,6 +145,21 @@
           // "supports_tools": true
         }
       ]
+    }
+  },
+  "diagnostics": {
+    "button": true,
+    "include_warnings": true,
+    "lsp_pull_diagnostics": {
+      "enabled": true,
+      "debounce_ms": 50
+    },
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150,
+      "padding": 4,
+      "min_column": 0,
+      "max_severity": "hint"
     }
   }
 }

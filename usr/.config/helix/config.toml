@@ -68,11 +68,13 @@ C-r = ":reload"
 #"gg" = "goto_file_start"
 "G" = "goto_file_end"
 #"dd" = "delete_line"
-"a" = "insert_at_line_end"
+"A" = "insert_at_line_end"
 # "V" = ["goto_line_start", "select_mode", "extend_line_below", ]
 "V" = ["goto_line_start", "select_mode"]
 p = ":append-output tmux save-buffer -"
 # d = "delete_selection_to_clipboard"
+"C-e" = ":pipe-to tmux send-keys -t ! \"$(cat)\" Enter"
+
 [keys.normal.g]
 a = "code_action"
 g = "goto_file_start"
