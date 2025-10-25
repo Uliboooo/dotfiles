@@ -1,6 +1,6 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: "0xProto",FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 13px;
 }
 
@@ -324,4 +324,8 @@ label:focus {
 
 #privacy-item.audio-out {
     background-color: #0069d4;
+}
+
+* {
+    border-radius: 8px;
 }

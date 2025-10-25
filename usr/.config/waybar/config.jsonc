@@ -50,7 +50,8 @@
       ] // ミュート、低、中、高のアイコン
     },
     "scroll-step": 5, // マウスクロールでの音量変更ステップ (例: 5%)
-    "on-click": "pavucontrol" // クリックでpavucontrolを起動
+    "on-click": "pavucontrol", // クリックでpavucontrolを起動
+    "reverse-scrolling": true
     // on-scroll-up, on-scroll-down はデフォルトで音量調整
   },
   // Modules configuration
