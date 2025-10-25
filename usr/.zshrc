@@ -98,7 +98,7 @@ if ((IS_LINUX)); then
     export OLLAMA_HOST=0.0.0.0:11434
 fi
 
-eval $(opam env)
+# eval $(opam env)
 
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
