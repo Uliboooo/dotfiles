@@ -94,19 +94,11 @@ if ((IS_LINUX)); then
     export ROCM_PATH=/opt/rocm
 
     export HSA_OVERRIDE_GFX_VERSION=10.3.0
-    export OLLAMA_DEBUG=1 
+    export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
 fi
 
 eval $(opam env)
-
-# BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
-[[ ! -r '/Users/coyuki/.opam/opam-init/init.zsh' ]] || source '/Users/coyuki/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
-# END opam configuration
 
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
