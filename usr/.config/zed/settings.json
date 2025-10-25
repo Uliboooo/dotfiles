@@ -8,7 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "helix_mode": true,
-  "vim_mode": true,
+  "vim_mode": false,
   "relative_line_numbers": true,
   "vim": {
     // "default_mode":"insert"
@@ -24,8 +24,8 @@
     "model_parameters": [],
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "google",
+      "model": "gemini-2.5-flash"
     },
     "dock": "right"
   },
