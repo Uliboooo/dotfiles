@@ -1,6 +1,6 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "0xProto",FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 13px;
 }
 
@@ -326,6 +326,6 @@ label:focus {
     background-color: #0069d4;
 }
 
-* {
-    border-radius: 8px;
-}
+/* * { */
+    /* border-radius: 8px; */
+/* } */

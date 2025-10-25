@@ -34,9 +34,7 @@
     "custom/power"
   ],
   "clock": {
-    "format": " {:%H:%M:%S} |  {:%Y-%m-%d}", // 表示形式
-    "tooltip-format": "<big>{:%Y年%m月%d日}</big>\n<small>{:%A}</small>" // ツールチップ形式
-    // ... (その他のオプション)
+    "format": "{:%b%d %H:%M}" // 表示形式
   },
   "pulseaudio": {
     "format": "{volume}% {icon}",
@@ -47,11 +45,11 @@
         "",
         "",
         ""
-      ] // ミュート、低、中、高のアイコン
+      ]
     },
     "scroll-step": 5, // マウスクロールでの音量変更ステップ (例: 5%)
     "on-click": "pavucontrol", // クリックでpavucontrolを起動
-    "reverse-scrolling": true
+    "reverse-scrolling": false
     // on-scroll-up, on-scroll-down はデフォルトで音量調整
   },
   // Modules configuration
