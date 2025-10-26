@@ -326,6 +326,6 @@ label:focus {
     background-color: #0069d4;
 }
 
-/* * { */
-    /* border-radius: 8px; */
-/* } */
+* {
+    border-radius: 5px;
+}

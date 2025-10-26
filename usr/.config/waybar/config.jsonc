@@ -11,17 +11,16 @@
     "hyprland/workspaces",
     "hyprland/windows",
     // "sway/mode",
-    "sway/scratchpad",
+    // "sway/scratchpad",
     "custom/media"
   ],
   "modules-center": [
     "sway/window"
   ],
   "modules-right": [
-    // "mpd",
+    "mpd",
     "idle_inhibitor",
     "pulseaudio",
-    // "network",
     "power-profiles-daemon",
     "cpu",
     "memory",
@@ -29,7 +28,8 @@
     // "backlight",
     "keyboard-state",
     // "sway/language",
-    // "battery",
+    "battery",
+    "custom/notifications",
     "battery#bat2",
     "clock",
     "tray",
@@ -54,23 +54,6 @@
     "reverse-scrolling": false
     // on-scroll-up, on-scroll-down はデフォルトで音量調整
   },
-  // Modules configuration
-  // "sway/workspaces": {
-  //     "disable-scroll": true,
-  //     "all-outputs": true,
-  //     "warp-on-scroll": false,
-  //     "format": "{name}: {icon}",
-  //     "format-icons": {
-  //         "1": "",
-  //         "2": "",
-  //         "3": "",
-  //         "4": "",
-  //         "5": "",
-  //         "urgent": "",
-  //         "focused": "",
-  //         "default": ""
-  //     }
-  // },
   "keyboard-state": {
     "numlock": true,
     "capslock": true,
@@ -82,16 +65,6 @@
   },
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"
-  },
-  "sway/scratchpad": {
-    "format": "{icon} {count}",
-    "show-empty": false,
-    "format-icons": [
-      "",
-      ""
-    ],
-    "tooltip": true,
-    "tooltip-format": "{app}: {title}"
   },
   "mpd": {
     "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
@@ -134,11 +107,6 @@
     //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
     // }
   },
-  // "clock": {
-  //     // "timezone": "America/New_York",
-  //     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-  //     "format-alt": "{:%Y-%m-%d}"
-  // },
   "cpu": {
     "format": "{usage}% ",
     "tooltip": false
@@ -151,12 +119,12 @@
     // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
-    "format": "{temperatureC}°C {icon}",
-    "format-icons": [
-      "",
-      "",
-      ""
-    ]
+    "format": "{temperatureC}°C {icon}"
+    // "format-icons": [
+    //   "",
+    //   "",
+    //   ""
+    // ]
   },
   "backlight": {
     // "device": "acpi_video1",
@@ -173,9 +141,13 @@
       ""
     ]
   },
+  "custom/notifications": {
+    "format": "🔔",
+    "on-click": "swaync-client -t"
+  },
   "battery": {
     "states": {
-      // "good": 95,
+      "good": 95,
       "warning": 30,
       "critical": 15
     },
@@ -217,29 +189,6 @@
     "format-disconnected": "Disconnected ⚠",
     "format-alt": "{ifname}: {ipaddr}/{cidr}"
   },
-  // "pulseaudio": {
-  //   // "scroll-step": 1, // %, can be a float
-  //   "format": "{volume}% {icon} {format_source}",
-  //   "format-bluetooth": "{volume}% {icon} {format_source}",
-  //   "format-bluetooth-muted": " {icon} {format_source}",
-  //   "format-muted": " {format_source}",
-  //   "format-source": "{volume}% ",
-  //   "format-source-muted": "",
-  //   "format-icons": {
-  //     "headphone": "",
-  //     "hands-free": "",
-  //     "headset": "",
-  //     "phone": "",
-  //     "portable": "",
-  //     "car": "",
-  //     "default": [
-  //       "",
-  //       "",
-  //       ""
-  //     ]
-  //   },
-  //   "on-click": "pavucontrol"
-  // },
   "custom/media": {
     "format": "{icon} {text}",
     "return-type": "json",
