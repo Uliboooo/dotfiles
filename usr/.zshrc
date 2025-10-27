@@ -4,7 +4,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 
-setopt APPEND_HISTORY
+# setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_SAVE_NO_DUPS
@@ -77,9 +77,9 @@ export OPENSSL_DIR="$(brew --prefix openssl@3)"
 export PKG_CONFIG_PATH="$OPENSSL_DIR/lib/pkgconfig"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(${HOME}/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
+# fpath=(${HOME}/.docker/completions $fpath)
+# autoload -Uz compinit
+# compinit
 # End of Docker CLI completions
 
 # Added by LM Studio CLI (lms)
