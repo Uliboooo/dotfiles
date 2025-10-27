@@ -8,6 +8,7 @@ setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_SAVE_NO_DUPS
+setopt EXTENDED_HISTORY
 
 OS_NAME=$(uname -s)
 IS_LINUX=0
@@ -62,8 +63,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(starship init zsh)"
-
-# load alias
 
 ZSH_DIR="${HOME}/dotfiles/usr/zsh"
 

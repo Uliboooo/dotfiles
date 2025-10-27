@@ -35,7 +35,7 @@ after-delay.timeout = 800
 
 [editor.whitespace.render]
 space = "none"
-tab = "all"
+tab = "none"
 nbsp = "all"
 nnbsp = "all"
 newline = "none"
