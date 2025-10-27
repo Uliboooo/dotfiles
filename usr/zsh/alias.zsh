@@ -97,7 +97,8 @@ alias bi='brew install'
 alias bu='brew update && brew upgrade'
 
 # alias sbclr='sbcl'
-alias rsbcl='rlwrap sbcl --noinform'
+alias rsbcl='rlwrap ros run'
+alias r='rsbcl'
 
 function gc() { # git add . && commit
     echo "commit message: $1"
