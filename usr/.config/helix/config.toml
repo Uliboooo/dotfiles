@@ -71,7 +71,7 @@ C-r = ":reload"
 # "A" = "insert_at_line_end"
 # "V" = ["goto_line_start", "select_mode", "extend_line_below", ]
 "V" = ["goto_line_start", "select_mode"]
-p = ":append-output tmux save-buffer -"
+# p = ":append-output tmux save-buffer -"
 # d = "delete_selection_to_clipboard"
 "C-e" = ":pipe-to tmux send-keys -t ! \"$(cat)\" Enter"
 
