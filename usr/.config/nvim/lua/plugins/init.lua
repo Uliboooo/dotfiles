@@ -258,4 +258,9 @@ return {
       require("crates").setup()
     end,
   },
+
+  {
+    "karb94/neoscroll.nvim",
+    opts = {},
+  },
 }

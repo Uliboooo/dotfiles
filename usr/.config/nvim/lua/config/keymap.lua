@@ -5,6 +5,7 @@ vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "LSP Code Act
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "LSP Rename" })
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "<leader>U", vim.cmd.redu, { desc = "redo" })
+vim.keymap.set("n", "f", "<Esc>ggVG", { noremap = true, silent = true })
 
 -- Normal mode: J → 下に10行
 vim.keymap.set("n", "J", "10j", { desc = "10j" })
