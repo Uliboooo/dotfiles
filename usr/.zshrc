@@ -50,6 +50,8 @@ export PATH=$HOME/.npm-global/bin:$PATH
 export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
 # export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
+# my tools
+export PATH="$HOME/my_tools/:$PATH"
 
 # if ((IS_LINUX)); then
 #     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -12,15 +12,6 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
-      -- cmp.setup({
-      --   sources = {
-      --     { name = "buffer" },
-      --     {
-      --       name = "sly",
-      --     },
-      --   },
-      -- })
-
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -98,6 +89,11 @@ return {
         local opts = { buffer = bufnr, silent = true }
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+        -- enable semantic tokens
+        if client.supports_method("textDocument/semanticTokens/full") then
+          vim.lsp.semantic_tokens.start(bufnr, client.id)
+        end
       end
 
       vim.lsp.config("rust_analyzer", {
@@ -148,6 +144,21 @@ return {
         filetypes = { "zig" },
       })
       vim.lsp.enable("zls")
+
+      -- go
+      vim.lsp.config("gopls", {
+        cmd = { "gopls" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        settings = {
+          gopls = {
+            analyses = { unusedparams = true, shadow = true },
+            staticcheck = true,
+          },
+        },
+      })
+      vim.lsp.enable("gopls")
     end,
   },
 }

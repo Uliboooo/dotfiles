@@ -12,7 +12,7 @@ return {
 
     -- 保存時に自動フォーマット
     vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
+      pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.rs", "*.go" },
       callback = function(args)
         require("conform").format({ bufnr = args.buf })
       end,
