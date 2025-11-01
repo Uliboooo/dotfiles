@@ -159,6 +159,15 @@ return {
         },
       })
       vim.lsp.enable("gopls")
+
+      -- clojure
+      vim.lsp.config("clojure_lsp", {
+        cmd = { "clojure-lsp" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetype = { "cljc", "edn", "clojure", "clj" },
+      })
+      vim.lsp.enable("clojure_lsp")
     end,
   },
 }

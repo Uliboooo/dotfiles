@@ -68,5 +68,11 @@ vim.g.slime_target = "tmux"
 vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
 
 -- sbcl keymap
-vim.keymap.set("v", "<C-c><C-c>", "<Plug>SlimeRegionSend", {})
-vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeParagraphSend", {})
+-- vim.keymap.set("v", "<C-c><C-c>", "<Plug>SlimeRegionSend", {})
+-- vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeParagraphSend", {})
+
+-- localleaderは通常\なので、\eeなどのキーに対応
+vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>ConjureEvalCurrentForm<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<localleader>er", "<cmd>ConjureEvalRootForm<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<localleader>eb", "<cmd>ConjureEvalBuf<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<localleader>ew", "<cmd>ConjureEvalWord<CR>", { noremap = true, silent = true })
