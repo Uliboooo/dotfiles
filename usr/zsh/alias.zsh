@@ -2,8 +2,19 @@ alias cdd='cd $HOME/Develop/'
 alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
 alias cdz='cd $HOME/Documents/zenn_content/'
 alias cdc='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/'
+alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~TextEdit/Documents'
 alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/notes'
 alias nz='cdz && npx zenn new:article --title'
+
+alias edn='cdn && hxd'
+function edc() {
+    if [[ -z "$1" ]]; then
+        edn
+    else
+        cdn && touch "$1" && hxd
+    fi
+
+}
 
 alias nzenn='npx zenn new:article --title $1'
 alias pzenn='npx zenn preview --open'
