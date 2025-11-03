@@ -165,3 +165,8 @@ alias ':Q'='exit'
 alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
 alias 'oc'='ocaml'
 alias 'tree'='eza -T'
+
+
+if [[ "$(uname -a)" == *"TID"* ]]; then
+    alias 'hx'='/home/linuxbrew/.linuxbrew/opt/helix/bin/hx'
+fi
