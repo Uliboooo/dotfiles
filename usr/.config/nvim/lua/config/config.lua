@@ -40,17 +40,17 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "100"
 
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
-vim.api.nvim_create_user_command("W", "wa", {
-  force = true,
-})
-
-vim.api.nvim_create_user_command("Wa", "wa", {
-  force = true,
-})
-
-vim.api.nvim_create_user_command("Wq", "wq", {
-  force = true,
-})
+-- vim.api.nvim_create_user_command("W", "wa", {
+--   force = true,
+-- })
+--
+-- vim.api.nvim_create_user_command("Wa", "wa", {
+--   force = true,
+-- })
+--
+-- vim.api.nvim_create_user_command("Wq", "wq", {
+--   force = true,
+-- })
 
 vim.api.nvim_exec(
   [[

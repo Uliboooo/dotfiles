@@ -1,3 +1,10 @@
 [[language]]
 name = "go"
 indent = { tab-width = 2, unit = " "}
+
+
+# [[langueage]]
+# name = "common-lisp"
+# auto-pairs = false
+# auto-indent = true
+

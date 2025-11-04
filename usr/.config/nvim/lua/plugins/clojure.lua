@@ -1,5 +1,1 @@
-return {
-  {
-    "Olical/conjure",
-  },
-}
+return {}

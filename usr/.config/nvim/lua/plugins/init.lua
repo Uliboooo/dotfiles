@@ -280,4 +280,8 @@ return {
     "karb94/neoscroll.nvim",
     opts = {},
   },
+  {
+    "gpanders/nvim-parinfer",
+    event = "InsertEnter",
+  },
 }
