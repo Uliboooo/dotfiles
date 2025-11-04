@@ -97,7 +97,7 @@ if ((IS_LINUX)); then
     if [[ $(distro) == *"Fedora"* ]]; then
         alias update='sudo dnf update -y && brew update && brew upgrade && rustup update'
     else
-        alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update'
+        alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update && yay -Syu --noconfirm'
     fi
 else
     alias update='brew update && brew upgrade && rustup update'
@@ -165,3 +165,8 @@ alias ':Q'='exit'
 alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
 alias 'oc'='ocaml'
 alias 'tree'='eza -T'
+
+
+if [[ "$(uname -a)" == *"TID"* ]]; then
+    alias 'hx'='/home/linuxbrew/.linuxbrew/opt/helix/bin/hx'
+fi
