@@ -104,6 +104,9 @@ fi
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
 
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic

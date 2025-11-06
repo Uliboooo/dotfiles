@@ -1,7 +1,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-family: "0xProto Nerd", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 12px;
 }
 
 window#waybar {
@@ -70,6 +70,12 @@ button:hover {
 
 #workspaces button.urgent {
     background-color: #eb4d4b;
+}
+
+#workspaces button.active {
+    background-color: #4CAF50; /* 緑色背景など */
+    color: white; /* 文字色 */
+    border-radius: 4px;
 }
 
 #mode {
@@ -327,5 +333,5 @@ label:focus {
 }
 
 * {
-    border-radius: 5px;
+    border-radius: 10px;
 }
