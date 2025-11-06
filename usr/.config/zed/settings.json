@@ -63,7 +63,7 @@
   "buffer_font_features": {
     "calt": false
   },
-  "buffer_font_size": 10,
+  "buffer_font_size": 10.0,
   "buffer_font_weight": 400,
   "ui_font_family": "0xProto Nerd Font Mono",
   "ui_font_size": 11,
