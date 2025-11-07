@@ -1,21 +1,30 @@
 -- ~/.config/nvim/lua/plugins/conform.lua
 return {
-  "stevearc/conform.nvim",
-  config = function()
-    require("conform").setup({
-      formatters_by_ft = {
-        cpp = { "clang-format" }, -- clangd ではなく clang-format 推奨
-        c = { "clang-format" },
-        rs = { "rustfmt" },
-      },
-    })
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          cpp  = { "clang-format" },
+          c    = { "clang-format" },
+          rust = { "rustfmt", lsp_format = "fallback" },
+          go   = { "gofmt" },
+          -- 他の言語もあればここに追加
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_format = "fallback",
+        },
+      })
 
-    -- 保存時に自動フォーマット
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.rs", "*.go" },
-      callback = function(args)
-        require("conform").format({ bufnr = args.buf })
-      end,
-    })
-  end,
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.rs", "*.go" },
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+    end,
+  },
 }
+
