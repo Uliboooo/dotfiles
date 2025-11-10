@@ -81,8 +81,11 @@ function tr() { # kill tmux sesstion
 
 alias nv='nvim'
 alias nvd='nvim .'
+
 alias em='emacsclient -t'
+alias emacs='emacs -nw'
 alias reload_em='launchctl unload ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl list | rg emacs'
+
 alias r='rlwrap'
 
 function nvv() { # cd foo && nv foo
@@ -169,3 +172,5 @@ alias 'tree'='eza -T'
 if [[ "$(uname -a)" == *"TID"* ]]; then
     alias 'hx'='/home/linuxbrew/.linuxbrew/opt/helix/bin/hx'
 fi
+
+alias glist='/bin/ls'
