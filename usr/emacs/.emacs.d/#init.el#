@@ -234,7 +234,7 @@
   (projectile-mode +1)
   ;; "C-c p" をプレフィックスとして設定（これは残してもOK）
   (setq projectile-keymap-prefix "C-c p")
-  ;; --- 以下の :bind を追記 ---
+ ;; --- 以下の :bind を追記 ---
   ;; "C-c f" が押されたら projectile-find-file を実行
   :bind (("C-c f" . projectile-find-file))
 )

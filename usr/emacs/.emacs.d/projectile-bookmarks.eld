@@ -1,0 +1,1 @@
+("~/dotfiles/" "~/Develop/easy_sis/")
