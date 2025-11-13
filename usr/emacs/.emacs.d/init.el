@@ -237,4 +237,5 @@
   ;; --- 以下の :bind を追記 ---
   ;; "C-c f" が押されたら projectile-find-file を実行
   :bind (("C-c f" . projectile-find-file))
-)
+  )
+
