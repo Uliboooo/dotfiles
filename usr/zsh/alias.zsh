@@ -112,6 +112,7 @@ alias bu='brew update && brew upgrade'
 
 # alias sbclr='sbcl'
 alias rsbcl='rlwrap sbcl'
+alias rl='rsbcl'
 
 function gc() { # git add . && commit
     echo "commit message: $1"
@@ -173,4 +174,5 @@ if [[ "$(uname -a)" == *"TID"* ]]; then
     alias 'hx'='/home/linuxbrew/.linuxbrew/opt/helix/bin/hx'
 fi
 
+alias vm='sh ~/dotfiles/vm-run.sh'
 alias glist='/bin/ls'
