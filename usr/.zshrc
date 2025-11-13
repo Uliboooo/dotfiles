@@ -107,6 +107,7 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
+export TERM=screen-256color
 
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
