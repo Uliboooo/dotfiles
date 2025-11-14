@@ -9,7 +9,7 @@ cursor-opacity = 0.5
 window-height = 100
 window-width = 200
 
-background-image = "/Users/coyuki/Pictures/favo-bg.png"
+background-image = "$HOME/Pictures/favo-bg.png"
 background-image-opacity = 0.1
 
 # 背景の透明度
