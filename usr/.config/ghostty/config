@@ -4,11 +4,13 @@ font-family = "Cica"
 font-size = 10
 
 cursor-opacity = 0.5
-cursor-style = "bar"
 
 # ウィンドウの初期サイズ
 window-height = 100
 window-width = 200
+
+background-image = "/Users/coyuki/Pictures/favo-bg.png"
+background-image-opacity = 0.1
 
 # 背景の透明度
 background-opacity = 0.98
@@ -22,7 +24,6 @@ theme = catppuccin-macchiato
 # theme = catppuccin-mocha
 
 cursor-style-blink = true
-cursor-style = bar
 
 quick-terminal-position = "top"
 quick-terminal-screen = "main"
