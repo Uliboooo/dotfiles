@@ -153,6 +153,10 @@ return {
         filetypes = { "go", "gomod", "gowork", "gotmpl" },
         settings = {
           gopls = {
+            hints = {
+              parameterNames = true,
+              assignVariableTypes = true,
+            },
             analyses = { unusedparams = true, shadow = true },
             staticcheck = true,
             gofumpt = true,
