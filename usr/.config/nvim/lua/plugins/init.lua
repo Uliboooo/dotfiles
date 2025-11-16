@@ -264,4 +264,20 @@ return {
     "gpanders/nvim-parinfer",
     event = "InsertEnter",
   },
+  -- {
+  --   "nvim-tree/nvim-tree.lua",
+  --   version = "*",
+  --   priority = 1000,
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons",
+  --   },
+  --   config = function()
+  --     require("nvim-tree").setup({
+  --       view = {
+  --         width = 20,
+  --       },
+  --     })
+  --   end,
+  -- },
 }

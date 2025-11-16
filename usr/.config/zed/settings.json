@@ -9,26 +9,19 @@
 {
   "agent_buffer_font_size": 11.0,
   "helix_mode": true,
-  "vim_mode": false,
-  "relative_line_numbers": true,
+  "vim_mode": true,
+  "relative_line_numbers": "enabled",
   "vim": {
     // "default_mode":"insert"
     // "toggle_relative_line_numbers": true
   },
   "agent_ui_font_size": 11,
   "agent": {
-    "inline_assistant_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
-    },
-    "play_sound_when_agent_done": true,
-    "model_parameters": [],
-    "default_profile": "ask",
     "default_model": {
       "provider": "google",
       "model": "gemini-2.5-flash"
     },
-    "dock": "right"
+    "model_parameters": []
   },
   "icon_theme": "Catppuccin Macchiato",
   "theme": "Catppuccin Macchiato",
