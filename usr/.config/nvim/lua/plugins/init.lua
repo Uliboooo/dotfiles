@@ -100,39 +100,6 @@ return {
       }
     end,
   },
-
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("lualine").setup({
-        options = {
-          icons_enabled = true,
-          theme = "auto", -- 'auto', 'powerline_dark', 'nord', など好きなテーマを選択
-          component_separators = { left = "", right = "" }, -- アイコンを使用する場合
-          section_separators = { left = "", right = "" }, -- アイコンを使用する場合
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename" },
-          lualine_x = { "filesize", "filetype" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        tabline = {},
-        extensions = {},
-      })
-    end,
-  },
   {
     "lewis6991/gitsigns.nvim",
     opts = {
@@ -171,14 +138,14 @@ return {
       current_line_blame = false,
       sign_priority = 6,
       update_debounce = 100,
-      status_formatter = nil, -- 既定のフォーマット
+      status_formatter = nil,
     },
     config = function(_, opts)
       require("gitsigns").setup(opts)
     end,
   },
   {
-    "nvimtools/none-ls.nvim", -- null-ls の後継
+    "nvimtools/none-ls.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local null_ls = require("null-ls")
@@ -256,10 +223,10 @@ return {
     end,
   },
 
-  {
-    "karb94/neoscroll.nvim",
-    opts = {},
-  },
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   opts = {},
+  -- },
   {
     "gpanders/nvim-parinfer",
     event = "InsertEnter",

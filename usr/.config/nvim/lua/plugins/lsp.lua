@@ -57,10 +57,10 @@ return {
         signs = true,
         update_in_insert = false,
         severity_sort = true,
-        float = {
-          border = "rounded",
-          source = "always",
-        },
+        -- float = {
+        --   border = "rounded",
+        --   source = "always",
+        -- },
         virtual_lines = {
           only_current_line = true,
           -- format = function(diagnostic)

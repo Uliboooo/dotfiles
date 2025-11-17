@@ -2,7 +2,6 @@ return {
   "folke/snacks.nvim",
   priority = 500,
   lazy = false,
-  ---@type snacks.Config
   opts = {
     -- your configuration comes here
     -- or leave it empty to use the default settings
@@ -19,7 +18,7 @@ return {
           hidden = true,
           layout = {
             layout = {
-              width = 25, -- エクスプローラーの幅を40列に設定
+              width = 25,
             },
           },
         },
