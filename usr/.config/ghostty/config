@@ -10,10 +10,10 @@ window-height = 100
 window-width = 200
 
 background-image = "$HOME/Pictures/favo-bg.png"
-background-image-opacity = 0.1
+background-image-opacity = 0.2
 
 # 背景の透明度
-background-opacity = 0.98
+background-opacity = 0.95
 # if linux
 # 0.98
 

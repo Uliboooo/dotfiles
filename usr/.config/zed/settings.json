@@ -17,6 +17,7 @@
   },
   "agent_ui_font_size": 11,
   "agent": {
+    "default_profile": "ask",
     "default_model": {
       "provider": "google",
       "model": "gemini-2.5-flash"
