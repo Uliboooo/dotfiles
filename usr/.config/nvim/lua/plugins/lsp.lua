@@ -154,8 +154,8 @@ return {
         settings = {
           gopls = {
             hints = {
-              parameterNames = true,
-              assignVariableTypes = true,
+              parameterNames = false,
+              assignVariableTypes = false,
             },
             analyses = { unusedparams = true, shadow = true },
             staticcheck = true,
