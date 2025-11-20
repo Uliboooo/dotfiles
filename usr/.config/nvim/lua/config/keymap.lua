@@ -47,8 +47,8 @@ end, { desc = "list undo" })
 
 -- symbols picker
 vim.keymap.set("n", "<Leader>s", function()
-  -- require("snacks").picker.lsp_symbols()
-  require("fzf-lua").lsp_workspace_symbols()
+  require("snacks").picker.lsp_symbols()
+  -- require("fzf-lua").lsp_workspace_symbols()
 end, { desc = "symbol search" })
 
 -- show lsp references
