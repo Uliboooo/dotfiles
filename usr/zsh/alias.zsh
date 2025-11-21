@@ -5,6 +5,7 @@ alias cdc='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/'
 alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~TextEdit/Documents'
 alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/notes'
 alias nz='cdz && npx zenn new:article --title'
+alias cdt='cd $HOME/Library/Mobile\ Documents/com\~apple\~TextEdit/Documents'
 
 alias edn='cdn && hxd'
 function edc() {
