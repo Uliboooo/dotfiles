@@ -7,10 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "vim_mode": true,
   "buffer_line_height": "standard",
   "agent_buffer_font_size": 11.0,
-  "helix_mode": true,
-  "vim_mode": true,
+  "helix_mode": false,
   "relative_line_numbers": "enabled",
   "vim": {
     // "default_mode":"insert"

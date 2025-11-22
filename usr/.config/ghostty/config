@@ -32,7 +32,7 @@ keybind = "global:option+shift+t=toggle_quick_terminal"
 keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
 
-working-directory = "home"
+# working-directory = "home"
 window-inherit-working-directory = false
 term=xterm-256color
 macos-option-as-alt = left
