@@ -16,7 +16,7 @@
     // "default_mode":"insert"
     // "toggle_relative_line_numbers": true
   },
-  "agent_ui_font_size": 11,
+  "agent_ui_font_size": 10,
   "agent": {
     "default_profile": "ask",
     "default_model": {
@@ -26,7 +26,7 @@
     "model_parameters": []
   },
   "icon_theme": "Catppuccin Macchiato",
-  "theme": "Catppuccin Macchiato",
+  "theme": "Azutiku Dark",
   "indent_guides": {
     "coloring": "indent_aware",
     "active_line_width": 2
@@ -46,10 +46,10 @@
   },
   "autosave": {
     "after_delay": {
-      "milliseconds": 600
+      "milliseconds": 500
     }
   },
-  "restore_on_startup": "last_workspace",
+  "restore_on_startup": "none",
   "autoscroll_on_clicks": true,
   "auto_update": true,
   "base_keymap": "VSCode",
@@ -67,12 +67,21 @@
     "font_weight": 400.0,
     "font_family": "0xProto Nerd Font Mono",
     "cursor_shape": "bar",
-    "blinking": "on"
+    "blinking": "on",
+    "line_height": { "custom": 1 }
   },
 
   "edit_predictions": {
     "mode": "eager",
-    "disabled_globs": [".env"]
+    "disabled_globs": [
+      "**/.env*",
+      "**/*.pem",
+      "**/*.key",
+      "**/*.cert",
+      "**/*.crt",
+      "**/.dev.vars",
+      "**/secrets.yml"
+    ]
   },
 
   "tabs": {
@@ -84,7 +93,7 @@
   },
   "format_on_save": "on",
   "show_whitespaces": "trailing",
-  "show_edit_predictions": false,
+  "show_edit_predictions": true,
   "features": {
     "edit_prediction_provider": "zed"
   },

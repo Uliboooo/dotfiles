@@ -11,24 +11,31 @@
     "bindings": {
       // "shift shift": "file_finder::Toggle"
       "ctrl-\\": "workspace::ToggleBottomDock",
-      "\\ p": "project_panel::ToggleFocus",
-      "\\ g": "git_panel::ToggleFocus",
-      "\\ o": "outline_panel::ToggleFocus"
+      "space p": "project_panel::ToggleFocus",
+      "space g": "git_panel::ToggleFocus",
+      "space o": "outline_panel::ToggleFocus"
     }
   },
   {
     "context": "Editor && vim_mode == normal && !menu",
     "bindings": {
-      "\\ c a": "editor::ToggleCodeActions",
-      "\\ f": "editor::Format",
-      "\\ e": "editor::Hover",
-      "\\ rn": "editor::Rename"
+      "ctrl-c": "editor::ToggleComments",
+      "space a": "editor::ToggleCodeActions",
+      "space f": "file_finder::Toggle",
+      "space e": "editor::Hover",
+      "space r": "editor::Rename"
     }
   },
   {
     "context": "Editor && vim_mode == insert && !menu",
     "bindings": {
-      // "j k": "vim::SwitchToNormalMode"
+      "ctrl-c": "editor::ToggleComments"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !menu",
+    "bindings": {
+      "ctrl-c": "vim::ToggleComments"
     }
   }
 ]

@@ -109,6 +109,8 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export TERM=screen-256color
 
+export PATH="$HOME/my_apps/bin:$PATH"
+
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
