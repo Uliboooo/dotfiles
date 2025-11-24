@@ -23,7 +23,8 @@
       "space a": "editor::ToggleCodeActions",
       "space f": "file_finder::Toggle",
       "space e": "editor::Hover",
-      "space r": "editor::Rename"
+      "space r": "editor::Rename",
+      "space s": "outline::Toggle"
     }
   },
   {

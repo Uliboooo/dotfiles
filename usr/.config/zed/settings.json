@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "soft_wrap": "editor_width",
   "vim_mode": true,
   "buffer_line_height": "standard",
   "agent_buffer_font_size": 11.0,
@@ -93,7 +94,7 @@
   },
   "format_on_save": "on",
   "show_whitespaces": "trailing",
-  "show_edit_predictions": true,
+  "show_edit_predictions": false,
   "features": {
     "edit_prediction_provider": "zed"
   },

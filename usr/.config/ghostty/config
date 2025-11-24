@@ -20,8 +20,9 @@ background-opacity = 0.95
 # 背景をぼかす
 background-blur-radius = 20
 
-theme = catppuccin-macchiato
+# theme = catppuccin-macchiato
 # theme = catppuccin-mocha
+theme = catppuccin-frappe
 
 cursor-style-blink = true
 
