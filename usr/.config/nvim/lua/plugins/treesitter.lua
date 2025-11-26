@@ -3,7 +3,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate | TSInstall go",
     opts = {
-      ensure_installed = { "lua", "ocaml", "c", "cpp", "markdown", "markdown_inline", "go" },
+      ensure_installed = { "lua", "ocaml", "c", "cpp", "markdown", "markdown_inline", "go", "javascript", "typescript" },
       sync_install = true,
       highlight = {
         enable = true,

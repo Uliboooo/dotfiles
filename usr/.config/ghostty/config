@@ -13,12 +13,8 @@ background-image = "$HOME/Pictures/favo-bg.png"
 background-image-opacity = 0.2
 
 # 背景の透明度
-background-opacity = 0.95
-# if linux
-# 0.98
-
-# 背景をぼかす
-background-blur-radius = 20
+background-opacity = 0.82
+background-blur-radius = 25
 
 # theme = catppuccin-macchiato
 # theme = catppuccin-mocha
@@ -34,6 +30,6 @@ keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
 
 # working-directory = "home"
-window-inherit-working-directory = false
+window-inherit-working-directory = true
 term=xterm-256color
 macos-option-as-alt = left

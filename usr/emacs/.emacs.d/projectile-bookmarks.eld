@@ -1,1 +1,0 @@
-("~/dotfiles/" "~/Develop/ghost_git_writer/" "~/Develop/easy_sis/")
