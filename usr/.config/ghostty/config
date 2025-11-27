@@ -3,7 +3,7 @@ font-family = "0xProto Nerd Font"
 font-family = "Cica"
 font-size = 10
 
-cursor-opacity = 0.5
+cursor-opacity = 0.3
 
 # ウィンドウの初期サイズ
 window-height = 100
@@ -13,8 +13,8 @@ background-image = "$HOME/Pictures/favo-bg.png"
 background-image-opacity = 0.2
 
 # 背景の透明度
-background-opacity = 0.82
-background-blur-radius = 25
+background-opacity = 0.85
+background-blur-radius = 20
 
 # theme = catppuccin-macchiato
 # theme = catppuccin-mocha

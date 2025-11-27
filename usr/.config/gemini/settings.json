@@ -1,4 +1,4 @@
 {
     "general.previewFeatures": true,
-    "general.preferredEditor": "nvim"
+    "general.preferredEditor": "vim"
 }

@@ -173,6 +173,34 @@ return {
         filetype = { "cljc", "edn", "clojure", "clj" },
       })
       vim.lsp.enable("clojure_lsp")
+
+      vim.lsp.config("tsserver", {
+        cmd = { "typescript-language-server", "--stdio" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+        settings = {
+          javascript = {
+            inlayHints = {
+              parameterNames = true,
+              parameterTypes = true,
+              variableTypes = true,
+            },
+          },
+          typescript = {
+            -- TypeScript 固有のヒント表示設定
+            inlayHints = {
+              parameterNames = true,
+              parameterTypes = true,
+              variableTypes = true,
+            },
+            disableAutomaticTypeAcquisition = true, -- 型定義ファイルの自動取得を無効化
+          },
+
+          allowAutomaticOptionalchainInGet = true,
+        },
+      })
+      vim.lsp.enable("tsserver")
     end,
   },
 }
