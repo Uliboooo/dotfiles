@@ -4,9 +4,11 @@
         {
             "type": "os"
         },
-        {
-            "type": "host"
-        },
+        // {
+        //     "type": "host",
+        //     "key": "Hardware",
+        //     "format": "{2}"
+        // },
         {
             "type": "kernel"
         },

@@ -1,3 +1,4 @@
+
 ;;; init.el --- Emacs configuration converted from Neovim  -*- lexical-binding: t; -*-
 
 ;; -----------------------------------------------------------------------------
@@ -38,16 +39,20 @@
 ;; ソフトラップ
 (global-visual-line-mode t)
 
-;; クリップボード (unnamedplus相当)
+;; clipboard
 (setq select-enable-clipboard t)
 (setq select-enable-primary t)
 
-;; インデント設定 (tabstop=4)
+;; indent setting
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil) ; expandtab
 
-;; マウス有効化
+;; enable mouse seting
 (xterm-mouse-mode 1)
+(require 'mwheel)
+(mouse-wheel-mode t)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . nil) ((control) . vertical)))
+(setq mouse-wheel-progressive-speed nil) ; スクロール速度の段階的な変化を無効化
 
 ;; ファイル更新の自動検知 (autoread / checktime)
 (global-auto-revert-mode 1)
@@ -137,8 +142,11 @@
 (set-face-attribute 'font-lock-doc-face nil     :foreground "#a5adcb")
 
 ;; 2. 行番号 (Line Number) の背景を透明にする
-(set-face-attribute 'line-number nil :background "unspecified-bg")
-(set-face-attribute 'line-number-current-line nil :background "unspecified-bg")
+(set-face-attribute 'line-number nil
+                    :foreground "#e0e0e0"
+                    :background "unspecified-bg")
+(set-face-attribute 'line-number-current-line nil
+                    :background "unspecified-bg")
 
 (custom-set-faces
  ;; 3. モードライン（下のバー）の背景を透明に
@@ -163,6 +171,11 @@
 (use-package git-gutter
   :config
   (global-git-gutter-mode +1))
+
+(setq inhibit-startup-message t)
+
+;; (set-fringe-mode 10)
+(set-face-attribute 'default nil :height 140)
 
 ;; -----------------------------------------------------------------------------
 ;; 5. 補完・検索・インターフェース (Snacks / fzf-lua 相当)
