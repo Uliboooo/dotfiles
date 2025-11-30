@@ -27,13 +27,14 @@ end
 
 -- file picker
 vim.keymap.set("n", "<Leader>f", function()
-  local path = vim.fn.argv(0)
-  if path == nil or path == "" then
-    path = vim.fn.getcwd()
-  end
-
   require("snacks").picker.files({ cwd = vim.fn.argv(0) })
 end, { desc = "file picker in project root" })
+
+-- file tree
+vim.keymap.set("n", "<Leader>e", function()
+  local fyler = require("fyler")
+  fyler.open()
+end)
 
 -- global search
 vim.keymap.set("n", "<leader>/", function()
@@ -56,13 +57,13 @@ vim.keymap.set("n", "gr", function()
   require("snacks").picker.lsp_references()
 end, { desc = "lsp_references" })
 
-vim.keymap.set("n", "<Leader>e", function()
-  require("trouble").toggle("diagnostics", {
-    mode = "document",
-    win = { type = "float", relative = "editor" },
-  })
-  vim.cmd("wincmd w")
-end, { desc = "open trouble" })
+-- vim.keymap.set("n", "<Leader>e", function()
+--   require("trouble").toggle("diagnostics", {
+--     mode = "document",
+--     win = { type = "float", relative = "editor" },
+--   })
+--   vim.cmd("wincmd w")
+-- end, { desc = "open trouble" })
 
 -- sbcl
 vim.g.slime_target = "tmux"
@@ -73,7 +74,7 @@ vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
 -- vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeParagraphSend", {})
 
 -- localleaderは通常\なので、\eeなどのキーに対応
-vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>ConjureEvalCurrentForm<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>ConjureEvalCurrentForm<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<localleader>er", "<cmd>ConjureEvalRootForm<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<localleader>eb", "<cmd>ConjureEvalBuf<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<localleader>ew", "<cmd>ConjureEvalWord<CR>", { noremap = true, silent = true })

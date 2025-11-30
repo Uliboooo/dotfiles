@@ -1,23 +1,4 @@
 return {
-
-  -- {
-  --   "rose-pine/neovim",
-  --   name = "rose-pine",
-  --   config = function()
-  --     -- 背景を透過にする
-  --     vim.cmd.colorscheme("rose-pine")
-  --     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-  --     vim.cmd([[
-  --       hi DiagnosticUnderlineError gui=undercurl guisp=Red
-  --       hi DiagnosticUnderlineWarn  gui=undercurl guisp=Yellow
-  --     ]])
-  --   end,
-  -- },
-
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -222,29 +203,15 @@ return {
       require("crates").setup()
     end,
   },
-
-  -- {
-  --   "karb94/neoscroll.nvim",
-  --   opts = {},
-  -- },
   {
     "gpanders/nvim-parinfer",
     event = "InsertEnter",
   },
-  -- {
-  --   "nvim-tree/nvim-tree.lua",
-  --   version = "*",
-  --   priority = 1000,
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --   config = function()
-  --     require("nvim-tree").setup({
-  --       view = {
-  --         width = 20,
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    "A7Lavinraj/fyler.nvim",
+    dependencies = { "nvim-mini/mini.icons" },
+    branch = "stable", -- Use stable branch for production
+    lazy = false, -- Necessary for `default_explorer` to work properly
+    opts = {},
+  },
 }
