@@ -1,11 +1,9 @@
-
-;;; init.el --- Emacs configuration converted from Neovim  -*- lexical-binding: t; -*-
-
 ;; -----------------------------------------------------------------------------
-;; 1. パッケージ管理セットアップ (MELPA)
+;; pkg manager (MELPA)
 ;; -----------------------------------------------------------------------------
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (package-initialize)
 
 ;; use-packageがインストールされていなければ入れる (Emacs 28以下の場合)
@@ -13,12 +11,13 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
-(setq use-package-always-ensure t) ; 常に自動インストール
+(setq use-package-always-ensure t)
 
 ;; -----------------------------------------------------------------------------
-;; 2. 基本設定 (config.lua 相当)
+;; basic config
 ;; -----------------------------------------------------------------------------
-;; UI周りのクリーンアップ
+
+;; cleanup for ui
 (setq inhibit-startup-message t)
 ;; (scroll-bar-mode -1)
 ;; (tool-bar-mode -1)
@@ -26,7 +25,7 @@
 ;; (menu-bar-mode -1)     ; メニューバーも消す
 ;; (set-fringe-mode 10)   ; 左右の余白
 
-;; 行番号 (relative + absolute)
+;; line-bumber (relative + absolute)
 (column-number-mode)
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
@@ -36,7 +35,7 @@
 (setq whitespace-style '(face tabs tab-mark trailing space-before-tab::space))
 (global-whitespace-mode t)
 
-;; ソフトラップ
+;; soft-wrap
 (global-visual-line-mode t)
 
 ;; clipboard
@@ -52,41 +51,29 @@
 (require 'mwheel)
 (mouse-wheel-mode t)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . nil) ((control) . vertical)))
-(setq mouse-wheel-progressive-speed nil) ; スクロール速度の段階的な変化を無効化
+(setq mouse-wheel-progressive-speed nil)
 
-;; ファイル更新の自動検知 (autoread / checktime)
+;; auto update for files(autoread / checktime)
 (global-auto-revert-mode 1)
 
-;; バックアップファイルを作らない (Neovimのデフォルト挙動に近づける)
+;; don't create buckup files
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 
 ;; -----------------------------------------------------------------------------
-;; 3. キーバインディング & Vimエミュレーション (keymap.lua 相当)
+;; key-bind and vim emu
 ;; -----------------------------------------------------------------------------
 
-;; Evil: Vim操作レイヤー
+;; Evil: vim control layer
 (use-package evil
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
-  (setq evil-undo-system 'undo-redo) ; Emacs 28+ native undo
+  (setq evil-undo-system 'undo-redo)
   :config
   (evil-mode 1)
-  
-  ;; "J" -> 10j (Neovim設定の再現)
-  (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-next-line 10)))
-  
-  ;; "dd" -> "ddk" (Neovim設定の再現: 現在行を削除して上に移動？)
-  ;; 注: これは標準的な挙動ではないため、再現実装します
-  (define-key evil-normal-state-map (kbd "dd") 
-              (lambda () (interactive) (evil-delete-line (point) (point)) (evil-previous-line)))
-  
-  ;; "f" -> Esc gg VG (全選択)
-  (define-key evil-normal-state-map (kbd "f")
-              (lambda () (interactive) (evil-goto-first-line) (evil-visual-state) (evil-goto-line)))
-  
+
   ;; <leader>n でハイライト解除
   (define-key evil-normal-state-map (kbd "<leader>n") 'evil-ex-nohighlight))
 
@@ -98,9 +85,10 @@
 
 ;; General: キーバインド定義を簡単にする (vim.keymap.setの代替)
 (use-package general
+  :after evil
   :config
   (general-create-definer my-leader-def
-    :prefix "SPC") ; リーダーキーはスペース
+    :prefix "SPC")
 
   (my-leader-def
     :states '(normal visual motion)
@@ -109,13 +97,18 @@
     "u"  '(vundo :which-key "Undo tree")              ; snacks picker undo (vundoで代替)
     "s"  '(consult-imenu :which-key "Symbols")        ; snacks symbols
     "b"  '(consult-buffer :which-key "Buffers")       ; バッファ切り替え
-    
-    ;; LSP 関連
+
+    ;; LSP
     "a"  '(eglot-code-actions :which-key "Code Action")
     "r"  '(eglot-rename :which-key "Rename")
-    "e"  '(consult-flymake :which-key "Diagnostics")  ; Troubleの代わり 
-    ;; コメント (nerd-commenter)
-    "gc" '(evilnc-comment-operator :which-key "Comment operator")))
+    ;; "e"  '(consult-flymake :which-key "Diagnostics")  ; Troubleの代わり
+    "gc" '(evilnc-comment-operator :which-key "Comment operator")
+
+    ;;(my-leader-def
+    ;;:states 'normal
+    "ee"  '(slime-eval-last-expression :which-key "Eval last sexp")
+    "er" '(slime-eval-defun :which-key "Eval defun")
+    "eb" '(slime-eval-buffer :which-key "Eval buffer")))
 
 
 ;; C-c でコメントトングル
@@ -135,8 +128,8 @@
 
 ;; 透明化設定 (SnacksPickerやNormalFloatの透明化を再現)
 ;; Emacs 29+ では alpha-background が使えます
-(set-frame-parameter nil 'alpha-background 0) 
-(add-to-list 'default-frame-alist '(alpha-background . 0))
+;; (set-frame-parameter nil 'alpha-background 0)
+;; (add-to-list 'default-frame-alist '(alpha-background . 0))
 
 (set-face-attribute 'font-lock-comment-face nil :foreground "#a5adcb")
 (set-face-attribute 'font-lock-doc-face nil     :foreground "#a5adcb")
@@ -149,12 +142,14 @@
                     :background "unspecified-bg")
 
 (custom-set-faces
- ;; 3. モードライン（下のバー）の背景を透明に
- '(mode-line ((t (:background nil :box nil))))
- '(mode-line-inactive ((t (:background nil :box nil))))
- ;; 4. Doom Modeline用の透過設定
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(doom-modeline-bar ((t (:background nil))))
- '(doom-modeline-panel ((t (:background nil)))))
+ '(doom-modeline-panel ((t (:background nil))))
+ '(mode-line ((t (:background nil :box nil))))
+ '(mode-line-inactive ((t (:background nil :box nil)))))
 
 ;; Doom Modeline (lualineの代替)
 (use-package doom-modeline
@@ -175,7 +170,7 @@
 (setq inhibit-startup-message t)
 
 ;; (set-fringe-mode 10)
-(set-face-attribute 'default nil :height 140)
+;; (set-face-attribute 'default nil :height 140)
 
 ;; -----------------------------------------------------------------------------
 ;; 5. 補完・検索・インターフェース (Snacks / fzf-lua 相当)
@@ -218,7 +213,7 @@
   :config
   ;; Inlay Hints (vim.lsp.inlay_hint)
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 1)))
-  
+
   ;; キーマップ (gr -> references)
   (define-key evil-normal-state-map (kbd "gr") 'xref-find-references)
   (define-key evil-normal-state-map (kbd "gd") 'xref-find-definitions)
@@ -252,20 +247,17 @@
   :hook (prog-mode . smartparens-mode))
 
 ;; -----------------------------------------------------------------------------
-;; 7. 言語別設定 (Go, Rust, Lisp, Markdown)
+;; Lang (Go, Rust, Lisp, Markdown)
 ;; -----------------------------------------------------------------------------
 
 ;; Go
 (use-package go-mode
   :hook (go-mode . (lambda ()
                      (setq tab-width 2)
-                     (setq indent-tabs-mode t)))) 
+                     (setq indent-tabs-mode t))))
 
 ;; Rust
 (use-package rust-mode)
-
-;; C/C++
-;; c-mode, c++-mode は標準搭載
 
 ;; Markdown (md.lua)
 (use-package markdown-mode
@@ -279,17 +271,12 @@
 (use-package slime
   :config
   (setq inferior-lisp-program "sbcl") ; SBCLを指定
-  (setq slime-contribs '(slime-fancy))
-  
-  ;; キーバインド (config.lua の Conjure/Slime 設定に近いもの)
-  (my-leader-def
-    :states 'normal
-    "e"  '(slime-eval-last-expression :which-key "Eval last sexp")
-    "er" '(slime-eval-defun :which-key "Eval defun")
-    "eb" '(slime-eval-buffer :which-key "Eval buffer")))
+  (setq slime-contribs '(slime-fancy)))
+
+;; キーバインド (config.lua の Conjure/Slime 設定に近いもの)
 
 ;; -----------------------------------------------------------------------------
-;; 8. その他 (toggleterm など)
+;; others
 ;; -----------------------------------------------------------------------------
 
 ;; Vterm: 高機能ターミナル (toggletermの代替として最強)
@@ -301,3 +288,24 @@
 
 (use-package vterm-toggle
   :bind ("C-\\" . vterm-toggle))
+
+;; only using GUI
+(when (display-graphic-p)
+  ;; only gui
+  (set-frame-font "0xProto Nerd Font-11" t t) ;
+  (add-to-list 'default-frame-alist '(alpha-background . 80))
+  (set-frame-parameter nil 'alpha-background 80)
+  (tooltip-mode 1)
+  (set-fringe-mode 2))
+
+
+;; git
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
