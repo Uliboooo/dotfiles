@@ -71,8 +71,15 @@
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
   (setq evil-undo-system 'undo-redo)
+  (setq evil-normal-state-cursor 'box)
+  (setq evil-insert-state-cursor 'bar)
+  (setq evil-visual-state-cursor 'box)
   :config
   (evil-mode 1)
+
+  (unless (display-graphic-p)
+    (require 'evil-terminal-cursor-changer)
+    (evil-terminal-cursor-changer-activate))
 
   ;; <leader>n でハイライト解除
   (define-key evil-normal-state-map (kbd "<leader>n") 'evil-ex-nohighlight))
