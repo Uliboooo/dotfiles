@@ -63,23 +63,27 @@ return {
         -- },
         virtual_lines = {
           only_current_line = true,
-          -- format = function(diagnostic)
-          --   -- エラーは常に表示
-          --   if diagnostic.severity == vim.diagnostic.severity.ERROR then
-          --     return diagnostic.message
-          --   end
-          --
-          --   -- WARN はカーソル行のみ表示
-          --   if diagnostic.severity == vim.diagnostic.severity.WARN then
-          --     local cursor = vim.api.nvim_win_get_cursor(0)
-          --     if diagnostic.lnum + 1 == cursor[1] then
-          --       return diagnostic.message
-          --     end
-          --   end
-          --
-          --   -- INFO/HINT は表示しない
-          --   return nil
-          -- end,
+          format = function(diagnostic)
+            -- エラーは常に表示
+            if diagnostic.severity == vim.diagnostic.severity.ERROR then
+              local cursor = vim.api.nvim_win_get_cursor(0)
+              if diagnostic.lnum + 1 == cursor[1] then
+                return diagnostic.message
+              end
+              -- return diagnostic.message
+            end
+
+            -- WARN はカーソル行のみ表示
+            if diagnostic.severity == vim.diagnostic.severity.WARN then
+              local cursor = vim.api.nvim_win_get_cursor(0)
+              if diagnostic.lnum + 1 == cursor[1] then
+                return diagnostic.message
+              end
+            end
+
+            -- INFO/HINT は表示しない
+            return nil
+          end,
         },
       })
       local lspconfig = require("lspconfig")
