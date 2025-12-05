@@ -70,7 +70,6 @@ return {
               if diagnostic.lnum + 1 == cursor[1] then
                 return diagnostic.message
               end
-              -- return diagnostic.message
             end
 
             -- WARN はカーソル行のみ表示
