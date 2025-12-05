@@ -80,10 +80,6 @@ alias reload_em='launchctl unload ~/Library/LaunchAgents/org.emacs.daemon.plist 
 
 alias r='rlwrap'
 
-function nvv() { # cd foo && nv foo
-    cd "$1" && nvim .
-}
-
 function distro() {
     cat /etc/os-release | rg '^NAME=' | rg '^NAME=".*"'
 }
@@ -100,39 +96,19 @@ fi
 
 alias rl='rlwrap sbcl'
 
-fzunction gc() { # git add . && commit
-    echo "commit message: $1"
+function gc() {
   git add .
   git commit -m "$1"
 }
 
-function r2g() { # reduce video framerate
+function r2g() {
   ffmpeg -i "$1" -r 20 "$2"
-}
-
-function bsii() { # brew search and install?
-    if brew search "$1" | grep -q "$1"; then
-        brew info "$1"
-        read "?install? (y/n): " answer
-        if [[ "$answer" == [yY] ]]; then
-            brew install "$1"
-        else
-            return 1
-        fi
-    else
-        return 1
-    fi
-}
-
-function add_alias() { # append alias to this filr
-    echo "$1" >> ~/dotfiles/usr/zsh/alias.zsh
-    echo "" >> ~/dotfiles/usr/zsh/alias.zsh
 }
 
 alias cow='cowsay'
 alias copy='pbcopy'
 
-function touch-p() { # mkdir -p like touch command
+function touch-p() {
     mkdir -p $(dirname "$1") && touch "$1"
 }
 
@@ -144,11 +120,6 @@ alias load_z='source ~/.zshrc'
 
 alias li='limactl'
 alias lili='limactl list'
-
-alias ':wq'='exit'
-alias ':q'='exit'
-alias ':Wq'='exit'
-alias ':Q'='exit'
 
 # ocaml
 alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
