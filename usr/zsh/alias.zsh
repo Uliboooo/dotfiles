@@ -27,13 +27,12 @@ if [ "$OS_NAME" = "Linux" ]; then
 fi
 
 alias ff='fastfetch'
-alias ea='eza'
 
 alias g='git'
 alias gd='git diff'
 alias gda='git --no-pager diff'
 alias gl='git log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
-alias gls='git log -n 15 --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
+alias gls='gl -n 15'
 alias gla='git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 alias gbc='git switch -c $1'
 alias gbs='git switch $1'
@@ -56,14 +55,6 @@ function note() {
 }
 
 alias tl='tmux ls'
-
-function t() { # new tmux
-    if [[ "$#" -gt 0 ]]; then
-        tmux new -s "$1"
-    else
-        tmux
-    fi
-}
 
 function ta() { # attach tmux with name
     if [[ "$#" -gt 0 ]]; then
@@ -107,15 +98,9 @@ else
     alias update='brew update && brew upgrade && rustup update'
 fi
 
-alias bs='brew search'
-alias bi='brew install'
-alias bu='brew update && brew upgrade'
+alias rl='rlwrap sbcl'
 
-# alias sbclr='sbcl'
-alias rsbcl='rlwrap sbcl'
-alias rl='rsbcl'
-
-function gc() { # git add . && commit
+fzunction gc() { # git add . && commit
     echo "commit message: $1"
   git add .
   git commit -m "$1"
@@ -168,12 +153,6 @@ alias ':Q'='exit'
 # ocaml
 alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
 alias 'oc'='ocaml'
-alias 'tree'='eza -T'
-
-
-if [[ "$(uname -a)" == *"TID"* ]]; then
-    alias 'hx'='/home/linuxbrew/.linuxbrew/opt/helix/bin/hx'
-fi
 
 alias vm='sh ~/dotfiles/vm-run.sh'
 alias glist='/bin/ls'
