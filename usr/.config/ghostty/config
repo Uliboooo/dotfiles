@@ -4,6 +4,7 @@ font-family = "Cica"
 font-size = 10
 
 cursor-opacity = 0.2
+cursor-style = block
 
 # ウィンドウの初期サイズ
 window-height = 100
