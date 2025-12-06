@@ -114,7 +114,7 @@ function touch-p() {
 
 alias cppr='clang++ main.cpp -o out && ./out'
 alias alias-edit='nvim $HOME/dotfiles/usr/zsh/alias.zsh'
-alias ls='ea'
+alias ls='eza'
 alias f-l='rg "function" $HOME/dotfiles/usr/zsh/alias.zsh'
 alias load_z='source ~/.zshrc'
 
