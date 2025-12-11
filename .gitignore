@@ -1,10 +1,10 @@
 .DS_Store
 vscode/
+.vscode/
 # **/_*
 old/*
 .api_keys
 **/lazy-lock.json
-
 *.elc
 auto-save-list/
 eln-cache/
