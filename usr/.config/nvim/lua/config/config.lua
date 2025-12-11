@@ -38,6 +38,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   pattern = "*",
   command = "checktime",
 })
-if vim.lsp.inlay_hint then
-  vim.lsp.inlay_hint.enable(true, { 0 })
-end
+-- if vim.lsp.inlay_hint then
+--   vim.lsp.inlay_hint.enable(true, { 0 })
+-- end

@@ -61,16 +61,16 @@ return {
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local on_attach = function(client, bufnr)
+        if client.server_capabilities.inlayHintProvider then
+          -- bufnrを渡すことで、確実にこのバッファにのみ適用されます
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
         local opts = { buffer = bufnr, silent = true }
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        if vim.lsp.inlay_hint then
-          vim.lsp.inlay_hint.enable(true, { 0 })
-        end
 
-        -- enable semantic tokens
-        if client.supports_method("textDocument/semanticTokens/full") then
-          vim.lsp.semantic_tokens.start(bufnr, client.id)
+        if client.server_capabilities.inlayHintProvider then
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
         end
       end
 
