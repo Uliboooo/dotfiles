@@ -191,4 +191,58 @@ return {
     lazy = false, -- Necessary for `default_explorer` to work properly
     opts = {},
   },
+
+  -- {
+  --   "nvim-tree/nvim-tree.lua",
+  --   version = "*",
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons",
+  --   },
+  --   config = function()
+  --     require("nvim-tree").setup({
+  --       view = {
+  --         width = "15%",
+  --         signcolumn = "no",
+  --       },
+  --       renderer = {
+  --         highlight_git = true,
+  --         highlight_opened_files = "name",
+  --         icons = {
+  --           glyphs = {
+  --             git = {
+  --               unstaged = "!",
+  --               renamed = "»",
+  --               untracked = "?",
+  --               deleted = "✘",
+  --               staged = "✓",
+  --               unmerged = "",
+  --               ignored = "◌",
+  --             },
+  --           },
+  --           diagnostics_placement = "before",
+  --         },
+  --       },
+  --       diagnostics = {
+  --         enable = true,
+  --         show_on_dirs = true, -- フォルダにもエラーステータスを表示
+  --         icons = {
+  --           error = "󰅚 ",
+  --           warning = "󰀪 ",
+  --           info = "󰋽 ",
+  --           hint = "󰌶 ",
+  --         },
+  --       },
+  --
+  --       actions = {
+  --         expand_all = {
+  --           max_folder_discovery = 100,
+  --           exclude = { ".git", "target", "build" },
+  --         },
+  --       },
+  --
+  --       -- on_attach = require("plugins.nvim-tree-actions").on_attach,
+  --     })
+  --   end,
+  -- },
 }

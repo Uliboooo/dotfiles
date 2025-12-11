@@ -206,4 +206,13 @@ return {
       vim.lsp.enable("tsserver")
     end,
   },
+  -- {
+  --   "cordx56/rustowl",
+  --   version = "*",
+  --   build = "cargo install rustowl",
+  --   lazy = false,
+  --   opts = {
+  --     auto_enable = true,
+  --   },
+  -- },
 }

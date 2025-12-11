@@ -46,4 +46,9 @@ return {
   --     vim.cmd("PencilSoft")
   --   end,
   -- },
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown",
+    opts = {},
+  },
 }

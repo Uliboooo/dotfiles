@@ -78,3 +78,7 @@ vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
 vim.api.nvim_set_keymap("n", "<localleader>er", "<cmd>ConjureEvalRootForm<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<localleader>eb", "<cmd>ConjureEvalBuf<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<localleader>ew", "<cmd>ConjureEvalWord<CR>", { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command("Ex", function()
+  vim.cmd.NvimTreeToggle()
+end, {})
