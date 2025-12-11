@@ -20,12 +20,7 @@ return {
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "*",
         callback = function()
-          -- ピッカー本体の背景を透明に
-          vim.api.nvim_set_hl(0, "SnacksPicker", { bg = "none", nocombine = true })
-          -- ピッカーの枠の背景も透明に
-          vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = "#316c71", bg = "none", nocombine = true })
-          -- 標準の浮動ウィンドウの背景も透明に
-          vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none", nocombine = true })
+          vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none", nocombine = true })
         end,
       })
     end,

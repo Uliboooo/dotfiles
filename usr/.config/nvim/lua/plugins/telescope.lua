@@ -31,6 +31,7 @@ return {
         pickers = {
           find_files = {
             find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+            theme = "dropdown",
           },
         },
         extensions = {
@@ -57,6 +58,8 @@ return {
       vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp references" })
       vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })
       vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })
+
+      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
     end,
   },
 }
