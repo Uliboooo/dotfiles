@@ -23,7 +23,7 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "1"
 vim.opt.mouse = "a"
-vim.opt.signcolumn = "auto"
+vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "100"
 vim.opt.autoread = true
 
@@ -38,3 +38,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   pattern = "*",
   command = "checktime",
 })
+if vim.lsp.inlay_hint then
+  vim.lsp.inlay_hint.enable(true, { 0 })
+end
