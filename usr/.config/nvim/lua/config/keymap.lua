@@ -1,84 +1,27 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "LSP Code Action" })
--- vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "LSP Rename" })
-vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { silent = true })
-vim.keymap.set("n", "<leader>U", vim.cmd.redu, { desc = "redo" })
--- vim.keymap.set("n", "f", "<Esc>ggVG", { noremap = true, silent = true })
-
--- Normal mode: J → 下に10行
-vim.keymap.set("n", "J", "10j", { desc = "10j" })
-
-vim.api.nvim_set_keymap("n", "dd", "ddk", { noremap = true, silent = true })
-
+vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
+vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
+vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
+vim.keymap.set("n", "<leader>U", vim.cmd.redo, { desc = "redo" })
+vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
 vim.keymap.set({ "n", "i", "v", "x", "s" }, "<C-c>", function()
   require("Comment.api").toggle.linewise.current()
 end, { desc = "toggle cooment for ", noremap = true })
-
 vim.keymap.set({ "n", "v", "x", "s" }, "<Leader>gc", function()
   require("Comment.api").toggle.linewise.current()
 end, { desc = "toggle cooment for ", noremap = true })
 
-local path = vim.fn.argv(0)
-if path == nil or path == "" then
-  path = vim.fn.getcwd()
-end
+-- telescope keymap
+-- local btin = require("telescope.builtin")
+-- vim.keymap.set("n", "<Leader>f", btin.find_files, { desc = "telescope find files" })
+-- vim.keymap.set("n", "<Leader>/", btin.live_grep, { desc = "telescope live grep" })
+-- vim.keymap.set("n", "<Leader>b", btin.buffers, { desc = "telescope buffers" })
+-- vim.keymap.set("n", "<Leader>q", btin.quickfix, { desc = "telescope quickfix" })
+-- vim.keymap.set("n", "<Leader>s", btin.lsp_document_symbols, { desc = "telescope lsp doc symbols" })
+-- vim.keymap.set("n", "<Leader>d", btin.diagnostics, { desc = "telescope diagnostics" })
+-- vim.keymap.set("n", "<Leader>P", btin.commands, { desc = "telescope vim cmd list" })
 
--- file picker
-vim.keymap.set("n", "<Leader>f", function()
-  require("snacks").picker.files({ cwd = vim.fn.argv(0) })
-end, { desc = "file picker in project root" })
-
--- file tree
-vim.keymap.set("n", "<Leader>e", function()
-  local fyler = require("fyler")
-  fyler.open()
-end)
-
--- global search
-vim.keymap.set("n", "<leader>/", function()
-  require("fzf-lua").live_grep()
-end, { desc = "Global search (fzf-lua)" })
-
--- undo hist
-vim.keymap.set("n", "<Leader>u", function()
-  require("snacks").picker.undo()
-end, { desc = "list undo" })
-
--- symbols picker
-vim.keymap.set("n", "<Leader>s", function()
-  require("snacks").picker.lsp_symbols()
-  -- require("fzf-lua").lsp_workspace_symbols()
-end, { desc = "symbol search" })
-
--- show lsp references
-vim.keymap.set("n", "gr", function()
-  require("snacks").picker.lsp_references()
-end, { desc = "lsp_references" })
-
--- vim.keymap.set("n", "<Leader>e", function()
---   require("trouble").toggle("diagnostics", {
---     mode = "document",
---     win = { type = "float", relative = "editor" },
---   })
---   vim.cmd("wincmd w")
--- end, { desc = "open trouble" })
-
--- sbcl
-vim.g.slime_target = "tmux"
-vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
-
--- sbcl keymap
--- vim.keymap.set("v", "<C-c><C-c>", "<Plug>SlimeRegionSend", {})
--- vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeParagraphSend", {})
-
--- localleaderは通常\なので、\eeなどのキーに対応
--- vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>ConjureEvalCurrentForm<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<localleader>er", "<cmd>ConjureEvalRootForm<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<localleader>eb", "<cmd>ConjureEvalBuf<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<localleader>ew", "<cmd>ConjureEvalWord<CR>", { noremap = true, silent = true })
-
-vim.api.nvim_create_user_command("Ex", function()
-  vim.cmd.NvimTreeToggle()
-end, {})
+-- vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp referense" })
+-- vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })
+-- vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })

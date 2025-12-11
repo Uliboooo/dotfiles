@@ -27,3 +27,7 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !gh auth git-credential
+
+[color "status"]
+  modified = yellow
+  deleted = red

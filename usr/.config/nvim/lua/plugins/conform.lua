@@ -1,4 +1,3 @@
--- ~/.config/nvim/lua/plugins/conform.lua
 return {
   {
     "stevearc/conform.nvim",
@@ -6,11 +5,11 @@ return {
     config = function()
       require("conform").setup({
         formatters_by_ft = {
-          cpp  = { "clang-format" },
-          c    = { "clang-format" },
+          cpp = { "clang-format" },
+          c = { "clang-format" },
           rust = { "rustfmt", lsp_format = "fallback" },
-          go   = { "gofmt" },
-          -- 他の言語もあればここに追加
+          go = { "gofmt" },
+          lua = { "stylua" },
         },
         format_on_save = {
           timeout_ms = 500,
@@ -27,4 +26,3 @@ return {
     end,
   },
 }
-
