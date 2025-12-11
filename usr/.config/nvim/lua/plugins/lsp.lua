@@ -86,6 +86,15 @@ return {
             check = {
               command = "clippy",
             },
+            inlayHints = {
+              enable = true,
+              typeHints = true,
+              parameterHints = true,
+              chainingHints = true,
+              lifetimeElisionHints = true,
+              expressionAdjustmentHints = true,
+              closureCaptureHints = true,
+            },
           },
         },
       })
