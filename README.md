@@ -4,16 +4,6 @@
 
 This repository contains my personal dotfiles for various tools and configurations.
 
-## Installation
-
-To install these dotfiles, clone the repository and run the `setup.sh` script:
-
-```bash
-git clone https://github.com/your-username/dotfiles.git
-cd dotfiles
-./setup.sh
-```
-
 The setup script will:
 
 * Install necessary packages using your system's package manager (supports Homebrew, APT, DNF, and Pacman).
@@ -24,9 +14,9 @@ The setup script will:
 This repository includes configurations for the following tools:
 
 * **Shell:** Zsh, Starship
-* **Editors:** Neovim, Vim, Zed
-* **Terminal:** Alacritty, Wezterm
-* **Other:** Git, Fastfetch, Nano
+* **Editors:** Neovim, Zed, emacs
+* **Terminal:** Ghostty, Alacritty, Wezterm
+* **Other:** Git, Fastfetch, hyprland
 
 ## Notes
 
