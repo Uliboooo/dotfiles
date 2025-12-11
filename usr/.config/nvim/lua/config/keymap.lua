@@ -11,6 +11,7 @@ end, { desc = "toggle cooment for ", noremap = true })
 vim.keymap.set({ "n", "v", "x", "s" }, "<Leader>gc", function()
   require("Comment.api").toggle.linewise.current()
 end, { desc = "toggle cooment for ", noremap = true })
+vim.keymap.set("n", "eh", ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>", { desc = "enable lsp inlay hint" })
 
 -- telescope keymap
 -- local btin = require("telescope.builtin")
