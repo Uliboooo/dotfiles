@@ -1,0 +1,7 @@
+[Unit]
+Description=Random wallpaper (hyprpaper)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hypr/random_wallpaper.sh
+
