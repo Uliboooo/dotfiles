@@ -1,6 +1,5 @@
 * {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "0xProto Nerd", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: "0xProto Nerd","Noto Color Emoji", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 12px;
 }
 
@@ -15,15 +14,6 @@ window#waybar {
 window#waybar.hidden {
     opacity: 0.2;
 }
-
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
 
 window#waybar.termite {
     background-color: #3F3F3F;
@@ -73,8 +63,8 @@ button:hover {
 }
 
 #workspaces button.active {
-    background-color: #4CAF50; /* 緑色背景など */
-    color: white; /* 文字色 */
+    background-color: #4CAF50;
+    color: white;
     border-radius: 4px;
 }
 

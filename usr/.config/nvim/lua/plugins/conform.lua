@@ -10,10 +10,14 @@ return {
           rust = { "rustfmt", lsp_format = "fallback" },
           go = { "gofmt" },
           lua = { "stylua" },
+          json = { "biome" },
+          jsonc = { "biome" },
         },
         format_on_save = {
+          live_text = true,
           timeout_ms = 500,
           lsp_format = "fallback",
+          async = true,
         },
       })
 

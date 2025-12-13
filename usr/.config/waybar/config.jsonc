@@ -22,22 +22,20 @@
     "mpd",
     "idle_inhibitor",
     "pulseaudio",
-    "power-profiles-daemon",
-    "cpu",
-    "memory",
-    "temperature",
     "backlight",
+    "media",
+    "power-profiles-daemon",
+    "temperature",
     "keyboard-state",
     // "sway/language",
     "battery",
     "custom/notifications",
     "battery#bat2",
     "clock",
-    "tray",
-    "custom/power"
+    "tray"
   ],
   "clock": {
-    "format": "{:%b%d %H:%M}" // 表示形式
+    "format": "{:%b%d %H:%M}"
   },
   "pulseaudio": {
     "format": "{volume}% {icon}",
@@ -50,10 +48,8 @@
         ""
       ]
     },
-    "scroll-step": 5, // マウスクロールでの音量変更ステップ (例: 5%)
-    "on-click": "pavucontrol", // クリックでpavucontrolを起動
-    "reverse-scrolling": false
-    // on-scroll-up, on-scroll-down はデフォルトで音量調整
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
   },
   "keyboard-state": {
     "numlock": true,
@@ -115,7 +111,6 @@
     "format": "{temperatureC}°C {icon}"
   },
   "backlight": {
-    // "device": "acpi_video1",
     "format": "{percent}% {icon}",
     "format-icons": [
       "",
@@ -184,8 +179,7 @@
       "default": "🎜"
     },
     "escape": true,
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-    // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
   },
   "custom/power": {
     "format": "⏻ ",
