@@ -15,7 +15,7 @@ normal.family = "0xProto Nerd Font"
 bold.family = "0xProto Nerd Font"
 italic.family = "0xProto Nerd Font"
 bold_italic.family = "0xProto Nerd Font"
-size = 10.5
+size = 10
 
 [cursor]
 style.shape = "Beam"
