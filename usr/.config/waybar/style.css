@@ -30,6 +30,7 @@ button {
     /* Avoid rounded borders under each button name */
     border: none;
     border-radius: 0;
+    padding: 0 10px;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
@@ -323,5 +324,5 @@ label:focus {
 }
 
 * {
-    border-radius: 10px;
+    border-radius: 6px;
 }
