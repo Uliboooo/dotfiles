@@ -17,7 +17,7 @@ return {
           live_text = true,
           timeout_ms = 500,
           lsp_format = "fallback",
-          async = true,
+          async = false,
         },
       })
 
