@@ -14,9 +14,7 @@
     // "sway/scratchpad",
     "custom/media"
   ],
-  "modules-center": [
-    "sway/window"
-  ],
+  "modules-center": ["sway/window"],
   "modules-right": [
     "network",
     "mpd",
@@ -42,14 +40,10 @@
     "format-bluetooth": "{volume}% {icon} ",
     "format-muted": "",
     "format-icons": {
-      "default": [
-        "",
-        "",
-        ""
-      ]
+      "default": ["", "", ""]
     },
     "scroll-step": 5,
-    "on-click": "pavucontrol",
+    "on-click": "pavucontrol"
   },
   "keyboard-state": {
     "numlock": true,
@@ -112,17 +106,7 @@
   },
   "backlight": {
     "format": "{percent}% {icon}",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
+    "format-icons": ["", "", "", "", "", "", "", "", ""]
   },
   "custom/notifications": {
     "format": "🔔",
@@ -139,13 +123,7 @@
     "format-charging": "{capacity}% ",
     "format-plugged": "{capacity}% ",
     "format-alt": "{time} {icon}",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
+    "format-icons": ["", "", "", "", ""]
   },
   "battery#bat2": {
     "bat": "BAT2"
@@ -167,7 +145,7 @@
     "format-ethernet": "{ipaddr}/{cidr} ",
     "tooltip-format": "{ifname} via {gwaddr} ",
     "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected ⚠",
+    "format-disconnected": "Disconnected !",
     "format-alt": "{ifname}: {ipaddr}/{cidr}"
   },
   "custom/media": {
