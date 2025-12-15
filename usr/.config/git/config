@@ -6,7 +6,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
-    editor = "nvim"
+    editor = "vim"
 
 [alias]
 	lograph = log --all --date-order --date=format:%Y-%m-%d --graph --format="%h %ad [%an] %C(green)%d%Creset %s"
@@ -17,7 +17,7 @@
 [difftool]
 	prompt = false
 [difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
+	cmd = difft --display inline "$LOCAL" "$REMOTE"
 [pager]
 	difftool = true
 
@@ -28,6 +28,8 @@
 	helper =
 	helper = !gh auth git-credential
 
+[color]
+  ui = auto
 [color "status"]
   modified = yellow
   deleted = red
