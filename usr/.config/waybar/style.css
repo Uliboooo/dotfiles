@@ -57,6 +57,13 @@ button:hover {
     margin: 4px 2px; /* Blocks separation */
     border: 1px solid #44415a; /* Retro border */
 }
+#custom-tlp-status { /* [変更点: TLPカスタムモジュールを共通スタイルに追加] */
+    background-color: #2a273f; /* Lighter block background */
+    color: #e0def4; /* Text color */
+    padding: 0 10px;
+    margin: 4px 2px; /* Blocks separation */
+    border: 1px solid #44415a; /* Retro border */
+}
 
 /* --- Workspaces --- */
 #workspaces {
@@ -167,6 +174,10 @@ button:hover {
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
     background-color: #eb6f92;
+}
+
+#custom-tlp-status {
+    font-weight: bold;
 }
 
 /* Animation */
