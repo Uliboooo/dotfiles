@@ -13,16 +13,16 @@ get_tlp_profile() {
 
   case "$PROFILE" in
     performance)
-      echo '{"text":"Perf","tooltip":"Performance","class":"performance"}'
+      echo '{"text":"PERF","tooltip":"Performance","class":"performance"}'
       ;;
     balanced)
-      echo '{"text":"Bal","tooltip":"Balanced","class":"balanced"}'
+      echo '{"text":"BAL","tooltip":"Balanced","class":"balanced"}'
       ;;
     power-saver)
-      echo '{"text":"Eco","tooltip":"Power Saver","class":"powersaver"}'
+      echo '{"text":"ECO","tooltip":"Power Saver","class":"powersaver"}'
       ;;
     *)
-      echo '{"text":"?","tooltip":"Unknown","class":"unknown"}'
+      echo '{"text":"UNKN","tooltip":"Unknown","class":"unknown"}'
       ;;
   esac
 }
