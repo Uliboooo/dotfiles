@@ -130,3 +130,4 @@ alias vm='sh ~/dotfiles/vm-run.sh'
 alias glist='/bin/ls'
 
 alias help-vm='glow $HOME/dotfiles/help_vmrun.md'
+alias rtss='rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
