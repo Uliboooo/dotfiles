@@ -1,0 +1,105 @@
+/* ------------------------------------
+ * Global
+ * ------------------------------------ */
+* {
+    font-family: "GohuFont 11 Nerd Font", monospace;
+    font-size: 13px;
+    border-radius: 0;
+}
+
+/* ------------------------------------
+ * Notification Window
+ * ------------------------------------ */
+.notification {
+    background-color: #2a273f;
+    color: #e0def4;
+    border: 1px solid #44415a;
+    margin: 6px;
+    padding: 10px;
+}
+
+/* Urgency */
+.notification.low {
+    opacity: 0.85;
+}
+
+.notification.normal {
+    border-left: 3px solid #c4a7e7; /* Lavender */
+}
+
+.notification.critical {
+    border-left: 3px solid #eb6f92;
+    background-color: #3b2f45;
+}
+
+/* ------------------------------------
+ * Notification Content
+ * ------------------------------------ */
+.summary {
+    font-weight: bold;
+    color: #e0def4;
+}
+
+.body {
+    color: #908caa;
+    margin-top: 4px;
+}
+
+.time {
+    color: #6e6a86;
+    font-size: 11px;
+}
+
+/* ------------------------------------
+ * Control Center
+ * ------------------------------------ */
+.control-center {
+    background-color: #232136;
+    border: 2px solid #44415a;
+    padding: 12px;
+}
+
+/* Title */
+.control-center .title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #c4a7e7;
+    margin-bottom: 8px;
+}
+
+/* DND */
+.dnd {
+    background-color: #2a273f;
+    border: 1px solid #44415a;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    color: #9ccfd8;
+}
+
+.dnd.active {
+    background-color: #9ccfd8;
+    color: #232136;
+}
+
+/* ------------------------------------
+ * Buttons
+ * ------------------------------------ */
+button {
+    background-color: #2a273f;
+    border: 1px solid #44415a;
+    color: #e0def4;
+}
+
+button:hover {
+    background-color: #393552;
+}
+
+/* Close button */
+.close-button {
+    color: #908caa;
+}
+
+.close-button:hover {
+    color: #eb6f92;
+}
+
