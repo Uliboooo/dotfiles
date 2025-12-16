@@ -1,7 +1,7 @@
 # Empty values reset the configuration to the default value
 font-family = "GohuFont 14 Nerd Font Mono"
 font-family = "Cica"
-font-size = 13
+font-size = 10
 
 cursor-opacity = 0.2
 cursor-style = block
