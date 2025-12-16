@@ -1,8 +1,9 @@
 /* ================================
- * Lo-fi Aesthetic Theme for wofi
+ * Lo-fi Aesthetic Theme for Ulauncher
  * Inspired by Waybar config
  * ================================ */
 
+/* ---------- Base ---------- */
 * {
     font-family: "GohuFont 11 Nerd Font", "0xProto Nerd Font", monospace;
     font-size: 13px;
@@ -15,83 +16,66 @@ window {
     border: 2px solid #44415a;
 }
 
-/* ---------- Outer Box ---------- */
-#outer-box {
-    padding: 6px;
-    background-color: #232136;
-}
-
 /* ---------- Input ---------- */
-#input {
+.input {
     background-color: #2a273f;
     color: #e0def4;
-    padding: 8px 10px;
-    margin: 4px;
-    border: 1px solid #44415a;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #44415a;
 }
 
-#input:focus {
+.input:focus {
     box-shadow: none;
 }
 
-/* Placeholder */
-#input placeholder {
+/* Placeholder text */
+.input placeholder {
     color: #908caa;
 }
 
-/* ---------- Scroll ---------- */
-#scroll {
-    margin: 4px;
-}
-
-/* ---------- Inner Box ---------- */
-#inner-box {
+/* ---------- Results Box ---------- */
+.item-box {
     background-color: #232136;
+    padding: 6px;
 }
 
-/* ---------- Entry (Normal) ---------- */
-#entry {
+/* ---------- Item (Normal) ---------- */
+.item {
     background-color: #2a273f;
     color: #e0def4;
-    padding: 6px 10px;
     margin: 4px 2px;
+    padding: 8px 10px;
     border: 1px solid #44415a;
 }
 
-/* ---------- Entry (Hover) ---------- */
-#entry:hover {
+/* ---------- Item (Hover) ---------- */
+.item:hover {
     background-color: #393552;
     color: #e0def4;
 }
 
-/* ---------- Entry (Selected) ---------- */
-#entry:selected {
+/* ---------- Item (Selected) ---------- */
+.item:selected {
     background-color: #c4a7e7; /* Lavender */
     color: #232136;
     border-color: #c4a7e7;
 }
 
-/* ---------- Text ---------- */
-#text {
+/* ---------- Item Text ---------- */
+.item-text {
     color: inherit;
 }
 
-/* ---------- Subtext / Description ---------- */
-#subtext {
+/* ---------- Item Description ---------- */
+.item-description {
     color: #908caa;
     font-size: 11px;
 }
 
 /* ---------- Icons ---------- */
-#img {
+.item-icon {
     margin-right: 8px;
-}
-
-/* ---------- Calculator Result ---------- */
-/* wofi は電卓専用クラスを持たないため、
- * run モード等で目立たせたい場合の強調 */
-#entry:selected #text {
-    font-weight: bold;
 }
 
 /* ---------- Scrollbar ---------- */
@@ -104,9 +88,27 @@ scrollbar slider {
     border: none;
 }
 
-/* ---------- No Results ---------- */
-#entry.no-results {
+/* ---------- Calculator Result ---------- */
+.item.calculator {
+    background-color: #3e8fb0; /* Muted Cyan */
+    color: #232136;
+    font-weight: bold;
+}
+
+/* ---------- File Search ---------- */
+.item.file {
+    color: #9ccfd8;
+}
+
+/* ---------- Error / Fallback ---------- */
+.item.error {
     background-color: #eb6f92;
     color: #232136;
+}
+
+/* ---------- Separator ---------- */
+.separator {
+    background-color: #44415a;
+    margin: 4px 0;
 }
 
