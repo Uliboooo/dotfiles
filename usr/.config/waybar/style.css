@@ -28,6 +28,11 @@ button:hover {
     background: #393552;
 }
 
+tooltip {
+  font-family: "GohuFont 11 Nerd Font", "0xProto Nerd Font", monospace;
+  font-size: 12px
+}
+
 /* * Modules Common Style 
  * Lo-fi: Boxy shapes, no border-radius, distinct blocks
  */
@@ -109,6 +114,12 @@ button:hover {
     color: #232136;
     font-weight: bold;
 }
+
+#clock tooltip {
+  font-family: "GohuFont 11 Nerd Font", "0xProto Nerd Font", monospace;
+  font-size: 12px
+}
+
 
 #battery {
     background-color: #9ccfd8; /* Foam Cyan */

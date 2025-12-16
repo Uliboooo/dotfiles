@@ -22,7 +22,8 @@
 
   "clock": {
     "format": "{:%I:%M %p  %m-%d}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "tooltip-format": "<big>{:%Y %B}</big>\n<span font='GohuFont 14 Nerd Font 14'>{calendar}</span>",
+    "calendar-weeks-start-sunday": false
   },
 
   "hyprland/workspaces": {
