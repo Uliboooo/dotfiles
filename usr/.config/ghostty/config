@@ -1,5 +1,5 @@
 # Empty values reset the configuration to the default value
-font-family = "GohuFont 14 Nerd Font Mono"
+font-family = "0xProto Nerd Font"
 font-family = "Cica"
 font-size = 10
 

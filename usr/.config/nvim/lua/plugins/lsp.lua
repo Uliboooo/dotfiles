@@ -128,6 +128,43 @@ return {
         },
       })
       vim.lsp.enable("gopls")
+
+      vim.lsp.config("emmet_ls", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {
+          "html",
+          "css",
+          "scss",
+          "sass",
+          "less",
+          "javascript",
+          "javascriptreact",
+          "typescriptreact",
+        },
+        init_options = {
+          html = {
+            options = {
+              ["bem.enabled"] = true,
+            },
+          },
+        },
+      })
+      vim.lsp.enable("emmet_ls")
+
+      vim.lsp.config("html", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "html" },
+      })
+      vim.lsp.enable("html")
+
+      vim.lsp.config("cssls", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "css", "scss", "less" },
+      })
+      vim.lsp.enable("cssls")
     end,
   },
 }
