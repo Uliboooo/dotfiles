@@ -10,15 +10,13 @@ cursor-style = block
 window-height = 100
 window-width = 200
 
-background-image = "$HOME/Pictures/favo-bg.png"
+background-image = "$HOME/Pictures/wallpapers/wp-hiro.jpg"
 background-image-opacity = 0.2
 
 # 背景の透明度
-background-opacity = 0.89
+background-opacity = 0.95
 background-blur-radius = 20
 
-# theme = catppuccin-macchiato
-# theme = catppuccin-mocha
 theme = catppuccin-frappe
 
 cursor-style-blink = true
