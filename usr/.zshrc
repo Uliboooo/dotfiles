@@ -107,7 +107,6 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-export TERM=screen-256color
 
 export CARP_DIR="$HOME/Develop/carp/carp-v0.5.5-x86_64-macos"
 

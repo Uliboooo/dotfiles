@@ -19,3 +19,4 @@ usr/.config/broot/verbs.hjson
 **/.env
 usr/emacs/.emacs.d/.cache
 #.DS_Store#
+!usr/.config/tmux/plugins/tpm
