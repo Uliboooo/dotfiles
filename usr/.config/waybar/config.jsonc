@@ -39,7 +39,10 @@
   "pulseaudio": {
     "format": "VOL {volume}%",
     "format-muted": "MUTED",
-    "on-click": "pavucontrol"
+    "on-click": "~/dotfiles/usr/.config/waybar/scripts/audio-changer.sh",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
 
   "cpu": {
