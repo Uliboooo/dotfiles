@@ -90,7 +90,8 @@
   },
 
   "tray": {
-    "spacing": 8
+    "spacing": 8,
+    "show-passive-items": false
   },
 
   "custom/notifications": {
