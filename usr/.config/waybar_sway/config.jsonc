@@ -1,0 +1,38 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 24,
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["sway/window"],
+  "modules-right": ["custom/tlp", "cpu", "memory", "battery", "clock", "tray"],
+
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}"
+  },
+
+  "custom/tlp": {
+    "format": "{}",
+    "exec": "~/dotfiles/script/tlp-waybar-status.sh", //
+    "return-type": "json",
+    "interval": 30
+  },
+
+  "cpu": {
+    "format": "C:{usage}%"
+  },
+
+  "memory": {
+    "format": "M:{}%"
+  },
+
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "clock": {
+    "format": "{:%H:%M}"
+  }
+}

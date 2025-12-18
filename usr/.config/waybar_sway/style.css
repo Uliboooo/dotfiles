@@ -1,0 +1,45 @@
+/* 隙間（Gaps）なし、丸みなしの静的デザイン */
+* {
+  font-family: "monospace";
+  font-size: 12px;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background-color: #000000;
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
+
+#workspaces button {
+  padding: 0 10px;
+  color: #888888;
+}
+
+#workspaces button.focused {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+#custom-tlp,
+#cpu,
+#memory,
+#battery,
+#clock {
+  padding: 0 10px;
+  background-color: transparent;
+}
+
+/* TLPのクラスに応じた色分け（スクリプトの出力に準拠） */
+#custom-tlp.performance {
+  color: #ff0000;
+}
+
+#custom-tlp.balanced {
+  color: #00ff00;
+}
+
+#custom-tlp.powersaver {
+  color: #00ffff;
+}

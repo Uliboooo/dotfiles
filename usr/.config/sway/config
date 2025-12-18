@@ -1,0 +1,94 @@
+# =============================================================================
+# Sway Configuration (Converted from Hyprland)
+# =============================================================================
+
+# --- 基本設定 ---
+set $mod Mod4
+set $term ghostty
+set $menu wofi --show drun
+
+# ギャップ（隙間）を完全に無効化
+gaps inner 0
+gaps outer 0
+smart_gaps off
+
+# ウィンドウの境界線設定（静的な見た目を重視）
+default_border pixel 2
+default_floating_border normal
+hide_edge_borders none
+
+# --- 配色設定 ---
+# 提供された dotfiles 内の hyprland.conf が参照できないため、
+# Waybar の構成と標準的なターミナルカラーに合わせた配色を定義します。
+# 以前の Catppuccin への言及は排除しました。
+set $bg_color #000000
+set $active_border #ffffff
+set $inactive_border #444444
+set $text_color #ffffff
+
+# class                 border           backgr.         text         indicator       child_border
+client.focused          $active_border   $bg_color       $text_color  $active_border  $active_border
+client.focused_inactive $inactive_border $bg_color       $inactive_border $inactive_border $inactive_border
+client.unfocused        $inactive_border $bg_color       $inactive_border $inactive_border $inactive_border
+client.urgent           #ff0000          $bg_color       $text_color  #ff0000         #ff0000
+
+# --- キーバインド ---
+# ワークスペース移動
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# (必要に応じて追加)
+
+# ウィンドウ移動
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# フォーカス (Vim風)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# ウィンドウ操作
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+Shift+c reload
+bindsym $mod+f fullscreen toggle
+
+# --- ユーザー定義機能 (random-wallpaper.md に基づく) ---
+# ロック画面
+# ※ swaylock 自体にモザイク機能はないため、単純な背景色または画像のみとなります。
+bindsym $mod+g exec swaylock -c 000000
+
+# 壁紙の強制変更
+bindsym $mod+w exec ~/dotfiles/usr/.config/sway/random-wallpaper.sh
+
+# --- スクリーンショット機能 ( grim + slurp ) ---
+# 選択範囲を指定してクリップボードにコピー（必須要件）
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+
+# --- スタートアップ (setup_arhc.bash の構成に準拠) ---
+exec swaync
+exec waybar
+exec fcitx5 -d
+
+# バーの設定
+bar {
+    swaybar_command waybar
+}
