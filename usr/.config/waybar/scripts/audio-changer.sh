@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # --- 1. 設定: 内蔵オーディオの定義 ---
-# 内蔵カードの名前を自動取得（たいてい alsa_card.pci... で始まります）
-CARD_NAME=$(pactl list cards short | grep alsa_card.pci | cut -f2 | head -n1)
-# ログから判明したプロファイル名
+# あなたの環境の "Ryzen HD Audio Controller" のカードIDを取得
+# (pactl list cards の Card #44 に相当するものを動的に取得)
+CARD_ID=$(wpctl status | grep "Ryzen HD Audio Controller" | head -n1 | sed 's/[^0-9]*\([0-9]\+\).*/\1/')
+
+# プロファイル名 (pactl の出力に基づき正確に記述)
+# ※ wpctl では profile 番号または名前で指定しますが、名前で指定するのが確実です
 PROF_HP="HiFi (Headphones, Mic1, Mic2)"
 PROF_SPK="HiFi (Mic1, Mic2, Speaker)"
 
@@ -12,18 +15,13 @@ NAME_HP="Built-in Headphones"
 NAME_SPK="Built-in Speakers"
 
 # --- 2. 外部デバイス（Bluetooth/USBなど）のリスト取得 ---
-# 形式: "ID: デバイス名"
-# ※内蔵オーディオ(pci)は重複表示を避けるためgrep -vで除外していますが、
-#   もし外部デバイスが出ない場合は grep -v 部分を削除してください。
-OTHER_SINKS=$(pactl list short sinks | grep -v "pci" | awk '{print $1 ": " $2}')
+# wpctl status の Sinks セクションから内蔵以外を取得
+OTHER_SINKS=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep -v "Ryzen HD Audio Controller" | grep -E "^\s+\*" | sed 's/^\s*\*//' | awk '{print $1 ": " $2}')
+# もし何も選択されていない(星印がない)デバイスも含める場合はこちら
+OTHER_SINKS_ALL=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep -E "^\s*[0-9]+\." | grep -v "Ryzen HD Audio Controller" | sed 's/^\s*//' | sed 's/\.//')
 
 # --- 3. メニューの構築 ---
-# 内蔵オプション2つ + 外部デバイスリスト
-if [ -n "$OTHER_SINKS" ]; then
-    MENU="$NAME_HP\n$NAME_SPK\n$OTHER_SINKS"
-else
-    MENU="$NAME_HP\n$NAME_SPK"
-fi
+MENU=$(echo -e "$NAME_HP\n$NAME_SPK\n$OTHER_SINKS_ALL")
 
 # --- 4. Wofi表示 ---
 SELECTED=$(echo -e "$MENU" | wofi --dmenu --cache-file /dev/null --prompt "Audio Output" --width 400 --height 250)
@@ -33,27 +31,21 @@ if [ -z "$SELECTED" ]; then
 fi
 
 # --- 5. 切り替え処理 ---
-if [ "$SELECTED" == "$NAME_HP" ]; then
+if [[ "$SELECTED" == "$NAME_HP" ]]; then
     # 内蔵ヘッドフォンへ
-    pactl set-card-profile "$CARD_NAME" "$PROF_HP"
+    wpctl set-profile "$CARD_ID" "$PROF_HP"
     notify-send "Audio" "Switched to Headphones"
 
-elif [ "$SELECTED" == "$NAME_SPK" ]; then
+elif [[ "$SELECTED" == "$NAME_SPK" ]]; then
     # 内蔵スピーカーへ
-    pactl set-card-profile "$CARD_NAME" "$PROF_SPK"
+    wpctl set-profile "$CARD_ID" "$PROF_SPK"
     notify-send "Audio" "Switched to Speakers"
 
 else
-    # その他のデバイス（IDを取得して切り替え）
-    SINK_ID=$(echo "$SELECTED" | cut -d':' -f1)
-    if [ -n "$SINK_ID" ]; then
-        pactl set-default-sink "$SINK_ID"
-
-        # 再生中のストリームも移動
-        pactl list short sink-inputs | cut -f1 | while read stream; do
-            pactl move-sink-input "$stream" "$SINK_ID"
-        done
-
-        notify-send "Audio" "Switched to External Device"
+    # その他のデバイス（IDを取得してデフォルトに設定）
+    SINK_ID=$(echo "$SELECTED" | awk '{print $1}' | tr -d ':')
+    if [[ -n "$SINK_ID" ]]; then
+        wpctl set-default "$SINK_ID"
+        notify-send "Audio" "Switched to External Device (ID: $SINK_ID)"
     fi
 fi
