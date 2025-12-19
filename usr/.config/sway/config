@@ -5,7 +5,7 @@
 # --- 基本設定 ---
 set $mod Mod4
 set $term ghostty
-set $menu wofi --show drun
+set $menu fuzzel
 
 # ギャップ（隙間）を完全に無効化
 gaps inner 0
@@ -19,8 +19,6 @@ hide_edge_borders none
 
 # --- 配色設定 ---
 # 提供された dotfiles 内の hyprland.conf が参照できないため、
-# Waybar の構成と標準的なターミナルカラーに合わせた配色を定義します。
-# 以前の Catppuccin への言及は排除しました。
 set $bg_color #000000
 set $active_border #ffffff
 set $inactive_border #444444
@@ -85,8 +83,9 @@ bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
 
 # --- スタートアップ (setup_arhc.bash の構成に準拠) ---
 exec swaync
-exec waybar
+exec waybar -c ~/dotfiles/usr/.config/waybar_sway/config.jsonc -s ~/dotfiles/usr/.config/waybar/style.css
 exec fcitx5 -d
+exec swaybg -i ~/Pictures/wallpapers/wp-hiro.jpg -m fill
 
 # バーの設定
 bar {

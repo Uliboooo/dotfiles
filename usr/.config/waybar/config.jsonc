@@ -58,7 +58,7 @@
     "format": "{}",
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "return-type": "json",
-    "interval": 60, // sec
+    "interval": 40, // sec
     "tooltip": true,
     "on-click": "tlp-cmd set next-profile" // TLPプロファイル切り替え機能が必要な場合はコメントを解除
   },
