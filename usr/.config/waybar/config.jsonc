@@ -6,8 +6,6 @@
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
   "modules-right": [
-    "mpd",
-    "custom/media",
     "pulseaudio",
     "cpu",
     "memory",
