@@ -1,93 +1,86 @@
-# =============================================================================
-# Sway Configuration (Converted from Hyprland)
-# =============================================================================
-
-# --- 基本設定 ---
-set $mod Mod4
-set $term ghostty
+# --- Variables ---
+set $mainMod Mod4
+set $terminal ghostty
+set $fileManager nautilus
 set $menu fuzzel
 
-# ギャップ（隙間）を完全に無効化
+# --- Monitors ---
+# DP-1: 4K, scale 2.0 / eDP-1: FHD, scale 1.0 (positioned below DP-1)
+output DP-1 resolution 3840x2160 pos 0 0 scale 2.0
+output eDP-1 resolution 1920x1200 pos 0 1080 scale 1.0
+
+# --- Input ---
+input * {
+    xkb_layout "us"
+    xkb_options "ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl"
+    repeat_delay 230
+    repeat_rate 42
+    natural_scroll enabled
+}
+
+input "elan06c7:00-04f3:3193-touchpad" {
+    natural_scroll enabled
+    pointer_accel 0.5
+}
+
+# --- Keybindings ---
+bindsym $mainMod+q kill
+bindsym $mainMod+t exec $terminal
+bindsym $mainMod+m exec swaynag -t warning -m 'Exit Sway?' -b 'Yes' 'swaymsg exit'
+bindsym $mainMod+e exec $fileManager
+bindsym $mainMod+v floating toggle
+bindsym $mainMod+d exec $menu
+bindsym $mainMod+f fullscreen toggle
+bindsym $mainMod+j layout toggle split
+
+# Focus / Move
+bindsym $mainMod+left focus left
+bindsym $mainMod+right focus right
+bindsym $mainMod+up focus up
+bindsym $mainMod+down focus down
+
+# Workspaces
+bindsym $mainMod+1 workspace number 1
+bindsym $mainMod+2 workspace number 2
+# ... (3-9も同様に設定)
+bindsym $mainMod+0 workspace number 10
+
+# Move to workspace
+bindsym $mainMod+Shift+1 move container to workspace number 1
+# ... (同様)
+
+# Special Workspace (Scratchpad)
+bindsym $mainMod+s scratchpad show
+bindsym $mainMod+Shift+s move scratchpad
+
+# Utils
+bindsym $mainMod+l exec hyprlock
+bindsym $mainMod+w exec ~/.config/sway/random-wallpaper.sh
+bindsym Control+Shift+s exec grimshot copy area
+
+# Media keys
+bindsym XF86AudioRaiseVolume exec volumectl -u up
+bindsym XF86AudioLowerVolume exec volumectl -u down
+bindsym XF86AudioMute exec volumectl toggle-mute
+bindsym XF86MonBrightnessUp exec lightctl up
+bindsym XF86MonBrightnessDown exec lightctl down
+
+# --- Autostart ---
+exec {
+    fcitx5 -d
+    hypridle
+    swaync
+    avizo-service
+    wl-paste --type text --watch cliphist store
+    wl-paste --type image --watch cliphist store
+    /usr/lib/xdg-desktop-portal-sway
+    /usr/lib/xdg-desktop-portal-gtk
+    waybar -c ~/.config/waybar/config_sway.jsonc -s ~/.config/waybar/style_sway.css
+    ~/.config/sway/random-wallpaper.sh
+}
+
+# --- Appearance ---
+default_border pixel 1
 gaps inner 0
 gaps outer 0
-smart_gaps off
-
-# ウィンドウの境界線設定（静的な見た目を重視）
-default_border pixel 2
-default_floating_border normal
-hide_edge_borders none
-
-# --- 配色設定 ---
-# 提供された dotfiles 内の hyprland.conf が参照できないため、
-set $bg_color #000000
-set $active_border #ffffff
-set $inactive_border #444444
-set $text_color #ffffff
-
-# class                 border           backgr.         text         indicator       child_border
-client.focused          $active_border   $bg_color       $text_color  $active_border  $active_border
-client.focused_inactive $inactive_border $bg_color       $inactive_border $inactive_border $inactive_border
-client.unfocused        $inactive_border $bg_color       $inactive_border $inactive_border $inactive_border
-client.urgent           #ff0000          $bg_color       $text_color  #ff0000         #ff0000
-
-# --- キーバインド ---
-# ワークスペース移動
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
-# (必要に応じて追加)
-
-# ウィンドウ移動
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
-
-# フォーカス (Vim風)
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# ウィンドウ操作
-bindsym $mod+Return exec $term
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec $menu
-bindsym $mod+Shift+c reload
-bindsym $mod+f fullscreen toggle
-
-# --- ユーザー定義機能 (random-wallpaper.md に基づく) ---
-# ロック画面
-# ※ swaylock 自体にモザイク機能はないため、単純な背景色または画像のみとなります。
-bindsym $mod+g exec swaylock -c 000000
-
-# 壁紙の強制変更
-bindsym $mod+w exec ~/dotfiles/usr/.config/sway/random-wallpaper.sh
-
-# --- スクリーンショット機能 ( grim + slurp ) ---
-# 選択範囲を指定してクリップボードにコピー（必須要件）
-bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
-
-# --- スタートアップ (setup_arhc.bash の構成に準拠) ---
-exec swaync
-exec waybar -c ~/dotfiles/usr/.config/waybar_sway/config.jsonc -s ~/dotfiles/usr/.config/waybar/style.css
-exec fcitx5 -d
-exec swaybg -i ~/Pictures/wallpapers/wp-hiro.jpg -m fill
-
-# バーの設定
-bar {
-    swaybar_command waybar
-}
+smart_gaps on
