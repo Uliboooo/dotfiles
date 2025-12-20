@@ -1,5 +1,5 @@
 alias cdd='cd $HOME/Develop/'
-alias cdn='cd $HOME/Documents/notes'
+alias cdn='cd $HOME/Documents/notes && nvd'
 # alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
 # alias cdz='cd $HOME/Documents/zenn_content/'
 # alias cdc='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/'
