@@ -152,6 +152,15 @@ return {
       })
       vim.lsp.enable("emmet_ls")
 
+      vim.lsp.config("zls", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {
+          "zig",
+        },
+      })
+      vim.lsp.enable("zls")
+
       vim.lsp.config("html", {
         capabilities = capabilities,
         on_attach = on_attach,
