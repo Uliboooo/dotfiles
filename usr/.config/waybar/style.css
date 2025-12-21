@@ -1,8 +1,8 @@
 /* * Lo-fi Aesthetic Theme for Waybar */
 
 * {
-  font-family: "0xProto Nerd Font", monospace;
-  font-size: 12px;
+  font-family: "GohuFont 14 Nerd Font Mono", "0xProto Nerd Font", monospace;
+  font-size: 14px;
   min-height: 0;
 }
 
