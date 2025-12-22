@@ -45,7 +45,8 @@
 
   "cpu": {
     "format": "CPU {usage}%",
-    "tooltip": false
+    "tooltip": "{avg_frequency}",
+    "on-click": "ghostty -e btop"
   },
 
   "memory": {
@@ -65,7 +66,8 @@
     "format-wifi": "WIFI {signalStrength}%",
     "format-ethernet": "ETH Connected",
     "format-disconnected": "OFFLINE",
-    "tooltip-format": "{essid} ({ifname}) via {gwaddr}"
+    "tooltip-format": "{essid} ({ifname}) via {gwaddr}",
+    "on-click": "ghostty -e nmtui"
   },
 
   "battery": {
