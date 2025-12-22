@@ -115,3 +115,6 @@ export PATH="$HOME/my_apps/bin:$PATH"
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
+
+# moonbit
+export PATH="$HOME/.moon/bin:$PATH"
