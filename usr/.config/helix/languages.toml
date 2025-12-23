@@ -8,3 +8,22 @@ indent = { tab-width = 2, unit = " "}
 # auto-pairs = false
 # auto-indent = true
 
+# 1. LSPの定義
+[language-server.moonbit-lsp]
+command = "moonbit-lsp"
+
+# 2. 言語とLSPの紐付け
+[[language]]
+name = "moonbit"
+scope = "source.mbt"
+injection-regex = "moonbit"
+file-types = ["mbt"]
+roots = ["moon.mod.json"]
+language-servers = ["moonbit-lsp"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "moon", args = ["fmt", "--stdin"] } # 自動整形を追加
+auto-format = true
+
+[[grammar]]
+name = "moonbit"
+source = { git = "https://github.com/moonbitlang/tree-sitter-moonbit", rev = "main" }

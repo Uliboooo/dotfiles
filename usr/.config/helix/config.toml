@@ -61,7 +61,6 @@ cursor-line = "hint"
 
 [keys.normal]
 C-s = ":w"
-C-o = ":open ~/.config/helix/config.toml"
 C-r = ":reload"
 "0" = "goto_line_start"
 "$" = "goto_line_end"

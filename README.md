@@ -22,3 +22,5 @@ This repository includes configurations for the following tools:
 
 * The `setup.sh` script will attempt to install required packages. You may need to install some dependencies manually depending on your operating system.
 * Review the `setup.sh` and `setup/links.sh` scripts to see exactly what will be installed and linked.
+
+* run `hx --grammar fetch && hx --grammar build` to setup moonbit for helix editor
