@@ -47,19 +47,13 @@ function note() {
 }
 
 alias tl='tmux ls'
+alias tr='tmux kill-session -t'
 
 function ta() { # attach tmux with name
     if [[ "$#" -gt 0 ]]; then
         tmux new-session -A -s "$1"
     else
         tmux
-    fi
-}
-function tr() { # kill tmux sesstion
-    if [[ "$#" -gt 0 ]]; then
-        exit
-    else
-        tmux kill-session -t "$1"
     fi
 }
 
