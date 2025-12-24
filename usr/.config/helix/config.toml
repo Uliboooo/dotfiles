@@ -1,6 +1,7 @@
 theme = "catppuccin_frappe"
 
 [editor]
+bufferline = "always"
 line-number = "relative"
 #mouse = true
 shell = ["zsh", "-c"]
