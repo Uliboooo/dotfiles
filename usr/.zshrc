@@ -75,8 +75,6 @@ if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
 fi
 
 export $(grep -v '^#' $HOME/.env | xargs)
-export OPENSSL_DIR="$(brew --prefix openssl@3)"
-export PKG_CONFIG_PATH="$OPENSSL_DIR/lib/pkgconfig"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 # fpath=(${HOME}/.docker/completions $fpath)
