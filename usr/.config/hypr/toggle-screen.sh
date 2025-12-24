@@ -8,5 +8,5 @@ if ! hyprctl monitors | grep -q "Monitor $INTERNAL_MONITOR"; then
 
 else
   hyprctl keyword monitor "$INTERNAL_MONITOR, disable"
-  hyprctl keyword monitor "$EXTERNAL_MONITOR, preferred, 0x0, 1"
+  hyprctl keyword monitor "$EXTERNAL_MONITOR, preferred, 0x0, 1.5"
 fi
