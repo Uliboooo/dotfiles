@@ -16,7 +16,8 @@ return {
 
       telescope.setup({
         defaults = {
-          hidden = false,
+          hidden = true,
+          no_ignore = true,
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -26,11 +27,12 @@ return {
             "--column",
             "--smart-case",
             "--hidden",
+            "--no-ignore",
           },
         },
         pickers = {
           find_files = {
-            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+            find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" },
             theme = "dropdown",
           },
         },
