@@ -19,14 +19,7 @@ else
     IS_LINUX=0
 fi
 
-if [ "$OS_NAME" = "Linux" ]; then
-    # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    if [ -d "$HOME/.linuxbrew" ]; then
-        eval "$($HOME/.linuxbrew/bin/brew shellenv)"
-    elif [ -d "/home/linuxbrew/.linuxbrew" ]; then
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    fi
-elif [ "$OS_NAME" = "Darwin" ]; then
+if [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
     export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
     export PATH=$(brew --prefix zip)/bin:$PATH
