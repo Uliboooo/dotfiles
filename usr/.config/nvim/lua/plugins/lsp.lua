@@ -1,60 +1,33 @@
 return {
   {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
-      "L3MON4D3/LuaSnip",
+    "saghen/blink.cmp",
+    lazy = false,
+    dependencies = "rafamadriz/friendly-snippets",
+    version = "*",
+    opts = {
+      keymap = {
+        preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
+      },
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
+      },
+      sources = {
+        default = { "mooncake", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          mooncake = {
+            name = "Mooncakes",
+            module = "moonbit.mooncakes.completion.blink",
+            opts = { max_items = 100 },
+          },
+        },
+      },
     },
-
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<Tab>"] = function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end,
-          ["<S-Tab>"] = function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end,
-        }),
-
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "path" },
-          { name = "buffer" },
-        },
-      })
-    end,
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    dependencies = { "saghen/blink.cmp" },
     event = { "BufReadPre", "BufNewFile" },
     lazy = false,
     config = function()
@@ -72,7 +45,7 @@ return {
       vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 
       local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
       -- Defined as no-op to satisfy existing references in vim.lsp.config calls below
       local on_attach = function(client, bufnr) end

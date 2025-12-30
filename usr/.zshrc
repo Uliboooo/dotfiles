@@ -1,8 +1,8 @@
 # zmodload zsh/zprof
 
 HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=1000000
+SAVEHIST=1000000
 
 # setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY
@@ -11,13 +11,6 @@ setopt HIST_SAVE_NO_DUPS
 setopt EXTENDED_HISTORY
 
 OS_NAME=$(uname -s)
-IS_LINUX=0
-
-if [ "$OS_NAME" = "Linux" ]; then
-    IS_LINUX=1
-else
-    IS_LINUX=0
-fi
 
 if [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -26,6 +19,14 @@ if [ "$OS_NAME" = "Darwin" ]; then
     export PATH=$(brew --prefix unzip)/bin:$PATH
     export PATH=$(brew --prefix gnu-sed)/libexec/gnubin:$PATH
     export PATH=/opt/homebrew/bin:$PATH
+else
+    export PATH=$PATH:/opt/rocm/bin
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
+    export ROCM_PATH=/opt/rocm
+
+    export HSA_OVERRIDE_GFX_VERSION=10.3.0
+    export OLLAMA_DEBUG=1
+    export OLLAMA_HOST=0.0.0.0:11434
 fi
 
 # cargo
@@ -51,8 +52,8 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 eval "$(starship init zsh)"
 
+# load zsh files
 ZSH_DIR="${HOME}/dotfiles/usr/zsh"
-
 if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
     for f in ${ZSH_DIR}/**/*.zsh; do
         [ -r $f ] && source $f
@@ -61,29 +62,6 @@ fi
 
 export $(grep -v '^#' $HOME/.env | xargs)
 
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-# fpath=(${HOME}/.docker/completions $fpath)
-# autoload -Uz compinit
-# compinit
-# End of Docker CLI completions
-
-# Added by LM Studio CLI (lms)
-# export PATH="$PATH:/Users/yuki/.lmstudio/bin"
-# End of LM Studio CLI section
-
-
-if ((IS_LINUX)); then
-    export PATH=$PATH:/opt/rocm/bin
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
-    export ROCM_PATH=/opt/rocm
-
-    export HSA_OVERRIDE_GFX_VERSION=10.3.0
-    export OLLAMA_DEBUG=1
-    export OLLAMA_HOST=0.0.0.0:11434
-fi
-
-# eval $(opam env)
-
 # zprof
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
@@ -91,13 +69,10 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 
-export CARP_DIR="$HOME/Develop/carp/carp-v0.5.5-x86_64-macos"
-
 export PATH="$HOME/my_apps/bin:$PATH"
 
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
-
 
 # moonbit
 export PATH="$HOME/.moon/bin:$PATH"

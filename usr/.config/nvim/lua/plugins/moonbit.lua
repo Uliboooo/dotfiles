@@ -23,21 +23,4 @@ return {
       },
     },
   },
-  {
-    "saghen/blink.cmp",
-    version = "*",
-    opts = {
-      sources = {
-        -- add mooncake to your completion providers
-        default = { "mooncake", "lsp", "path", "snippets", "buffer" },
-        providers = {
-          mooncake = {
-            name = "Mooncakes",
-            module = "moonbit.mooncakes.completion.blink",
-            opts = { max_items = 100 },
-          },
-        },
-      },
-    },
-  },
 }

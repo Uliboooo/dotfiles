@@ -137,4 +137,22 @@ return {
       }
     end,
   },
+  {
+    "stevearc/dressing.nvim",
+    lazy = false,
+    opts = {
+      input = {
+        enabled = true,
+        default_prompt = "Rename to",
+        border = "rounded",
+        relative = "cursor",
+        prefer_width = 40,
+      },
+      select = {
+        enabled = true,
+        backend = { "telescope", "builtin" },
+        telescope = require("telescope.themes").get_dropdown({}),
+      },
+    },
+  },
 }
