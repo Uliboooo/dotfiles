@@ -73,3 +73,6 @@ vim.api.nvim_set_hl(0, "Visual", { bg = lofi.border })
 -- 検索ハイライトをWaybarの強調色に
 vim.api.nvim_set_hl(0, "Search", { fg = lofi.base, bg = lofi.cyan, bold = true })
 vim.api.nvim_set_hl(0, "IncSearch", { fg = lofi.base, bg = lofi.love_red, bold = true })
+
+-- LSP Inlay Hints のハイライト設定 (Lo-fi Aestheticに合わせて控えめな色に)
+vim.api.nvim_set_hl(0, "LspInlayHint", { fg = lofi.border, bg = "none", italic = true })

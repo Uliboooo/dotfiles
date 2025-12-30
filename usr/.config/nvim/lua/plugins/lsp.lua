@@ -73,29 +73,48 @@ return {
 
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local on_attach = function(client, bufnr)
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        end
-        local opts = { buffer = bufnr, silent = true }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 
-        vim.api.nvim_create_autocmd("CursorHold", {
-          buffer = bufnr,
-          callback = function()
-            vim.diagnostic.open_float(nil, {
-              focusable = false,
-              close_events = { "CursorMoved", "CursorMovedI", "BufLeave" },
-              border = "rounded",
-              source = "always",
-              prefix = " ",
-              scope = "cursor",
-              winhighlight = "Normal:NormalFloat",
-            })
-          end,
-        })
-      end
+      -- Defined as no-op to satisfy existing references in vim.lsp.config calls below
+      local on_attach = function(client, bufnr) end
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local bufnr = args.buf
+
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+
+          local opts = { buffer = bufnr, silent = true }
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+          vim.api.nvim_create_autocmd("BufEnter", {
+            callback = function(args)
+              if vim.lsp.inlay_hint then
+                vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+              end
+            end,
+          })
+
+          vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            callback = function()
+              vim.diagnostic.open_float(nil, {
+                focusable = false,
+                close_events = { "CursorMoved", "CursorMovedI", "BufLeave" },
+                border = "rounded",
+                source = "always",
+                prefix = " ",
+                scope = "cursor",
+                winhighlight = "Normal:NormalFloat",
+              })
+            end,
+          })
+        end,
+      })
 
       vim.lsp.config("rust_analyzer", {
         on_attach = on_attach,
