@@ -61,10 +61,10 @@ return {
       vim.diagnostic.config({
         virtual_text = false,
         update_in_insert = false,
-        -- float = {
-        --   border = "rounded",
-        --   source = "always",
-        -- },
+        float = {
+          border = "rounded",
+          source = "always",
+        },
       })
 
       -- Make diagnostic float transparent
@@ -91,14 +91,6 @@ return {
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 
-          vim.api.nvim_create_autocmd("BufEnter", {
-            callback = function(args)
-              if vim.lsp.inlay_hint then
-                vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-              end
-            end,
-          })
-
           vim.api.nvim_create_autocmd("CursorHold", {
             buffer = bufnr,
             callback = function()
@@ -108,7 +100,8 @@ return {
                 border = "rounded",
                 source = "always",
                 prefix = " ",
-                scope = "cursor",
+                scope = "line",
+                header = "",
                 winhighlight = "Normal:NormalFloat",
               })
             end,
