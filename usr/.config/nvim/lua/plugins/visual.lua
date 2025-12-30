@@ -47,6 +47,7 @@ return {
             },
           },
           lualine_x = { "filesize", "filetype" },
+          lualine_x = { "filesize", "filetype" },
           lualine_y = { "" },
           lualine_z = { "location" },
         },

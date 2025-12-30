@@ -59,13 +59,18 @@ return {
     lazy = false,
     config = function()
       vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = false,
         update_in_insert = false,
         -- float = {
         --   border = "rounded",
         --   source = "always",
         -- },
       })
+
+      -- Make diagnostic float transparent
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local on_attach = function(client, bufnr)
@@ -75,6 +80,21 @@ return {
         local opts = { buffer = bufnr, silent = true }
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+        vim.api.nvim_create_autocmd("CursorHold", {
+          buffer = bufnr,
+          callback = function()
+            vim.diagnostic.open_float(nil, {
+              focusable = false,
+              close_events = { "CursorMoved", "CursorMovedI", "BufLeave" },
+              border = "rounded",
+              source = "always",
+              prefix = " ",
+              scope = "cursor",
+              winhighlight = "Normal:NormalFloat",
+            })
+          end,
+        })
       end
 
       vim.lsp.config("rust_analyzer", {

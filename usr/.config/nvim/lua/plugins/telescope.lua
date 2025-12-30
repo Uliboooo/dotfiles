@@ -8,6 +8,7 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
       },
+      "nvim-telescope/telescope-ui-select.nvim",
     },
     config = function()
       local telescope = require("telescope")
@@ -44,10 +45,14 @@ return {
             override_file_sorter = true, -- override the file sorter
             case_mode = "smart_case",
           },
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown({}),
+          },
         },
       })
 
       require("telescope").load_extension("fzf")
+      require("telescope").load_extension("ui-select")
 
       -- Keymaps
       vim.keymap.set("n", "<Leader>f", btin.find_files, { desc = "telescope find files" })
