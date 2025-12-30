@@ -3,6 +3,7 @@ font-family = "0xProto Nerd Font"
 font-family = "Cica"
 font-size = 10
 
+font-feature = "-calt,-liga,-dlig"
 cursor-opacity = 0.2
 cursor-style = block
 
