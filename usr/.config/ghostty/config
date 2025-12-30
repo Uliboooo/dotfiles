@@ -28,6 +28,7 @@ keybind = "global:option+shift+t=toggle_quick_terminal"
 keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
 keybind = super+enter=unbind
+keybind = ctrl+enter=unbind
 
 # working-directory = "home"
 window-inherit-working-directory = true

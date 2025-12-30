@@ -5,9 +5,17 @@ return {
     cmd = "ToggleTerm",
     keys = {
       { "<c-\\>", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" },
+      { "<C-S-\\>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle horizontal terminal" },
+      { "<leader><CR>", "<cmd>TermExec cmd='cargo run' direction=horizontal<cr>", desc = "Cargo Run" },
     },
     opts = {
-      size = 100,
+      size = function(term)
+        if term.direction == "horizontal" then
+          return vim.o.lines * 0.3
+        elseif term.direction == "vertical" then
+          return vim.o.columns * 0.4
+        end
+      end,
       open_mapping = [[<c-\>]],
       direction = "float",
       shade_filetypes = {},
