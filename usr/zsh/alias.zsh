@@ -93,11 +93,10 @@ function r2g() {
 
 alias cow='cowsay'
 
-if ((IS_LINUX)); then
-  alias copy='wl-copy'
-else
-  alias copy='pbcopy'
-fi
+# for Linux 
+alias copy='wl-copy'
+# for macOS
+# alias copy='pbcopy'
 
 function touch-p() {
     mkdir -p $(dirname "$1") && touch "$1"
