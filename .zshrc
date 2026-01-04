@@ -53,7 +53,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 eval "$(starship init zsh)"
 
 # load zsh files
-ZSH_DIR="${HOME}/dotfiles/usr/zsh"
+ZSH_DIR="${HOME}/dotfiles/zsh"
 if [ -d $ZSH_DIR ] && [ -r $ZSH_DIR ] && [ -x $ZSH_DIR ]; then
     for f in ${ZSH_DIR}/**/*.zsh; do
         [ -r $f ] && source $f
