@@ -121,7 +121,7 @@ alias glist='/bin/ls'
 alias help-vm='glow $HOME/dotfiles/help_vmrun.md'
 alias rtss='rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
 
-alias imgprint='chafa -f kitty'
+alias showimg='chafa -f kitty'
 
 ghwatch() {
   # $1, $7 が関数実行時まで評価されないよう保護されます
@@ -134,3 +134,5 @@ ghwatch() {
     echo "No active runs found."
   fi
 }
+
+alias todo='nv ~/TODO.md'
