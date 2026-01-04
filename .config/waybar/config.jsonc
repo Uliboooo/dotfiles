@@ -1,104 +1,97 @@
+// -*- mode: jsonc -*-
 {
-  "layer": "top",
-  "modules-left": [, ],
-  "modules-center": ["custom/media"],
+  "height": 34,
+  "spacing": 4,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["mpris"],
   "modules-right": [
-    "tray",
-    "custom/updates",
-    "custom/wallpaper",
-    "backlight",
     "pulseaudio",
-    "clock",
+    // "cpu",
+    // "memory",
+    "network",
+    // "custom/tlp-status",
     "battery",
-    "custom/power"
+    "tray",
+    "clock",
+    "custom/notifications"
   ],
 
-  "pulseaudio": {
-    "tooltip": false,
-    "scroll-step": 5,
-    "format": "{icon} {volume}%",
-    "format-muted": "{icon} {volume}%",
-    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "format-icons": {
-      "default": ["", "", ""]
-    }
+  // --- Modules Configuration ---
+
+  "clock": {
+    "format": "{:%b %d %H:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<span font='GohuFont 14 Nerd Font 14'>{calendar}</span>",
+    "calendar-weeks-start-sunday": false
   },
 
-  "river/tags": {
-    "num-tags": 6
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate"
   },
-  "network": {
-    "tooltip": false,
-    "format-wifi": "  {essid}",
-    "format-ethernet": ""
+
+  "hyprland/window": {
+    "format": "[ {class} ]",
+    "max-length": 40
   },
-  "backlight": {
-    "tooltip": false,
-    "format": " {}%",
-    "interval": 1,
-    "on-scroll-up": "light -A 5",
-    "on-scroll-down": "light -U 5"
+
+  "mpris": {
+    "format": " {player_icon} {title}",
+    "max-length": 30
   },
-  "battery": {
-    "states": {
-      "good": 95,
-      "warning": 30,
-      "critical": 20
-    },
-    "format": "{icon}  {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{time} {icon}",
-    "format-icons": ["", "", "", "", ""]
+
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "format-muted": "MUTED",
+    "on-click": "~/dotfiles/usr/.config/waybar/scripts/audio-changer.sh",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
-  "tray": {
-    "icon-size": 18,
-    "spacing": 10
-  },
-  "clock": {
-    "format": "{: %I:%M %p   %d/%m/%Y}"
-  },
-  "cpu": {
-    "interval": 15,
-    "format": " {}%",
-    "max-length": 10
-  },
-  "memory": {
-    "interval": 30,
-    "format": " {}%",
-    "max-length": 10
-  },
-  "custom/media": {
-    "interval": 30,
-    "format": "{icon} {}",
+
+  "custom/tlp-status": {
+    "format": "{}",
+    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "return-type": "json",
-    "max-length": 20,
+    "interval": 40, // sec
+    "tooltip": true,
+    "on-click": "tlp-cmd set next-profile" // TLPプロファイル切り替え機能が必要な場合はコメントを解除
+  },
+
+  "network": {
+    "format-wifi": " {essid:.10}",
+    "format-ethernet": "ETH CNCT",
+    "format-disconnected": "OFFLINE",
+    "on-click": "ghostty -e nmtui"
+  },
+
+  "battery": {
+    "format": "BAT {capacity}%",
+    "format-charging": "CHG {capacity}%",
+    "format-plugged": "PLG {capacity}%",
+    "tooltip": true,
+    "tooltip-format": "{timeTo}"
+  },
+
+  "tray": {
+    "spacing": 2,
+    "show-passive-items": false
+  },
+
+  "custom/notifications": {
+    "format": "",
+    "on-click": "swaync-client -t"
+  },
+
+  "custom/media": {
+    "format": "{icon} {text}",
+    "return-type": "json",
+    "max-length": 30,
     "format-icons": {
-      "spotify": " ",
-      "default": " "
+      "spotify": "",
+      "default": "🎜"
     },
     "escape": true,
-    "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
-    "on-click": "playerctl play-pause"
-  },
-  "custom/launcher": {
-    "format": " ",
-    "on-click": "rofi -show drun",
-    "on-click-right": "killall rofi"
-  },
-  "custom/power": {
-    "format": " ",
-    "on-click": "bash ~/.config/rofi/leave/leave.sh"
-  },
-  "custom/updates": {
-    "format": "{} Update(s)",
-    "exec": "checkupdates | wc -l",
-    "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
-    "interval": 15,
-    "on-click": "alacritty -e paru -Syu && notify-send 'The system has been updated' "
-  },
-  "custom/wallpaper": {
-    "format": " ",
-    "on-click": "bash ~/.config/system_scripts/pkill_bc"
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
   }
 }
