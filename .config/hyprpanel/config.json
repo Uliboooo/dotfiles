@@ -1,7 +1,5 @@
 {
-  "bar.customModules.storage.paths": [
-    "/"
-  ],
+  "bar.customModules.storage.paths": ["/"],
   "theme.font.name": "Ubuntu Nerd Font",
   "theme.font.label": "0xProto Nerd Font Propo",
   "menus.clock.time.hideSeconds": true,
@@ -11,14 +9,8 @@
   "menus.media.displayTimeTooltip": true,
   "bar.layouts": {
     "*": {
-      "left": [
-        "dashboard",
-        "workspaces",
-        "windowtitle"
-      ],
-      "middle": [
-        "media"
-      ],
+      "left": ["dashboard", "workspaces", "windowtitle"],
+      "middle": ["media"],
       "right": [
         "volume",
         "network",
@@ -45,7 +37,7 @@
   "theme.bar.outer_spacing": "0",
   "bar.launcher.autoDetectIcon": true,
   "menus.media.noMediaText": "ーワー",
-  "menus.dashboard.powermenu.avatar.image": "/home/coyuki/Pictures/logo.png",
+  "menus.dashboard.powermenu.avatar.image": "~/Pictures/logo.png",
   "menus.dashboard.powermenu.avatar.name": "coyuki",
   "notifications.clearDelay": 200,
   "notifications.timeout": 6993,
@@ -53,3 +45,4 @@
   "bar.autoHide": "never",
   "menus.dashboard.shortcuts.enabled": false
 }
+
