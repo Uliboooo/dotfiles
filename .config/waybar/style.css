@@ -1,223 +1,106 @@
-/* * Lo-fi Aesthetic Theme for Waybar */
-
 * {
-  font-family: "0xProto Nerd Font", monospace;
-  font-size: 14px;
+  font-family: "0xProto Nerd Font", "IBM Plex Sans JP", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
   min-height: 0;
 }
 
 window#waybar {
-  background-color: #232136;
-  /* Deep dark purple base */
-  color: #e0def4;
-  border-bottom: 2px solid #44415a;
-}
-
-window#waybar.hidden {
-  opacity: 0.2;
-}
-
-/* Button Reset */
-button {
-  border: none;
-  border-radius: 0;
-}
-
-button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
-  background: #393552;
+  background-color: #fcfaf2;
+  color: #443d38;
+  border-bottom: 1px solid #e5e0d8;
 }
 
 tooltip {
-  font-family: "GohuFont 11 Nerd Font", "0xProto Nerd Font", monospace;
-  font-size: 12px
+  background: #f4f1ea;
+  border: 1px solid #dcd7cc;
+  text-shadow: none;
 }
 
-/* * Modules Common Style 
- * Lo-fi: Boxy shapes, no border-radius, distinct blocks
- */
+tooltip label {
+  color: #333333;
+}
+
 #workspaces,
-#mode,
 #window,
 #clock,
 #battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
 #network,
 #pulseaudio,
-#wireplumber,
-#custom-media,
 #tray,
-#idle_inhibitor,
-#scratchpad,
-#power-profiles-daemon,
-#mpd,
+#mpris,
 #custom-notifications {
-  background-color: #2a273f;
-  /* Lighter block background */
-  color: #e0def4;
-  /* Text color */
-  padding: 0 10px;
-  margin: 4px 2px;
-  /* Blocks separation */
-  border: 1px solid #44415a;
-  /* Retro border */
+  background-color: #ffffff;
+  color: #443d38;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  padding: 0 12px;
+  margin: 4px 0px;
 }
 
-#custom-tlp-status {
-  /* [変更点: TLPカスタムモジュールを共通スタイルに追加] */
-  background-color: #2a273f;
-  /* Lighter block background */
-  color: #e0def4;
-  /* Text color */
-  padding: 0 10px;
-  margin: 4px 2px;
-  /* Blocks separation */
-  border: 1px solid #44415a;
-  /* Retro border */
-}
-
-/* --- Workspaces --- */
 #workspaces {
-  padding: 0;
-  background-color: transparent;
-  border: none;
+  padding: 0 4px;
 }
 
 #workspaces button {
-  padding: 0 10px;
-  background-color: #2a273f;
-  color: #908caa;
-  margin: 4px 2px;
-  border: 1px solid #44415a;
-}
-
-#workspaces button:hover {
-  background: #393552;
-  color: #e0def4;
-}
-
-#workspaces button.focused {
-  background-color: #ea9a97;
-  /* Soft Rose */
-  color: #232136;
-  /* Dark text for contrast */
-  border-color: #ea9a97;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #8c857d;
+  padding: 0 6px;
+  margin: 2px 0;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 #workspaces button.active {
-  background-color: #c4a7e7;
-  /* Lavender */
-  color: #232136;
-  border-color: #c4a7e7;
+  color: #443d38;
+  font-weight: bold;
+  border-bottom: 2px solid #6b5a4b;
+  background-color: rgba(107, 90, 75, 0.1);
+  border-radius: 4px 4px 2px 2px;
 }
 
-#workspaces button.urgent {
-  background-color: #eb6f92;
-  /* Alert Red/Pink */
-  color: #232136;
+#workspaces button:hover {
+  background-color: #f4f1ea;
+  color: #443d38;
 }
 
-/* --- Specific Module Colors (Pastel Accents) --- */
+#window {
+  font-weight: bold;
+  color: #6b5a4b;
+}
+
+#mpris {
+  color: #6b5a4b;
+}
 
 #clock {
-  background-color: #3e8fb0;
-  /* Muted Cyan */
-  color: #232136;
-  font-weight: bold;
+  font-weight: 700;
 }
 
-#clock tooltip {
-  font-family: "GohuFont 11 Nerd Font", "0xProto Nerd Font", monospace;
-  font-size: 12px
-}
-
-
+#pulseaudio,
+#network,
 #battery {
-  background-color: #9ccfd8;
-  /* Foam Cyan */
-  color: #232136;
-}
-
-#battery.charging,
-#battery.plugged {
-  background-color: #a3be8c;
-  /* Greenish */
-  color: #232136;
+  color: #5d5750;
 }
 
 #battery.critical:not(.charging) {
-  background-color: #eb6f92;
-  color: #232136;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-iteration-count: infinite;
-}
-
-#cpu {
-  color: #eb6f92;
-  /* Love Red */
-}
-
-#memory {
-  color: #f6c177;
-  /* Gold */
-}
-
-#backlight {
-  color: #f6c177;
-}
-
-#network {
-  color: #c4a7e7;
-}
-
-#network.disconnected {
-  color: #eb6f92;
-}
-
-#pulseaudio {
-  color: #ea9a97;
-  /* Rose */
+  background-color: #e67e80;
+  color: #ffffff;
+  border-color: #e67e80;
 }
 
 #pulseaudio.muted {
-  color: #908caa;
-  /* Muted Grey */
+  color: #c0bab2;
   text-decoration: line-through;
 }
 
-#custom-media {
-  background-color: #232136;
-  border: none;
-  color: #9ccfd8;
-}
-
 #tray {
-  background-color: #2a273f;
+  padding: 0 8px;
 }
 
-#tray>.passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray>.needs-attention {
-  -gtk-icon-effect: highlight;
-  background-color: #eb6f92;
-}
-
-#custom-tlp-status {
-  font-weight: bold;
-}
-
-/* Animation */
-@keyframes blink {
-  to {
-    background-color: #ffffff;
-    color: #000000;
-  }
+#custom-notifications {
+  padding-right: 14px;
+  color: #6b5a4b;
 }

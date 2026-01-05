@@ -1,97 +1,107 @@
 // -*- mode: jsonc -*-
 {
+  "layer": "top",
+  "position": "top",
   "height": 34,
-  "spacing": 4,
+  "spacing": 6,
 
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["mpris"],
   "modules-right": [
     "pulseaudio",
-    // "cpu",
-    // "memory",
     "network",
-    // "custom/tlp-status",
     "battery",
     "tray",
     "clock",
     "custom/notifications"
   ],
 
-  // --- Modules Configuration ---
-
-  "clock": {
-    "format": "{:%b %d %H:%M}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<span font='GohuFont 14 Nerd Font 14'>{calendar}</span>",
-    "calendar-weeks-start-sunday": false
-  },
-
   "hyprland/workspaces": {
-    "format": "{name}",
-    "on-click": "activate"
+    "show-special": true,
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "magic": "M"
+    },
+    "persistent-workspaces": {
+      "*": 5
+    }
   },
 
   "hyprland/window": {
-    "format": "[ {class} ]",
-    "max-length": 40
+    "format": "{class}",
+    "max-length": 40,
+    "separate-outputs": true,
+    "rewrite": {
+      "ghostty": "󰊠 Ghostty",
+      "com.mitchellh.ghostty": "󰊠 Ghostty",
+
+      "google-chrome": " Chrome",
+      "Google-chrome": " Chrome",
+
+      "^$": "Desktop"
+    }
   },
 
   "mpris": {
-    "format": " {player_icon} {title}",
-    "max-length": 30
+    "format": "{artist}-{title}",
+    "max-length": 40,
+    "player-icons": {
+      "default": ""
+    }
+  },
+
+  "clock": {
+    "format": "{:%b %d %H:%M}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#6b5a4b'><b>{}</b></span>",
+        "days": "<span color='#443d38'>{}</span>",
+        "today": "<span color='#fcfaf2' background='#6b5a4b'><b>{}</b></span>"
+      }
+    }
   },
 
   "pulseaudio": {
-    "format": "VOL {volume}%",
-    "format-muted": "MUTED",
-    "on-click": "~/dotfiles/usr/.config/waybar/scripts/audio-changer.sh",
-    "on-click-right": "pavucontrol",
-    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
-    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-  },
-
-  "custom/tlp-status": {
-    "format": "{}",
-    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
-    "return-type": "json",
-    "interval": 40, // sec
-    "tooltip": true,
-    "on-click": "tlp-cmd set next-profile" // TLPプロファイル切り替え機能が必要な場合はコメントを解除
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 MUTED",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "pavucontrol"
   },
 
   "network": {
-    "format-wifi": " {essid:.10}",
-    "format-ethernet": "ETH CNCT",
-    "format-disconnected": "OFFLINE",
-    "on-click": "ghostty -e nmtui"
+    "format-wifi": "  {essid}",
+    "format-ethernet": "󰈀 ETH",
+    "format-disconnected": "󰖪 OFFLINE",
+    "max-length": 11
   },
 
   "battery": {
-    "format": "BAT {capacity}%",
-    "format-charging": "CHG {capacity}%",
-    "format-plugged": "PLG {capacity}%",
-    "tooltip": true,
-    "tooltip-format": "{timeTo}"
-  },
-
-  "tray": {
-    "spacing": 2,
-    "show-passive-items": false
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
 
   "custom/notifications": {
-    "format": "",
+    "format": "󰂚",
     "on-click": "swaync-client -t"
-  },
-
-  "custom/media": {
-    "format": "{icon} {text}",
-    "return-type": "json",
-    "max-length": 30,
-    "format-icons": {
-      "spotify": "",
-      "default": "🎜"
-    },
-    "escape": true,
-    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
   }
 }
