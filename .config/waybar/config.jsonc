@@ -8,6 +8,7 @@
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["mpris"],
   "modules-right": [
+    "temperature",
     "pulseaudio",
     "network",
     "battery",
@@ -47,6 +48,16 @@
     "player-icons": {
       "default": ""
     }
+  },
+
+  "temperature": {
+    // "thermal-zone": 2, // 環境によって異なります
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80, // 80度を超えたらクリティカル表示
+    "format-critical": "{icon} {temperatureC}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": ["", "", ""],
+    "interval": 10
   },
 
   "clock": {

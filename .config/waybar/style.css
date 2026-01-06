@@ -27,6 +27,7 @@ tooltip label {
 #battery,
 #network,
 #pulseaudio,
+#temperature,
 #tray,
 #mpris,
 #custom-notifications {
@@ -81,8 +82,15 @@ tooltip label {
 
 #pulseaudio,
 #network,
-#battery {
+#battery,
+#temperature {
   color: #5d5750;
+}
+
+#temperature.critical {
+  background-color: #e67e80;
+  color: #ffffff;
+  border-color: #e67e80;
 }
 
 #battery.critical:not(.charging) {
