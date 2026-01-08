@@ -19,6 +19,7 @@ background-opacity = 0.95
 background-blur-radius = 20
 
 theme = catppuccin-frappe
+window-theme = dark
 
 cursor-style-blink = true
 

@@ -1,5 +1,7 @@
 {
-  "bar.customModules.storage.paths": ["/"],
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
   "theme.font.name": "Ubuntu Nerd Font",
   "theme.font.label": "0xProto Nerd Font Propo",
   "menus.clock.time.hideSeconds": true,
@@ -9,8 +11,14 @@
   "menus.media.displayTimeTooltip": true,
   "bar.layouts": {
     "*": {
-      "left": ["dashboard", "workspaces", "windowtitle"],
-      "middle": ["media"],
+      "left": [
+        "dashboard",
+        "workspaces",
+        "windowtitle"
+      ],
+      "middle": [
+        "media"
+      ],
       "right": [
         "volume",
         "network",
@@ -44,4 +52,3 @@
   "theme.bar.location": "top",
   "bar.autoHide": "never"
 }
-
