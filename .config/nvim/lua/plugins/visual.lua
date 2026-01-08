@@ -39,11 +39,18 @@ return {
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          -- lualine_c = { "filename" },
           lualine_c = {
             {
               "filename",
               path = 1,
+            },
+            {
+              function()
+                return require("nvim-navic").get_location()
+              end,
+              cond = function()
+                return require("nvim-navic").is_available()
+              end,
             },
           },
           lualine_x = { "filesize", "filetype" },

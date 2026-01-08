@@ -27,7 +27,17 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "saghen/blink.cmp" },
+    dependencies = {
+      "saghen/blink.cmp",
+      {
+        "SmiteshP/nvim-navic",
+        opts = {
+          lsp = {
+            auto_attach = true,
+          },
+        },
+      },
+    },
     event = { "BufReadPre", "BufNewFile" },
     lazy = false,
     config = function()
@@ -46,6 +56,13 @@ return {
 
       local lspconfig = require("lspconfig")
       local capabilities = require("blink.cmp").get_lsp_capabilities()
+      local navic = require("nvim-navic")
+
+      navic.setup({
+        lsp = {
+          auto_attach = true,
+        },
+      })
 
       -- Defined as no-op to satisfy existing references in vim.lsp.config calls below
       local on_attach = function(client, bufnr) end
@@ -55,6 +72,10 @@ return {
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           local bufnr = args.buf
+
+          if client.server_capabilities.documentSymbolProvider then
+            navic.attach(client, bufnr)
+          end
 
           if client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
