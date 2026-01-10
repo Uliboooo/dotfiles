@@ -56,7 +56,7 @@
     "critical-threshold": 80, // 80度を超えたらクリティカル表示
     "format-critical": "{icon} {temperatureC}°C",
     "format": "{icon} {temperatureC}°C",
-    "format-icons": ["", "", ""],
+    "format-icons": [""],
     "interval": 10
   },
 
@@ -67,9 +67,9 @@
       "mode": "month",
       "on-scroll": 1,
       "format": {
-        "months": "<span color='#6b5a4b'><b>{}</b></span>",
-        "days": "<span color='#443d38'>{}</span>",
-        "today": "<span color='#fcfaf2' background='#6b5a4b'><b>{}</b></span>"
+        "months": "<span color='#cc88ff'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}</span>",
+        "today": "<span color='#1e1e2e' background='#cc88ff'><b>{}</b></span>"
       }
     }
   },
