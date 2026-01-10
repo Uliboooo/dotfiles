@@ -66,7 +66,7 @@ return {
 
       vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp references" })
       vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })
-      vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })
+      -- vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })
 
       vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
       vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })

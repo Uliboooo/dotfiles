@@ -61,7 +61,6 @@ return {
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          -- lualine_c = { "filename" },
           lualine_c = {
             {
               "filename",
@@ -145,20 +144,21 @@ return {
     end,
   },
   {
-    "stevearc/dressing.nvim",
-    lazy = false,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    lazy = false, -- neo-tree will lazily load itself
     opts = {
-      input = {
-        enabled = true,
-        default_prompt = "Rename to",
-        border = "rounded",
-        relative = "cursor",
-        prefer_width = 40,
-      },
-      select = {
-        enabled = true,
-        backend = { "telescope", "builtin" },
-        telescope = require("telescope.themes").get_dropdown({}),
+      window = {
+        position = "float",
+        popup = {
+          size = { height = "70%", width = "50%" },
+          position = "50%",
+        },
       },
     },
   },
