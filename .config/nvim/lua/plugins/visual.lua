@@ -21,6 +21,10 @@ return {
         pattern = "*",
         callback = function()
           vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none", nocombine = true })
+          vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none", nocombine = true })
+          vim.api.nvim_set_hl(0, "NeoTreeFloatNormal", { bg = "none", nocombine = true })
+          vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { bg = "none", nocombine = true })
+          vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = "none", nocombine = true })
         end,
       })
     end,
@@ -144,22 +148,67 @@ return {
     end,
   },
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
       "nvim-tree/nvim-web-devicons",
     },
-    lazy = false, -- neo-tree will lazily load itself
-    opts = {
-      window = {
-        position = "float",
-        popup = {
-          size = { height = "70%", width = "50%" },
-          position = "50%",
+    config = function()
+      require("nvim-tree").setup({
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
         },
-      },
-    },
+        view = {
+          float = {
+            enable = true,
+            quit_on_focus_loss = true,
+            open_win_config = function()
+              local screen_w = vim.opt.columns:get()
+              local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+              local window_w = screen_w * 0.5
+              local window_h = screen_h * 0.8
+              local center_x = (screen_w - window_w) / 2
+              local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+
+              return {
+                border = "rounded",
+                relative = "editor",
+                row = center_y,
+                col = center_x,
+                width = math.floor(window_w),
+                height = math.floor(window_h),
+              }
+            end,
+          },
+          width = function()
+            return math.floor(vim.opt.columns:get() * 0.5)
+          end,
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          dotfiles = false,
+          custom = { "node_modules", ".git" },
+        },
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "NvimTree",
+        callback = function()
+          vim.schedule(function()
+            require("nvim-tree.api").tree.expand_all()
+          end)
+        end,
+      })
+      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreePopup", { bg = "none" })
+    end,
   },
 }
