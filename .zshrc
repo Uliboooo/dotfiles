@@ -19,6 +19,9 @@ if [ "$OS_NAME" = "Darwin" ]; then
     export PATH=$(brew --prefix unzip)/bin:$PATH
     export PATH=$(brew --prefix gnu-sed)/libexec/gnubin:$PATH
     export PATH=/opt/homebrew/bin:$PATH
+
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
     export PATH=$PATH:/opt/rocm/bin
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
@@ -27,6 +30,9 @@ else
     export HSA_OVERRIDE_GFX_VERSION=10.3.0
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
+
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # cargo
@@ -47,8 +53,6 @@ export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
 # my tools
 export PATH="$HOME/my_tools/:$PATH"
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(starship init zsh)"
 
