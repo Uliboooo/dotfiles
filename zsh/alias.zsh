@@ -93,7 +93,7 @@ function r2g() {
 
 alias cow='cowsay'
 
-# for Linux 
+# for Linux
 alias copy='wl-copy'
 # for macOS
 # alias copy='pbcopy'
@@ -121,13 +121,13 @@ alias glist='/bin/ls'
 alias help-vm='glow $HOME/dotfiles/help_vmrun.md'
 alias rtss='rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
 
-alias showimg='chafa -f kitty'
+alias printimg='chafa -f kitty'
 
 ghwatch() {
   # $1, $7 が関数実行時まで評価されないよう保護されます
   local run_id
   run_id=$(gh run list | awk '$1=="*" { print $7; exit }')
-  
+
   if [ -n "$run_id" ]; then
     gh run watch "$run_id"
   else
@@ -135,4 +135,3 @@ ghwatch() {
   fi
 }
 
-alias todo='nv ~/TODO.md'
