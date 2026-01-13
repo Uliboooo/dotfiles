@@ -1,4 +1,0 @@
-[manager]
-#   [ pare dir, current dir, preview]
-layout = [ 1, 3, 4 ] 
-sort_by = "mtime"
