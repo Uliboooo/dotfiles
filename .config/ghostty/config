@@ -11,12 +11,12 @@ cursor-style = block
 window-height = 100
 window-width = 200
 
-background-image = "$HOME/Pictures/wallpapers/wp-hiro.jpg"
+# background-image = "$HOME/Pictures/wallpapers/wp-hiro.jpg"
 background-image-opacity = 0.2
 
 # 背景の透明度
 background-opacity = 0.93
-background-blur-radius = 20
+# background-blur-radius = 20
 
 theme = catppuccin-frappe
 window-theme = dark
