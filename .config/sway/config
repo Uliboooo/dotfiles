@@ -1,0 +1,159 @@
+# Sway Config
+# Converted from Hyprland configuration
+
+# --- Variables ---
+set $mod Mod4
+set $terminal ghostty
+set $fileManager nautilus
+set $menu fuzzel
+
+# --- Output Configuration ---
+# monitor = DP-1, 3840x2160, 0x0, 1.5
+output DP-1 pos 0 0 res 3840x2160 scale 1.5
+# monitor= eDP-1, 1920x1200, 320x1440, 1.0
+output eDP-1 pos 320 1440 res 1920x1200 scale 1
+
+# --- Input Configuration ---
+input * {
+    xkb_layout us
+    xkb_options ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl,caps:super
+    repeat_delay 230
+    repeat_rate 42
+    # natural_scroll enabled # Global setting
+}
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    drag_lock disable
+    tap_button_map lmr
+    natural_scroll enabled
+    scroll_factor 0.6
+    pointer_accel 0.35
+}
+
+input type:pointer {
+    accel_profile flat
+    pointer_accel 0
+}
+
+# --- Idle Configuration ---
+set $lock 'swaylock -f -c 000000'
+
+exec swayidle -w \
+  timeout 900 '$lock' \
+  timeout 1800 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
+  before-sleep '$lock'
+
+# --- Notifications ---
+exec swaync
+
+# --- Status Bar ---
+# Disable default swaybar and use waybar
+bar {
+    mode invisible
+}
+exec waybar
+
+# --- Wallpaper ---
+exec ~/.config/sway/random-wallpaper.sh
+
+# --- Autostart ---
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+# exec killall -q xdg-desktop-portal-wlr xdg-desktop-portal-gtk xdg-desktop-portal
+exec fcitx5
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+
+bindgesture swipe:3:right workspace prev
+bindgesture swipe:3:left workspace next
+
+# --- Keybindings ---
+bindsym $mod+q kill
+bindsym $mod+t exec GDK_BACKEND=wayland ghostty
+bindsym $mod+m exit
+bindsym $mod+e exec $fileManager
+bindsym $mod+v floating toggle
+bindsym $mod+d exec $menu
+bindsym $mod+f fullscreen
+bindsym $mod+c exec swaync-client -t
+bindsym $mod+l exec $lock
+
+bindsym $mod+Shift+c reload
+
+# Focus
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+grave workspace next
+bindsym $mod+Shift+grave workspace prev
+
+# Move to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Move focus/window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
+
+# Scratchpad (Special Workspace equivalent)
+bindsym $mod+s scratchpad show
+bindsym $mod+Shift+s move scratchpad
+
+# Screenshots (grimshot)
+bindsym Print exec grimshot savecopy active
+bindsym Control+Shift+s exec grimshot savecopy area
+bindsym $mod+Print exec grimshot savecopy output
+
+# Media Keys
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl -e4 -n2 set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -e4 -n2 set 5%-
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86Favorites exec playerctl play-pause
+
+# Cliphist
+bindsym $mod+Shift+v exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy
+
+# Random Wallpaper
+bindsym $mod+w exec ~/.config/sway/random-wallpaper.sh
+
+# --- Window Rules ---
+for_window [title="^Picture-in-Picture$"] floating enable, sticky enable
+
+# --- Appearance ---
+default_border pixel 1
+gaps inner 0
+gaps outer 0
+client.focused #33ccff #33ccff #33ccff #33ccff #33ccff
+
+include /etc/sway/config.d/*
