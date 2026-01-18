@@ -13,11 +13,14 @@
 
 [diff]
 	tool = difftastic
-	external = difft
+	external = difft --display inline
+
 [difftool]
 	prompt = false
+
 [difftool "difftastic"]
 	cmd = difft --display inline "$LOCAL" "$REMOTE"
+
 [pager]
 	difftool = true
 
