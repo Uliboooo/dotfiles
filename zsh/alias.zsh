@@ -1,21 +1,25 @@
 alias cdd='cd $HOME/Develop/'
 alias cdn='cd $HOME/Documents/notes'
-# alias cdb='cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents'
-# alias cdz='cd $HOME/Documents/zenn_content/'
-# alias cdc='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/'
-# alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~TextEdit/Documents'
-# alias cdn='cd $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/notes'
-# alias nz='cdz && npx zenn new:article --title'
-# alias cdt='cd $HOME/Library/Mobile\ Documents/com\~apple\~TextEdit/Documents'
 
-alias nzenn='npx zenn new:article --title $1'
-alias pzenn='npx zenn preview --open'
+function distro() {
+    cat /etc/os-release | rg '^NAME=' | rg '^NAME=".*"'
+}
 
-alias hxd='hx .'
-if [ "$OS_NAME" = "Linux" ]; then
-    alias hx='helix'
-    alias hxd='helix .'
+if [[ "$OSTYPE" == "darwin"* ]];then
+  alias copy='pbcopy'
+  alias update='brew update && brew upgrade && rustup update'
+else
+  alias copy='wl-copy'
+  alias hx='helix'
+  alias hxd='helix .'
+
+  if [[ $(distro) == *"Fedora"* ]]; then
+    alias update='sudo dnf update -y && brew update && brew upgrade && rustup update'
+  else
+    alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update && yay -Syu --noconfirm'
+  fi
 fi
+
 
 alias ff='fastfetch'
 
@@ -35,6 +39,11 @@ alias gf='git fetch'
 alias gb='git branch'
 alias gdn='git diff --name-only'
 alias gdan='git --no-pager diff --name-only'
+function gc() {
+  git add .
+  git commit -m "$1"
+}
+
 
 alias cf='cargo fmt'
 alias ch='cargo check'
@@ -42,14 +51,10 @@ alias cr='cargo run'
 alias cb='cargo build'
 alias cbrm='cargo build --release && cargo build --release --target x86_64-unknown-linux-gnu && cargo build --release --target x86_64-pc-windows-gnu'
 
-function note() {
-    nvim $HOME/Library/Mobile\ Documents/com\~apple\~CloudDocs/note
-}
-
 alias tl='tmux ls'
 alias tr='tmux kill-session -t'
 
-function ta() { # attach tmux with name
+function ta() {
     if [[ "$#" -gt 0 ]]; then
         tmux new-session -A -s "$1"
     else
@@ -57,46 +62,21 @@ function ta() { # attach tmux with name
     fi
 }
 
+alias cow='cowsay'
+
 alias nv='nvim'
 alias nvd='nvim .'
+alias hxd='hx .'
 
 alias em='emacsclient -t'
 alias emacs='emacs -nw'
-alias reload_em='launchctl unload ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl load ~/Library/LaunchAgents/org.emacs.daemon.plist && launchctl list | rg emacs'
 
 alias r='rlwrap'
-
-function distro() {
-    cat /etc/os-release | rg '^NAME=' | rg '^NAME=".*"'
-}
-
-if ((IS_LINUX)); then
-    if [[ $(distro) == *"Fedora"* ]]; then
-        alias update='sudo dnf update -y && brew update && brew upgrade && rustup update'
-    else
-        alias update='sudo pacman -Syu --noconfirm && brew update && brew upgrade && rustup update && yay -Syu --noconfirm'
-    fi
-else
-    alias update='brew update && brew upgrade && rustup update'
-fi
-
 alias rl='rlwrap sbcl'
-
-function gc() {
-  git add .
-  git commit -m "$1"
-}
 
 function r2g() {
   ffmpeg -i "$1" -r 20 "$2"
 }
-
-alias cow='cowsay'
-
-# for Linux
-alias copy='wl-copy'
-# for macOS
-# alias copy='pbcopy'
 
 function touch-p() {
     mkdir -p $(dirname "$1") && touch "$1"
@@ -106,16 +86,7 @@ alias cppr='clang++ main.cpp -o out && ./out'
 alias alias-edit='nvim $HOME/dotfiles/usr/zsh/alias.zsh'
 alias ls='eza'
 alias f-l='rg "function" $HOME/dotfiles/usr/zsh/alias.zsh'
-alias load_z='source ~/.zshrc'
 
-alias li='limactl'
-alias lili='limactl list'
-
-# ocaml
-alias 'ocf'='ocamlformat --enable-outside-detected-project -i'
-alias 'oc'='ocaml'
-
-alias vm='sh ~/dotfiles/vm-run.sh'
 alias glist='/bin/ls'
 
 alias help-vm='glow $HOME/dotfiles/help_vmrun.md'
@@ -123,8 +94,7 @@ alias rtss='rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n
 
 alias printimg='chafa -f kitty'
 
-ghwatch() {
-  # $1, $7 が関数実行時まで評価されないよう保護されます
+function ghwatch() {
   local run_id
   run_id=$(gh run list | awk '$1=="*" { print $7; exit }')
 
