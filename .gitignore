@@ -21,3 +21,6 @@ usr/emacs/.emacs.d/.cache
 #.DS_Store#
 !usr/.config/tmux/plugins/tpm
 usr/.config/helix/runtime
+fish_variables
+fish_history
+generated_completions/
