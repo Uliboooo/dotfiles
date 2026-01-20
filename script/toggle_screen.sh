@@ -4,25 +4,27 @@ INTERNAL="eDP-1"
 EXTERNAL="DP-1"
 
 # 外部モニターが接続されているか確認
+# grepの戻り値を利用するため直接ifに入れます
 if hyprctl monitors all | grep -q "Monitor $EXTERNAL"; then
-    
-    # 内蔵モニターが現在「有効（アクティブ）」か確認
-    # grepにスペースを追加し、より正確にマッチングさせます
-    if hyprctl monitors | grep -q "Monitor $INTERNAL"; then
-        # 内蔵モニターを無効化し、外部モニターのみにする
-        # 0x0の位置設定などを明示的に指定
-        hyprctl keyword monitor "$INTERNAL, disable"
-        hyprctl keyword monitor "$EXTERNAL, 3840x2160@60, 0x0, 1.5"
-        
-        notify-send "Hyprland" "Internal monitor DISABLED"
-    else
-        # 内蔵モニターを再有効化（デフォルト設定に戻す）
-        # reloadよりも明示的な設定の方が確実です
-        hyprctl keyword monitor "$INTERNAL, preferred, auto, 1"
-        notify-send "Hyprland" "Internal monitor ENABLED"
-    fi
+    case "$1" in
+        0)
+            hyprctl keyword monitor "${EXTERNAL}, 3840x2160, 0x0, 1.5"
+            hyprctl keyword monitor "${INTERNAL}, 1920x1200, 320x1440, 1.0"
+            notify-send "Hyprland" "All monitors enabled"
+            ;;
+        1)
+            hyprctl keyword monitor "${EXTERNAL}, 3840x2160, 0x0, 1.5"
+            hyprctl keyword monitor "${INTERNAL}, disable"
+            notify-send "Hyprland" "External monitor only"
+            ;;
+        *)
+            hyprctl keyword monitor "${INTERNAL}, preferred, auto, 1"
+            hyprctl keyword monitor "${EXTERNAL}, disable"
+            notify-send "Hyprland" "Default config (Internal only)"
+            ;;
+    esac
 else
-    # 外部モニターがない場合は内蔵モニターを強制有効
-    hyprctl keyword monitor "$INTERNAL, preferred, auto, 1"
+    # 外部モニターが見つからない場合
+    hyprctl keyword monitor "${INTERNAL}, preferred, auto, 1"
     notify-send "Hyprland" "Internal Monitor Only (External not found)"
 fi
