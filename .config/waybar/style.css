@@ -8,12 +8,10 @@
 window#waybar {
   background-color: #1e1e2e;
   color: #cdd6f4;
-  border-bottom: 1px solid #313244;
 }
 
 tooltip {
-  background: #11111b;
-  border: 1px solid #313244;
+  background: rgba(17, 17, 27, 0.9);
   text-shadow: none;
 }
 
@@ -31,10 +29,8 @@ tooltip label {
 #tray,
 #mpris,
 #custom-notifications {
-  background-color: #181825;
   color: #cdd6f4;
-  border: 1px solid #313244;
-  border-radius: 8px;
+  border-radius: 0px;
   padding: 0 12px;
   margin: 4px 0px;
 }
@@ -50,7 +46,7 @@ tooltip label {
   color: #a6adc8;
   padding: 0 6px;
   margin: 2px 0;
-  border-radius: 4px;
+  border-radius: 0px;
   transition: all 0.2s ease;
 }
 
@@ -58,12 +54,10 @@ tooltip label {
   color: #cdd6f4;
   font-weight: bold;
   border-bottom: 2px solid #cc88ff;
-  background-color: rgba(204, 136, 255, 0.2);
-  border-radius: 4px 4px 2px 2px;
+  border-radius: 0px;
 }
 
 #workspaces button:hover {
-  background-color: #313244;
   color: #cdd6f4;
 }
 
@@ -88,15 +82,11 @@ tooltip label {
 }
 
 #temperature.critical {
-  background-color: #f38ba8;
-  color: #1e1e2e;
-  border-color: #f38ba8;
+  color: #f38ba8;
 }
 
 #battery.critical:not(.charging) {
-  background-color: #f38ba8;
-  color: #1e1e2e;
-  border-color: #f38ba8;
+  color: #f38ba8;
 }
 
 #pulseaudio.muted {
@@ -106,6 +96,10 @@ tooltip label {
 
 #tray {
   padding: 0 8px;
+}
+
+#tray > * {
+  margin: 0 8px;
 }
 
 #custom-notifications {
