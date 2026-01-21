@@ -1,6 +1,7 @@
-theme = "catppuccin_frappe"
+# theme = "catppuccin_frappe"
 
 [editor]
+auto-info = false
 bufferline = "always"
 line-number = "relative"
 #mouse = true
