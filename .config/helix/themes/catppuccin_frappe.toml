@@ -1,5 +1,13 @@
 inherits = "catppuccin_mocha"
 
+"ui.background" = {}
+"ui.cursor" = { fg = "base", bg = "rosewater" }
+"ui.cursor.match" = { fg = "base", bg = "yellow" }
+"ui.cursor.primary" = { fg = "base", bg = "rosewater" }
+"ui.cursor.primary.insert" = { fg = "base", bg = "green" }
+"ui.cursor.primary.select" = { fg = "base", bg = "blue" }
+"ui.cursor.primary.normal" = { fg = "base", bg = "rosewater" }
+
 [palette]
 rosewater = "#f2d5cf"
 flamingo = "#eebebe"
@@ -32,5 +40,3 @@ cursorline = "#3b3f52"
 secondary_cursor = "#b8a5a6"
 secondary_cursor_normal = "#9192be"
 secondary_cursor_insert = "#83a275"
-
-"ui.background" = {}
