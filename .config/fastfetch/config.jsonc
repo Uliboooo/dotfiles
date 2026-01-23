@@ -1,22 +1,32 @@
 {
-    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "modules": [
-        "os",
-        "de",
-        "wm",
-        "kernel",
-        "uptime",
-        "shell",
-        "terminal",
-        "cpu",
-        "gpu",
-        "memory",
-        "swap",
-        "disk",
-        "localip",
-        "packages",
-        "users",
-        "display",
-        "colors"
-    ]
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "~/Pictures/wallpapers/KAF.jpg",
+    "type": "kitty",
+    // "width": 30,
+    "height": 16,
+    "padding": {
+      "top": 1,
+      "left": 2
+    }
+  },
+  "modules": [
+    "os",
+    "de",
+    "wm",
+    "kernel",
+    "uptime",
+    "shell",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "swap",
+    "disk",
+    "localip",
+    "packages",
+    "users",
+    "display",
+    "colors"
+  ]
 }

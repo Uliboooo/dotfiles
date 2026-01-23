@@ -200,6 +200,7 @@ return {
 				filetypes = { "css", "scss", "less" },
 			})
 			vim.lsp.enable("cssls")
+
 		end,
 	},
 }

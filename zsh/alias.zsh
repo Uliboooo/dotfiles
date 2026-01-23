@@ -12,6 +12,8 @@ else
   alias copy='wl-copy'
   alias hx='helix'
   alias hxd='helix .'
+  alias cc='clang'
+  alias ccc='clang++'
 
   if [[ $(distro) == *"Fedora"* ]]; then
     alias update='sudo dnf update -y && brew update && brew upgrade && rustup update'
