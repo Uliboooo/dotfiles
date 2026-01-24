@@ -15,7 +15,7 @@ window-width = 200
 background-image-opacity = 0.2
 
 # 背景の透明度
-background-opacity = 0.93
+background-opacity = 0.96
 # background-blur-radius = 20
 
 theme = catppuccin-frappe

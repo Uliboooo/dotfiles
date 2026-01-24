@@ -18,6 +18,7 @@ if [ "$OS_NAME" = "Darwin" ]; then
     export PATH=$(brew --prefix zip)/bin:$PATH
     export PATH=$(brew --prefix unzip)/bin:$PATH
     export PATH=$(brew --prefix gnu-sed)/libexec/gnubin:$PATH
+    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
     export PATH=/opt/homebrew/bin:$PATH
 
     source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
