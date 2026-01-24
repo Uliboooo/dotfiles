@@ -4,9 +4,9 @@
     "source": "~/Pictures/wallpapers/KAF.jpg",
     "type": "kitty",
     // "width": 30,
-    "height": 16,
+    "height": 18,
     "padding": {
-      "top": 1,
+      "top": 0,
       "left": 2
     }
   },
