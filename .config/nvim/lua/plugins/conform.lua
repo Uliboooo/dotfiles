@@ -1,7 +1,8 @@
 return {
   {
     "stevearc/conform.nvim",
-    event = { "BufWritePre" },
+    -- event = "BufWritePre" ではなく、読み込みタイミングを制御
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("conform").setup({
         formatters_by_ft = {
@@ -13,19 +14,11 @@ return {
           json = { "biome" },
           jsonc = { "biome" },
         },
+        -- setup内の format_on_save を有効にするだけで自動整形は機能します
         format_on_save = {
-          live_text = true,
           timeout_ms = 500,
           lsp_format = "fallback",
-          async = false,
         },
-      })
-
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.rs", "*.go" },
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf })
-        end,
       })
     end,
   },

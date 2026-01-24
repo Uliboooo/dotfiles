@@ -36,3 +36,5 @@
 [color "status"]
   modified = yellow
   deleted = red
+[pull]
+	rebase = false
