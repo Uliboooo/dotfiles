@@ -31,6 +31,10 @@ keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
 keybind = super+enter=unbind
 # keybind = ctrl+enter=unbind
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
+keybind = ctrl+j=goto_split:bottom
+keybind = ctrl+k=goto_split:top
 
 # working-directory = "home"
 window-inherit-working-directory = true
