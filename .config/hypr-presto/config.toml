@@ -1,0 +1,4 @@
+[apps]
+f = "firefox"                 # Press 'f' to launch Firefox
+g = "com.mitchellh.ghostty"   # Press 'g' to launch Ghostty
+c = "code"                    # Press 'c' to launch VS Code
