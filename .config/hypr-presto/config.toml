@@ -1,4 +1,8 @@
 [apps]
 f = "firefox"                 # Press 'f' to launch Firefox
 g = "com.mitchellh.ghostty"   # Press 'g' to launch Ghostty
-c = "code"                    # Press 'c' to launch VS Code
+c = "code-oss"                    # Press 'c' to launch VS Code
+o = "obsidian"
+s = "com.obsproject.Studio"
+b = "blueman-manager"
+

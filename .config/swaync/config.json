@@ -3,6 +3,7 @@
 
   "positionX": "right",
   "positionY": "top",
+  "ignore-focused": false,
 
   "layer": "overlay",
   "control-center-layer": "top",
