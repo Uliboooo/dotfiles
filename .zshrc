@@ -32,8 +32,11 @@ else
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
 
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    # source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    [[ -f "/home/coyuki/.local/share/swiftly/env.sh" ]] && source "$HOME/.local/share/swiftly/env.sh"
 fi
 
 # cargo
