@@ -56,6 +56,8 @@ alias cbrm='cargo build --release && cargo build --release --target x86_64-unkno
 alias tl='tmux ls'
 alias tr='tmux kill-session -t'
 
+alias hist=history
+
 function ta() {
     if [[ "$#" -gt 0 ]]; then
         tmux new-session -A -s "$1"
