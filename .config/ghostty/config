@@ -11,8 +11,9 @@ cursor-style = block
 window-height = 100
 window-width = 200
 
-# background-image = "$HOME/Pictures/wallpapers/wp-hiro.jpg"
-background-image-opacity = 0.2
+background-image = "~/Pictures/wallpapers/KAF.jpg"
+background-image-opacity = 0.05
+background-image-fit = cover
 
 # 背景の透明度
 background-opacity = 0.96

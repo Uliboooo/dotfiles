@@ -6,12 +6,14 @@
 }
 
 window#waybar {
-  background-color: #1e1e2e;
+  background-color: transparent;
   color: #cdd6f4;
 }
 
 tooltip {
   background: rgba(17, 17, 27, 0.9);
+  border: 1px solid #f5c2e7;
+  border-radius: 10px;
   text-shadow: none;
 }
 
@@ -19,66 +21,76 @@ tooltip label {
   color: #cdd6f4;
 }
 
-#workspaces,
-#window,
+#niri-window,
+#mpris,
 #clock,
 #battery,
 #network,
 #pulseaudio,
 #temperature,
 #tray,
-#mpris,
 #custom-notifications {
-  color: #cdd6f4;
-  border-radius: 0px;
+  background-color: rgba(24, 24, 37, 0.6);
+  border-radius: 10px;
   padding: 0 12px;
-  margin: 4px 0px;
+  margin: 4px 2px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
-#workspaces {
-  padding: 0 4px;
-}
-
-#workspaces button {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  color: #a6adc8;
-  padding: 0 6px;
-  margin: 2px 0;
-  border-radius: 0px;
-  transition: all 0.2s ease;
-}
-
-#workspaces button.active {
-  color: #cdd6f4;
+#niri-window {
   font-weight: bold;
-  border-bottom: 2px solid #cc88ff;
-  border-radius: 0px;
-}
-
-#workspaces button:hover {
-  color: #cdd6f4;
-}
-
-#window {
-  font-weight: bold;
-  color: #cc88ff;
+  color: #f5c2e7;
+  border: 1px solid #f5c2e7;
 }
 
 #mpris {
-  color: #cc88ff;
+  color: #f2cdcd;
+  border: 1px solid #f2cdcd;
 }
 
 #clock {
   font-weight: 700;
+  color: #cba6f7;
+  border: 1px solid #cba6f7;
 }
 
-#pulseaudio,
-#network,
-#battery,
+#pulseaudio {
+  color: #a6e3a1;
+  border: 1px solid #a6e3a1;
+}
+
+#network {
+  color: #89dceb;
+  border: 1px solid #89dceb;
+}
+
+#battery {
+  color: #fab387;
+  border: 1px solid #fab387;
+}
+
 #temperature {
-  color: #a6adc8;
+  color: #94e2d5;
+  border: 1px solid #94e2d5;
+}
+
+#custom-notifications {
+  color: #f5e0dc;
+  border: 1px solid #f5e0dc;
+}
+
+#temperature.critical,
+#battery.critical:not(.charging) {
+  color: #f38ba8;
+  border: 1px solid #f38ba8;
+}
+
+#tray {
+  padding: 0 8px;
+}
+
+#tray > * {
+  margin: 0 8px;
 }
 
 #temperature.critical {
@@ -104,5 +116,5 @@ tooltip label {
 
 #custom-notifications {
   padding-right: 14px;
-  color: #cc88ff;
+  color: #f5e0dc;
 }

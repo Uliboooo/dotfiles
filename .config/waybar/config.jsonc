@@ -3,10 +3,10 @@
   "layer": "top",
   "position": "top",
   "height": 34,
-  "spacing": 6,
+  "spacing": 2,
 
-  "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["hyprland/window", "mpris"],
+  "modules-left": [],
+  "modules-center": ["niri/window", "mpris"],
   "modules-right": [
     "temperature",
     "pulseaudio",
@@ -16,6 +16,12 @@
     "clock",
     "custom/notifications"
   ],
+
+  "niri/window": {
+    "format": "󰖲 {title}",
+    "max-length": 30,
+    "separate-outputs": true
+  },
 
   "hyprland/workspaces": {
     "show-special": true,
@@ -67,9 +73,9 @@
       "mode": "month",
       "on-scroll": 1,
       "format": {
-        "months": "<span color='#cc88ff'><b>{}</b></span>",
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
         "days": "<span color='#cdd6f4'>{}</span>",
-        "today": "<span color='#1e1e2e' background='#cc88ff'><b>{}</b></span>"
+        "today": "<span color='#1e1e2e' background='#cba6f7'><b>{}</b></span>"
       }
     }
   },

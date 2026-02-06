@@ -10,8 +10,6 @@ if [[ "$OSTYPE" == "darwin"* ]];then
   alias update='brew update && brew upgrade && rustup update'
 else
   alias copy='wl-copy'
-  alias hx='helix'
-  alias hxd='helix .'
   alias cc='clang'
   alias ccc='clang++'
 
