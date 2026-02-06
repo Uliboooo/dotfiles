@@ -14,7 +14,7 @@
     "battery",
     "tray",
     "clock",
-    "custom/notifications"
+    "custom/notification"
   ],
 
   "niri/window": {
@@ -107,8 +107,17 @@
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
 
-  "custom/notifications": {
-    "format": "󰂚",
-    "on-click": "swaync-client -t"
+  "custom/notification": {
+    "exec": "python3 /home/coyuki/.config/waybar/scripts/mako-count.py",
+    "return-type": "json",
+    "interval": 2,
+    "format": "{icon} {}",
+    "format-icons": {
+      "has-notifications": "󱅫",
+      "none": "󰂚"
+    },
+    "on-click": "makoctl restore",
+    "on-click-right": "makoctl dismiss -a",
+    "tooltip": true
   }
 }

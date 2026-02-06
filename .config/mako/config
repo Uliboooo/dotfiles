@@ -1,0 +1,14 @@
+# 通知が自動で消える時間 (10秒)
+default-timeout=10000
+
+# 履歴の最大保持数
+max-history=50
+
+# 重なった際のフォーマット
+format=<b>%s</b>
+%b
+group-by=summary
+
+[grouped]
+format=<b>%s (%g)</b>
+%b
