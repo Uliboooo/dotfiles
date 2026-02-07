@@ -12,7 +12,7 @@ window-height = 100
 window-width = 200
 
 background-image = "~/Pictures/wallpapers/KAF.jpg"
-background-image-opacity = 0.05
+background-image-opacity = 0.02
 background-image-fit = cover
 
 # 背景の透明度
