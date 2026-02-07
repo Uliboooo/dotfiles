@@ -111,13 +111,13 @@
     "exec": "python3 /home/coyuki/.config/waybar/scripts/mako-count.py",
     "return-type": "json",
     "interval": 2,
-    "format": "{icon} {}",
+    "format": "{icon} {text}",
     "format-icons": {
       "has-notifications": "󱅫",
       "none": "󰂚"
     },
     "on-click": "makoctl restore",
-    "on-click-right": "makoctl dismiss -a",
+    "on-click-right": "makoctl dismiss-all",
     "tooltip": true
   }
 }

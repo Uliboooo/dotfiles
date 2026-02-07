@@ -1,14 +1,31 @@
-# 通知が自動で消える時間 (10秒)
-default-timeout=10000
+# 中央にスタック表示（overlay層で常に最前面）
+anchor=top-center
+margin=10,10,10,10
+padding=10,15
+layer=overlay
+
+# 通知が自動で消える時間 (5秒)
+default-timeout=5000
 
 # 履歴の最大保持数
-max-history=50
+max-history=3
 
-# 重なった際のフォーマット
-format=<b>%s</b>
-%b
+# 外観
+border-size=2
+border-color=#cc88ff
+border-radius=8
+background-color=#2a2a2a
+text-color=#ffffff
+
+# フォント
+font=monospace 10
+
+# クリックでdismiss
+on-button-left=dismiss
+
+# フォーマット
+format=<b>%s</b>\n%b
 group-by=summary
 
 [grouped]
-format=<b>%s (%g)</b>
-%b
+format=<b>%s (%g)</b>\n%b

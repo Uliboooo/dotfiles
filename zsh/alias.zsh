@@ -70,8 +70,8 @@ alias nv='nvim'
 alias nvd='nvim .'
 alias hxd='hx .'
 
-alias em='emacsclient -t'
-alias emacs='emacs -nw'
+alias cop='copilot --banner'
+alias ppp='copilot -p'
 
 alias r='rlwrap'
 alias rl='rlwrap sbcl'
