@@ -1,0 +1,13 @@
+[[language]]
+name = "moonbit"
+scope = "source.moonbit"
+injection-regex = "moonbit"
+file-types = ["mbt"]
+comment-tokens = ["//"]
+indent = { tab-width = 2, unit = "  " }
+roots = ["moon.mod.json"]
+language-servers = [ "moonbit-lsp" ]
+
+[[grammar]]
+name = "moonbit"
+source = { git = "https://github.com/moonbitlang/tree-sitter-moonbit", rev = "main" }

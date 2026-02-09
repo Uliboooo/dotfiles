@@ -96,6 +96,11 @@ window-rule {
     open-floating true
 }
 
+window-rule {
+    match app-id=r#"^(google-)?chrome(-.*)?$"# title=".*[Nn]otification.*|.*[Aa]lert.*"
+    open-floating true
+}
+
 
 
 binds {

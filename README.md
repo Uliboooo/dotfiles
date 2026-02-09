@@ -24,3 +24,10 @@ This repository includes configurations for the following tools:
 * Review the `setup.sh` and `setup/links.sh` scripts to see exactly what will be installed and linked.
 
 * run `hx --grammar fetch && hx --grammar build` to setup moonbit for helix editor
+
+## set up moonbit in helix
+
+```sh
+hx --grammar fetch
+hx --grammar build
+```
