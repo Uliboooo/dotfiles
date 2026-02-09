@@ -24,3 +24,4 @@ usr/.config/helix/runtime
 fish_variables
 fish_history
 generated_completions/
+.config/helix/runtime/grammars/
