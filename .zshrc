@@ -9,8 +9,10 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_SAVE_NO_DUPS
 setopt EXTENDED_HISTORY
+setopt local_options nocasematch
 
 OS_NAME=$(uname -s)
+DIST=$(sed -n 's/^NAME=["'\'']\(.*\)["'\'']$/\1/p' /etc/os-release)
 
 if [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -32,10 +34,13 @@ else
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
 
-    # source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-    # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    if [[ "${DIST}" =~  "arch" ]]; then
+        source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+        source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    else
+        source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+        source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    fi
     [[ -f "/home/coyuki/.local/share/swiftly/env.sh" ]] && source "$HOME/.local/share/swiftly/env.sh"
 fi
 
