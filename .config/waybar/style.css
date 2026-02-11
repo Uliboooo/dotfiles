@@ -21,6 +21,7 @@ tooltip label {
   color: #cdd6f4;
 }
 
+#hyprland-window,
 #niri-window,
 #mpris,
 #clock,
@@ -38,6 +39,13 @@ tooltip label {
 }
 
 #niri-window {
+  background-color: rgba(24, 24, 37, 0.6);
+  font-weight: 700;
+  color: #f5c2e7;
+  border: 1px solid #f5c2e7;
+}
+
+#hyprland-window {
   background-color: rgba(24, 24, 37, 0.6);
   font-weight: 700;
   color: #f5c2e7;
