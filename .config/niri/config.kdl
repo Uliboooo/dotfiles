@@ -69,7 +69,7 @@ layout {
     }
 }
 
-spawn-at-startup "waybar"
+spawn-at-startup "waybar -c ~/dotfiles/.config/waybar/config.niri.jsonc"
 spawn-at-startup "swaybg" "-i" "/home/coyuki/Pictures/wallpapers/KAF.jpg" "-m" "fill"
 
 hotkey-overlay {

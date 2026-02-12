@@ -1,0 +1,123 @@
+// -*- mode: jsonc -*-
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "spacing": 2,
+
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["hyprland/window", "mpris"],
+  "modules-right": [
+    "temperature",
+    "pulseaudio",
+    "network",
+    "battery",
+    "tray",
+    "clock",
+    "custom/notification"
+  ],
+
+  "hyprland/window": {
+    "format": "󰖲 {title}",
+    "max-length": 30,
+    "separate-outputs": true
+  },
+
+  "hyprland/workspaces": {
+    "show-special": true,
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "1": "1",
+      "magic": "M"
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{class}",
+    "max-length": 40,
+    "separate-outputs": true,
+    "rewrite": {
+      "ghostty": "󰊠 Ghostty",
+      "com.mitchellh.ghostty": "󰊠 Ghostty",
+
+      "google-chrome": " Chrome",
+      "Google-chrome": " Chrome",
+
+      "^$": "Desktop"
+    }
+  },
+
+  "mpris": {
+    "format": "{artist}-{title}",
+    "max-length": 40,
+    "player-icons": {
+      "default": ""
+    }
+  },
+
+  "temperature": {
+    // "thermal-zone": 2, // 環境によって異なります
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80, // 80度を超えたらクリティカル表示
+    "format-critical": "{icon} {temperatureC}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [""],
+    "interval": 10
+  },
+
+  "clock": {
+    "format": "{:%b %d %H:%M}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}</span>",
+        "today": "<span color='#1e1e2e' background='#cba6f7'><b>{}</b></span>"
+      }
+    }
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 MUTED",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  "network": {
+    "format-wifi": "  {essid}",
+    "format-ethernet": "󰈀 ETH",
+    "format-disconnected": "󰖪 OFFLINE",
+    "max-length": 11
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+  },
+
+  "custom/notification": {
+    "exec": "python3 /home/coyuki/.config/waybar/scripts/mako-count.py",
+    "return-type": "json",
+    "interval": 2,
+    "format": "{icon} {text}",
+    "format-icons": {
+      "has-notifications": "󱅫",
+      "none": "󰂚"
+    },
+    "on-click": "makoctl restore",
+    "on-click-right": "makoctl dismiss-all",
+    "tooltip": true
+  }
+}
