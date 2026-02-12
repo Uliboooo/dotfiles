@@ -69,8 +69,11 @@ layout {
     }
 }
 
-spawn-at-startup "waybar -c ~/dotfiles/.config/waybar/config.niri.jsonc"
+spawn-at-startup "waybar" "-c" "/home/coyuki/.config/waybar/config.niri.jsonc" "-s" "/home/coyuki/.config/waybar/style.css"
 spawn-at-startup "swaybg" "-i" "/home/coyuki/Pictures/wallpapers/KAF.jpg" "-m" "fill"
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 
 hotkey-overlay {
     skip-at-startup
@@ -107,8 +110,11 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+Alt+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+E hotkey-overlay-title="Open Files: Files" { spawn "nautilus"; }
+
+    Mod+Alt+S { spawn "~/dotfiles/script/audio_swicher.sh"; }
 
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
@@ -244,6 +250,7 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
+    Ctrl+Shift+s { screenshot; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+N { spawn "makoctl" "restore"; }

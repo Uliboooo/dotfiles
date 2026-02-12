@@ -34,6 +34,8 @@ else
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
 
+    export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/keyring/ssh
+
     if [[ "${DIST}" =~  "arch" ]]; then
         source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
         source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
