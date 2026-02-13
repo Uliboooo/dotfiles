@@ -12,7 +12,6 @@ setopt EXTENDED_HISTORY
 setopt local_options nocasematch
 
 OS_NAME=$(uname -s)
-DIST=$(sed -n 's/^NAME=["'\'']\(.*\)["'\'']$/\1/p' /etc/os-release)
 
 if [ "$OS_NAME" = "Darwin" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -26,6 +25,7 @@ if [ "$OS_NAME" = "Darwin" ]; then
     source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
+    DIST=$(sed -n 's/^NAME=["'\'']\(.*\)["'\'']$/\1/p' /etc/os-release)
     export PATH=$PATH:/opt/rocm/bin
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/lib
     export ROCM_PATH=/opt/rocm
