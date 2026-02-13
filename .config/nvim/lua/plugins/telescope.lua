@@ -63,6 +63,7 @@ return {
       vim.keymap.set("n", "<Leader>d", btin.diagnostics, { desc = "telescope diagnostics" })
       vim.keymap.set("n", "<Leader>P", btin.commands, { desc = "telescope vim cmd list" })
       vim.keymap.set("n", "<Leader>e", btin.diagnostics, { desc = "telescope dignostics" })
+      vim.keymap.set("n", "<Leader>m", btin.marks, { desc = "telescope list of marks" })
 
       vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp references" })
       vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })

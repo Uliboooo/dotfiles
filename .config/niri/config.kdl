@@ -3,6 +3,11 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+environment {
+    GDK_BACKEND "wayland,x11"
+    QT_QPA_PLATFORM "wayland;xcb"
+}
+
 input {
     focus-follows-mouse
 
@@ -31,6 +36,13 @@ input {
 output "eDP-1" {
     mode "1920x1200@60.002"
     scale 1
+    transform "normal"
+    position x=320 y=1440
+}
+
+output "DP-1" {
+    mode "3840x2160@59.997"
+    scale 1.5
     transform "normal"
     position x=0 y=0
 }
@@ -74,6 +86,7 @@ spawn-at-startup "swaybg" "-i" "/home/coyuki/Pictures/wallpapers/KAF.jpg" "-m" "
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+spawn-at-startup "xwayland-satellite"
 
 hotkey-overlay {
     skip-at-startup
