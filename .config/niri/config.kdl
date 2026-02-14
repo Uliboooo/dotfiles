@@ -126,6 +126,7 @@ binds {
     Mod+Alt+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+E hotkey-overlay-title="Open Files: Files" { spawn "nautilus"; }
+    Mod+M hotkey-overlay-title="speak input" { spawn "~/Develop/voime/target/release/voime"; }
 
     Mod+Alt+S { spawn "~/dotfiles/script/audio_swicher.sh"; }
 
