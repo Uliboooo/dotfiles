@@ -60,30 +60,20 @@ layout {
 
     default-column-width { proportion 0.5; }
 
-    focus-ring {
-        width 1
-        active-color "#cc88ff"
-        inactive-color "#3b3b3b"
+    focus-ring{
+      off
     }
 
+    background-color "transparent"
     border {
-        on
-        width 1
-        active-color "#cc88ff"
-        inactive-color "#3b3b3b"
-        urgent-color "#f38ba8"
+        width 2
     }
+    shadow {} // border and shadow need to at least be initialized inorder to recieve the include values
 
-    shadow {
-        softness 30
-        spread 5
-        offset x=0 y=5
-        color "#0007"
-    }
 }
 
-// spawn-at-startup "waybar" "-c" "/home/coyuki/.config/waybar/config.niri.jsonc" "-s" "/home/coyuki/.config/waybar/style.css"
-// spawn-at-startup "sh" "~/.config/waybar/launch.sh"
+include "./colors.kdl"
+
 spawn-at-startup "sh" "/home/coyuki/dotfiles/script/launch-waybar.sh"
 spawn-at-startup "swaybg" "-i" "/home/coyuki/Pictures/wallpapers/KAF.jpg" "-m" "fill"
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"

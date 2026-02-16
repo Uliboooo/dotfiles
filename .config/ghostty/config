@@ -20,6 +20,7 @@ background-opacity = 0.96
 # background-blur-radius = 20
 
 theme = catppuccin-frappe
+# theme = "Matugen"
 window-theme = dark
 
 cursor-style-blink = true

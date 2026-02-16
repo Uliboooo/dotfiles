@@ -1,3 +1,5 @@
+@import "colors.css";
+
 /* ------------------------------------
  * Global
  * ------------------------------------ */
@@ -8,123 +10,123 @@
   min-height: 0;
 }
 
-/* ------------------------------------
- * Notification Window
- * ------------------------------------ */
-.notification {
-  background-color: #181825;
-  /* Waybar modules bg */
-  color: #cdd6f4;
-  /* Waybar text */
-  border: 1px solid #313244;
-  /* Waybar border */
-  margin: 6px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.notification.normal {
-  border-left: 3px solid #cc88ff;
-  /* Waybar accent */
-}
-
-.notification.critical {
-  border-left: 3px solid #f38ba8;
-  /* Waybar critical */
-  background-color: #1e1e2e;
-  /* Darker bg */
-}
-
-/* ------------------------------------
- * Notification Content
- * ------------------------------------ */
-.summary {
-  font-weight: bold;
-  color: #cc88ff;
-  /* Waybar accent */
-}
-
-.body {
-  color: #a6adc8;
-  /* Waybar muted text */
-  margin-top: 4px;
-}
-
-.time {
-  color: #6c7086;
-  /* Waybar lighter text */
-  font-size: 11px;
-}
-
-/* ------------------------------------
- * Control Center
- * ------------------------------------ */
-.control-center {
-  background-color: #1e1e2e;
-  /* Waybar bar bg */
-  border: 2px solid #313244;
-  padding: 12px;
-  border-radius: 0px;
-}
-
-/* Title */
-.control-center .title {
-  font-size: 14px;
-  font-weight: bold;
-  color: #cc88ff;
-  margin-bottom: 8px;
-}
-
-/* DND */
-.dnd {
-  background-color: #181825;
-  border: 1px solid #313244;
-  padding: 6px 10px;
-  margin-bottom: 10px;
-  color: #a6adc8;
-  border-radius: 0px;
-}
-
-.dnd.active {
-  background-color: #cc88ff;
-  color: #1e1e2e;
-  border-color: #cc88ff;
-}
-
-/* ------------------------------------
- * Buttons
- * ------------------------------------ */
-button {
-  background-color: #181825;
-  border: 1px solid #313244;
-  color: #cdd6f4;
-  border-radius: 0px;
-  padding: 4px;
-}
-
-button:hover {
-  background-color: #313244;
-  color: #cdd6f4;
-}
-
-/* Close button */
-.close-button {
-  background: transparent;
-  border: none;
-  color: #6c7086;
-}
-
-.close-button:hover {
-  background: transparent;
-  color: #f38ba8;
-}
-
-/* Label */
-label {
-  color: #cdd6f4;
-}
-
-/* Muted/Disabled */
-.widget-label>label {
-  color: #a6adc8;
-}
+/* /* ------------------------------------ */
+/*  * Notification Window */
+/*  * ------------------------------------ */ */
+/* .notification { */
+/*   background-color: #181825; */
+/*   /* Waybar modules bg */ */
+/*   color: #cdd6f4; */
+/*   /* Waybar text */ */
+/*   border: 1px solid #313244; */
+/*   /* Waybar border */ */
+/*   margin: 6px; */
+/*   padding: 10px; */
+/*   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+/* } */
+/**/
+/* .notification.normal { */
+/*   border-left: 3px solid #cc88ff; */
+/*   /* Waybar accent */ */
+/* } */
+/**/
+/* .notification.critical { */
+/*   border-left: 3px solid #f38ba8; */
+/*   /* Waybar critical */ */
+/*   background-color: #1e1e2e; */
+/*   /* Darker bg */ */
+/* } */
+/**/
+/* /* ------------------------------------ */
+/*  * Notification Content */
+/*  * ------------------------------------ */ */
+/* .summary { */
+/*   font-weight: bold; */
+/*   color: #cc88ff; */
+/*   /* Waybar accent */ */
+/* } */
+/**/
+/* .body { */
+/*   color: #a6adc8; */
+/*   /* Waybar muted text */ */
+/*   margin-top: 4px; */
+/* } */
+/**/
+/* .time { */
+/*   color: #6c7086; */
+/*   /* Waybar lighter text */ */
+/*   font-size: 11px; */
+/* } */
+/**/
+/* /* ------------------------------------ */
+/*  * Control Center */
+/*  * ------------------------------------ */ */
+/* .control-center { */
+/*   background-color: #1e1e2e; */
+/*   /* Waybar bar bg */ */
+/*   border: 2px solid #313244; */
+/*   padding: 12px; */
+/*   border-radius: 0px; */
+/* } */
+/**/
+/* /* Title */ */
+/* .control-center .title { */
+/*   font-size: 14px; */
+/*   font-weight: bold; */
+/*   color: #cc88ff; */
+/*   margin-bottom: 8px; */
+/* } */
+/**/
+/* /* DND */ */
+/* .dnd { */
+/*   background-color: #181825; */
+/*   border: 1px solid #313244; */
+/*   padding: 6px 10px; */
+/*   margin-bottom: 10px; */
+/*   color: #a6adc8; */
+/*   border-radius: 0px; */
+/* } */
+/**/
+/* .dnd.active { */
+/*   background-color: #cc88ff; */
+/*   color: #1e1e2e; */
+/*   border-color: #cc88ff; */
+/* } */
+/**/
+/* /* ------------------------------------ */
+/*  * Buttons */
+/*  * ------------------------------------ */ */
+/* button { */
+/*   background-color: #181825; */
+/*   border: 1px solid #313244; */
+/*   color: #cdd6f4; */
+/*   border-radius: 0px; */
+/*   padding: 4px; */
+/* } */
+/**/
+/* button:hover { */
+/*   background-color: #313244; */
+/*   color: #cdd6f4; */
+/* } */
+/**/
+/* /* Close button */ */
+/* .close-button { */
+/*   background: transparent; */
+/*   border: none; */
+/*   color: #6c7086; */
+/* } */
+/**/
+/* .close-button:hover { */
+/*   background: transparent; */
+/*   color: #f38ba8; */
+/* } */
+/**/
+/* /* Label */ */
+/* label { */
+/*   color: #cdd6f4; */
+/* } */
+/**/
+/* /* Muted/Disabled */ */
+/* .widget-label>label { */
+/*   color: #a6adc8; */
+/* /* } */ */
