@@ -26,6 +26,7 @@ input {
         natural-scroll
         accel-speed 0.5
         accel-profile "adaptive"
+        scroll-factor 0.3
     }
 
     mouse {
@@ -81,12 +82,15 @@ layout {
     }
 }
 
-spawn-at-startup "waybar" "-c" "/home/coyuki/.config/waybar/config.niri.jsonc" "-s" "/home/coyuki/.config/waybar/style.css"
+// spawn-at-startup "waybar" "-c" "/home/coyuki/.config/waybar/config.niri.jsonc" "-s" "/home/coyuki/.config/waybar/style.css"
+// spawn-at-startup "sh" "~/.config/waybar/launch.sh"
+spawn-at-startup "sh" "/home/coyuki/dotfiles/script/launch-waybar.sh"
 spawn-at-startup "swaybg" "-i" "/home/coyuki/Pictures/wallpapers/KAF.jpg" "-m" "fill"
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
 spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swaync"
 
 hotkey-overlay {
     skip-at-startup
@@ -120,6 +124,9 @@ window-rule {
 
 
 binds {
+    Mod+J { focus-window-or-workspace-down; }
+    Mod+K { focus-window-or-workspace-up; }
+    
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
@@ -154,8 +161,8 @@ binds {
     Mod+Up    { focus-window-up; }
     Mod+Right { focus-column-right; }
     Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
+    // Mod+J     { focus-window-down; }
+    // Mod+K     { focus-window-up; }
     Mod+L     { focus-column-right; }
 
     Mod+Ctrl+Left  { move-column-left; }
@@ -267,8 +274,9 @@ binds {
     Ctrl+Shift+s { screenshot; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Mod+Shift+N { spawn "makoctl" "restore"; }
+    // Mod+Shift+N { spawn "makoctl" "restore"; }
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P { power-off-monitors; }
 }
+
