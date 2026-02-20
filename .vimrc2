@@ -1,0 +1,143 @@
+" ==============================================================================
+"   ____  _
+"  |  _ \| |_   _  __ _
+"  | |_) | | | | |/ _` |
+"  |  __/| | |_| | (_| |
+"  |_|   |_|\__,_|\__, |
+"                 |___/
+" ==============================================================================
+
+" ---------------------
+"  downloads vim-plug
+" ---------------------
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim ==create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall ==sync | source $MYVIMRC
+endif
+
+" ---------------------
+"  install plugins
+" ---------------------
+call plug#begin()
+
+Plug 'yegappan/lsp'
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
+
+" ==============================================================================
+"   _
+"  | |    ___ _ __
+"  | |   / __| '_ \
+"  | |___\__ \ |_) |
+"  |_____|___/ .__/
+"            |_|
+" ==============================================================================
+
+" ---------------------
+"  ready lsp path
+" ---------------------
+function! s:setup_lsp_servers() abort
+    let s:rust_analyzer = trim(system('which rust-analyzer'))
+    if empty(s:rust_analyzer)
+        let s:rust_analyzer = expand('~/.cargo/bin/rust-analyzer')
+    endif
+
+    def WhichLsp(lsp_name: string): string
+        var lsp_path = trim(system('which ' .. lsp_name))
+        if empty(lsp_path)
+            lsp_path = expand('~/.cargo/bin/' .. lsp_name)
+        endif
+        return lsp_path
+    enddef
+
+    call LspAddServer([#{
+                \ name: 'rustlang',
+                \ filetype: ['rust'],
+                \ path: s:rust_analyzer,
+                \ args: [],
+                \ syncInit: v:true,
+                \ }])
+
+    let s:clangd = WhichLsp("clangd")
+
+    call LspAddServer([#{
+                \ name: 'clangd',
+                \ filetype: ['c', 'cpp'],
+                \ path: s:clangd,
+                \ args: ['--background-index'],
+                \ }])
+
+endfunction
+
+autocmd VimEnter * call s:setup_lsp_servers()
+
+augroup lsp_keymaps
+    autocmd!
+    autocmd User LspAttached call s:setup_lsp_keymaps()
+augroup END
+
+function! s:setup_lsp_keymaps() abort
+    nmap <buffer> gd  <Cmd>LspGotoDefinition<CR>
+    nmap <buffer> gr  <Cmd>LspShowReferences<CR>
+    nmap <buffer> K   <Cmd>LspHover<CR>
+    nmap <buffer> <leader>rn <Cmd>LspRename<CR>
+    nmap <buffer> <leader>ca <Cmd>LspCodeAction<CR>
+    nmap <buffer> [d  <Cmd>LspDiagPrev<CR>
+    nmap <buffer> ]d  <Cmd>LspDiagNext<CR>
+endfunction
+
+" endif
+
+" ==============================================================================
+"   _     _
+"  | |   (_)_ __   ___
+"  | |   | | '_ \ / _ \
+"  | |___| | | | |  __/
+"  |_____|_|_| |_|\___|
+" ==============================================================================
+
+set laststatus=2
+
+set noshowmode
+
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left':  [ [ 'mode', 'paste' ],
+            \              [ 'readonly', 'filename', 'modified' ] ],
+            \   'right': [ [ 'lineinfo' ],
+            \              [ 'percent' ],
+            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ }
+
+" ==============================================================================
+"    ___        _
+"   / _ \ _ __ | |_ ___
+"  | | | | '_ \| __/ __|
+"  | |_| | |_) | |_\__ \
+"   \___/| .__/ \__|___/
+"        |_|
+" ==============================================================================
+
+" number
+set relativenumber
+set number
+
+" tab conf
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+
+" cursor shape
+let &t_SI = "\e[6 q"
+let &t_SR = "\e[4 q"
+let &t_EI = "\e[2 q"
+
+" Pressing Enter finalizes the selection instead of inserting a new line when the completion menu is displayed.
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+

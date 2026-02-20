@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="net", NAME=="wlp3s0", RUN+="/usr/sbin/ethtool -K %k rx-udp-gro-forwarding on"

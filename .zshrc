@@ -92,6 +92,9 @@ zle -N bracketed-paste bracketed-paste-magic
 # moonbit
 export PATH="$HOME/.moon/bin:$PATH"
 
+# bun
+export PATH="$HOME/.bun/bin:$PATH"
+
 export HYPRSHOT_DIR="$HOME/Pictures/ScreenShots"
 
 
