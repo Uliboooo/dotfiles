@@ -21,8 +21,8 @@ tooltip label {
   color: #cdd6f4;
 }
 
-#hyprland-window,
-#niri-window,
+#workspaces,
+#window,
 #mpris,
 #clock,
 #battery,
@@ -30,7 +30,7 @@ tooltip label {
 #pulseaudio,
 #temperature,
 #tray,
-#custom-notifications {
+#custom-notification {
   background-color: rgba(24, 24, 37, 0.6);
   border-radius: 10px;
   padding: 0 12px;
@@ -38,14 +38,26 @@ tooltip label {
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
-#niri-window {
-  background-color: rgba(24, 24, 37, 0.6);
-  font-weight: 700;
-  color: #f5c2e7;
-  border: 1px solid #f5c2e7;
+#workspaces {
+  padding: 0 4px;
+  color: #89b4fa;
+  border: 1px solid #89b4fa;
 }
 
-#hyprland-window {
+#workspaces button {
+  padding: 0 4px;
+  color: #89b4fa;
+}
+
+#workspaces button.active {
+  color: #f5c2e7;
+}
+
+#workspaces button.urgent {
+  color: #f38ba8;
+}
+
+#window {
   background-color: rgba(24, 24, 37, 0.6);
   font-weight: 700;
   color: #f5c2e7;
@@ -83,7 +95,7 @@ tooltip label {
   border: 1px solid #94e2d5;
 }
 
-#custom-notifications {
+#custom-notification {
   color: #f5e0dc;
   border: 1px solid #f5e0dc;
 }

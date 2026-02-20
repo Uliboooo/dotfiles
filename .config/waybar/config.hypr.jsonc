@@ -17,42 +17,39 @@
     "custom/notification"
   ],
 
-  "hyprland/window": {
-    "format": "󰖲 {title}",
-    "max-length": 30,
-    "separate-outputs": true
-  },
-
   "hyprland/workspaces": {
+    "format": "{name}",
     "show-special": true,
-    "format": "{icon}",
     "on-click": "activate",
+    "all-outputs": false,
     "format-icons": {
-      "1": "1",
-      "magic": "M"
+      "active": "",
+      "default": "",
+      "urgent": ""
     }
   },
 
   "hyprland/window": {
-    "format": "{class}",
+    "format": "󰖲 {class}",
     "max-length": 40,
     "separate-outputs": true,
     "rewrite": {
       "ghostty": "󰊠 Ghostty",
       "com.mitchellh.ghostty": "󰊠 Ghostty",
-
       "google-chrome": " Chrome",
       "Google-chrome": " Chrome",
-
-      "^$": "Desktop"
+      "firefox": " Firefox",
+      "kitty": "󰄛 Kitty",
+      "^$": "󰇄 Desktop"
     }
   },
 
   "mpris": {
-    "format": "{artist}-{title}",
+    "format": "󰎆 {artist} - {title}",
+    "format-paused": "󰏤 <i>{artist} - {title}</i>",
     "max-length": 40,
     "player-icons": {
-      "default": ""
+      "default": "󰎆"
     }
   },
 
