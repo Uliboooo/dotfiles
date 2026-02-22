@@ -91,6 +91,51 @@ hotkey-overlay {
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 animations {
+    // 全体的なアニメーション速度を調整したい場合はここをアンコメントします
+    // slowdown 2.0
+
+    // ワークスペースの切り替え
+    workspace-switch {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+
+    // ウィンドウが開くとき
+    window-open {
+        duration-ms 250
+        curve "ease-out-expo"
+    }
+
+    // ウィンドウが閉じるとき
+    window-close {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
+
+    // 画面全体の水平移動（カラム移動時など）
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    // ウィンドウの移動
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    // ウィンドウのリサイズ
+    window-resize {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    // 設定変更時の通知
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1000 epsilon=0.001
+    }
+
+    // スクリーンショットUI
+    screenshot-ui-open {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
 }
 
 window-rule {
@@ -113,7 +158,15 @@ window-rule {
     open-floating true
 }
 
+window-rule {
+  match title="(?i).*Picture.*in.*Picture.*"
+  open-floating true
+}
 
+window-rule {
+  match title=".*Bluetooth Devices.*"
+  open-floating true
+}
 
 binds {
     Mod+J { focus-window-or-workspace-down; }
@@ -131,8 +184,8 @@ binds {
 
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.03+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.03-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 

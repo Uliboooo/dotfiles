@@ -13,6 +13,7 @@ return {
           lua = { "stylua" },
           json = { "biome" },
           jsonc = { "biome" },
+          sh = { "shfmt" },
         },
         -- setup内の format_on_save を有効にするだけで自動整形は機能します
         format_on_save = {
