@@ -77,6 +77,7 @@ if status is-interactive
     set -gx QT_IM_MODULE fcitx
     set -gx XMODIFIERS @im=fcitx
     set -gx HYPRSHOT_DIR "$HOME/Pictures/ScreenShots"
+    set -g fish_greeting
 
 end
 
@@ -174,7 +175,7 @@ abbr -a nv       'nvim'
 abbr -a nvd      'nvim .'
 
 abbr -a tl       'tmux ls'
-abbr -a tr       'tmux kill-session -t'
+abbr -a tmr      'tmux kill-session -t'
 
 function ta --description 'Attach or create a tmux session'
     if count $argv >/dev/null
