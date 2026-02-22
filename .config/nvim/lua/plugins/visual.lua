@@ -1,31 +1,99 @@
 return {
+  -- {
+  --   "catppuccin/nvim",
+  --   lazy = false,
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme("catppuccin-macchiato")
+  --     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+  --     vim.cmd([[
+  --       hi DiagnosticUnderlineError gui=undercurl guisp=Red
+  --       hi DiagnosticUnderlineWarn  gui=undercurl guisp=Yellow
+  --     ]])
+  --
+  --     vim.api.nvim_create_autocmd("ColorScheme", {
+  --       pattern = "*",
+  --       callback = function()
+  --         vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none", nocombine = true })
+  --         vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none", nocombine = true })
+  --         vim.api.nvim_set_hl(0, "NeoTreeFloatNormal", { bg = "none", nocombine = true })
+  --         vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { bg = "none", nocombine = true })
+  --         vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = "none", nocombine = true })
+  --       end,
+  --     })
+  --   end,
+  -- },
+  -- {
+  --   "everviolet/nvim",
+  --   name = "evergarden",
+  --   priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
+  --   lazy = false,
+  --   opts = {
+  --     theme = {
+  --       variant = "winter", -- 'winter'|'fall'|'spring'|'summer'
+  --       accent = "green",
+  --     },
+  --     editor = {
+  --       transparent_background = true,
+  --       sign = { color = "none" },
+  --       float = {
+  --         color = "mantle",
+  --         solid_border = false,
+  --       },
+  --       completion = {
+  --         color = "surface0",
+  --       },
+  --     },
+  --     style = {
+  --       tabline = { "reverse" },
+  --       search = { "italic", "reverse" },
+  --       incsearch = { "italic", "reverse" },
+  --       types = { "italic" },
+  --       keyword = { "italic" },
+  --       comment = { "italic" },
+  --     },
+  --     overrides = {},
+  --     color_overrides = {},
+  --   },
+  --   -- config = function()
+  --   --   vim.cmd.colorscheme("evergarden")
+  --   -- end,
+  -- },
+  -- {
+  --   "rose-pine/neovim",
+  --   name = "rose-pine",
+  --   opts = {
+  --     variant = "moon",
+  --     styles = {
+  --       bold = true,
+  --       italic = true,
+  --       transparency = false,
+  --     },
+  --   },
+  --   config = function()
+  --     vim.cmd.colorscheme("rose-pine")
+  --   end,
+  -- },
   {
-    "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
+    "rose-pine/neovim",
+    name = "rose-pine",
     priority = 1000,
+    lazy = false,
     config = function()
-      vim.cmd.colorscheme("catppuccin-macchiato")
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-      vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-      vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-      vim.cmd([[
-        hi DiagnosticUnderlineError gui=undercurl guisp=Red
-        hi DiagnosticUnderlineWarn  gui=undercurl guisp=Yellow
-      ]])
-
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "*",
-        callback = function()
-          vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none", nocombine = true })
-          vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none", nocombine = true })
-          vim.api.nvim_set_hl(0, "NeoTreeFloatNormal", { bg = "none", nocombine = true })
-          vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { bg = "none", nocombine = true })
-          vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = "none", nocombine = true })
-        end,
+      require("rose-pine").setup({
+        styles = {
+          transparency = true,
+          bold = true,
+          italic = true,
+        },
       })
+
+      vim.cmd.colorscheme("rose-pine-moon")
     end,
   },
   {
