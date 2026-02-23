@@ -19,7 +19,7 @@ return {
         defaults = {
           hidden = true,
           no_ignore = true,
-          file_ignore_patterns = { "target/.*", "node_modules/.*", ".git/.*" },
+          file_ignore_patterns = { "target/.*", "node_modules/.*", ".git/.*", "_build/*" },
           vimgrep_arguments = {
             "rg",
             "--color=never",
