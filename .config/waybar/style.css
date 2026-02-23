@@ -1,8 +1,12 @@
 * {
-  font-family: "0xProto Nerd Font", "Noto Sans CJK JP", "IBM Plex Sans JP", sans-serif;
+  font-family:
+    "0xProto Nerd Font Mono",
+    "0xProto Nerd Font",
+    "Noto Sans CJK JP",
+    sans-serif;
+
   font-size: 13px;
   font-weight: 600;
-  min-height: 0;
 }
 
 window#waybar {
