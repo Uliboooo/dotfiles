@@ -71,6 +71,7 @@ return {
 
       vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
       vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+      vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#44415a", fg = "#e0def4" })
     end,
   },
 }

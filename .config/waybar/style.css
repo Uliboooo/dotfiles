@@ -34,7 +34,8 @@ tooltip label {
 #pulseaudio,
 #temperature,
 #tray,
-#custom-notification {
+#custom-notification,
+#custom-tlp {
   background-color: rgba(24, 24, 37, 0.6);
   border-radius: 10px;
   padding: 0 12px;
@@ -102,6 +103,11 @@ tooltip label {
 #custom-notification {
   color: #f5e0dc;
   border: 1px solid #f5e0dc;
+}
+
+#custom-tlp {
+  color: #f9e2af;
+  border: 1px solid #f9e2af;
 }
 
 #temperature.critical,

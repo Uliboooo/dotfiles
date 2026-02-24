@@ -63,7 +63,7 @@ if status is-interactive
     # moonbit
     fish_add_path "$HOME/.moon/bin"
 
-    type -q starship; and starship init fish | source
+    # type -q starship; and starship init fish | source
 
     if test -f "$HOME/.env"
         for line in (grep -v '^#' "$HOME/.env")
@@ -118,10 +118,25 @@ abbr -a gla 'git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --gr
 abbr -a gls 'git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s" -n 15'
 abbr -a gf  'git fetch'
 abbr -a ghp 'echo "restora only a portion of the data."'
+abbr -a gbs 'git switch'
+abbr -a gbc 'git switch -c'
+abbr -a gb  'git branch'
 
 function gc
-    git add .
-    git commit -m "$argv[1]"
+  git add .
+  git commit -m "$argv[1]"
+end
+
+function grn -d "diff names between local and remote"
+  set -l git_st (git branch --show-current)
+  set -l remote_name (git remote)
+  git diff --name-only "$git_st" "$remote_name/$git_st"
+end
+
+function grd -d "diff between local and remote"
+  set -l git_st (git branch --show-current)
+  set -l remote_name (git remote)
+  git diff "$git_st" "$remote_name/$git_st"
 end
 
 function githelp
@@ -177,6 +192,8 @@ abbr -a nvd      'nvim .'
 abbr -a tl       'tmux ls'
 abbr -a tmr      'tmux kill-session -t'
 
+abbr -a rtss     'rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
+
 function ta --description 'Attach or create a tmux session'
     if count $argv >/dev/null
         tmux new-session -A -s $argv[1]
@@ -200,7 +217,28 @@ abbr -a cr 'cargo run'
 abbr -a cf 'cargo fmt'
 abbr -a ch 'cargo check'
 
+# ---------------------------------------------------------------------
+#   ____      __   ____
+#  / ___|    / /  / ___| _     _
+# | |       / /  | |   _| |_ _| |_
+# | |___   / /   | |__|_   _|_   _|
+#  \____| /_/     \____||_|   |_|
+# ---------------------------------------------------------------------
+
 abbr -a cpr 'clang++ main.cpp -o out && ./out'
+
+# ---------------------------------------------------------------------
+#  __  __                   ____  _ _
+# |  \/  | ___   ___  _ __ | __ )(_) |_
+# | |\/| |/ _ \ / _ \| '_ \|  _ \| | __|
+# | |  | | (_) | (_) | | | | |_) | | |_
+# |_|  |_|\___/ \___/|_| |_|____/|_|\__|
+# ---------------------------------------------------------------------
+
+abbr -a mb 'moon buld'
+abbr -a mr 'moon run'
+abbr -a cf 'moon fmt'
+abbr -a ch 'moon check'
 
 # ---------------------------------------------------------------------
 #   ___  ____            _                           _            _
