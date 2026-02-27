@@ -1,8 +1,0 @@
-profile laptop {
-    output eDP-1 enable mode 1920x1200 position 320,1440
-}
-
-profile docked {
-    output eDP-1 disable
-    output DP-1 enable mode 3840x2160 position 0,0 scale 1.5
-}

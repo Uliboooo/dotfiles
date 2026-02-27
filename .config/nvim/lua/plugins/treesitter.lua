@@ -7,7 +7,7 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
-      ensure_installed = { "lua", "vim", "vimdoc", "query" },
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "tsx", "typescript" },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
