@@ -250,8 +250,8 @@ abbr -a cpr 'clang++ main.cpp -o out && ./out'
 
 abbr -a mb 'moon buld'
 abbr -a mr 'moon run'
-abbr -a cf 'moon fmt'
-abbr -a ch 'moon check'
+abbr -a mf 'moon fmt'
+abbr -a mh 'moon check'
 
 # ---------------------------------------------------------------------
 #   ___  ____            _                           _            _
