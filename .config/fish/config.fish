@@ -21,7 +21,7 @@ if status is-interactive
         fish_add_path /opt/homebrew/opt/llvm/bin
         fish_add_path /opt/homebrew/bin
 
-    else
+    else # when boot linux
         if test -f /etc/os-release
             set DIST (string replace -r '^NAME=["\']?(.*)["\']?$' '$1' (grep '^NAME=' /etc/os-release))
         end
@@ -89,7 +89,7 @@ if status is-interactive
     set -gx GTK_IM_MODULE fcitx
     set -gx QT_IM_MODULE fcitx
     set -gx XMODIFIERS @im=fcitx
-    set -gx HYPRSHOT_DIR "$HOME/Pictures/ScreenShots"
+    set -gx HYPRSHOT_DIR "$HOME/Pictures/Screenshots"
     set -g fish_greeting
 
 end

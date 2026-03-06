@@ -46,3 +46,4 @@ config.local.fish
 .config/fish/fish_variables
 
 # End of https://www.toptal.com/developers/gitignore/api/fish
+.config/hypr/env

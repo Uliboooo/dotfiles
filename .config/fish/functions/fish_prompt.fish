@@ -33,8 +33,8 @@ function fish_prompt
     # 5. 改行とプロンプト記号
     echo
     if test $last_status -ne 0
-        echo -n -s $red "╰─>" $normal " "
+        echo -n -s $red ":(" $normal " "
     else
-        echo -n -s $cyan "╰─>" $normal " "
+        echo -n -s $cyan ":)" $normal " "
     end
 end
