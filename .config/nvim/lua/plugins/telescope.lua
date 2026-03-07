@@ -1,77 +1,77 @@
 return {
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "v0.2.0",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
-      "nvim-telescope/telescope-ui-select.nvim",
-    },
-    config = function()
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-      local btin = require("telescope.builtin")
-
-      telescope.setup({
-        defaults = {
-          hidden = true,
-          no_ignore = true,
-          file_ignore_patterns = { "target/.*", "node_modules/.*", ".git/.*", "_build/*" },
-          vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
-            "--no-ignore",
-          },
-        },
-        pickers = {
-          find_files = {
-            find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" },
-            theme = "dropdown",
-          },
-        },
-        extensions = {
-          fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = "smart_case",
-          },
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown({}),
-          },
-        },
-      })
-
-      require("telescope").load_extension("fzf")
-      require("telescope").load_extension("ui-select")
-
-      -- Keymaps
-      vim.keymap.set("n", "<Leader>f", btin.find_files, { desc = "telescope find files" })
-      vim.keymap.set("n", "<Leader>/", btin.live_grep, { desc = "telescope live grep" })
-      vim.keymap.set("n", "<Leader>b", btin.buffers, { desc = "telescope buffers" })
-      vim.keymap.set("n", "<Leader>q", btin.quickfix, { desc = "telescope quickfix" })
-      vim.keymap.set("n", "<Leader>s", btin.lsp_document_symbols, { desc = "telescope lsp doc symbols" })
-      vim.keymap.set("n", "<Leader>d", btin.diagnostics, { desc = "telescope diagnostics" })
-      vim.keymap.set("n", "<Leader>P", btin.commands, { desc = "telescope vim cmd list" })
-      vim.keymap.set("n", "<Leader>e", btin.diagnostics, { desc = "telescope dignostics" })
-      vim.keymap.set("n", "<Leader>m", btin.marks, { desc = "telescope list of marks" })
-
-      vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp references" })
-      vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })
-      -- vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })
-
-      vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-      vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#44415a", fg = "#e0def4" })
-    end,
-  },
+  -- {
+  --   "nvim-telescope/telescope.nvim",
+  --   tag = "v0.2.0",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     {
+  --       "nvim-telescope/telescope-fzf-native.nvim",
+  --       build = "make",
+  --     },
+  --     "nvim-telescope/telescope-ui-select.nvim",
+  --   },
+  --   config = function()
+  --     local telescope = require("telescope")
+  --     local actions = require("telescope.actions")
+  --     local btin = require("telescope.builtin")
+  --
+  --     telescope.setup({
+  --       defaults = {
+  --         hidden = true,
+  --         no_ignore = true,
+  --         file_ignore_patterns = { "target/.*", "node_modules/.*", ".git/.*", "_build/*" },
+  --         vimgrep_arguments = {
+  --           "rg",
+  --           "--color=never",
+  --           "--no-heading",
+  --           "--with-filename",
+  --           "--line-number",
+  --           "--column",
+  --           "--smart-case",
+  --           "--hidden",
+  --           "--no-ignore",
+  --         },
+  --       },
+  --       pickers = {
+  --         find_files = {
+  --           find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" },
+  --           theme = "dropdown",
+  --         },
+  --       },
+  --       extensions = {
+  --         fzf = {
+  --           fuzzy = true,
+  --           override_generic_sorter = true,
+  --           override_file_sorter = true,
+  --           case_mode = "smart_case",
+  --         },
+  --         ["ui-select"] = {
+  --           require("telescope.themes").get_dropdown({}),
+  --         },
+  --       },
+  --     })
+  --
+  --     require("telescope").load_extension("fzf")
+  --     require("telescope").load_extension("ui-select")
+  --
+  --     -- Keymaps
+  --     -- vim.keymap.set("n", "<Leader>f", btin.find_files, { desc = "telescope find files" })
+  --     -- vim.keymap.set("n", "<Leader>/", btin.live_grep, { desc = "telescope live grep" })
+  --     vim.keymap.set("n", "<Leader>b", btin.buffers, { desc = "telescope buffers" })
+  --     vim.keymap.set("n", "<Leader>q", btin.quickfix, { desc = "telescope quickfix" })
+  --     vim.keymap.set("n", "<Leader>s", btin.lsp_document_symbols, { desc = "telescope lsp doc symbols" })
+  --     vim.keymap.set("n", "<Leader>d", btin.diagnostics, { desc = "telescope diagnostics" })
+  --     vim.keymap.set("n", "<Leader>P", btin.commands, { desc = "telescope vim cmd list" })
+  --     -- vim.keymap.set("n", "<Leader>e", btin.diagnostics, { desc = "telescope dignostics" })
+  --     vim.keymap.set("n", "<Leader>m", btin.marks, { desc = "telescope list of marks" })
+  --
+  --     vim.keymap.set("n", "gr", btin.lsp_references, { desc = "telescope lsp references" })
+  --     vim.keymap.set("n", "gd", btin.lsp_definitions, { desc = "telescope lsp definitions" })
+  --     -- vim.keymap.set("n", "gt", btin.lsp_type_definitions, { desc = "telescope lsp type def" })
+  --
+  --     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+  --     vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#44415a", fg = "#e0def4" })
+  --   end,
+  -- },
 }

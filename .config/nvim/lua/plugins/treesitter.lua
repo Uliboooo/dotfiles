@@ -31,28 +31,25 @@ return {
 
       if status and parsers then
         -- get_parser_configs が関数なら呼ぶ、なければ parsers 自体をテーブルとして使う
-        local parser_config = (type(parsers.get_parser_configs) == "function" and parsers.get_parser_configs())
-          or parsers
+        local parser_config = (type(parsers.get_parser_configs) == "function" and parsers.get_parser_configs()) or parsers
 
         -- parser_config がテーブルである場合のみ MoonBit を追加
-        if type(parser_config) == "table" then
-          parser_config.moonbit = {
-            install_info = {
-              url = "https://github.com/moonbitlang/tree-sitter-moonbit",
-              files = { "src/parser.c", "src/scanner.c" },
-              branch = "main",
-            },
-            filetype = "moonbit",
-          }
-        end
+        -- if type(parser_config) == "table" then
+        --   parser_config.moonbit = {
+        --     install_info = {
+        --       url = "https://github.com/moonbitlang/tree-sitter-moonbit",
+        --       files = { "src/parser.c", "src/scanner.c" },
+        --       branch = "main",
+        --     },
+        --     filetype = "moonbit",
+        --   }
+        -- end
       end
 
       -- 2. 設定の実行
       -- ここも念のため pcall で包んでエラー落ちを防ぐ
       local setup_status, configs = pcall(require, "nvim-treesitter.configs")
-      if setup_status then
-        configs.setup(opts)
-      end
+      if setup_status then configs.setup(opts) end
     end,
   },
 }

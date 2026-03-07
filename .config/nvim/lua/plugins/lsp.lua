@@ -14,14 +14,14 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "mooncake", "lsp", "path", "snippets", "buffer" },
-        providers = {
-          mooncake = {
-            name = "Mooncakes",
-            module = "moonbit.mooncakes.completion.blink",
-            -- opts = { max_items = 100 },
-          },
-        },
+        default = { "lsp", "path", "snippets", "buffer" },
+        -- providers =
+        --   mooncake = {
+        --     name = "Mooncakes",
+        --     module = "moonbit.mooncakes.completion.blink",
+        --     -- opts = { max_items = 100 },
+        --   },
+        -- },
       },
     },
   },
@@ -73,13 +73,9 @@ return {
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           local bufnr = args.buf
 
-          if client.server_capabilities.documentSymbolProvider then
-            navic.attach(client, bufnr)
-          end
+          if client.server_capabilities.documentSymbolProvider then navic.attach(client, bufnr) end
 
-          if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          end
+          if client.server_capabilities.inlayHintProvider then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
 
           local opts = { buffer = bufnr, silent = true }
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
