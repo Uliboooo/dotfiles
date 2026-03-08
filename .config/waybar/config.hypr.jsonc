@@ -31,7 +31,7 @@
   },
 
   "hyprland/window": {
-    "format": "󰖲 {class}",
+    "format": "{class}",
     "max-length": 40,
     "separate-outputs": true,
     "rewrite": {
@@ -60,7 +60,7 @@
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
     "interval": 10,
-    "on-click": "kitty --class='dev-float' -e btop"
+    "on-click": "ghostty --title='dev-float' -e btm"
   },
 
   "clock": {
