@@ -1,0 +1,11 @@
+[Unit]
+Description=Change wallpaper every 15 minutes
+Requires=cycle_wallpaper.service
+
+[Timer]
+OnBootSec=1min
+OnCalendar=*-*-* *:00,15,30,45:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

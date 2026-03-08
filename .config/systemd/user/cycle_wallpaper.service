@@ -1,0 +1,9 @@
+[Unit]
+Description=wallpaper cycle by swww
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/script/cycle_wallpaper.sh
+StandardOutput=journal
+StandardError=journal
+

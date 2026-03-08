@@ -47,3 +47,4 @@ config.local.fish
 
 # End of https://www.toptal.com/developers/gitignore/api/fish
 .config/hypr/env
+**/timers.target.wants/
