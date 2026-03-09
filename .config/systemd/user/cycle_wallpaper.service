@@ -3,7 +3,7 @@ Description=wallpaper cycle by swww
 
 [Service]
 Type=oneshot
-ExecStart=%h/dotfiles/script/cycle_wallpaper.sh
+ExecStart=%h/dotfiles/script/cycle_wallpaper.sh seq
 StandardOutput=journal
 StandardError=journal
 

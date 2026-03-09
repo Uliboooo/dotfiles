@@ -97,8 +97,8 @@ mpris_progress() {
     [ $filled -gt 16 ] && filled=16
 
     local bar=""
-    for i in $(seq 1 $filled);           do bar="${bar}▰"; done
-    for i in $(seq $((filled+1)) 16);    do bar="${bar}▱"; done
+    for i in $(seq 1 $filled);           do bar="${bar}━"; done
+    for i in $(seq $((filled+1)) 16);    do bar="${bar}─"; done
 
     printf "%d:%02d  %s  %d:%02d\n" $pos_min $pos_sec "$bar" $len_min $len_sec_r
 }
