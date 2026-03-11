@@ -31,6 +31,8 @@ quick-terminal-animation-duration = 0.3
 keybind = "global:option+shift+t=toggle_quick_terminal"
 keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
+keybind = ctrl+shift+up=new_split:up
+keybind = ctrl+shift+left=new_split:left
 keybind = super+enter=unbind
 # keybind = ctrl+enter=unbind
 keybind = ctrl+h=goto_split:left

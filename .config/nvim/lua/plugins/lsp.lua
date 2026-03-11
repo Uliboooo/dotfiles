@@ -1,5 +1,24 @@
 return {
   {
+    "williamboman/mason.nvim",
+    cmd = "Mason", -- 必要になった時にロード
+    opts = {},
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    -- mason.nvim がロードされた後に実行されるように制約を強める
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      -- 1. まず Mason を確実にセットアップ
+      require("mason").setup()
+
+      -- 2. 次に mason-lspconfig をセットアップ
+      require("mason-lspconfig").setup({
+        ensure_installed = { "marksman" },
+      })
+    end,
+  },
+  {
     "saghen/blink.cmp",
     lazy = false,
     dependencies = "rafamadriz/friendly-snippets",
@@ -212,6 +231,13 @@ return {
         filetypes = { "css", "scss", "less" },
       })
       vim.lsp.enable("cssls")
+
+      vim.lsp.config("marksman", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "markdown", "markdown.mdx" },
+      })
+      vim.lsp.enable("marksman")
     end,
   },
   -- {

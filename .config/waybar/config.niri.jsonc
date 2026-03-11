@@ -3,10 +3,10 @@
   "layer": "top",
   "position": "top",
   "height": 34,
-  "spacing": 2,
+  "spacing": 1,
 
-  "modules-left": [],
-  "modules-center": ["niri/window", "mpris"],
+  "modules-left": ["niri/workspaces", "niri/window"],
+  "modules-center": ["clock", "mpris"],
   "modules-right": [
     "temperature",
     "pulseaudio",
@@ -15,62 +15,56 @@
     "battery",
     "custom/tlp",
     "tray",
-    "clock",
     "custom/notification"
   ],
 
-  "niri/window": {
-    "format": "󰖲 {title}",
-    "max-length": 30,
-    "separate-outputs": true
-  },
-
-  "hyprland/workspaces": {
-    "show-special": true,
-    "format": "{icon}",
-    "on-click": "activate",
+  "niri/workspaces": {
+    "format": "{index}",
+    "all-outputs": false,
     "format-icons": {
-      "1": "1",
-      "magic": "M"
+      "active": "",
+      "default": "",
+      "urgent": ""
     }
   },
 
-  "hyprland/window": {
-    "format": "{class}",
+  "niri/window": {
+    "format": "{app_id}",
     "max-length": 40,
     "separate-outputs": true,
     "rewrite": {
       "ghostty": "󰊠 Ghostty",
       "com.mitchellh.ghostty": "󰊠 Ghostty",
-
       "google-chrome": " Chrome",
       "Google-chrome": " Chrome",
-
-      "^$": "Desktop"
+      "firefox": " Firefox",
+      "kitty": "󰄛 Kitty",
+      "^$": "󰇄 Desktop"
     }
   },
 
   "mpris": {
-    "format": "{artist}-{title}",
-    "max-length": 40,
+    "format": "󰎆 {artist} - {title}",
+    "format-paused": "󰏤 <i>{artist} - {title}</i>",
+    "max-length": 30,
     "player-icons": {
-      "default": ""
+      "default": "󰎆"
     }
   },
 
   "temperature": {
-    // "thermal-zone": 2, // 環境によって異なります
-    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-    "critical-threshold": 80, // 80度を超えたらクリティカル表示
+    "critical-threshold": 80,
     "format-critical": "{icon} {temperatureC}°C",
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
-    "interval": 10
+    "interval": 10,
+    "on-click": "ghostty --title='dev-float' -e btm"
   },
 
   "clock": {
-    "format": "{:%b %d %H:%M}",
+    "format": "{:%b %d %a %H:%M}",
     "tooltip-format": "<tt>{calendar}</tt>",
+    "on-click": "gnome-calendar",
     "calendar": {
       "mode": "month",
       "on-scroll": 1,
@@ -94,7 +88,7 @@
   "bluetooth": {
     "format": " {status}",
     "format-connected": " {device_alias}",
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "format-connected-battery": " {device_alias}",
     "on-click": "blueman-manager",
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
@@ -106,7 +100,8 @@
     "format-wifi": "  {essid}",
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
-    "max-length": 11
+    "max-length": 11,
+    "on-click": "kitty --class='dev-float' -e nmtui"
   },
 
   "battery": {
@@ -127,17 +122,17 @@
   },
 
   "custom/notification": {
-    "tooltip": false,
-    "format": "{icon}",
+    "tooltip": true,
+    "format": "<span size='13pt'>{icon}</span>",
     "format-icons": {
       "notification": "󱅫",
-      "none": "󰂚",
-      "dnd-notification": "󱅫",
-      "dnd-none": "󰂚",
-      "inhibited-notification": "󱅫",
-      "inhibited-none": "󰂚",
-      "dnd-inhibited-notification": "󱅫",
-      "dnd-inhibited-none": "󰂚"
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑"
     },
     "return-type": "json",
     "exec-if": "which swaync-client",
