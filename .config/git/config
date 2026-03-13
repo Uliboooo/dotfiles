@@ -6,7 +6,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
-    editor = "vim"
+  editor = "vim"
 
 [alias]
 	lograph = log --all --date-order --date=format:%Y-%m-%d --graph --format="%h %ad [%an] %C(green)%d%Creset %s"
