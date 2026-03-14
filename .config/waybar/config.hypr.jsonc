@@ -60,7 +60,7 @@
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
     "interval": 10,
-    "on-click": "ghostty --title='dev-float' -e btm"
+    "on-click": "ghostty --title='dev-float' -e btop"
   },
 
   "clock": {
