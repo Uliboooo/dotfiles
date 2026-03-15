@@ -4,6 +4,8 @@ This repository contains the dotfiles for a customized Hyprland desktop environm
 
 ## Overview
 
+![image](./README_Screenshots/2026-03-15-163050_hyprshot.jpg)
+
 The main components and applications that make up this environment are:
 
 *   **Window Manager**: Hyprland

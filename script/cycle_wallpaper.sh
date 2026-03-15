@@ -79,6 +79,7 @@ case "$1" in
         ;;
 esac
 
+mkdir -p /home/alice/dotfiles/.config/hypr/env
 # awww
 swww img "$wall_path" --transition-type center --transition-duration 0.5
 
