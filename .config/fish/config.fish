@@ -92,6 +92,7 @@ if status is-interactive
     set -gx HYPRSHOT_DIR "$HOME/Pictures/Screenshots"
     set -g fish_greeting
 
+    # set --universal nvm_default_version lts
 end
 
 # =====================================================================
@@ -292,4 +293,5 @@ else
         abbr -a update 'yay -Syu --noconfirm'
     end
 end
+
 

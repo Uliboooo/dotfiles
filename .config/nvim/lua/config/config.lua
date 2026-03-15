@@ -8,6 +8,8 @@ vim.opt.listchars = {
 }
 vim.opt.wrap = true
 vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.showbreak = "⤷ "
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hlsearch = true
 vim.opt.tabstop = 2
