@@ -24,7 +24,7 @@ abbr gb="git branch"
 # ---------------------------------------------------------------------
 abbr lss="ls -l"
 abbr ff="fastfetch"
-abbr ls="eza -l --icons=always --sort=modified"
+abbr ls="eza -l --icons=always"
 abbr glist="/bin/ls"
 abbr printimg="chafa -f kitty"
 abbr cow="cowsay"
