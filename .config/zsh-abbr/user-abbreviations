@@ -1,0 +1,71 @@
+# ---------------------------------------------------------------------
+# change dir
+# ---------------------------------------------------------------------
+abbr cdd="cd \$HOME/Develop"
+abbr cdn="cd \$HOME/Documents/notes/"
+
+# ---------------------------------------------------------------------
+# git
+# ---------------------------------------------------------------------
+abbr gst="git status"
+abbr gda="git --no-pager diff"
+abbr gln="git log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s'"
+abbr gla="git --no-pager log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s'"
+# abbr gls="git --no-pager log --all --date-order --date=format:'%Y-%m-%d' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s' -n 15"
+abbr gls="git --no-pager log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s' -n 15"
+abbr gf="git fetch"
+abbr ghp="echo 'restora only a portion of the data.'"
+abbr gbs="git switch"
+abbr gbc="git switch -c"
+abbr gb="git branch"
+
+# ---------------------------------------------------------------------
+# utility / vim / tmux
+# ---------------------------------------------------------------------
+abbr lss="ls -l"
+abbr ff="fastfetch"
+abbr ls="eza -l --icons=always --sort=modified"
+abbr glist="/bin/ls"
+abbr printimg="chafa -f kitty"
+abbr cow="cowsay"
+abbr mi="mediainfo"
+abbr nv="nvim"
+abbr nvd="nvim ."
+abbr tl="tmux ls"
+abbr tmr="tmux kill-session -t"
+abbr rtss="rts -cli | jq -r '.list[] | \"title: \(.title)\nlink: \(.link)\"'"
+
+# ---------------------------------------------------------------------
+# cargo / rust
+# ---------------------------------------------------------------------
+abbr cb="cargo build"
+abbr cr="cargo run"
+abbr cf="cargo fmt"
+abbr ch="cargo check"
+
+# ---------------------------------------------------------------------
+# C / C++
+# ---------------------------------------------------------------------
+abbr cpr="clang++ main.cpp -o out && ./out"
+
+# ---------------------------------------------------------------------
+# MoonBit
+# ---------------------------------------------------------------------
+abbr mb="moon build"
+abbr mr="moon run"
+abbr mf="moon fmt"
+abbr mh="moon check"
+
+# ---------------------------------------------------------------------
+# OS依存 (macOS / Linux)
+# ---------------------------------------------------------------------
+abbr copy="wl-copy"
+abbr cc="clang"
+abbr ccc="clang++"
+abbr hx="helix"
+abbr hxd="helix ."
+
+abbr update="yay -Syu --noconfirm"
+
+abbr y="yazi"
+

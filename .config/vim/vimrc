@@ -1,0 +1,77 @@
+" ==============================================================================
+"   ____  _
+"  |  _ \| |_   _  __ _
+"  | |_) | | | | |/ _` |
+"  |  __/| | |_| | (_| |
+"  |_|   |_|\__,_|\__, |
+"                 |___/
+" ==============================================================================
+
+"  downloads vim-plug
+
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim ==create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall ==sync | source $MYVIMRC
+endif
+
+" ---------------------
+"  install plugins
+" ---------------------
+call plug#begin()
+
+Plug 'itchyny/lightline.vim'
+
+call plug#end()
+
+
+" ==============================================================================
+"   _     _
+"  | |   (_)_ __   ___
+"  | |   | | '_ \ / _ \
+"  | |___| | | | |  __/
+"  |_____|_|_| |_|\___|
+" ==============================================================================
+
+set laststatus=2
+
+set noshowmode
+
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left':  [ [ 'mode', 'paste' ],
+            \              [ 'readonly', 'filename', 'modified' ] ],
+            \   'right': [ [ 'lineinfo' ],
+            \              [ 'percent' ],
+            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ }
+
+" ==============================================================================
+"    ___        _
+"   / _ \ _ __ | |_ ___
+"  | | | | '_ \| __/ __|
+"  | |_| | |_) | |_\__ \
+"   \___/| .__/ \__|___/
+"        |_|
+" ==============================================================================
+
+" number
+set relativenumber
+set number
+
+" tab conf
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+
+" cursor shape
+let &t_SI = "\e[6 q"
+let &t_SR = "\e[4 q"
+let &t_EI = "\e[2 q"
+
+" Pressing Enter finalizes the selection instead of inserting a new line when the completion menu is displayed.
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+

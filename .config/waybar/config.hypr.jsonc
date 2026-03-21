@@ -1,0 +1,146 @@
+// -*- mode: jsonc -*-
+{
+  "layer": "top",
+  "position": "top",
+  "height": 38,
+  "spacing": 1,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock", "mpris"],
+  "modules-right": [
+    "temperature",
+    "pulseaudio",
+    "bluetooth",
+    "network",
+    "battery",
+    "custom/tlp",
+    "tray",
+    "custom/notification"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "show-special": true,
+    "on-click": "activate",
+    "all-outputs": false,
+    "format-icons": {
+      "active": "",
+      "default": "",
+      "urgent": ""
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{class}",
+    "max-length": 40,
+    "separate-outputs": true,
+    "rewrite": {
+      "ghostty": "󰊠 Ghostty",
+      "com.mitchellh.ghostty": "󰊠 Ghostty",
+      "google-chrome": " Chrome",
+      "Google-chrome": " Chrome",
+      "firefox": " Firefox",
+      "kitty": "󰄛 Kitty",
+      "^$": "󰇄 Desktop"
+    }
+  },
+
+  "mpris": {
+    "format": "󰎆 {artist} - {title}",
+    "format-paused": "󰏤 <i>{artist} / {title}</i>",
+    "max-length": 40,
+    "player-icons": {
+      "default": "󰎆"
+    }
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{icon}{temperatureC}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [""],
+    "interval": 10,
+    "on-click": "ghostty --title='dev-float' -e btop"
+  },
+
+  "clock": {
+    "format": "{:%b %d %a %H:%M}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "on-click": "gnome-calendar",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "m:onths": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}</span>",
+        "today": "<span color='#1e1e2e' background='#cba6f7'><b>{}</b></span>"
+      }
+    }
+  },
+
+  "pulseaudio": {
+    "format": "{icon}{volume}%",
+    "format-muted": "󰝟 MUTED",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  "bluetooth": {
+    "format": "{status}",
+    "format-connected": " {num_connections}",
+    "format-connected-battery": " {device_alias}",
+    "on-click": "blueman-manager --class='dev-float'",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+  },
+
+  "network": {
+    "format-wifi": " {essid}",
+    "format-ethernet": "󰈀 ETH",
+    "format-disconnected": "󰖪 OFFLINE",
+    "max-length": 11,
+    "on-click": "kitty --class='dev-float' -e nmtui"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}{capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+  },
+
+  "custom/tlp": {
+    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
+    "interval": 30,
+    "format": "󰌪{}"
+  },
+
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='13pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}

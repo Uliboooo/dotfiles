@@ -1,0 +1,7 @@
+language = "ja"
+dark_mode = true
+opacity = 0.9
+auto_copy = true
+auto_start_record = true
+key_record = ["q", "Return"]
+key_copy = ["c", "y", "space"]
