@@ -79,7 +79,7 @@
   },
 
   "pulseaudio": {
-    "format": "{icon}{volume}%",
+    "format": "{icon} {volume}%",
     "format-muted": "󰝟 MUTED",
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
@@ -120,7 +120,7 @@
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "interval": 30,
-    "format": "󰌪{}"
+    "format": "󰌪 {}"
   },
 
   "custom/notification": {

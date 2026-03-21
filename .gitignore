@@ -13,14 +13,8 @@ parinfer-rust/*.so
 custom.el
 usr/.config/zed/prompts/
 usr/.tmux/plugins/
-usr/.config/broot/launcher/
-usr/.config/broot/skins
-usr/.config/broot/verbs.hjson
 **/.env
-usr/emacs/.emacs.d/.cache
-#.DS_Store#
 !usr/.config/tmux/plugins/tpm
-usr/.config/helix/runtime
 fish_variables
 fish_history
 generated_completions/
@@ -48,3 +42,4 @@ config.local.fish
 # End of https://www.toptal.com/developers/gitignore/api/fish
 .config/hypr/env
 **/timers.target.wants/
+.config/helix/runtime
