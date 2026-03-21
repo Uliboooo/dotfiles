@@ -14,7 +14,7 @@ set_last_status() { _LAST_STATUS=$? }
 git_prompt() {
   git rev-parse --is-inside-work-tree &>/dev/null || return
 
-  local branch changed ahead
+  local branch changed ahead behind
 
   branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
 
@@ -24,13 +24,16 @@ git_prompt() {
   upstream=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null)
   if [[ -n "$upstream" ]]; then
     ahead=$(git rev-list "${upstream}..HEAD" 2>/dev/null | wc -l | tr -d ' ')
+    behind=$(git rev-list "HEAD..${upstream}" 2>/dev/null | wc -l | tr -d ' ')
   else
     ahead=0
+    behind=0
   fi
 
   local green=$'%F{green}'
   local red=$'%F{red}'
   local blue=$'%F{blue}'
+  local yellow=$'%F{yellow}'
   local reset=$'%f'
 
   local status_icon
@@ -40,7 +43,14 @@ git_prompt() {
     status_icon="${red}✘${reset}"
   fi
 
-  echo "(${green}${branch}${reset}|${status_icon})"
+  local remote_info=""
+  if [[ $ahead -gt 0 ]] || [[ $behind -gt 0 ]]; then
+    [[ $ahead -gt 0 ]] && remote_info="${remote_info}${yellow}↑${ahead}${reset}"
+    [[ $behind -gt 0 ]] && remote_info="${remote_info}${yellow}↓${behind}${reset}"
+    remote_info="|${remote_info}"
+  fi
+
+  echo "(${green}${branch}${reset}|${status_icon}${remote_info})"
 }
 
 face_prompt() {
