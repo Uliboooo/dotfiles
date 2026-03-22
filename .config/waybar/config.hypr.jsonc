@@ -5,9 +5,10 @@
   "height": 38,
   "spacing": 1,
 
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["clock", "mpris"],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock", "hyprland/window"],
   "modules-right": [
+    "mpris",
     "temperature",
     "pulseaudio",
     "bluetooth",
@@ -56,7 +57,7 @@
 
   "temperature": {
     "critical-threshold": 80,
-    "format-critical": "{icon}{temperatureC}°C",
+    "format-critical": "{icon} {temperatureC}°C",
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
     "interval": 10,

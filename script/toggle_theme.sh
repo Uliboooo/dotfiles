@@ -1,14 +1,11 @@
 #!/bin/bash
-# toggle_theme.sh
 
-CURRENT=$(gsettings get org.gnome.desktop.interface color-scheme)
+CURRENT=$(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)
 
-if [ "$CURRENT" == "'prefer-dark'" ]; then
+if [[ "$CURRENT" == *"dark"* ]]; then
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
-    notify-send "Theme" "Switched to Light Mode"
+    notify-send -i weather-clear "Theme" "Switched to Light Mode"
 else
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-    notify-send "Theme" "Switched to Dark Mode"
+    notify-send -i weather-clear-night "Theme" "Switched to Dark Mode"
 fi

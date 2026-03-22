@@ -26,7 +26,7 @@ vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "1"
 vim.opt.mouse = "a"
 vim.opt.signcolumn = "yes"
-vim.opt.colorcolumn = "100"
+-- vim.opt.colorcolumn = "100"
 vim.opt.autoread = true
 
 vim.api.nvim_exec(

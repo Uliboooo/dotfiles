@@ -9,9 +9,6 @@ get_first_path() {
   get_all "$1" | head -1
 }
 
-# $1: pattern
-# $2: source files list
-# return: next line from pattern
 get_next_path() {
   REV_MODE=$3
   if (( $REV_MODE == 0 )); then
@@ -81,7 +78,7 @@ case "$1" in
   seq)  wall_path=$(seq_or_rev 0 "$WALLPAPER_DIR")  ;;
   rev)  wall_path=$(seq_or_rev 1 "$WALLPAPER_DIR")  ;;
   rnd)  wall_path=$(random_paper "$WALLPAPER_DIR")  ;;
-  pse)  toggle_systemtimer ;;
+  pse)  toggle_systemtimer && exit 0 || exit 1 ;;
     *)
         echo "Usage: $0 <seq|rev|rnd|atp>" >&2
         exit 1

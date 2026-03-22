@@ -43,3 +43,10 @@ config.local.fish
 .config/hypr/env
 **/timers.target.wants/
 .config/helix/runtime
+
+# symlinks managed by systemctl enable (auto-generated)
+default.target.wants/
+sockets.target.wants/
+timers.target.wants/
+pipewire-session-manager.service
+pipewire.service.wants/
