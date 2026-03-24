@@ -66,9 +66,9 @@ random_paper() {
 
 toggle_systemtimer() {
   if systemctl --user is-active --quiet cycle_wallpaper.timer; then
-    systemctl --user stop cycle_wallpaper.timer
+    systemctl --user stop cycle_wallpaper.timer && notify-send "stop slideshow" || notify-send "failed stop slideshow"
   else
-    systemctl --user start cycle_wallpaper.timer
+    systemctl --user start cycle_wallpaper.timer && notify-send "start slideshow" || notify-send "failed start slideshow"
   fi
 }
 
@@ -78,14 +78,12 @@ case "$1" in
   seq)  wall_path=$(seq_or_rev 0 "$WALLPAPER_DIR")  ;;
   rev)  wall_path=$(seq_or_rev 1 "$WALLPAPER_DIR")  ;;
   rnd)  wall_path=$(random_paper "$WALLPAPER_DIR")  ;;
-  pse)  toggle_systemtimer && exit 0 || exit 1 ;;
-    *)
-        echo "Usage: $0 <seq|rev|rnd|atp>" >&2
-        exit 1
-        ;;
+  pse)  toggle_systemtimer && exit 0 || exit 1      ;;
+  *)    wall_path=$2                                ;;
 esac
 
-mkdir -p /home/alice/dotfiles/.config/hypr/env
+mkdir -p $HOME/dotfiles/.config/hypr/env
+
 # awww
 swww img "$wall_path" --transition-type center --transition-duration 0.5
 
