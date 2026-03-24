@@ -15,6 +15,7 @@ return {
           "ts_ls",
           "lua_ls",
           "marksman",
+          "basedpyright",
         },
       })
     end,
@@ -118,6 +119,10 @@ return {
           })
         end,
       })
+
+      --  ╦   ╔═╗ ╔═╗      ╔═╗ ╔═╗ ╔╗╔ ╔═╗ ╦ ╔═╗
+      --  ║   ╚═╗ ╠═╝      ║   ║ ║ ║║║ ╠╣  ║ ║ ╦
+      --  ╩═╝ ╚═╝ ╩        ╚═╝ ╚═╝ ╝╚╝ ╚   ╩ ╚═╝
 
       vim.lsp.config("rust_analyzer", {
         on_attach = on_attach,
@@ -248,6 +253,47 @@ return {
         root_dir = vim.fs.root(0, { "moon.mod.json", "moon.pkg.json" }),
       })
       vim.lsp.enable("moonbit-lsp")
+
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            hint = {
+              arrayIndex = "Disable",
+            },
+            runtime = {
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              globals = { "vim" },
+            },
+            workspace = {
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      })
+      vim.lsp.enable("lua_ls")
+
+      vim.lsp.config("basedpyright", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "python" },
+        settings = {
+          basedpyright = {
+            analysis = {
+              -- 型チェックの厳格度設定 ("off", "basic", "standard", "strict", "all")
+              typeCheckingMode = "standard",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly", -- パフォーマンス向上のため
+            },
+          },
+        },
+      })
+      vim.lsp.enable("basedpyright")
     end,
   },
   -- {

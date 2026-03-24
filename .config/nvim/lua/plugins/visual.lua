@@ -77,32 +77,13 @@ return {
     "lewis6991/gitsigns.nvim",
     opts = {
       signs = {
-        add = { hl = "GitGutterAdd", text = "+", numhl = "GitGutterAddNr", linehl = "GitGutterAddLn" },
-        change = {
-          hl = "GitGutterChange",
-          text = "~",
-          numhl = "GitGutterChangeNr",
-          linehl = "GitGutterChangeLn",
-        },
-        delete = {
-          hl = "GitGutterDelete",
-          text = "_",
-          numhl = "GitGutterDeleteNr",
-          linehl = "GitGutterDeleteLn",
-        },
-        topdelete = {
-          hl = "GitGutterDelete",
-          text = "‾",
-          numhl = "GitGutterDeleteNr",
-          linehl = "GitGutterDeleteLn",
-        },
-        changedelete = {
-          hl = "GitGutterChange",
-          text = "~",
-          numhl = "GitGutterChangeNr",
-          linehl = "GitGutterChangeLn",
-        },
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
       },
+      sign_priority = 6,
       watch_gitdir = {
         interval = 1000,
         follow_files = true,
@@ -115,7 +96,6 @@ return {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-      sign_priority = 6,
       update_debounce = 100,
       status_formatter = nil,
     },
@@ -145,21 +125,10 @@ return {
     end,
   },
   {
-    "chentoast/marks.nvim",
-    config = function()
-      require("marks").setup({
-        default_mappings = true,
-        builtin_marks = { ".", "<", ">", "^" },
-        refresh_interval = 250,
-        sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
-        excluded_filetypes = {},
-        bookmark_0 = {
-          sign = "⚑",
-          virt_text = "hello world",
-          annotate = false,
-        },
-        mappings = {},
-      })
-    end,
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    opts = {
+      provider_selector = function() return { "treesitter", "indent" } end,
+    },
   },
 }
