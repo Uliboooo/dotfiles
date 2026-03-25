@@ -16,6 +16,7 @@ return {
           "lua_ls",
           "marksman",
           "basedpyright",
+          "astro",
         },
       })
     end,
@@ -204,6 +205,7 @@ return {
           "javascript",
           "javascriptreact",
           "typescriptreact",
+          "astro",
         },
         init_options = {
           html = {
@@ -214,6 +216,14 @@ return {
         },
       })
       vim.lsp.enable("emmet_ls")
+
+      vim.lsp.config("astro", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = { "astro" },
+      })
+
+      vim.lsp.enable("astro")
 
       vim.lsp.config("zls", {
         capabilities = capabilities,

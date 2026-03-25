@@ -10,6 +10,7 @@ cmds = {
     "toggle slideshow of wallpapers":   ["sh", script + "cycle_wallpaper.sh", "pse"],
     "toggle light-dark":                ["sh", script + "toggle_theme.sh"],
     "random wallpaper":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
+    "change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
     "show status wallpapers slideshow": ["sh", script + "status_of_slide.sh"],
     "screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
     "screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
