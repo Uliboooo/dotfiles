@@ -13,7 +13,7 @@ The main components and applications that make up this environment are:
 *   **Application Launcher**: Fuzzel
 *   **File Manager**: Nautilus
 *   **Notification Daemon**: SwayNC
-*   **Wallpaper Management Daemon**: swww
+*   **Wallpaper Management Daemon**: awww
 *   **Status Bar**: Waybar
 *   **Screen Lock/Idle Management**: hyprlock / hypridle
 

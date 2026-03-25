@@ -85,5 +85,5 @@ esac
 mkdir -p $HOME/dotfiles/.config/hypr/env
 
 # awww
-swww img "$wall_path" --transition-type center --transition-duration 0.5
+awww img "$wall_path" --transition-type center --transition-duration 0.5
 
