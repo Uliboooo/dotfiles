@@ -2,13 +2,12 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 38,
+  "height": 34,
   "spacing": 1,
 
   "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["clock", "hyprland/window"],
+  "modules-center": ["mpris", "clock", "hyprland/window"],
   "modules-right": [
-    "mpris",
     "temperature",
     "pulseaudio",
     "bluetooth",
