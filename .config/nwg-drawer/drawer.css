@@ -1,0 +1,144 @@
+/* nwg-drawer - Glass island design matching waybar aesthetic */
+
+window {
+  background-color: rgba(17, 17, 27, 0.7);
+  color: #cdd6f4;
+  font-family: "0xProto Nerd Font Mono", "0xProto Nerd Font", "Noto Sans CJK JP", sans-serif;
+  font-size: 16px;
+}
+
+/* search entry - glass island style */
+entry {
+  background-color: rgba(24, 24, 37, 0.6);
+  color: #cdd6f4;
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 12px;
+  caret-color: #89b4fa;
+  box-shadow: none;
+  outline: none;
+}
+
+entry:focus {
+  background-color: rgba(24, 24, 37, 0.75);
+  border: 1px solid rgba(137, 180, 250, 0.5);
+  box-shadow: none;
+  outline: none;
+}
+
+/* flat button base */
+button,
+image {
+  background: none;
+  border: none;
+  color: #cdd6f4;
+}
+
+button {
+  border-radius: 10px;
+  padding: 8px;
+  margin: 4px;
+}
+
+/* subtle glass hover effect */
+button:hover {
+  background-color: rgba(24, 24, 37, 0.5);
+}
+
+button:active {
+  background-color: rgba(24, 24, 37, 0.7);
+}
+
+/* category buttons - island style like waybar modules */
+#category-button {
+  /* margin: 6px; */
+  background-color: rgba(24, 24, 37, 0.6);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  border-radius: 10px;
+  padding: 4px 12px;
+  box-shadow: none;
+  outline: none;
+  min-height: 0;
+}
+
+#category-button:hover {
+  background-color: rgba(24, 24, 37, 0.75);
+  border: 1px solid rgba(137, 180, 250, 0.5);
+  box-shadow: none;
+}
+
+#category-button:active {
+  background-color: rgba(24, 24, 37, 0.85);
+  border: 1px solid rgba(245, 194, 231, 0.5);
+  box-shadow: none;
+}
+
+/* pinned applications - glass island */
+#pinned-box {
+  padding: 12px;
+  margin: 10px;
+  background-color: rgba(24, 24, 37, 0.4);
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+/* recent files - glass island */
+#files-box {
+  padding: 12px;
+  margin: 10px;
+  background-color: rgba(24, 24, 37, 0.4);
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+/* math result - glass island with accent */
+#math-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #a6e3a1;
+  padding: 10px 14px;
+  margin: 10px;
+  background-color: rgba(24, 24, 37, 0.6);
+  border: 1px solid rgba(166, 227, 161, 0.3);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+/* app icons - waybar module style with dark background */
+flowboxchild {
+  border-radius: 10px;
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  background-color: rgba(24, 24, 37, 0.6);
+  margin: 3px;
+  padding: 8px;
+}
+
+/* hover effect on icons */
+flowboxchild:hover {
+  background-color: rgba(24, 24, 37, 0.75);
+  border-color: rgba(137, 180, 250, 0.5);
+}
+
+flowboxchild:selected {
+  background-color: rgba(24, 24, 37, 0.85);
+  border-color: rgba(245, 194, 231, 0.5);
+}
+
+/* minimal flat scrollbar */
+scrollbar {
+  background-color: transparent;
+}
+
+scrollbar slider {
+  background-color: rgba(137, 180, 250, 0.25);
+  border-radius: 10px;
+  min-width: 8px;
+  border: none;
+}
+
+scrollbar slider:hover {
+  background-color: rgba(137, 180, 250, 0.4);
+}
