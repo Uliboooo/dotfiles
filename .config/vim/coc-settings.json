@@ -1,0 +1,64 @@
+{
+  "suggest.autoTrigger": "always",
+  "suggest.enablePreselect": true,
+  "suggest.noselect": false,
+  "suggest.enablePreview": true,
+  "coc.preferences.formatOnSave": true,
+
+  "diagnostic.virtualText": false,
+  "diagnostic.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "diagnostic.checkCurrentLine": true,
+
+  "inlayHint.enable": true,
+
+  "rust-analyzer.cargo.allFeatures": true,
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.inlayHints.typeHints.enable": true,
+  "rust-analyzer.inlayHints.parameterHints.enable": true,
+  "rust-analyzer.inlayHints.chainingHints.enable": true,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "always",
+
+  "tsserver.enable": true,
+
+  "go.goplsOptions": {
+    "hints": {
+      "parameterNames": true,
+      "assignVariableTypes": true
+    },
+    "analyses": {
+      "unusedparams": true,
+      "shadow": true
+    },
+    "staticcheck": true
+  },
+
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.diagnostics.globals": ["vim"],
+  "Lua.telemetry.enable": false,
+
+  "languageserver": {
+    "astro": {
+      "command": "astro-ls",
+      "args": ["--stdio"],
+      "filetypes": ["astro"],
+      "initializationOptions": {}
+    },
+    "zls": {
+      "command": "zls",
+      "filetypes": ["zig"]
+    },
+    "moonbit-lsp": {
+      "command": "moonbit-lsp",
+      "filetypes": ["moonbit"],
+      "rootPatterns": ["moon.mod.json", "moon.pkg.json"]
+    }
+  }
+}

@@ -7,12 +7,18 @@
 "                 |___/
 " ==============================================================================
 
-"  downloads vim-plug
+" Ensure ~/.vim is in runtimepath
+set runtimepath^=~/.vim
 
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+" downloads vim-plug
+let data_dir = '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim ==create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall ==sync | source $MYVIMRC
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
+
+" Source vim-plug
+if filereadable(expand('~/.vim/autoload/plug.vim'))
+    source ~/.vim/autoload/plug.vim
 endif
 
 " ---------------------
@@ -20,9 +26,45 @@ endif
 " ---------------------
 call plug#begin()
 
+" Color scheme
+Plug 'rose-pine/vim', { 'as': 'rosepine' }
+
+" Status line
 Plug 'itchyny/lightline.vim'
 
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'rhysd/git-messenger.vim'
+
+" LSP / Completion (coc.nvim)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Editing
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+
+" File search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Syntax highlighting
+Plug 'sheerun/vim-polyglot'
+
+" Rainbow brackets
+Plug 'kien/rainbow_parentheses.vim'
+
+" Debugging
+Plug 'puremourning/vimspector'
+
 call plug#end()
+
+" Set coc.nvim config directory
+let g:coc_config_home = expand('~/.config/vim')
+
+" Coc extensions to install
+let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-tsserver', 'coc-go', 'coc-pyright', 'coc-lua', 'coc-clangd', 'coc-html', 'coc-css', 'coc-json', 'coc-emmet', 'coc-markdownlint']
 
 
 " ==============================================================================
@@ -34,19 +76,23 @@ call plug#end()
 " ==============================================================================
 
 set laststatus=2
-
 set noshowmode
 
-let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active': {
-            \   'left':  [ [ 'mode', 'paste' ],
-            \              [ 'readonly', 'filename', 'modified' ] ],
-            \   'right': [ [ 'lineinfo' ],
-            \              [ 'percent' ],
-            \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-            \ },
-            \ }
+" Use rose-pine colorscheme
+try
+    colorscheme rosepine
+catch
+    colorscheme default
+endtry
+
+" Transparent background (let terminal transparency show through)
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
+hi LineNr guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi EndOfBuffer guibg=NONE ctermbg=NONE
+
+let g:lightline = {'colorscheme': 'rosepine', 'active': {'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']], 'right': [['lineinfo'], ['percent'], ['cocstatus', 'fileformat', 'fileencoding', 'filetype']]}, 'component_function': {'gitbranch': 'FugitiveHead', 'cocstatus': 'coc#status'}}
 
 " ==============================================================================
 "    ___        _
@@ -57,21 +103,384 @@ let g:lightline = {
 "        |_|
 " ==============================================================================
 
-" number
+" Line numbers
 set relativenumber
 set number
 
-" tab conf
-set tabstop=4
-set expandtab
-set shiftwidth=4
-set softtabstop=4
+" List characters (show tabs, trailing spaces, nbsp)
+set list
+set listchars=tab:›\ ,trail:~,nbsp:␣
 
-" cursor shape
+" Wrap settings
+set wrap
+set linebreak
+set breakindent
+set showbreak=⤷\ 
+
+" Clipboard (use system clipboard)
+set clipboard=unnamedplus
+
+" Search
+set hlsearch
+set incsearch
+
+" Tab/indent settings (match Neovim: 2 spaces)
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set softtabstop=2
+
+" Colors
+set termguicolors
+set background=dark
+
+" Cursor
+set cursorline
+set updatetime=300
+
+" Mouse
+set mouse=a
+
+" Sign column (always show for git/diagnostics)
+set signcolumn=yes
+
+" Folding (syntax-based, similar to treesitter)
+set foldmethod=syntax
+set foldenable
+set foldlevel=99
+set foldlevelstart=99
+
+" Auto reload files changed outside vim
+set autoread
+autocmd FocusGained,BufEnter * checktime
+
+" Cursor shape (insert: beam, replace: underline, normal: block)
 let &t_SI = "\e[6 q"
 let &t_SR = "\e[4 q"
 let &t_EI = "\e[2 q"
 
-" Pressing Enter finalizes the selection instead of inserting a new line when the completion menu is displayed.
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" Highlight dangerous unicode characters
+syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
+highlight DangerousChars ctermbg=red guibg=red
+
+" ==============================================================================
+"   ____  _             _
+"  |  _ \| |_   _  __ _(_)_ __  ___
+"  | |_) | | | | |/ _` | | '_ \/ __|
+"  |  __/| | |_| | (_| | | | | \__ \
+"  |_|   |_|\__,_|\__, |_|_| |_|___/
+"                 |___/
+" ==============================================================================
+
+" ----- Git Gutter -----
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '~'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '~'
+
+" Git gutter settings
+let g:gitgutter_enabled = 1
+let g:gitgutter_map_keys = 0
+let g:gitgutter_override_sign_column_highlight = 1
+let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_close_preview_on_escape = 1
+let g:gitgutter_use_location_list = 0
+let g:gitgutter_signs = 1
+let g:gitgutter_highlight_lines = 0
+let g:gitgutter_highlight_linenrs = 0
+set signcolumn=yes
+
+" ----- Rainbow Brackets (kien/rainbow_parentheses.vim) -----
+" Define custom colors for rose-pine theme (no harsh red)
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    '#c4a7e7'],
+    \ ['darkgray',    '#f6c177'],  
+    \ ['darkgreen',   '#9ccfd8'],
+    \ ['darkcyan',    '#31748f'],
+    \ ['darkred',     '#eb6f92'],
+    \ ['darkmagenta', '#ebbcba'],
+    \ ['brown',       '#c4a7e7'],
+    \ ['gray',        '#f6c177'],
+    \ ['darkmagenta', '#9ccfd8'],
+    \ ['Darkblue',    '#31748f'],
+    \ ['darkgreen',   '#eb6f92'],
+    \ ['darkcyan',    '#ebbcba'],
+    \ ['darkred',     '#c4a7e7'],
+    \ ['red',         '#f6c177'],
+    \ ]
+
+" Enable rainbow parentheses automatically
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare  
+au Syntax * RainbowParenthesesLoadBraces
+
+" ==============================================================================
+"   _  __
+"  | |/ /___ _   _ _ __ ___   __ _ _ __  ___
+"  | ' // _ \ | | | '_ ` _ \ / _` | '_ \/ __|
+"  | . \  __/ |_| | | | | | | (_| | |_) \__ \
+"  |_|\_\___|\__, |_| |_| |_|\__,_| .__/|___/
+"            |___/                |_|
+" ==============================================================================
+
+" Leader key
+let mapleader = " "
+
+" Basic keymaps
+nnoremap <Leader>n :nohlsearch<CR>
+nnoremap U <C-r>
+nnoremap <C-b> <Nop>
+
+" Save with Ctrl+S
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+vnoremap <C-s> <Esc>:w<CR>
+
+" Keep selection when indenting
+vnoremap > >gv
+vnoremap < <gv
+
+" Commentary toggle with Ctrl+C
+nmap <C-c> gcc
+vmap <C-c> gc
+nmap <Leader>gc gcc
+vmap <Leader>gc gc
+
+" Git hunk preview and navigation  
+nnoremap <C-p> :GitGutterPreviewHunk<CR>
+nnoremap ]h :GitGutterNextHunk<CR>
+nnoremap [h :GitGutterPrevHunk<CR>
+
+" Git blame functionality
+nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>gbl :GitMessenger<CR>
+
+" Git messenger settings
+let g:git_messenger_no_default_mappings = v:true
+let g:git_messenger_include_diff = "current"
+let g:git_messenger_always_into_popup = v:true
+let g:git_messenger_max_popup_height = 15
+let g:git_messenger_max_popup_width = 60
+
+" ==============================================================================
+"    ____           _   ____             __ _
+"   / ___|___   ___| | / ___|___  _ __  / _(_) __ _
+"  | |   / _ \ / __| || |   / _ \| '_ \| |_| |/ _` |
+"  | |__| (_) | (__| || |__| (_) | | | |  _| | (_| |
+"   \____\___/ \___|_(_)____\___/|_| |_|_| |_|\__, |
+"                                             |___/
+" ==============================================================================
+
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\<Tab>" : coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion
+inoremap <silent><expr> <c-@> coc#refresh()
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming
+nmap <Leader>r <Plug>(coc-rename)
+
+" Code action
+nmap <Leader>a <Plug>(coc-codeaction-cursor)
+vmap <Leader>a <Plug>(coc-codeaction-selected)
+
+" Format selected code
+xmap <Leader>gf <Plug>(coc-format-selected)
+nmap <Leader>gf <Plug>(coc-format-selected)
+
+" Show diagnostics for current line
+nmap <silent> dc :CocDiagnostics<CR>
+
+" Coc list mappings (LSP symbols, diagnostics)
+nnoremap <silent> <Leader>d :CocList diagnostics<CR>
+nnoremap <silent> <Leader>s :CocList outline<CR>
+nnoremap <silent> <Leader>ss :CocList symbols<CR>
+
+" ==============================================================================
+"   _____ __________ 
+"  |  ___|__  /  ___|
+"  | |_    / /| |_   
+"  |  _|  / /_|  _|  
+"  |_|   /____|_|    
+" ==============================================================================
+
+" File search (like snacks.picker.files)
+nnoremap <Leader>f :Files<CR>
+
+" Grep search (like snacks.picker.grep)
+nnoremap <Leader>/ :Rg<CR>
+
+" Marks
+nnoremap <Leader>m :Marks<CR>
+
+" FZF layout and keybindings
+let g:fzf_layout = { 'down': '40%' }
+
+" FZF key bindings - Enable Escape to close
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Escape key mapping for fzf
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+
+" FZF colors to match rose-pine theme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Use fd for FZF if available
+if executable('fd')
+  let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git --exclude node_modules --exclude target --exclude .mooncakes'
+endif
+
+" Additional fzf options for better UX
+let $FZF_DEFAULT_OPTS = '--bind=ctrl-u:page-up,ctrl-d:page-down,ctrl-a:select-all,ctrl-n:deselect-all'
+
+" ==============================================================================
+"   _____                   _             _
+"  |_   _|__ _ __ _ __ ___ (_)_ __   __ _| |
+"    | |/ _ \ '__| '_ ` _ \| | '_ \ / _` | |
+"    | |  __/ |  | | | | | | | | | | (_| | |
+"    |_|\___|_|  |_| |_| |_|_|_| |_|\__,_|_|
+" ==============================================================================
+
+" Terminal toggle state
+let g:term_buf = 0
+let g:term_win = 0
+let g:term_small = 1
+
+function! TermToggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        " Check if terminal buffer exists and is valid
+        if g:term_buf != 0 && bufexists(g:term_buf) && getbufvar(g:term_buf, '&buftype') ==# 'terminal'
+            botright split
+            exec "resize " . a:height
+            exec "buffer " . g:term_buf
+        else
+            " Create new terminal
+            botright new
+            exec "resize " . a:height
+            terminal ++curwin
+            let g:term_buf = bufnr("")
+            " Configure terminal buffer
+            setlocal nonumber
+            setlocal norelativenumber
+            setlocal signcolumn=no
+            setlocal nospell
+            setlocal winfixheight
+            setlocal nobuflisted
+        endif
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+
+" Toggle terminal with Ctrl+\
+nnoremap <silent> <C-\> :call TermToggle(20)<CR>
+tnoremap <silent> <C-\> <C-\><C-n>:call TermToggle(20)<CR>
+
+" Resize terminal with Ctrl+_
+nnoremap <silent> <C-_> :call TermResize()<CR>
+tnoremap <silent> <C-_> <C-\><C-n>:call TermResize()<CR>i
+
+function! TermResize()
+    if g:term_small
+        exec "resize " . (&lines - 5)
+        let g:term_small = 0
+    else
+        exec "resize 20"
+        let g:term_small = 1
+    endif
+endfunction
+
+" Exit terminal mode with Escape (except for fzf)
+tnoremap <Esc> <C-\><C-n>
+
+" Terminal color settings - fix colors to match system terminal
+if has('terminal')
+    " Set terminal colors to match rose-pine theme
+    let g:terminal_ansi_colors = [
+        \ '#191724', '#eb6f92', '#9ccfd8', '#f6c177',
+        \ '#31748f', '#c4a7e7', '#ebbcba', '#e0def4',
+        \ '#555169', '#eb6f92', '#9ccfd8', '#f6c177',
+        \ '#31748f', '#c4a7e7', '#ebbcba', '#ffffff'
+        \ ]
+    " Inherit terminal emulator's colors instead
+    set termguicolors
+endif
+
+" Auto-enter insert mode when switching to terminal
+autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
+autocmd BufLeave * if &buftype == 'terminal' | :stopinsert | endif
+
+" ==============================================================================
+"  __     ___                                _
+"  \ \   / (_)_ __ ___  ___ _ __   ___  ___| |_ ___  _ __
+"   \ \ / /| | '_ ` _ \/ __| '_ \ / _ \/ __| __/ _ \| '__|
+"    \ V / | | | | | | \__ \ |_) |  __/ (__| || (_) | |
+"     \_/  |_|_| |_| |_|___/ .__/ \___|\___|\__\___/|_|
+"                          |_|
+" ==============================================================================
+
+" Debugger keymaps
+nmap <F5> <Plug>VimspectorContinue
+nmap <F10> <Plug>VimspectorStepOver
+nmap <F11> <Plug>VimspectorStepInto
+nmap <F12> <Plug>VimspectorStepOut
+nmap <Leader>b <Plug>VimspectorToggleBreakpoint
+nmap <Leader>dr <Plug>VimspectorRestart
+
+" Vimspector configuration
+let g:vimspector_enable_mappings = 'HUMAN'
 
