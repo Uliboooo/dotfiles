@@ -69,3 +69,8 @@ abbr update="yay -Syu --noconfirm"
 
 abbr y="yazi"
 
+abbr :q="exit"
+abbr :Q="exit"
+abbr :wq="exit"
+abbr :Wq="exit"
+

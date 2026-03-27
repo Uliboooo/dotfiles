@@ -28,6 +28,7 @@ tooltip label {
 
 #workspaces,
 #window,
+#submap,
 #mpris,
 #clock,
 #battery,
@@ -75,6 +76,12 @@ tooltip label {
 #mpris {
   color: #f2cdcd;
   border: 1px solid #f2cdcd;
+}
+
+#submap {
+  font-weight: 700;
+  color: #eba0ac;
+  border: 1px solid #eba0ac;
 }
 
 #clock {

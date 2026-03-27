@@ -4,9 +4,15 @@
   "position": "top",
   "height": 34,
   "spacing": 1,
-
-  "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["mpris", "clock", "hyprland/window"],
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "hyprland/submap",
+    "mpris",
+    "clock"
+  ],
   "modules-right": [
     "temperature",
     "pulseaudio",
@@ -17,7 +23,6 @@
     "tray",
     "custom/notification"
   ],
-
   "hyprland/workspaces": {
     "format": "{name}",
     "show-special": true,
@@ -29,7 +34,12 @@
       "urgent": ""
     }
   },
-
+  "hyprland/submap": {
+    "format": "{}",
+    "max-length": 25,
+    "tooltip": false,
+    "show-empty": false
+  },
   "hyprland/window": {
     "format": "{class}",
     "max-length": 40,
@@ -44,25 +54,24 @@
       "^$": "󰇄 Desktop"
     }
   },
-
   "mpris": {
     "format": "󰎆 {artist} - {title}",
     "format-paused": "󰏤 <i>{artist} / {title}</i>",
-    "max-length": 40,
+    "max-length": 35,
     "player-icons": {
       "default": "󰎆"
     }
   },
-
   "temperature": {
     "critical-threshold": 80,
     "format-critical": "{icon} {temperatureC}°C",
     "format": "{icon} {temperatureC}°C",
-    "format-icons": [""],
+    "format-icons": [
+      ""
+    ],
     "interval": 10,
     "on-click": "ghostty --title='dev-float' -e btop"
   },
-
   "clock": {
     "format": "{:%b %d %a %H:%M}",
     "tooltip-format": "<tt>{calendar}</tt>",
@@ -77,16 +86,18 @@
       }
     }
   },
-
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "󰝟 MUTED",
     "format-icons": {
-      "default": ["󰕿", "󰖀", "󰕾"]
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
     },
     "on-click": "pavucontrol"
   },
-
   "bluetooth": {
     "format": "{status}",
     "format-connected": " {num_connections}",
@@ -97,7 +108,6 @@
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
   },
-
   "network": {
     "format-wifi": " {essid}",
     "format-ethernet": "󰈀 ETH",
@@ -105,7 +115,6 @@
     "max-length": 11,
     "on-click": "kitty --class='dev-float' -e nmtui"
   },
-
   "battery": {
     "states": {
       "warning": 30,
@@ -114,15 +123,24 @@
     "format": "{icon}{capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": " {capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    "format-icons": [
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ]
   },
-
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "interval": 30,
     "format": "󰌪 {}"
   },
-
   "custom/notification": {
     "tooltip": true,
     "format": "<span size='13pt'>{icon}</span>",

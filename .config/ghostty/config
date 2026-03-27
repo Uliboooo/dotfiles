@@ -11,13 +11,13 @@ cursor-style = bar
 window-height = 100
 window-width = 200
 
-# background-image = "~/Pictures/wallpapers/KAF.jpg"
-# background-image-opacity = 0.02
+# background-image = "~/Pictures/wallpapers/ROAR.jpeg"
+# background-image-opacity = 1.5
 background-image-fit = cover
 
 # 背景の透明度
 background-opacity = 0.96
-# background-blur-radius = 20
+background-blur-radius = 20
 
 theme = catppuccin-frappe
 window-theme = dark
@@ -39,10 +39,8 @@ keybind = ctrl+l=goto_split:right
 keybind = ctrl+j=goto_split:bottom
 keybind = ctrl+k=goto_split:top
 
-# working-directory = "home"
 window-inherit-working-directory = true
 term=xterm-256color
-macos-option-as-alt = left
 
 notify-on-command-finish = unfocused
 notify-on-command-finish-action = bell,notify
