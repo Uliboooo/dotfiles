@@ -1,7 +1,7 @@
 return {
   {
     "williamboman/mason.nvim",
-    cmd = "Mason", -- 必要になった時にロード
+    cmd = "Mason",
     opts = {},
   },
   {
@@ -37,13 +37,6 @@ return {
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
-        -- providers =
-        --   mooncake = {
-        --     name = "Mooncakes",
-        --     module = "moonbit.mooncakes.completion.blink",
-        --     -- opts = { max_items = 100 },
-        --   },
-        -- },
       },
     },
   },

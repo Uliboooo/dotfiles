@@ -9,8 +9,15 @@ old/*
 auto-save-list/
 eln-cache/
 elpa/
+elpaca/
 parinfer-rust/*.so
 custom.el
+.config/emacs/elpaca/
+.config/emacs/eln-cache/
+.config/emacs/auto-save-list/
+.config/emacs/recentf
+.config/emacs/transient/
+.config/emacs/.cache/
 usr/.config/zed/prompts/
 usr/.tmux/plugins/
 **/.env
