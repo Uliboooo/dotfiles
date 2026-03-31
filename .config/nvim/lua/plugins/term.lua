@@ -4,24 +4,17 @@ return {
     version = "*",
     config = function()
       require("toggleterm").setup({
-        direction = "horizontal",
-        size = 20,
-      })
+        direction = "float",
 
-      local is_small = true
+        float_opts = {
+          border = "curved",
+          width = function() return vim.o.columns - 7 end,
+          height = function() return vim.o.lines - 5 end,
+        },
+      })
 
       -- Toggle terminal
       vim.keymap.set({ "n", "t" }, "<C-\\>", function() vim.cmd("ToggleTerm") end, { noremap = true, silent = true })
-
-      vim.keymap.set({ "n", "t" }, "<C-_>", function()
-        if is_small then
-          vim.cmd("resize " .. (vim.o.lines - 5))
-          is_small = false
-        else
-          vim.cmd("resize 20")
-          is_small = true
-        end
-      end)
     end,
   },
 }

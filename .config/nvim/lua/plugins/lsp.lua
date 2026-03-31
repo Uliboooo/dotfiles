@@ -61,7 +61,7 @@ return {
         update_in_insert = false,
         float = {
           border = "rounded",
-          source = "always",
+          source = true,
         },
       })
 

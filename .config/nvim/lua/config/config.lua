@@ -31,18 +31,21 @@ vim.opt.mouse = "a"
 vim.opt.signcolumn = "yes"
 -- vim.opt.colorcolumn = "100"
 vim.opt.autoread = true
+vim.opt.modeline = false
 
-vim.api.nvim_exec(
+vim.cmd(
   [[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
   highlight DangerousChars ctermbg=red guibg=red
 ]],
   false
 )
+
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   pattern = "*",
   command = "checktime",
 })
+
 vim.filetype.add({
   extension = {
     mbt = "moonbit",

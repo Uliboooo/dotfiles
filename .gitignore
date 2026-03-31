@@ -57,3 +57,5 @@ sockets.target.wants/
 timers.target.wants/
 pipewire-session-manager.service
 pipewire.service.wants/
+
+./.config/hypr/visual.conf
