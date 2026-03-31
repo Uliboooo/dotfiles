@@ -38,6 +38,8 @@ if status is-interactive
         if set -q XDG_RUNTIME_DIR
             set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/keyring/ssh
         end
+        set -gx LD_LIBRARY_PATH $LD_LIBRARY_PATH /opt/rocm/lib
+        set -gx ROCM_PATH /opt/rocm
     end
 
     # cargo
@@ -60,8 +62,6 @@ if status is-interactive
     fish_add_path $HOME/.moon/bin
     # Bun
     fish_add_path $HOME/.bun/bin
-    # moonbit
-    fish_add_path "$HOME/.moon/bin"
 
     # type -q starship; and starship init fish | source
 
@@ -92,6 +92,7 @@ if status is-interactive
     set -gx HYPRSHOT_DIR "$HOME/Pictures/Screenshots"
     set -g fish_greeting
 
+    # NVM disabled
     # set --universal nvm_default_version lts
 end
 
@@ -131,7 +132,7 @@ abbr -a gln 'git            log --all --date-order --date=format:"%Y-%m-%d" --gr
 abbr -a gla 'git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
 abbr -a gls 'git --no-pager log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s" -n 15'
 abbr -a gf  'git fetch'
-abbr -a ghp 'echo "restora only a portion of the data."'
+abbr -a ghp 'echo "restore only a portion of the data."'
 abbr -a gbs 'git switch'
 abbr -a gbc 'git switch -c'
 abbr -a gb  'git branch'
@@ -180,7 +181,7 @@ end
 
 abbr -a lss      'ls -l'
 abbr -a ff       'fastfetch'
-abbr -a ls       'eza -l'
+abbr -a ls       'eza -l --icons=always'
 abbr -a glist    '/bin/ls'
 abbr -a printimg 'chafa -f kitty'
 abbr -a cow      'cowsay'
@@ -202,6 +203,8 @@ end
 
 abbr -a nv       'nvim'
 abbr -a nvd      'nvim .'
+abbr -a nnv      'nightly_nvim'
+abbr -a nnvd     'nightly_nvim .'
 
 abbr -a tl       'tmux ls'
 abbr -a tmr      'tmux kill-session -t'
@@ -249,7 +252,7 @@ abbr -a cpr 'clang++ main.cpp -o out && ./out'
 # |_|  |_|\___/ \___/|_| |_|____/|_|\__|
 # ---------------------------------------------------------------------
 
-abbr -a mb 'moon buld'
+abbr -a mb 'moon build'
 abbr -a mr 'moon run'
 abbr -a mf 'moon fmt'
 abbr -a mh 'moon check'
@@ -275,6 +278,12 @@ function distro
         echo Unknown
     end
 end
+
+abbr -a y        'yazi'
+abbr -a :q       'exit'
+abbr -a :Q       'exit'
+abbr -a :wq      'exit'
+abbr -a :Wq      'exit'
 
 if string match -q '*Darwin*' (uname)
     abbr -a copy pbcopy
