@@ -41,7 +41,8 @@ config.local.fish
 .config/fish/completions
 .config/fish/conf.d
 .config/fish/fishd.*
-.config/fish/functions
+.config/fish/functions/*
+!.config/fish/functions/fish_prompt.fish
 .config/fish/vars.fish
 .config/fish/local.fish
 .config/fish/fish_variables
