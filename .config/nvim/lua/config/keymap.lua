@@ -5,19 +5,24 @@ vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, desc = "Redo" })
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
+-- vim.keymap.set(
+--   { "n", "i", "v", "x", "s" },
+--   "<C-c>",
+--   function() require("Comment.api").toggle.linewise.current() end,
+--   { desc = "toggle cooment for ", noremap = true }
+-- )
+-- vim.keymap.set(
+--   { "n", "v", "x", "s" },
+--   "<Leader>gc",
+--   function() require("Comment.api").toggle.linewise.current() end,
+--   { desc = "toggle cooment for ", noremap = true }
+-- )
 vim.keymap.set(
-  { "n", "i", "v", "x", "s" },
-  "<C-c>",
-  function() require("Comment.api").toggle.linewise.current() end,
-  { desc = "toggle cooment for ", noremap = true }
+  "n",
+  "eh",
+  ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>",
+  { desc = "enable lsp inlay hint" }
 )
-vim.keymap.set(
-  { "n", "v", "x", "s" },
-  "<Leader>gc",
-  function() require("Comment.api").toggle.linewise.current() end,
-  { desc = "toggle cooment for ", noremap = true }
-)
-vim.keymap.set("n", "eh", ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>", { desc = "enable lsp inlay hint" })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
@@ -33,8 +38,17 @@ vim.keymap.set("n", "dc", function()
 
   if #diags > 0 then
     local d = diags[1]
-    local ebuf =
-      string.format("%s: %s, %s, by %s at %d:%d-%d:%d", cmap[d.severity], d.message, d.code, d.source, d.lnum, d.col, d.end_lnum, d.end_col)
+    local ebuf = string.format(
+      "%s: %s, %s, by %s at %d:%d-%d:%d",
+      cmap[d.severity],
+      d.message,
+      d.code,
+      d.source,
+      d.lnum,
+      d.col,
+      d.end_lnum,
+      d.end_col
+    )
     -- print(ebuf)
     vim.fn.setreg("+", ebuf)
     vim.notify("Diagnostic copied!", vim.log.levels.INFO)
