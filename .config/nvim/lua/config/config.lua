@@ -1,3 +1,7 @@
+-- Disable netrw (default file explorer)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.list = true
@@ -50,4 +54,19 @@ vim.filetype.add({
   extension = {
     mbt = "moonbit",
   },
+})
+
+-- Show default intro screen when opening a directory
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    local arg = vim.fn.argv(0)
+    if arg ~= "" and vim.fn.isdirectory(arg) == 1 then
+      vim.cmd("bdelete")
+      vim.cmd("intro")
+      -- Map Enter to open file picker on intro screen
+      vim.keymap.set("n", "<CR>", function()
+        require("snacks").picker.files()
+      end, { buffer = 0, nowait = true })
+    end
+  end,
 })
