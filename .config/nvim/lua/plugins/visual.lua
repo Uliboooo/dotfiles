@@ -12,14 +12,18 @@ return {
           italic = true,
         },
         highlight_groups = {
-          Visual = { bg = "#56526e" },
-          Search = { bg = "#c4a7e7", fg = "#232136" },
-          IncSearch = { bg = "#f6c177", fg = "#232136" },
-          PmenuSel = { bg = "#44415a", fg = "#e0def4" },
-          MatchParen = { bg = "#44415a", fg = "#e0def4", bold = true },
-          LspReferenceText = { bg = "#44415a" },
-          LspReferenceRead = { bg = "#44415a" },
-          LspReferenceWrite = { bg = "#44415a" },
+          Visual = { bg = "iris", blend = 20 },
+          Search = { bg = "foam", fg = "base" },
+          IncSearch = { bg = "gold", fg = "base" },
+          PmenuSel = { bg = "overlay", fg = "text", bold = true },
+          MatchParen = { bg = "pine", fg = "text", bold = true },
+          LspReferenceText = { bg = "highlight_med" },
+          LspReferenceRead = { bg = "highlight_med" },
+          LspReferenceWrite = { bg = "highlight_med" },
+          -- Snacks picker highlights
+          SnacksPickerCursor = { bg = "overlay", fg = "text", bold = true },
+          SnacksPickerCursorLine = { bg = "overlay" },
+          SnacksPickerSelect = { bg = "surface", fg = "iris", bold = true },
         },
       })
 

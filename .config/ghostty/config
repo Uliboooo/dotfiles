@@ -9,37 +9,48 @@ font-size = 11.5
 cursor-opacity = 0.2
 cursor-style = bar
 
-# ウィンドウの初期サイズ
 window-height = 100
 window-width = 200
 
-# background-image = "~/Pictures/wallpapers/ROAR.jpeg"
 # background-image-opacity = 1.5
 background-image-fit = cover
 
-# 背景の透明度
 background-opacity = 0.96
 background-blur-radius = 20
 
-theme = catppuccin-frappe
+#  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
+#   ║  ╠═╣ ║╣  ║║║ ║╣
+#   ╩  ╩ ╩ ╚═╝ ╩ ╩ ╚═╝
+# theme = catppuccin-frappe
+# theme = catppuccin-macchiato
+# theme = catppuccin-mocha
+theme = rose-pine-moon
+
 window-theme = dark
 
 cursor-style-blink = true
 
+# conf of quickterm
 quick-terminal-position = "top"
 quick-terminal-screen = "main"
 quick-terminal-animation-duration = 0.3
 keybind = "global:option+shift+t=toggle_quick_terminal"
+
+# split term
 keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+right=new_split:right
 keybind = ctrl+shift+up=new_split:up
 keybind = ctrl+shift+left=new_split:left
-keybind = super+enter=unbind
-# keybind = ctrl+enter=unbind
+
+# move splited term
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+l=goto_split:right
 keybind = ctrl+j=goto_split:bottom
 keybind = ctrl+k=goto_split:top
+
+# disable toggle fullscreen
+keybind = super+enter=unbind
+keybind = ctrl+enter=unbind
 
 window-inherit-working-directory = true
 term=xterm-256color

@@ -290,10 +290,11 @@ if string match -q '*Darwin*' (uname)
     abbr -a update 'brew update && brew upgrade && rustup update'
 else
     abbr -a copy wl-copy
-    abbr -a cc clang
-    abbr -a ccc clang++
-    abbr -a hx helix
-    abbr -a hxd helix .
+    abbr -a c    wl-copy
+    abbr -a cc   clang
+    abbr -a ccc  clang++
+    abbr -a hx   helix
+    abbr -a hxd  helix .
 
     set distro_name (distro)
     if string match -qi '*Fedora*' $distro_name
