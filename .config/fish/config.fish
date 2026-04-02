@@ -21,7 +21,7 @@ if status is-interactive
         fish_add_path /opt/homebrew/opt/llvm/bin
         fish_add_path /opt/homebrew/bin
 
-    else # when boot linux
+    else # run on linux
         if test -f /etc/os-release
             set DIST (string replace -r '^NAME=["\']?(.*)["\']?$' '$1' (grep '^NAME=' /etc/os-release))
         end
@@ -40,6 +40,8 @@ if status is-interactive
         end
         set -gx LD_LIBRARY_PATH $LD_LIBRARY_PATH /opt/rocm/lib
         set -gx ROCM_PATH /opt/rocm
+
+        set -U fish_ambiguous_case_sensitive
     end
 
     # cargo
@@ -205,6 +207,10 @@ abbr -a nv       'nvim'
 abbr -a nvd      'nvim .'
 abbr -a nnv      'nightly_nvim'
 abbr -a nnvd     'nightly_nvim .'
+abbr -a e        'emacs -nw'
+abbr -a ed       'emacs -nw .'
+abbr -a eg       'emacs'
+abbr -a egd       'emacs .'
 
 abbr -a tl       'tmux ls'
 abbr -a tmr      'tmux kill-session -t'
@@ -303,5 +309,4 @@ else
         abbr -a update 'yay -Syu --noconfirm'
     end
 end
-
 

@@ -63,6 +63,7 @@
 
 ;; 行番号
 (setq display-line-numbers-type 'relative)
+(setq-default display-line-numbers-width 3)
 (global-display-line-numbers-mode 1)
 
 ;; 空白文字の可視化（list, listchars）
@@ -80,6 +81,41 @@
 
 ;; クリップボード連携（clipboard = unnamedplus）
 (setq select-enable-clipboard t)
+(setq select-enable-primary t)
+
+;; GUI系の貼り付けキーを明示
+(global-set-key (kbd "C-v") #'yank)
+(global-set-key (kbd "C-S-v") #'yank)
+
+;; Wayland/X11 の外部クリップボード連携を明示
+(cond
+ ;; Wayland: wl-copy / wl-paste
+ ((and (getenv "WAYLAND_DISPLAY")
+       (executable-find "wl-copy")
+       (executable-find "wl-paste"))
+  (setq interprogram-cut-function
+        (lambda (text &optional _push)
+          (let ((process-connection-type nil))
+            (let ((proc (start-process "wl-copy" nil "wl-copy" "-f" "-n")))
+              (process-send-string proc text)
+              (process-send-eof proc))))
+        interprogram-paste-function
+        (lambda ()
+          ;; 行単位ヤンク/ペーストの意味を壊さないため、末尾改行を保持する
+          (shell-command-to-string "wl-paste -n 2>/dev/null"))))
+ ;; X11: xclip
+ ((and (getenv "DISPLAY")
+       (executable-find "xclip"))
+  (setq interprogram-cut-function
+        (lambda (text &optional _push)
+          (let ((process-connection-type nil))
+            (let ((proc (start-process "xclip" nil "xclip" "-selection" "clipboard")))
+              (process-send-string proc text)
+              (process-send-eof proc))))
+        interprogram-paste-function
+        (lambda ()
+          ;; 行単位ヤンク/ペーストの意味を壊さないため、末尾改行を保持する
+          (shell-command-to-string "xclip -selection clipboard -o 2>/dev/null")))))
 
 ;; 検索ハイライト（hlsearch）
 (setq isearch-lazy-highlight t)
@@ -113,7 +149,8 @@
 (setq create-lockfiles nil)
 (setq ring-bell-function 'ignore)
 (setq use-short-answers t)
-(setq confirm-kill-emacs 'y-or-n-p)
+(setq confirm-kill-emacs nil)
+(setq confirm-kill-processes nil)
 (setq scroll-margin 8)
 (setq scroll-conservatively 101)
 (pixel-scroll-precision-mode 1)
@@ -123,34 +160,64 @@
 (prefer-coding-system 'utf-8)
 
 ;; フォント設定（HiDPI / Wayland 4K x1.5 対応）
-(defun my/setup-fonts ()
-  "Setup fonts for HiDPI displays."
-  (when (display-graphic-p)
-    ;; メインフォント - XLFD形式で明示的に指定
-    (set-face-attribute 'default nil
-                        :font "0xProto-14"
-                        :weight 'regular)
-    ;; 固定幅フォント
-    (set-face-attribute 'fixed-pitch nil
-                        :font "0xProto-14")
-    ;; 可変幅フォント
-    (set-face-attribute 'variable-pitch nil
-                        :font "Noto Sans-14")
-    ;; 日本語フォント
-    (dolist (charset '(kana han cjk-misc bopomofo))
-      (set-fontset-font t charset
-                        (font-spec :family "Noto Sans CJK JP" :size 14)))
-    ;; 絵文字
-    (set-fontset-font t 'emoji
-                      (font-spec :family "Noto Color Emoji") nil 'prepend)
-    ;; 記号類
-    (set-fontset-font t 'symbol
-                      (font-spec :family "Noto Sans Symbols 2") nil 'prepend)))
+(defun my/first-available-font (&rest families)
+  "Return first installed font family from FAMILIES."
+  (catch 'found
+    (dolist (family families)
+      (when (find-font (font-spec :family family))
+        (throw 'found family)))
+    nil))
+
+(defun my/setup-fonts (&optional frame)
+  "Setup fonts for HiDPI displays on FRAME (or current frame)."
+  (let ((target (or frame (selected-frame))))
+    (when (display-graphic-p target)
+      (with-selected-frame target
+        (condition-case err
+            (let ((mono (or (my/first-available-font
+                             "0xProto Nerd Font Mono"
+                             "0xProto Nerd Font"
+                             "JetBrains Mono Nerd Font"
+                             "Monospace")
+                            "Monospace"))
+                  (sans (or (my/first-available-font
+                             "Noto Sans"
+                             "Noto Sans CJK JP"
+                             "Sans Serif")
+                            "Sans Serif")))
+              ;; メインフォント
+              (set-face-attribute 'default nil
+                                  :family mono
+                                  :height 115
+                                  :weight 'regular)
+              ;; 固定幅フォント
+              (set-face-attribute 'fixed-pitch nil
+                                  :family mono
+                                  :height 115)
+              ;; 可変幅フォント
+              (set-face-attribute 'variable-pitch nil
+                                  :family sans
+                                  :height 115)
+              ;; 日本語フォント
+              (when (find-font (font-spec :family "Noto Sans CJK JP"))
+                (dolist (charset '(kana han cjk-misc bopomofo))
+                  (set-fontset-font t charset
+                                    (font-spec :family "Noto Sans CJK JP" :size 14))))
+              ;; 絵文字
+              (when (find-font (font-spec :family "Noto Color Emoji"))
+                (set-fontset-font t 'emoji
+                                  (font-spec :family "Noto Color Emoji") nil 'prepend))
+              ;; 記号類
+              (when (find-font (font-spec :family "Noto Sans Symbols 2"))
+                (set-fontset-font t 'symbol
+                                  (font-spec :family "Noto Sans Symbols 2") nil 'prepend)))
+          (error
+           (message "font setup skipped: %s" (error-message-string err))))))))
 
 ;; GUIフレーム作成時にフォント設定を適用
 (if (daemonp)
     (add-hook 'server-after-make-frame-hook #'my/setup-fonts)
-  (my/setup-fonts))
+  (my/setup-fonts (selected-frame)))
 
 ;; ============================================================================
 ;; Evil Mode（Vim keybindings）
@@ -164,21 +231,29 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-undo-system 'undo-redo)
   (setq evil-search-module 'isearch)
+  ;; stateごとのカーソル形状
+  (setq evil-normal-state-cursor '(box "orange"))
+  (setq evil-insert-state-cursor '(bar "green"))
+  (setq evil-visual-state-cursor '(hollow "cyan"))
+  (setq evil-replace-state-cursor '(hbar "red"))
+  (setq evil-motion-state-cursor '(box "purple"))
+  (setq evil-emacs-state-cursor '(box "white"))
+  (setq evil-operator-state-cursor '(hollow "yellow"))
   :config
   (evil-mode 1)
-  
+
   ;; U でリドゥ（nvim: vim.keymap.set("n", "U", "<C-r>")）
   (define-key evil-normal-state-map (kbd "U") 'evil-redo)
-  
+
   ;; ビジュアルモードでインデント後も選択維持（nvim: >gv, <gv）
   (define-key evil-visual-state-map (kbd ">") (lambda ()
-    (interactive)
-    (evil-shift-right (region-beginning) (region-end))
-    (evil-visual-restore)))
+                                                (interactive)
+                                                (evil-shift-right (region-beginning) (region-end))
+                                                (evil-visual-restore)))
   (define-key evil-visual-state-map (kbd "<") (lambda ()
-    (interactive)
-    (evil-shift-left (region-beginning) (region-end))
-    (evil-visual-restore))))
+                                                (interactive)
+                                                (evil-shift-left (region-beginning) (region-end))
+                                                (evil-visual-restore))))
 
 (use-package evil-collection
   :ensure t
@@ -187,12 +262,15 @@
   (evil-collection-init))
 
 ;; Leader key（Space）
-(use-package evil-leader
+(use-package general
   :ensure t
   :after evil
   :config
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>"))
+  (general-create-definer space-leader
+    :states '(normal visual motion emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "C-SPC"))
 
 (elpaca-wait)
 
@@ -208,13 +286,30 @@
         doom-themes-enable-italic t)
   ;; nvimではrose-pine-moonを使用、Emacsではdoom-moonlightが近い
   (load-theme 'doom-moonlight t)
+  ;; 背景を塗らず、端末側の透過背景を使う
+  (set-face-background 'default "unspecified-bg" (selected-frame))
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
 ;; 背景透過（Wayland/X11対応）
+(defvar my/buffer-alpha 96
+  "Background opacity for buffer area (higher is more opaque).")
+
 (defun my/set-frame-transparency (frame)
-  "Set transparency for FRAME."
-  (set-frame-parameter frame 'alpha-background 85))
+  "Set buffer-focused transparency for FRAME."
+  (when (display-graphic-p frame)
+    (condition-case err
+        (progn
+          ;; nvim の transparency=true 相当に寄せ、UI全体は透過しすぎないようにする。
+          (set-frame-parameter frame 'alpha-background my/buffer-alpha)
+          ;; window/frame 全体透過は無効化（タイトルバー等まで透けるのを防ぐ）
+          (set-frame-parameter frame 'alpha '(100 . 100)))
+      (error
+       (message "transparency setup skipped: %s" (error-message-string err))))))
+
+;; 新規フレーム向けのデフォルト値
+(add-to-list 'default-frame-alist `(alpha-background . ,my/buffer-alpha))
+(add-to-list 'default-frame-alist '(alpha . (100 . 100)))
 
 (add-hook 'after-make-frame-functions #'my/set-frame-transparency)
 ;; 初期フレームにも適用
@@ -285,9 +380,9 @@
   :ensure t
   :hook (prog-mode . symbol-overlay-mode)
   :bind (:map symbol-overlay-mode-map
-         ("M-i" . symbol-overlay-put)
-         ("M-n" . symbol-overlay-jump-next)
-         ("M-p" . symbol-overlay-jump-prev)))
+              ("M-i" . symbol-overlay-put)
+              ("M-n" . symbol-overlay-jump-next)
+              ("M-p" . symbol-overlay-jump-prev)))
 
 ;; 現在行のgit blame表示（gitsigns current_line_blame相当）
 (use-package blamer
@@ -298,7 +393,8 @@
   (setq blamer-min-offset 40)
   (setq blamer-prettify-time-p t)
   (setq blamer-author-formatter "%s, ")
-  (setq blamer-datetime-formatter "%Y-%m-%d")
+  ;; blamer の formatter は `format` 系で解釈されるため、strftime 記法 (%Y) は使わない
+  (setq blamer-datetime-formatter "%s")
   (setq blamer-commit-formatter " - %s"))
 
 (elpaca-wait)
@@ -320,11 +416,11 @@
   (corfu-cycle t)
   (corfu-preselect 'prompt)
   :bind (:map corfu-map
-         ("TAB" . corfu-next)
-         ([tab] . corfu-next)
-         ("S-TAB" . corfu-previous)
-         ([backtab] . corfu-previous)
-         ("RET" . corfu-insert)))
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous)
+              ("RET" . corfu-insert)))
 
 ;; Cape（補完ソース）
 (use-package cape
@@ -338,6 +434,7 @@
 (use-package orderless
   :ensure t
   :custom
+  (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp))
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles partial-completion)))))
 
@@ -370,7 +467,35 @@
   :custom
   (vertico-cycle t)
   (vertico-resize nil)
-  (vertico-count 17))
+  (vertico-count 17)
+  :config
+  (defvar my/vertico-open-tab-target nil)
+
+  (defun my/vertico-open-in-new-tab-after-exit ()
+    "Open queued Vertico file candidate in a new tab after minibuffer exits."
+    (when my/vertico-open-tab-target
+      (let ((target my/vertico-open-tab-target))
+        (setq my/vertico-open-tab-target nil)
+        (tab-bar-new-tab)
+        (find-file target))))
+
+  (defun my/vertico-exit-open-in-new-tab ()
+    "Open current Vertico candidate in a new tab-bar tab."
+    (interactive)
+    (let* ((candidate (and (fboundp 'vertico--candidate)
+                           (vertico--candidate)))
+           (path (and candidate
+                      (expand-file-name
+                       (substring-no-properties candidate)
+                       default-directory))))
+      (unless (and path (file-exists-p path))
+        (user-error "No file candidate selected"))
+      (setq my/vertico-open-tab-target path)
+      (add-hook 'minibuffer-exit-hook
+                #'my/vertico-open-in-new-tab-after-exit
+                nil t)
+      (vertico-exit)))
+  (define-key vertico-map (kbd "C-t") #'my/vertico-exit-open-in-new-tab))
 
 ;; Consult（検索コマンド）
 (use-package consult
@@ -386,18 +511,18 @@
   (setq consult-async-min-input 1)
   (setq consult-async-input-debounce 0.1)
   (setq consult-async-input-throttle 0.2)
-  
+
   ;; fd設定（hidden files表示、nvimと同じ除外パターン）
   (setq consult-fd-args
         '((if (executable-find "fdfind" 'remote) "fdfind" "fd")
-          "--full-path --color=never --hidden"
+          "--type file --full-path --color=never --hidden"
           "--exclude .git"
           "--exclude node_modules"
           "--exclude target"
           "--exclude .mooncakes"
           "--exclude eln-cache"
           "--exclude elpaca"))
-  
+
   ;; ripgrep設定（hidden files表示）
   (setq consult-ripgrep-args
         "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden --glob !.git/ --glob !node_modules/ --glob !target/ --glob !.mooncakes/"))
@@ -447,13 +572,13 @@
   (setq eglot-ignored-server-capabilities nil)
   (add-hook 'eglot-managed-mode-hook
             (lambda () (eglot-inlay-hints-mode 1)))
-  
+
   ;; LSPサーバー設定（nvimと同様）
   (add-to-list 'eglot-server-programs
                '(rust-mode rust-ts-mode . ("rust-analyzer" :initializationOptions
-                 (:cargo (:allFeatures t)
-                  :check (:command "clippy")
-                  :inlayHints (:enable t :typeHints t :parameterHints t)))))
+                                           (:cargo (:allFeatures t)
+                                                   :check (:command "clippy")
+                                                   :inlayHints (:enable t :typeHints t :parameterHints t)))))
   (add-to-list 'eglot-server-programs
                '((typescript-mode typescript-ts-mode) . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
@@ -490,7 +615,7 @@
   (setf (alist-get 'stylua apheleia-formatters) '("stylua" "-"))
   (setf (alist-get 'biome apheleia-formatters) '("biome" "format" "--stdin-file-path" filepath))
   (setf (alist-get 'shfmt apheleia-formatters) '("shfmt" "-i" "2"))
-  
+
   ;; ファイルタイプとフォーマッターのマッピング
   (setf (alist-get 'rust-mode apheleia-mode-alist) 'rustfmt)
   (setf (alist-get 'rust-ts-mode apheleia-mode-alist) 'rustfmt)
@@ -549,6 +674,52 @@
 (elpaca-wait)
 
 ;; ============================================================================
+;; DAP（nvim-dap相当）
+;; ============================================================================
+
+;; NOTE:
+;; dap-mode は lsp-mode 系依存を引くため、標準では自動インストールしない。
+;; 既にインストール済みの場合のみ初期化し、未導入時は明示エラーを返す。
+(with-eval-after-load 'dap-mode
+  (dap-auto-configure-mode 1)
+  (require 'dap-lldb nil t))
+
+(defun my/require-dap ()
+  "Ensure dap-mode command exists, otherwise show actionable error."
+  (unless (fboundp 'dap-debug)
+    (user-error "dap-mode is not installed. Install it explicitly if you need debugger support")))
+
+(defun my/dap-continue ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-continue))
+
+(defun my/dap-next ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-next))
+
+(defun my/dap-step-in ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-step-in))
+
+(defun my/dap-step-out ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-step-out))
+
+(defun my/dap-breakpoint-toggle ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-breakpoint-toggle))
+
+(defun my/dap-ui-repl ()
+  (interactive)
+  (my/require-dap)
+  (call-interactively #'dap-ui-repl))
+
+;; ============================================================================
 ;; ターミナル（toggleterm相当）
 ;; ============================================================================
 
@@ -557,6 +728,13 @@
   :commands vterm
   :config
   (setq vterm-max-scrollback 10000)
+  ;; vterm内でも C-\ を Emacs 側で捕まえてトグルできるようにする
+  (add-to-list 'vterm-keymap-exceptions "C-\\")
+  (add-to-list 'vterm-keymap-exceptions "C-v")
+  (add-to-list 'vterm-keymap-exceptions "C-S-v")
+  (define-key vterm-mode-map (kbd "C-\\") #'vterm-toggle)
+  (define-key vterm-mode-map (kbd "C-v") #'vterm-yank)
+  (define-key vterm-mode-map (kbd "C-S-v") #'vterm-yank)
   (setq vterm-shell (or (executable-find "fish")
                         (executable-find "zsh")
                         (executable-find "bash"))))
@@ -586,7 +764,7 @@
 
 (when (treesit-available-p)
   (setq treesit-font-lock-level 4)
-  
+
   ;; 言語モードの自動マッピング
   (setq major-mode-remap-alist
         '((c-mode . c-ts-mode)
@@ -656,8 +834,8 @@
 ;; キーバインド（nvim/keymap.luaから移行）
 ;; ============================================================================
 
-(with-eval-after-load 'evil-leader
-  (evil-leader/set-key
+(with-eval-after-load 'general
+  (space-leader
     ;; ファイル・検索（snacks.nvim相当）
     "f" 'consult-fd              ; <Leader>f - ファイル検索
     "/" 'consult-ripgrep         ; <Leader>/ - Grep検索
@@ -666,42 +844,51 @@
     "u" 'undo-tree-visualize     ; <Leader>u - Undo履歴（snacks.undo相当）
     "d" 'consult-flymake         ; <Leader>d - 診断一覧
     "s" 'consult-eglot-symbols   ; <Leader>s - LSPシンボル
-    
+
     ;; LSP関連
     "a" 'eglot-code-actions      ; <Leader>a - コードアクション
     "r" 'eglot-rename            ; <Leader>r - リネーム
-    
+
     ;; 検索ハイライト解除
     "n" (lambda () (interactive) (evil-ex-nohighlight))
-    
+
     ;; Git（<Leader>l = lazygit相当だが、Emacsではmagit）
     "g" 'magit-status
     "l" 'magit-log-current
-    
-    ;; コメントトグル
+    "p" 'diff-hl-show-hunk
+
+    ;; DAP（nvim-dap相当）
+    "x b" 'my/dap-breakpoint-toggle
+    "x r" 'my/dap-ui-repl
+
+    ;; コメントトグル（C-c予約を尊重しLeader配下へ）
     "c" 'evilnc-comment-or-uncomment-lines))
 
 ;; グローバルキーバインド
 (with-eval-after-load 'evil
-  ;; C-s で保存（nvim: <C-s> = :w）
-  (define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
-  (define-key evil-insert-state-map (kbd "C-s") 'save-buffer)
-  
-  ;; C-c でコメントトグル
-  (define-key evil-normal-state-map (kbd "C-c") 'evilnc-comment-or-uncomment-lines)
-  (define-key evil-visual-state-map (kbd "C-c") 'evilnc-comment-or-uncomment-lines)
-  
   ;; gd で定義へジャンプ
   (define-key evil-normal-state-map (kbd "g d") 'xref-find-definitions)
-  
+
   ;; gr で参照検索
   (define-key evil-normal-state-map (kbd "g r") 'xref-find-references)
-  
-  ;; K でホバー情報
-  (define-key evil-normal-state-map (kbd "K") 'eldoc-doc-buffer))
 
-;; ターミナルトグル（C-\）
-(global-set-key (kbd "C-\\") 'vterm)
+  ;; K でホバー情報
+  (define-key evil-normal-state-map (kbd "K") 'eldoc-doc-buffer)
+
+  ;; nvim互換: C-p で現在hunkプレビュー
+  (define-key evil-normal-state-map (kbd "C-p") 'diff-hl-show-hunk)
+
+  ;; 貼り付け（OSクリップボード）
+  (define-key evil-insert-state-map (kbd "C-v") #'yank)
+  (define-key evil-insert-state-map (kbd "C-S-v") #'yank))
+
+;; DAPファンクションキー（nvim: F5/F10/F11/F12）
+(global-set-key (kbd "<f5>") 'my/dap-continue)
+(global-set-key (kbd "<f10>") 'my/dap-next)
+(global-set-key (kbd "<f11>") 'my/dap-step-in)
+(global-set-key (kbd "<f12>") 'my/dap-step-out)
+
+;; ターミナルトグル（C-\）は vterm-toggle 側の設定を使用
 
 ;; ============================================================================
 ;; Which-key（キーバインドヘルプ）
@@ -780,10 +967,19 @@
   :ensure t
   :after vertico
   :config
-  (vertico-posframe-mode 1)
-  (setq vertico-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8))))
+  (setq vertico-count 20
+        ;; 可変サイズは plist (:width/:height) を返す必要がある
+        vertico-posframe-size-function
+        (lambda (_)
+          (list :width (max 80 (floor (* (frame-width) 0.8)))
+                :height (max 20 (floor (* (frame-height) 0.7)))))
+        vertico-posframe-parameters '((left-fringe . 8)
+                                      (right-fringe . 8)))
+  ;; posframeが使えない環境では通常のvertico表示にフォールバック
+  (condition-case nil
+      (vertico-posframe-mode 1)
+    (error
+     (vertico-posframe-mode -1))))
 
 ;; bigfile対策（snacks.bigfile相当）
 (defun my/check-large-file ()
@@ -821,9 +1017,7 @@
   (define-key evil-normal-state-map (kbd "]c") 'diff-hl-next-hunk)
   (define-key evil-normal-state-map (kbd "[c") 'diff-hl-previous-hunk))
 
-;; Git preview（C-pでhunkプレビュー - nvimの<C-p>相当）
-(with-eval-after-load 'diff-hl
-  (global-set-key (kbd "C-c p") 'diff-hl-show-hunk))
+;; Git previewはLeader配下（SPC p）で提供
 
 ;; エスケープでミニバッファをキャンセル
 (define-key minibuffer-local-map (kbd "<escape>") 'keyboard-escape-quit)
@@ -846,8 +1040,8 @@
         (kill-new msg)
         (message "Diagnostic copied: %s" msg)))))
 
-(with-eval-after-load 'evil-leader
-  (evil-leader/set-key
+(with-eval-after-load 'general
+  (space-leader
     "D" 'my/copy-diagnostic-at-point))
 
 ;;; init.el ends here

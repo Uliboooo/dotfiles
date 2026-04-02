@@ -38,21 +38,36 @@ vim.keymap.set("n", "dc", function()
 
   if #diags > 0 then
     local d = diags[1]
+    -- 該当箇所のテキストを取得（複数行に対応するため concat する）
+    local lines = vim.api.nvim_buf_get_text(0, d.lnum, d.col, d.end_lnum, d.end_col, {})
+    local target_text = table.concat(lines, "\n")
+
     local ebuf = string.format(
-      "%s: %s, %s, by %s at %d:%d-%d:%d",
-      cmap[d.severity],
+      "%s: %s [%s] (Source: %s) at %d:%d-%d:%d\n%s",
+      cmap[d.severity] or "Unknown",
       d.message,
-      d.code,
-      d.source,
-      d.lnum,
-      d.col,
-      d.end_lnum,
-      d.end_col
+      tostring(d.code or "N/A"),
+      d.source or "N/A",
+      d.lnum + 1,
+      d.col + 1,
+      d.end_lnum + 1,
+      d.end_col + 1,
+      target_text
     )
-    -- print(ebuf)
+
     vim.fn.setreg("+", ebuf)
-    vim.notify("Diagnostic copied!", vim.log.levels.INFO)
+    vim.notify("Diagnostic copied to clipboard!", vim.log.levels.INFO)
+  else
+    vim.notify("No diagnostics found on current line.", vim.log.levels.WARN)
   end
-end, { desc = "Copy diagnostic message" })
+end, { desc = "Copy diagnostic message to clipboard" })
+
+-- Gitsigns 設定
+vim.keymap.set(
+  "n",
+  "<C-p>",
+  ":Gitsigns preview_hunk_inline<CR>",
+  { desc = "Preview git hunk inline" }
+)
 
 vim.keymap.set("n", "<C-p>", ":Gitsigns preview_hunk_inline<CR>")
