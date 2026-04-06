@@ -23,7 +23,7 @@ abbr gb="git branch"
 # utility / vim / tmux
 # ---------------------------------------------------------------------
 abbr lss="ls -l"
-abbr ff="fastfetch"
+# abbr ff="fastfetch"
 abbr ls="eza -l --icons=always"
 abbr glist="/bin/ls"
 abbr printimg="chafa -f kitty"
@@ -36,6 +36,8 @@ abbr nnvd="nightly_nvim ."
 abbr tl="tmux ls"
 abbr tmr="tmux kill-session -t"
 abbr rtss="rts -cli | jq -r '.list[] | \"title: \(.title)\nlink: \(.link)\"'"
+abbr rg="rg --hidden"
+abbr fd="fd --hidden"
 
 # ---------------------------------------------------------------------
 # cargo / rust

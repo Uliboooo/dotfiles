@@ -42,6 +42,7 @@ if status is-interactive
         set -gx ROCM_PATH /opt/rocm
 
         set -U fish_ambiguous_case_sensitive
+        set -gx EDITOR "nvim"
     end
 
     # cargo
@@ -188,6 +189,8 @@ abbr -a glist    '/bin/ls'
 abbr -a printimg 'chafa -f kitty'
 abbr -a cow      'cowsay'
 abbr -a mi       'mediainfo'
+
+abbr -a rg       'rg --hidden'
 
 function refish
   source $HOME/dotfiles/.config/fish/config.fish
