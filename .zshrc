@@ -83,7 +83,7 @@ if ! command -v sheldon &>/dev/null; then
 fi
 
 # sheldon
-eval "$(sheldon source)"
+eval "$(sheldon -q source)"
 
 # ==============================================================================
 # PATH
@@ -214,10 +214,20 @@ function distro() {
     fi
 }
 
-# zprof
-
 # moonbit
 export PATH="$HOME/.moon/bin:$PATH"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 alias copy='wl-copy'
+
+function ff() {
+  if [[ "${TERM_BACKGROUND:-}" == "dark" ]]; then
+    fastfetch
+  else
+    fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
+  fi
+}
+
+# zprof
+
+
