@@ -21,7 +21,7 @@ link_or_ovr() {
   echo "Linked: ${conf_name} -> ${conf_path}"
 }
 
-config_path=("bottom" "fastfetch" "fuzzel" "ghostty" "git" "helix" "hypr" "hypr-presto" "niri" "nvim" "starship.toml" "stylua" "swaync" "systemd" "vim" "voime" "waybar" "xdg-desktop-portal")
+config_path=("bottom" "fastfetch" "rofi" "ghostty" "git" "helix" "hypr" "hypr-presto" "niri" "nvim" "starship.toml" "stylua" "swaync" "systemd" "vim" "voime" "waybar" "xdg-desktop-portal")
 
 for nm in "${conf_path[@]}"; do
   link_or_ovr "${nm}"

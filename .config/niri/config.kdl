@@ -194,7 +194,7 @@ binds {
     Mod+M { quit; }
     Mod+E { spawn "nautilus"; }
     Mod+V { toggle-window-floating; }
-    Mod+D { spawn "fuzzel"; }
+    Mod+D { spawn "rofi" "-show" "drun"; }
     Mod+F { maximize-column; }
     Mod+C { spawn "swaync-client" "-t"; }
     // Mod+R { spawn "~/.cargo/bin/hypr-presto"; }
@@ -202,7 +202,7 @@ binds {
     Mod+O repeat=false { toggle-overview; }
     Mod+R { switch-preset-column-width; }
 
-    Mod+Shift+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
+    Mod+Shift+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
 
     Mod+J { focus-window-or-workspace-down; }
     Mod+K { focus-window-or-workspace-up; }

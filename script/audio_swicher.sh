@@ -5,8 +5,8 @@
 # 3. デフォルトを示す '*' を削除し、行頭の空白を整える
 devices=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep -oP '\d+\. .*' | sed 's/^\*//; s/^[ \t]*//')
 
-# fuzzelで選択
-chosen=$(echo "$devices" | fuzzel --dmenu -p "󰓃 Select Output: " --width 60)
+# rofiで選択
+chosen=$(echo "$devices" | rofi -dmenu -p "󰓃 Select Output: ")
 
 if [ -n "$chosen" ]; then
     # 行頭のID数値だけを抽出

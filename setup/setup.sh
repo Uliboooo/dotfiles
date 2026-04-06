@@ -18,7 +18,7 @@ echo "installing favo pkgs..."
 
 yay -Syu bat biome blueman bluez bluez-utils brightnessctl btop chafa cliphist \
   cmake code deja-dup difftastic eza fastfetch fcitx5 fcitx5-configtool \
-  fcitx5-hazkey-bin fd ffmpeg figlet fish flatpak fprintd fuzzel fzf gdm gemini-cli \
+  fcitx5-hazkey-bin fd ffmpeg figlet fish flatpak fprintd rofi fzf gdm gemini-cli \
   ghostty github-cli glow gnome hazkey-zenzai-vulkan helix htop hyprland hypridle \
   hyprlock hyprpaper hyprpicker hyprshade hyprshot imagemagick inkscape kdenlive kitty \
   lazygit less llvm neovim niri nodejs noto-fonts-cjk noto-fonts-emoji npm obs-studio \
@@ -26,7 +26,7 @@ yay -Syu bat biome blueman bluez bluez-utils brightnessctl btop chafa cliphist \
   ttf-0xproto-nerd vim vulkan-radeon vlc waybar wget which wl-clipboard zip shfmt zsh
 
 configs=(
-  "fastfetch" "fish" "fontconfig" "fuzzel" "ghostty" "git"
+  "fastfetch" "fish" "fontconfig" "rofi" "ghostty" "git"
   "helix" "hypr" "hypr-presto" "niri" "nvim" "stylua"
   "swaync" "systemd" "voime" "waybar" "vim"
 )

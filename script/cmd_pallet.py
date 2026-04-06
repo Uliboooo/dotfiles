@@ -5,6 +5,8 @@ import os
 
 home = os.path.expanduser("~")
 script = home + "/dotfiles/script/"
+# kitty = home + "~/dotfiles/.config/kitty/"
+slide_dev = home + "/Develop/linux_slide/"
 
 cmds = {
     "toggle slideshow of wallpapers":   ["sh", script + "cycle_wallpaper.sh", "pse"],
@@ -12,6 +14,7 @@ cmds = {
     "random wallpaper":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
     "change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
     "show status wallpapers slideshow": ["sh", script + "status_of_slide.sh"],
+    "launch slide in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/slide.conf", "--directory", slide_dev],
     "screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
     "screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
     "toggle visual":                    ["sh", script + "toggle_visual.sh"],
@@ -20,7 +23,7 @@ cmds = {
 
 res = "\n".join(cmds.keys())
 cmd_res = subprocess.run(
-    ["fuzzel", "--dmenu", "--prompt=  "],
+    ["rofi", "-dmenu", "-p", "  "],
     input=res, text=True, capture_output=True
 )
 
