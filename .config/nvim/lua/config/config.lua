@@ -64,9 +64,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
       vim.cmd("bdelete")
       vim.cmd("intro")
       -- Map Enter to open file picker on intro screen
-      vim.keymap.set("n", "<CR>", function()
-        require("snacks").picker.files()
-      end, { buffer = 0, nowait = true })
+      vim.keymap.set(
+        "n",
+        "<CR>",
+        function() require("snacks").picker.files() end,
+        { buffer = 0, nowait = true }
+      )
     end
   end,
 })

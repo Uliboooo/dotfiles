@@ -8,9 +8,6 @@
 	pager = less
   editor = "vim"
 
-[alias]
-	lograph = log --all --date-order --date=format:%Y-%m-%d --graph --format="%h %ad [%an] %C(green)%d%Creset %s"
-
 [diff]
 	tool = difftastic
 	external = difft --display inline

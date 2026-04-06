@@ -5,18 +5,6 @@ vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, desc = "Redo" })
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
--- vim.keymap.set(
---   { "n", "i", "v", "x", "s" },
---   "<C-c>",
---   function() require("Comment.api").toggle.linewise.current() end,
---   { desc = "toggle cooment for ", noremap = true }
--- )
--- vim.keymap.set(
---   { "n", "v", "x", "s" },
---   "<Leader>gc",
---   function() require("Comment.api").toggle.linewise.current() end,
---   { desc = "toggle cooment for ", noremap = true }
--- )
 vim.keymap.set(
   "n",
   "eh",
@@ -71,3 +59,27 @@ vim.keymap.set(
 )
 
 vim.keymap.set("n", "<C-p>", ":Gitsigns preview_hunk_inline<CR>")
+
+vim.keymap.set("n", "<C-a>", function()
+  local word = vim.fn.expand("<cword>")
+
+  local toggles = { ["true"] = "false", ["false"] = "true" }
+
+  if toggles[word] then
+    vim.cmd("normal! ciw" .. toggles[word])
+  else
+    vim.cmd("normal! \1")
+  end
+end, { desc = "Increment or toggle boolean" })
+
+vim.keymap.set("n", "<C-x>", function()
+  local word = vim.fn.expand("<cword>")
+
+  local toggles = { ["true"] = "false", ["false"] = "true" }
+
+  if toggles[word] then
+    vim.cmd("normal! ciw" .. toggles[word])
+  else
+    vim.cmd("normal! \24")
+  end
+end, { desc = "Decrement or toggle boolean" })

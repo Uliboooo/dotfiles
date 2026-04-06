@@ -5,7 +5,7 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true },
-      dashboard = { enabled = false },
+      dashboard = { enabled = true },
       explorer = { enabled = false },
       indent = { enabled = true },
       input = { enabled = true },
@@ -17,7 +17,17 @@ return {
         sources = {
           files = {
             cmd = "fd",
-            args = { "--hidden", "--exclude", ".git", "--exclude", "node_modules", "--exclude", "target", "--exclude", ".mooncakes" },
+            args = {
+              "--hidden",
+              "--exclude",
+              ".git",
+              "--exclude",
+              "node_modules",
+              "--exclude",
+              "target",
+              "--exclude",
+              ".mooncakes",
+            },
           },
           grep = {
             hidden = true,
@@ -40,7 +50,11 @@ return {
       { "<Leader>u", function() Snacks.picker.undo() end, desc = "Undo History" },
       { "<Leader>d", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
       { "<Leader>s", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-      { "<Leader>ss", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+      {
+        "<Leader>ss",
+        function() Snacks.picker.lsp_workspace_symbols() end,
+        desc = "LSP Workspace Symbols",
+      },
       { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
       { "<Leader>l", function() Snacks.lazygit() end, desc = "lazygit" },
     },

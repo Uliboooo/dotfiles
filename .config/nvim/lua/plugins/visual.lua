@@ -27,7 +27,40 @@ return {
         },
       })
 
-      vim.cmd.colorscheme("rose-pine-moon")
+      -- Function to set colorscheme based on background
+      local function set_colorscheme()
+        if vim.o.background == "light" then
+          vim.cmd.colorscheme("rose-pine-dawn")
+        else
+          vim.cmd.colorscheme("rose-pine-moon")
+        end
+      end
+
+      -- Function to toggle between dark and light modes
+      local function toggle_background()
+        if vim.o.background == "dark" then
+          vim.o.background = "light"
+        else
+          vim.o.background = "dark"
+        end
+        set_colorscheme()
+      end
+
+      -- Create user command for toggling
+      vim.api.nvim_create_user_command("ToggleBackground", toggle_background, {})
+
+      -- Set keymap for toggling (Leader + tb = toggle background)
+      vim.keymap.set("n", "<leader>tb", toggle_background, { desc = "Toggle dark/light mode" })
+
+      -- Auto-detect terminal background and set initial theme
+      -- If TERM_BACKGROUND env var is set, use it; otherwise default to dark
+      if vim.env.TERM_BACKGROUND == "light" then
+        vim.o.background = "light"
+      else
+        vim.o.background = "dark"
+      end
+
+      set_colorscheme()
     end,
   },
   {

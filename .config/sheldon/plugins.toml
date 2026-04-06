@@ -6,14 +6,8 @@ defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-# [plugins.nvm-setup]
-# inline = """
-# zsh-defer -c '
-#   export NVM_DIR="$HOME/.nvm"
-#   [ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"
-#   [ -s "$NVM_DIR/bash_completion" ] && \\. "$NVM_DIR/bash_completion"
-# '
-# """
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
 
 [plugins.zsh-abbr]
 github = "olets/zsh-abbr"
@@ -22,6 +16,8 @@ apply = ["defer"]
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]

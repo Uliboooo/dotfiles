@@ -90,7 +90,9 @@ return {
 
           if client.server_capabilities.documentSymbolProvider then navic.attach(client, bufnr) end
 
-          if client.server_capabilities.inlayHintProvider then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
 
           local opts = { buffer = bufnr, silent = true }
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)

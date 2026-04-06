@@ -134,6 +134,44 @@ set softtabstop=2
 set termguicolors
 set background=dark
 
+" Function to set colorscheme based on background
+function! SetColorscheme()
+  try
+    if &background == 'light'
+      " Use light variant if available, otherwise standard
+      colorscheme rosepine
+      " Rose-pine will auto-adjust to light background
+    else
+      colorscheme rosepine
+      " Rose-pine will auto-adjust to dark background
+    endif
+  catch
+    colorscheme default
+  endtry
+  " Re-apply transparent background
+  hi Normal guibg=NONE ctermbg=NONE
+  hi NonText guibg=NONE ctermbg=NONE
+  hi LineNr guibg=NONE ctermbg=NONE
+  hi SignColumn guibg=NONE ctermbg=NONE
+  hi EndOfBuffer guibg=NONE ctermbg=NONE
+endfunction
+
+" Function to toggle between dark and light modes
+function! ToggleBackground()
+  if &background == 'dark'
+    set background=light
+  else
+    set background=dark
+  endif
+  call SetColorscheme()
+  " Update lightline colorscheme
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
+
+" Create user command for toggling
+command! ToggleBackground call ToggleBackground()
+
 " Cursor
 set cursorline
 set updatetime=300
@@ -264,6 +302,9 @@ let g:git_messenger_include_diff = "current"
 let g:git_messenger_always_into_popup = v:true
 let g:git_messenger_max_popup_height = 15
 let g:git_messenger_max_popup_width = 60
+
+" Toggle background (dark/light mode)
+nnoremap <Leader>tb :ToggleBackground<CR>
 
 " ==============================================================================
 "    ____           _   ____             __ _
