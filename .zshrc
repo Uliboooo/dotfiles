@@ -84,6 +84,8 @@ fi
 
 # sheldon
 eval "$(sheldon -q source)"
+autoload -Uz compinit
+compinit
 
 # ==============================================================================
 # PATH
@@ -226,6 +228,10 @@ function ff() {
   else
     fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
   fi
+}
+
+function note() {
+  cd ~/Documents/org/ && emacs -nw .
 }
 
 # zprof

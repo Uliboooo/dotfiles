@@ -8,6 +8,7 @@ github = "romkatv/zsh-defer"
 
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
+apply = ["fpath"]
 
 [plugins.zsh-abbr]
 github = "olets/zsh-abbr"
