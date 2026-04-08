@@ -39,6 +39,9 @@ abbr rtss="rts -cli | jq -r '.list[] | \"title: \(.title)\nlink: \(.link)\"'"
 abbr rg="rg --hidden"
 abbr fd="fd --hidden"
 
+abbr y="yazi"
+abbr l="lazygit"
+
 # ---------------------------------------------------------------------
 # cargo / rust
 # ---------------------------------------------------------------------
@@ -70,8 +73,6 @@ abbr hx="helix"
 abbr hxd="helix ."
 
 abbr update="yay -Syu --noconfirm"
-
-abbr y="yazi"
 
 abbr :q="exit"
 abbr :Q="exit"

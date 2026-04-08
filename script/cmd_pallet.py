@@ -9,21 +9,21 @@ script = home + "/dotfiles/script/"
 slide_dev = home + "/Develop/linux_slide/"
 
 cmds = {
-    "toggle slideshow of wallpapers":   ["sh", script + "cycle_wallpaper.sh", "pse"],
-    "toggle light-dark":                ["sh", script + "toggle_theme.sh"],
-    "random wallpaper":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
-    "change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
-    "show status wallpapers slideshow": ["sh", script + "status_of_slide.sh"],
-    "launch slide in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/slide.conf", "--directory", slide_dev],
-    "screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
-    "screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
-    "toggle visual":                    ["sh", script + "toggle_visual.sh"],
-    "reload hyprconf":                  ["hyprctl", "reload"],
+    "󰸉 Toggle slideshow of wallpapers":   ["sh", script + "cycle_wallpaper.sh", "pse"],
+    "󰔎 Toggle light-dark theme":          ["sh", script + "toggle_theme.sh"],
+    " Random wallpaper":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
+    "󰴰 Change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
+    "Show status of wallpaper slide":   ["sh", script + "status_of_slide.sh"],
+    "Launch slide in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/slide.conf", "--directory", slide_dev],
+    "󰹑 Screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
+    "󱂬 Screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
+    "Toggle visual effects":            ["sh", script + "toggle_visual.sh"],
+    "Reload Hyprland config":           ["hyprctl", "reload"],
 }
 
 res = "\n".join(cmds.keys())
 cmd_res = subprocess.run(
-    ["rofi", "-dmenu", "-p", "  "],
+    ["rofi", "-dmenu", "-p", "󰘳 "],
     input=res, text=True, capture_output=True
 )
 
