@@ -37,8 +37,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/git-messenger.vim'
 
-" LSP / Completion (coc.nvim)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" LSP / Completion (vim-lsp)
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+" Completion UI
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " Editing
 Plug 'tpope/vim-commentary'
@@ -60,12 +65,110 @@ Plug 'puremourning/vimspector'
 
 call plug#end()
 
-" Set coc.nvim config directory
-let g:coc_config_home = expand('~/.config/vim')
+" ==============================================================================
+"  _     ____  ____
+" | |   / ___||  _ \
+" | |   \___ \| |_) |
+" | |___ ___) |  __/
+" |_____|____/|_|
+" ==============================================================================
 
-" Coc extensions to install
-let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-tsserver', 'coc-go', 'coc-pyright', 'coc-lua', 'coc-clangd', 'coc-html', 'coc-css', 'coc-json', 'coc-emmet', 'coc-markdownlint']
+" LSP (vim-lsp) UI options
+let g:lsp_preview_float = 1
+let g:lsp_hover_ui = 'float'
+let g:lsp_signature_help_enabled = 1
 
+" Diagnostics: keep it clean (no virtual text), show float on CursorHold
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_diagnostics_signs_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_delay = 200
+let g:lsp_diagnostics_float_insert_mode_enabled = 0
+
+" Inlay hints (modern UI)
+let g:lsp_inlay_hints_enabled = 1
+let g:lsp_inlay_hints_delay = 200
+
+" Formatting
+let g:lsp_format_sync_timeout = 1000
+
+" vim-lsp-settings server config (migrate from old coc-settings.json)
+let g:lsp_settings = {
+\ 'rust-analyzer': {
+\   'initialization_options': {
+\     'cargo': { 'allFeatures': v:true },
+\     'check': { 'command': 'clippy' },
+\     'inlayHints': {
+\       'typeHints': v:true,
+\       'parameterHints': v:true,
+\       'chainingHints': v:true,
+\       'lifetimeElisionHints': v:true,
+\     },
+\   },
+\ },
+\ 'gopls': {
+\   'workspace_config': {
+\     'gopls': {
+\       'hints': {
+\         'parameterNames': v:true,
+\         'assignVariableTypes': v:true,
+\       },
+\       'analyses': {
+\         'unusedparams': v:true,
+\         'shadow': v:true,
+\       },
+\       'staticcheck': v:true,
+\     },
+\   },
+\ },
+\ 'basedpyright-langserver': {
+\   'workspace_config': {
+\     'basedpyright': {
+\       'analysis': {
+\         'typeCheckingMode': 'standard',
+\         'autoSearchPaths': v:true,
+\         'useLibraryCodeForTypes': v:true,
+\         'diagnosticMode': 'openFilesOnly',
+\       },
+\     },
+\   },
+\ },
+\ 'sumneko-lua-language-server': {
+\   'workspace_config': {
+\     'Lua': {
+\       'runtime': { 'version': 'LuaJIT' },
+\       'diagnostics': { 'globals': ['vim'] },
+\       'telemetry': { 'enable': v:false },
+\     },
+\   },
+\ },
+\ 'lua-language-server': {
+\   'workspace_config': {
+\     'Lua': {
+\       'runtime': { 'version': 'LuaJIT' },
+\       'diagnostics': { 'globals': ['vim'] },
+\       'telemetry': { 'enable': v:false },
+\     },
+\   },
+\ },
+\ 'pyright-langserver': {
+\   'workspace_config': {
+\     'python': {
+\       'analysis': {
+\         'typeCheckingMode': 'standard',
+\         'autoSearchPaths': v:true,
+\         'useLibraryCodeForTypes': v:true,
+\         'diagnosticMode': 'openFilesOnly',
+\       },
+\     },
+\   },
+\ },
+\ }
+
+" Install/update language servers:
+"   :LspInstallServer
 
 " ==============================================================================
 "   _     _
@@ -78,21 +181,24 @@ let g:coc_global_extensions = ['coc-rust-analyzer', 'coc-tsserver', 'coc-go', 'c
 set laststatus=2
 set noshowmode
 
-" Use rose-pine colorscheme
-try
-    colorscheme rosepine
-catch
-    colorscheme default
-endtry
+" Theme: choose light/dark by $TERM_BACKGROUND (set in terminal)
+let s:term_bg = exists('$TERM_BACKGROUND') ? tolower($TERM_BACKGROUND) : ''
+if s:term_bg ==# 'light'
+  set background=light
+  let s:lightline_cs = 'rosepine_dawn'
+else
+  set background=dark
+  let s:lightline_cs = 'rosepine_moon'
+endif
 
-" Transparent background (let terminal transparency show through)
-hi Normal guibg=NONE ctermbg=NONE
-hi NonText guibg=NONE ctermbg=NONE
-hi LineNr guibg=NONE ctermbg=NONE
-hi SignColumn guibg=NONE ctermbg=NONE
-hi EndOfBuffer guibg=NONE ctermbg=NONE
+function! LspStatusline() abort
+  if exists('*lsp#get_progress')
+    return lsp#get_progress()
+  endif
+  return ''
+endfunction
 
-let g:lightline = {'colorscheme': 'rosepine', 'active': {'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']], 'right': [['lineinfo'], ['percent'], ['cocstatus', 'fileformat', 'fileencoding', 'filetype']]}, 'component_function': {'gitbranch': 'FugitiveHead', 'cocstatus': 'coc#status'}}
+let g:lightline = {'colorscheme': s:lightline_cs, 'active': {'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']], 'right': [['lineinfo'], ['percent'], ['lspstatus', 'fileformat', 'fileencoding', 'filetype']]}, 'component_function': {'gitbranch': 'FugitiveHead', 'lspstatus': 'LspStatusline'}}
 
 " ==============================================================================
 "    ___        _
@@ -132,22 +238,91 @@ set softtabstop=2
 
 " Colors
 set termguicolors
-set background=dark
 
-" Function to set colorscheme based on background
-function! SetColorscheme()
-  try
-    if &background == 'light'
-      " Use light variant if available, otherwise standard
-      colorscheme rosepine
-      " Rose-pine will auto-adjust to light background
+" Keep fzf preview (bat) in sync with current light/dark theme.
+function! s:BatThemeList() abort
+  if !exists('s:bat_theme_list')
+    if executable('bat')
+      let s:bat_theme_list = systemlist('bat --list-themes')
+    elseif executable('batcat')
+      let s:bat_theme_list = systemlist('batcat --list-themes')
     else
-      colorscheme rosepine
-      " Rose-pine will auto-adjust to dark background
+      let s:bat_theme_list = []
+    endif
+  endif
+  return s:bat_theme_list
+endfunction
+
+function! s:HasTheme(themes, name) abort
+  if type(a:themes) != type([])
+    return 0
+  endif
+
+  for l:theme_name in a:themes
+    if l:theme_name ==# a:name
+      return 1
+    endif
+  endfor
+
+  return 0
+endfunction
+
+function! s:ApplyFzfPreviewTheme() abort
+  if &background ==# 'light'
+    let l:candidates = ['rose-pine-dawn', 'Catppuccin Latte', 'GitHub']
+  else
+    let l:candidates = ['rose-pine-moon', 'Catppuccin Mocha', 'TwoDark']
+  endif
+
+  let l:themes = s:BatThemeList()
+
+  for l:theme in l:candidates
+    if s:HasTheme(l:themes, l:theme)
+      let $BAT_THEME = l:theme
+      return
+    endif
+  endfor
+
+  unlet! $BAT_THEME
+endfunction
+
+function! s:ApplyTerminalPalette() abort
+  if !has('terminal')
+    return
+  endif
+
+  if &background ==# 'light'
+    let g:terminal_ansi_colors = [
+          \ '#f2e9e1', '#b4637a', '#286983', '#ea9d34',
+          \ '#56949f', '#907aa9', '#d7827e', '#575279',
+          \ '#9893a5', '#b4637a', '#286983', '#ea9d34',
+          \ '#56949f', '#907aa9', '#d7827e', '#575279'
+          \ ]
+  else
+    let g:terminal_ansi_colors = [
+          \ '#393552', '#eb6f92', '#3e8fb0', '#f6c177',
+          \ '#9ccfd8', '#c4a7e7', '#ea9a97', '#e0def4',
+          \ '#6e6a86', '#eb6f92', '#3e8fb0', '#f6c177',
+          \ '#9ccfd8', '#c4a7e7', '#ea9a97', '#e0def4'
+          \ ]
+  endif
+endfunction
+
+" Apply colorscheme based on &background
+function! SetColorscheme() abort
+  try
+    if &background ==# 'light'
+      colorscheme rosepine_dawn
+    else
+      colorscheme rosepine_moon
     endif
   catch
     colorscheme default
   endtry
+
+  call s:ApplyTerminalPalette()
+  call s:ApplyFzfPreviewTheme()
+
   " Re-apply transparent background
   hi Normal guibg=NONE ctermbg=NONE
   hi NonText guibg=NONE ctermbg=NONE
@@ -156,21 +331,24 @@ function! SetColorscheme()
   hi EndOfBuffer guibg=NONE ctermbg=NONE
 endfunction
 
-" Function to toggle between dark and light modes
-function! ToggleBackground()
-  if &background == 'dark'
+" Toggle between dark/light and refresh lightline
+function! ToggleBackground() abort
+  if &background ==# 'dark'
     set background=light
   else
     set background=dark
   endif
+
+  let g:lightline.colorscheme = (&background ==# 'light') ? 'rosepine_dawn' : 'rosepine_moon'
   call SetColorscheme()
-  " Update lightline colorscheme
   call lightline#colorscheme()
   call lightline#update()
 endfunction
 
-" Create user command for toggling
 command! ToggleBackground call ToggleBackground()
+
+" Initial apply
+call SetColorscheme()
 
 " Cursor
 set cursorline
@@ -307,71 +485,72 @@ let g:git_messenger_max_popup_width = 60
 nnoremap <Leader>tb :ToggleBackground<CR>
 
 " ==============================================================================
-"    ____           _   ____             __ _
-"   / ___|___   ___| | / ___|___  _ __  / _(_) __ _
-"  | |   / _ \ / __| || |   / _ \| '_ \| |_| |/ _` |
-"  | |__| (_) | (__| || |__| (_) | | | |  _| | (_| |
-"   \____\___/ \___|_(_)____\___/|_| |_|_| |_|\__, |
-"                                             |___/
+"  _     ____  ____      _  __                     _      _
+" | |   / ___||  _ \    | |/ /___ _   _ _ __   ___| | ___| |
+" | |   \___ \| |_) |   | ' // _ \ | | | '_ \ / _ \ |/ _ \ |
+" | |___ ___) |  __/    | . \  __/ |_| | |_) |  __/ |  __/ |
+" |_____|____/|_|       |_|\_\___|\__, | .__/ \___|_|\___|_|
+"                                 |___/|_|
 " ==============================================================================
 
-" Use tab for trigger completion with characters ahead and navigate
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\<Tab>" : coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" asyncomplete.vim keymaps (Tab to navigate, trigger refresh when needed)
+let g:asyncomplete_auto_completeopt = 0
+set completeopt=menuone,noinsert,noselect,preview
 
-" Make <CR> to accept selected completion item
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-function! CheckBackspace() abort
+function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  return !col || getline('.')[col - 1] =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion
-inoremap <silent><expr> <c-@> coc#refresh()
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
 
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
 
-" GoTo code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Force refresh completion
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+" For Vim 8 (<c-@> corresponds to <c-space>)
+imap <c-@> <Plug>(asyncomplete_force_refresh)
 
-" Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" vim-lsp buffer local mappings
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+  setlocal signcolumn=yes
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> gy <plug>(lsp-type-definition)
+  nmap <buffer> gi <plug>(lsp-implementation)
+  nmap <buffer> gr <plug>(lsp-references)
+  nmap <buffer> K  <plug>(lsp-hover)
+
+  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+
+  nmap <buffer> <Leader>r <plug>(lsp-rename)
+  nmap <buffer> <Leader>a <plug>(lsp-code-action)
+
+  nnoremap <silent><buffer> <Leader>gf :LspDocumentFormatSync<CR>
+  nnoremap <silent><buffer> dc :LspDocumentDiagnostics<CR>
+  nnoremap <silent><buffer> <Leader>d :LspDocumentDiagnostics<CR>
+  nnoremap <silent><buffer> <Leader>s :LspDocumentSymbol<CR>
+  nnoremap <silent><buffer> <Leader>ss :LspWorkspaceSymbol<CR>
+
+  augroup lsp_format_on_save
+    autocmd! * <buffer>
+    autocmd BufWritePre <buffer> silent! LspDocumentFormatSync
+  augroup END
 endfunction
 
-" Highlight the symbol and its references when holding the cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming
-nmap <Leader>r <Plug>(coc-rename)
-
-" Code action
-nmap <Leader>a <Plug>(coc-codeaction-cursor)
-vmap <Leader>a <Plug>(coc-codeaction-selected)
-
-" Format selected code
-xmap <Leader>gf <Plug>(coc-format-selected)
-nmap <Leader>gf <Plug>(coc-format-selected)
-
-" Show diagnostics for current line
-nmap <silent> dc :CocDiagnostics<CR>
-
-" Coc list mappings (LSP symbols, diagnostics)
-nnoremap <silent> <Leader>d :CocList diagnostics<CR>
-nnoremap <silent> <Leader>s :CocList outline<CR>
-nnoremap <silent> <Leader>ss :CocList symbols<CR>
+augroup vim_lsp_setup
+  autocmd!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 " ==============================================================================
 "   _____ __________ 
@@ -488,17 +667,9 @@ endfunction
 " Exit terminal mode with Escape (except for fzf)
 tnoremap <Esc> <C-\><C-n>
 
-" Terminal color settings - fix colors to match system terminal
+" Terminal support (palette/theme selection is handled by SetColorscheme)
 if has('terminal')
-    " Set terminal colors to match rose-pine theme
-    let g:terminal_ansi_colors = [
-        \ '#191724', '#eb6f92', '#9ccfd8', '#f6c177',
-        \ '#31748f', '#c4a7e7', '#ebbcba', '#e0def4',
-        \ '#555169', '#eb6f92', '#9ccfd8', '#f6c177',
-        \ '#31748f', '#c4a7e7', '#ebbcba', '#ffffff'
-        \ ]
-    " Inherit terminal emulator's colors instead
-    set termguicolors
+  set termguicolors
 endif
 
 " Auto-enter insert mode when switching to terminal
@@ -524,4 +695,3 @@ nmap <Leader>dr <Plug>VimspectorRestart
 
 " Vimspector configuration
 let g:vimspector_enable_mappings = 'HUMAN'
-
