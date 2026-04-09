@@ -15,6 +15,7 @@ cmds = {
     "󰴰 Change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
     "Show status of wallpaper slide":   ["sh", script + "status_of_slide.sh"],
     "Launch slide in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/slide.conf", "--directory", slide_dev],
+    "Launch white in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
     "󰹑 Screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
     "󱂬 Screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
     "Toggle visual effects":            ["sh", script + "toggle_visual.sh"],
