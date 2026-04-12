@@ -60,3 +60,5 @@ pipewire-session-manager.service
 pipewire.service.wants/
 
 ./.config/hypr/visual.conf
+
+.config/jj/repos/

@@ -27,9 +27,9 @@ spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri; systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "sh" "-c" "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-wlr xdg-desktop-portal-gtk; systemctl --user start xdg-desktop-portal"
 
-spawn-at-startup "swww-daemon"
-spawn-at-startup "sh" "-c" "$HOME/dotfiles/script/cycle_wallpaper.sh"
-spawn-at-startup "sh" "-c" "$HOME/dotfiles/script/launch-waybar.sh"
+spawn-at-startup "awww-daemon"
+spawn-at-startup "sh" "$HOME/dotfiles/script/cycle_wallpaper.sh"
+spawn-at-startup "sh" "$HOME/dotfiles/script/launch-waybar.sh"
 spawn-at-startup "swaync"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
@@ -190,7 +190,7 @@ animations {
 
 binds {
     Mod+Q repeat=false { close-window; }
-    Mod+T { spawn "ghostty"; }
+    Mod+T { spawn "kitty"; }
     Mod+M { quit; }
     Mod+E { spawn "nautilus"; }
     Mod+V { toggle-window-floating; }
@@ -202,7 +202,7 @@ binds {
     Mod+O repeat=false { toggle-overview; }
     Mod+R { switch-preset-column-width; }
 
-    Mod+Shift+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
+    Mod+Shift+V hotkey-overlay-title="Clipboard History: cliphist" { spawn "sh" "-c" "cliphist list | rofi -dmenu -p \" \" | cliphist decode | wl-copy"; }
 
     Mod+J { focus-window-or-workspace-down; }
     Mod+K { focus-window-or-workspace-up; }
