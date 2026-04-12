@@ -11,7 +11,7 @@ get_first_path() {
 
 get_next_path() {
   REV_MODE=$3
-  if (( $REV_MODE == 0 )); then
+  if (($REV_MODE == 0)); then
     MATCHED="$(echo "$2" | grep -Fx "$1" -A 1)"
   else
     MATCHED="$(echo "$2" | grep -Fx "$1" -B 1)"
@@ -19,14 +19,14 @@ get_next_path() {
 
   local MATCHED_LINES=$(echo "$MATCHED" | wc -l)
 
-  if (( MATCHED_LINES != 2 )); then
-    if (( REV_MODE == 0 )); then
+  if ((MATCHED_LINES != 2)); then
+    if ((REV_MODE == 0)); then
       echo "$2" | head -n 1
     else
       echo "$2" | tail -n 1
     fi
   else
-    if (( $REV_MODE == 0)); then
+    if (($REV_MODE == 0)); then
       echo "$MATCHED" | tail -1
     else
       echo "$MATCHED" | head -1
@@ -52,7 +52,7 @@ seq_or_rev() {
     local next=$(get_first_path ${wallpaper_dir})
   fi
 
-  echo "$next" > $current_paper_path
+  echo "$next" >$current_paper_path
   echo "$next"
 }
 
@@ -60,7 +60,7 @@ random_paper() {
   local wallpaper_dir=$1
   local current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
   local randomed_path=$(find "$wallpaper_dir" -type f | shuf -n 1)
-  echo "$randomed_path" > $current_paper_path
+  echo "$randomed_path" >$current_paper_path
   echo "$randomed_path"
 }
 
@@ -75,15 +75,14 @@ toggle_systemtimer() {
 WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
 
 case "$1" in
-  seq)  wall_path=$(seq_or_rev 0 "$WALLPAPER_DIR")  ;;
-  rev)  wall_path=$(seq_or_rev 1 "$WALLPAPER_DIR")  ;;
-  rnd)  wall_path=$(random_paper "$WALLPAPER_DIR")  ;;
-  pse)  toggle_systemtimer && exit 0 || exit 1      ;;
-  *)    wall_path=$2                                ;;
+seq) wall_path=$(seq_or_rev 0 "$WALLPAPER_DIR") ;;
+rev) wall_path=$(seq_or_rev 1 "$WALLPAPER_DIR") ;;
+rnd) wall_path=$(random_paper "$WALLPAPER_DIR") ;;
+pse) toggle_systemtimer && exit 0 || exit 1 ;;
+*) wall_path=$2 ;;
 esac
 
 mkdir -p $HOME/dotfiles/.config/hypr/env
 
 # awww
 awww img "$wall_path" --transition-type center --transition-duration 0.5
-
