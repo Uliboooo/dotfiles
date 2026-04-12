@@ -7,7 +7,7 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
-      ensure_installed = { "lua", "vim", "vimdoc", "query", "tsx", "typescript" },
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "tsx", "typescript", "rust" },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = false,
@@ -31,7 +31,9 @@ return {
 
       if status and parsers then
         -- get_parser_configs が関数なら呼ぶ、なければ parsers 自体をテーブルとして使う
-        local parser_config = (type(parsers.get_parser_configs) == "function" and parsers.get_parser_configs()) or parsers
+        local parser_config = (
+          type(parsers.get_parser_configs) == "function" and parsers.get_parser_configs()
+        ) or parsers
 
         -- parser_config がテーブルである場合のみ MoonBit を追加
         -- if type(parser_config) == "table" then

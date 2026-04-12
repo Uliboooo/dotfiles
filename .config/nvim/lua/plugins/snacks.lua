@@ -51,7 +51,7 @@ return {
       { "<Leader>d", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
       { "<Leader>s", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
       {
-        "<Leader>ss",
+        "<Leader>S",
         function() Snacks.picker.lsp_workspace_symbols() end,
         desc = "LSP Workspace Symbols",
       },
