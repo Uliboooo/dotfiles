@@ -4,7 +4,7 @@
 configuration {
     // General settings
     modi: "drun,run,window";
-    font: "0xProto Nerd Font 13";
+    font: "Annotation Mono 13";
     show-icons: true;
     icon-theme: "Adwaita";
     display-drun: "󰍉";

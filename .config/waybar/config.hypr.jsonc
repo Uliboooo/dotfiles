@@ -62,7 +62,7 @@
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
     "interval": 10,
-    "on-click": "ghostty --title='dev-float' -e btop"
+    "on-click": "kitty --title='dev-float' -e btop"
   },
   "clock": {
     "format": "{:%b %d %a %H:%M}",
