@@ -37,15 +37,15 @@
 
     {
       "type": "os",
-      "key": "{#separator}│  {#separator}󰍹 OS"
+      "key": "{#separator}│  {#separator}󰍹 OS      "
     },
     {
       "type": "kernel",
-      "key": "{#separator}│  {#separator}󰒋 Kernel"
+      "key": "{#separator}│  {#separator}󰒋 Kernel  "
     },
     {
       "type": "uptime",
-      "key": "{#separator}│  {#separator}󰅐 Uptime"
+      "key": "{#separator}│  {#separator}󰅐 Uptime  "
     },
     {
       "type": "packages",
@@ -53,7 +53,7 @@
     },
     {
       "type": "users",
-      "key": "{#separator}│  {#separator} Users"
+      "key": "{#separator}│  {#separator} Users   "
     },
 
     {
@@ -68,19 +68,19 @@
 
     {
       "type": "de",
-      "key": "{#separator}│  {#separator}󰧨 DE"
+      "key": "{#separator}│  {#separator}󰧨 DE      "
     },
     {
       "type": "wm",
-      "key": "{#separator}│  {#separator}󱂬 WM"
+      "key": "{#separator}│  {#separator}󱂬 WM      "
     },
     {
       "type": "wmtheme",
-      "key": "{#separator}│  {#separator}󰉼 Theme"
+      "key": "{#separator}│  {#separator}󰉼 Theme   "
     },
     {
       "type": "shell",
-      "key": "{#separator}│  {#separator}󰞷 Shell"
+      "key": "{#separator}│  {#separator}󰞷 Shell   "
     },
     {
       "type": "terminal",
@@ -99,15 +99,15 @@
 
     {
       "type": "cpu",
-      "key": "{#separator}│  {#separator}󰻠 CPU"
+      "key": "{#separator}│  {#separator}󰻠 CPU     "
     },
     {
       "type": "gpu",
-      "key": "{#separator}│  {#separator}󰢮 GPU"
+      "key": "{#separator}│  {#separator}󰢮 GPU     "
     },
     {
       "type": "memory",
-      "key": "{#separator}│  {#separator}󰍛 Memory"
+      "key": "{#separator}│  {#separator}󰍛 Memory  "
     },
     {
       "type": "disk",
@@ -128,7 +128,7 @@
 
     {
       "type": "custom",
-      "format": "{#separator}╰───────────────────────────────╯"
+      "format": "{#separator}╰────────────────────────────────────╯"
     }
   ]
 }

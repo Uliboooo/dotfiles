@@ -223,10 +223,10 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 alias copy='wl-copy'
 
 function ff() {
-  if [[ "${TERM_BACKGROUND:-}" == "dark" ]]; then
-    fastfetch
-  else
+  if [[ "${TERM_BACKGROUND:-}" == "light" ]]; then
     fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
+  else
+    fastfetch --config ~/dotfiles/.config/fastfetch/config.jsonc
   fi
 }
 
