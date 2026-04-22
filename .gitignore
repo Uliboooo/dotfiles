@@ -62,3 +62,6 @@ pipewire.service.wants/
 ./.config/hypr/visual.conf
 
 .config/jj/repos/
+
+/node_modules/
+/.config/hypr/visual.conf

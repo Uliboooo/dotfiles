@@ -5,7 +5,7 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true },
-      dashboard = { enabled = true },
+      dashboard = { enabled = false },
       explorer = { enabled = false },
       indent = { enabled = true },
       input = { enabled = true },
@@ -44,19 +44,52 @@ return {
       words = { enabled = true },
     },
     keys = {
-      { "<Leader>f", function() Snacks.picker.files() end, desc = "find files" },
-      { "<Leader>/", function() Snacks.picker.grep() end, desc = "grep" },
-      { "<Leader>m", function() Snacks.picker.marks() end, desc = "Marks" },
-      { "<Leader>u", function() Snacks.picker.undo() end, desc = "Undo History" },
-      { "<Leader>d", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-      { "<Leader>s", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+      {
+        "<Leader>f",
+        function() Snacks.picker.files() end,
+        desc = "find files",
+      },
+      {
+        "<Leader>/",
+        function() Snacks.picker.grep() end,
+        desc = "grep",
+      },
+      {
+        "<Leader>m",
+        function() Snacks.picker.marks() end,
+        desc = "Marks",
+      },
+      {
+        "<Leader>u",
+        function() Snacks.picker.undo() end,
+        desc = "Undo History",
+      },
+      {
+        "<Leader>d",
+        function() Snacks.picker.diagnostics() end,
+        desc = "Diagnostics",
+      },
+      {
+        "<Leader>s",
+        function() Snacks.picker.lsp_symbols() end,
+        desc = "LSP Symbols",
+      },
       {
         "<Leader>S",
         function() Snacks.picker.lsp_workspace_symbols() end,
         desc = "LSP Workspace Symbols",
       },
-      { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-      { "<Leader>l", function() Snacks.lazygit() end, desc = "lazygit" },
+      {
+        "gr",
+        function() Snacks.picker.lsp_references() end,
+        nowait = true,
+        desc = "References",
+      },
+      {
+        "<Leader>l",
+        function() Snacks.lazygit() end,
+        desc = "lazygit",
+      },
     },
   },
 }

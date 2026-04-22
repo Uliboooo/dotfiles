@@ -52,6 +52,7 @@ return {
           json = { "biome" },
           jsonc = { "biome" },
           sh = { "shfmt" },
+          astro = { "prettier" },
         },
         format_on_save = {
           timeout_ms = 500,
@@ -60,4 +61,25 @@ return {
       })
     end,
   },
+  -- {
+  --   "nvim-tree/nvim-tree.lua",
+  --   version = "*",
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons",
+  --   },
+  --   config = function()
+  --     vim.keymap.set(
+  --       "n",
+  --       "<leader>e",
+  --       function() require("nvim-tree.api").tree.toggle() end,
+  --       { desc = "toggle file tree" }
+  --     )
+  --     require("nvim-tree").setup({
+  --       view = {
+  --         width = 30,
+  --       },
+  --     })
+  --   end,
+  -- },
 }

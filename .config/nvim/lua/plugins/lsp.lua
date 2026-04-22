@@ -17,6 +17,9 @@ return {
           "marksman",
           "basedpyright",
           "astro",
+          "html",
+          "cssls",
+          "emmet_ls",
         },
       })
     end,
@@ -30,6 +33,17 @@ return {
       keymap = {
         preset = "default",
         ["<CR>"] = { "accept", "fallback" },
+      },
+      -- In Astro, the LSP often returns snippet-based completions that can replace text around
+      -- the cursor. With blink's default `preselect=true` + `auto_insert=true`, pressing <CR>
+      -- can unintentionally confirm a completion and overwrite the `}` inserted by autopairs.
+      completion = {
+        list = {
+          selection = {
+            preselect = function(_) return vim.bo.filetype ~= "astro" end,
+            auto_insert = function(_) return vim.bo.filetype ~= "astro" end,
+          },
+        },
       },
       appearance = {
         use_nvim_cmp_as_default = true,
@@ -152,7 +166,29 @@ return {
         capabilities = capabilities,
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", ".git" }),
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all", -- or "literals"
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+            },
+          },
+        },
       })
+
+      vim.lsp.enable("ts_ls")
       vim.lsp.enable("ts_ls")
 
       vim.lsp.config("biome", {

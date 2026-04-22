@@ -15,6 +15,12 @@ vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" 
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 
+-- vim.keymap.set("n", "p", '"0p')
+-- vim.keymap.set("n", "P", '"0P')
+-- vim.keymap.set({ "n", "v" }, "c", '"_c')
+-- vim.keymap.set("n", "C", '"_C')
+
+-- yank diagnostic from lsp
 vim.keymap.set("n", "dc", function()
   local diags = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
   local cmap = {
@@ -26,19 +32,27 @@ vim.keymap.set("n", "dc", function()
 
   if #diags > 0 then
     local d = diags[1]
-    -- 該当箇所のテキストを取得（複数行に対応するため concat する）
-    local lines = vim.api.nvim_buf_get_text(0, d.lnum, d.col, d.end_lnum, d.end_col, {})
-    local target_text = table.concat(lines, "\n")
+    local red_lnum = 3
+
+    local start_lnum_by_lsp = d.lnum + 1
+    local end_line_by_lsp = d.end_lnum + 1
+
+    -- nvim_buf_get_lines() return table
+    local stt_lnum = math.min(start_lnum_by_lsp - red_lnum, start_lnum_by_lsp)
+    local end_lnum = math.max(end_line_by_lsp, end_line_by_lsp + red_lnum + 1)
+
+    local target_text =
+      table.concat(vim.api.nvim_buf_get_lines(d.bufnr, stt_lnum, end_lnum, false), "\n")
 
     local ebuf = string.format(
-      "%s: %s [%s] (Source: %s) at %d:%d-%d:%d\n%s",
+      "%s: %s [%s] (Source: %s) at %d:%d-%d:%d\n%s\n",
       cmap[d.severity] or "Unknown",
       d.message,
       tostring(d.code or "N/A"),
       d.source or "N/A",
-      d.lnum + 1,
+      start_lnum_by_lsp,
       d.col + 1,
-      d.end_lnum + 1,
+      end_line_by_lsp,
       d.end_col + 1,
       target_text
     )
@@ -60,6 +74,7 @@ vim.keymap.set(
 
 vim.keymap.set("n", "<C-p>", ":Gitsigns preview_hunk_inline<CR>")
 
+-- improved increment function
 vim.keymap.set("n", "<C-a>", function()
   local word = vim.fn.expand("<cword>")
 
@@ -72,6 +87,7 @@ vim.keymap.set("n", "<C-a>", function()
   end
 end, { desc = "Increment or toggle boolean" })
 
+-- improved decrement function
 vim.keymap.set("n", "<C-x>", function()
   local word = vim.fn.expand("<cword>")
 

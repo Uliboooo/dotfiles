@@ -144,6 +144,8 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
 
+export EDITOR=nvim
+
 # load .env
 if [[ -f "$HOME/.env" ]]; then
     while IFS='=' read -r key value; do

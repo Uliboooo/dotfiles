@@ -14,7 +14,18 @@ return {
       })
 
       -- Toggle terminal
-      vim.keymap.set({ "n", "t" }, "<C-\\>", function() vim.cmd("ToggleTerm") end, { noremap = true, silent = true })
+      vim.keymap.set(
+        { "n", "t" },
+        "<C-\\>",
+        function() vim.cmd("ToggleTerm") end,
+        { noremap = true, silent = true }
+      )
+      vim.keymap.set(
+        { "n", "t" },
+        "<Leader>\\",
+        function() vim.cmd("ToggleTerm") end,
+        { noremap = true, silent = true }
+      )
     end,
   },
 }
