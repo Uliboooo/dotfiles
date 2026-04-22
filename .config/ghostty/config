@@ -1,5 +1,5 @@
 # Empty values reset the configuration to the default value
-font-family = "0xProto Nerd Font"
+font-family = "Annotation Mono"
 # font-family = "ComicShannsMono Nerd Font"
 # font-family = "Victor Mono"
 font-family = "Cica"
