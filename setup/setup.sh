@@ -17,6 +17,11 @@ fi
 # Package manager detection
 # ==============================================================================
 
+# detect_pkg_manager
+#   Probes for a supported package manager in order of preference:
+#   yay (Arch AUR) > pacman (Arch) > dnf (Fedora/RHEL) > apt-get (Debian/Ubuntu)
+#
+#   Outputs: one of "yay" | "pacman" | "dnf" | "apt", or "" if none found.
 detect_pkg_manager() {
   if command -v yay >/dev/null 2>&1; then
     echo "yay"
@@ -44,22 +49,29 @@ echo "Detected package manager: ${PKG_MANAGER}"
 # Abstracted package manager functions
 # ==============================================================================
 
+# pkg_update
+#   Runs a full system upgrade using the detected package manager.
+#   No arguments.
 pkg_update() {
   case "$PKG_MANAGER" in
-    yay)    yay -Syu --noconfirm ;;
-    pacman) sudo pacman -Syu --noconfirm ;;
-    dnf)    sudo dnf update -y ;;
-    apt)    sudo apt-get update -y ;;
+    yay)    yay -Syu --noconfirm ;;           # -S sync, -y refresh DB, -u upgrade, --noconfirm skip prompts
+    pacman) sudo pacman -Syu --noconfirm ;;   # same flags via pacman
+    dnf)    sudo dnf update -y ;;             # -y assume yes
+    apt)    sudo apt-get update -y ;;         # refresh package index
   esac
 }
 
+# pkg_install
+#   Installs one or more packages using the detected package manager.
+#
+#   Arguments: $@ — list of package names to install
 pkg_install() {
   local pkgs=("$@")
   case "$PKG_MANAGER" in
-    yay)    yay -S --needed --noconfirm "${pkgs[@]}" ;;
-    pacman) sudo pacman -S --needed --noconfirm "${pkgs[@]}" ;;
-    dnf)    sudo dnf install -y "${pkgs[@]}" ;;
-    apt)    sudo apt-get install -y "${pkgs[@]}" ;;
+    yay)    yay -S --needed --noconfirm "${pkgs[@]}" ;;           # --needed skip already-installed
+    pacman) sudo pacman -S --needed --noconfirm "${pkgs[@]}" ;;   # --needed skip already-installed
+    dnf)    sudo dnf install -y "${pkgs[@]}" ;;                   # -y assume yes
+    apt)    sudo apt-get install -y "${pkgs[@]}" ;;               # -y assume yes
   esac
 }
 
@@ -141,11 +153,11 @@ for conf in "${configs[@]}"; do
     rm -rf "${config_path}"
   fi
 
-  ln -fs "${target_path}" "${config_path}"
+  ln -fs "${target_path}" "${config_path}"   # -f force overwrite, -s symbolic link
   echo "Linked: ${conf}"
 done
 
-ln -fs "${DOTFILES_DIR}/.zshrc" "$HOME/.zshrc"
+ln -fs "${DOTFILES_DIR}/.zshrc" "$HOME/.zshrc"   # -f force overwrite, -s symbolic link
 echo "Linked: .zshrc"
 
 # ==============================================================================
@@ -161,7 +173,7 @@ if [[ -z "$ZSH_PATH" ]]; then
 elif [[ "$SHELL" == "$ZSH_PATH" ]]; then
   echo "Default shell is already zsh."
 else
-  if chsh -s "$ZSH_PATH"; then
+  if chsh -s "$ZSH_PATH"; then   # -s set login shell to the given path
     echo "Default shell changed to zsh. Please log out and log back in to apply."
   else
     echo "Warning: chsh failed. You may need to run manually: chsh -s ${ZSH_PATH}"
@@ -174,7 +186,7 @@ fi
 
 if command -v systemctl >/dev/null 2>&1; then
   echo "Enabling systemd user services..."
-  systemctl --user enable --now ssh-agent 2>/dev/null || echo "Warning: ssh-agent service not found, skipping."
+  systemctl --user enable --now ssh-agent 2>/dev/null || echo "Warning: ssh-agent service not found, skipping."             # --user operate on user session, --now also start immediately
   systemctl --user enable --now cycle_wallpaper.service 2>/dev/null || echo "Warning: cycle_wallpaper.service not found, skipping."
   systemctl --user enable --now cycle_wallpaper.timer 2>/dev/null || echo "Warning: cycle_wallpaper.timer not found, skipping."
 fi

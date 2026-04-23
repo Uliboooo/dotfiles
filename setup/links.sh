@@ -3,6 +3,13 @@ set -euo pipefail
 
 DOTFILES_DIR="$HOME/dotfiles"
 
+# link_or_ovr
+#   Creates a symlink from ~/.config/<conf_name> to the dotfiles source directory.
+#   If the destination already exists (file, directory, or broken symlink), it is
+#   removed first. Skips silently when the source does not exist in the dotfiles repo.
+#
+#   Arguments:
+#     $1  conf_name — name of the config entry under .config/ (e.g. "nvim", "ghostty")
 link_or_ovr() {
   local conf_name="${1:?Error: Config name is required}"
 
@@ -23,7 +30,7 @@ link_or_ovr() {
     rm -rf "${conf_path}"
   fi
 
-  ln -fs "${target_path}" "${conf_path}"
+  ln -fs "${target_path}" "${conf_path}"   # -f force overwrite, -s symbolic link
 
   echo "Linked: ${conf_name} -> ${conf_path}"
 }
