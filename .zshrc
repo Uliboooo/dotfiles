@@ -129,9 +129,14 @@ else
     export HSA_OVERRIDE_GFX_VERSION=10.3.0
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
+    export LIBVIRT_DEFAULT_URI=qemu:///system
 
     if [[ -n "$XDG_RUNTIME_DIR" ]]; then
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+    fi
+
+    if [[ -n "$SSH_CONNECTION" ]]; then
+      export TERM=xterm-256color
     fi
 fi
 
