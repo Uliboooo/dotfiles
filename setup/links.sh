@@ -1,29 +1,50 @@
-#! /bin/bash
+#!/bin/bash
+set -euo pipefail
 
+DOTFILES_DIR="$HOME/dotfiles"
+
+# link_or_ovr
+#   Creates a symlink from ~/.config/<conf_name> to the dotfiles source directory.
+#   If the destination already exists (file, directory, or broken symlink), it is
+#   removed first. Skips silently when the source does not exist in the dotfiles repo.
+#
+#   Arguments:
+#     $1  conf_name — name of the config entry under .config/ (e.g. "nvim", "ghostty")
 link_or_ovr() {
   local conf_name="${1:?Error: Config name is required}"
 
   local base_path="${HOME}/.config"
-  local dotfiles_path="${HOME}/dotfiles/.config"
+  local target_path="${DOTFILES_DIR}/.config/${conf_name}"
   local conf_path="${base_path}/${conf_name}"
-  local target_path="${dotfiles_path}/${conf_name}"
 
   if [[ ! -d "${base_path}" ]]; then
     mkdir -p "${base_path}"
+  fi
+
+  if [[ ! -e "${target_path}" && ! -L "${target_path}" ]]; then
+    echo "Skipping (not found in dotfiles): ${conf_name}"
+    return
   fi
 
   if [[ -e "${conf_path}" || -L "${conf_path}" ]]; then
     rm -rf "${conf_path}"
   fi
 
-  ln -fs "${target_path}" "${conf_path}"
+  ln -fs "${target_path}" "${conf_path}"   # -f force overwrite, -s symbolic link
 
   echo "Linked: ${conf_name} -> ${conf_path}"
 }
 
-config_path=("bottom" "fastfetch" "rofi" "ghostty" "git" "helix" "hypr" "hypr-presto" "niri" "nvim" "starship.toml" "stylua" "swaync" "systemd" "vim" "voime" "waybar" "xdg-desktop-portal")
+config_names=(
+  "fastfetch" "fish" "fontconfig" "fuzzel" "ghostty" "git"
+  "helix" "hypr" "hypr-presto" "karukan-im" "kitty" "niri" "nwg-drawer"
+  "nvim" "rofi" "sheldon" "stylua" "swaync" "systemd"
+  "voime" "waybar" "vim" "xdg-desktop-portal" "yazi" "zsh-abbr"
+)
 
-for nm in "${conf_path[@]}"; do
+for nm in "${config_names[@]}"; do
   link_or_ovr "${nm}"
 done
 
+ln -fs "${DOTFILES_DIR}/.zshrc" "$HOME/.zshrc"
+echo "Linked: .zshrc -> $HOME/.zshrc"
