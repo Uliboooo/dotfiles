@@ -95,14 +95,6 @@ compinit
 export PATH="$HOME/.cargo/bin:$PATH"
 # adb
 export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
-# lm studio
-export PATH="$HOME/.lmstudio/bin:$PATH"
-# Tex
-export PATH="/Library/TeX/texbin:$PATH"
-# npm
-export PATH="$HOME/.npm-global/bin:$PATH"
-# clangd (llvm@20)
-export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
 # My tools / apps
 export PATH="$HOME/my_tools/bin:$HOME/my_apps/bin:$PATH"
 # Moonbit
@@ -120,6 +112,10 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
     export PATH="/opt/homebrew/bin:$PATH"
+    # clangd (llvm@20)
+    export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+    # Tex
+    export PATH="/Library/TeX/texbin:$PATH"
 else
     # Linux
     export PATH="/opt/rocm/bin:$PATH"
@@ -130,6 +126,8 @@ else
     export OLLAMA_DEBUG=1
     export OLLAMA_HOST=0.0.0.0:11434
     export LIBVIRT_DEFAULT_URI=qemu:///system
+    # npm
+    export PATH="$HOME/.npm-global/bin:$PATH"
 
     if [[ -n "$XDG_RUNTIME_DIR" ]]; then
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
@@ -138,6 +136,15 @@ else
     if [[ -n "$SSH_CONNECTION" ]]; then
       export TERM=xterm-256color
     fi
+
+    # bun completions
+    [ -s "/home/alice/.bun/_bun" ] && source "/home/alice/.bun/_bun"
+
+    # moonbit
+    export PATH="$HOME/.moon/bin:$PATH"
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+    alias copy='wl-copy'
 fi
 
 # ==============================================================================
@@ -223,12 +230,6 @@ function distro() {
     fi
 }
 
-# moonbit
-export PATH="$HOME/.moon/bin:$PATH"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
-alias copy='wl-copy'
-
 function ff() {
   if [[ "${TERM_BACKGROUND:-}" == "light" ]]; then
     fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
@@ -242,5 +243,3 @@ function note() {
 }
 
 # zprof
-
-

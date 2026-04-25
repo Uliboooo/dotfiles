@@ -30,7 +30,7 @@ link_or_ovr() {
     rm -rf "${conf_path}"
   fi
 
-  ln -fs "${target_path}" "${conf_path}"   # -f force overwrite, -s symbolic link
+  ln -fs "${target_path}" "${conf_path}" # -f force overwrite, -s symbolic link
 
   echo "Linked: ${conf_name} -> ${conf_path}"
 }
