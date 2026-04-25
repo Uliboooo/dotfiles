@@ -58,7 +58,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 
 " Rainbow brackets
-Plug 'kien/rainbow_parentheses.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 " Debugging
 Plug 'puremourning/vimspector'
@@ -407,8 +407,8 @@ let g:gitgutter_highlight_lines = 0
 let g:gitgutter_highlight_linenrs = 0
 set signcolumn=yes
 
-" ----- Rainbow Brackets (kien/rainbow_parentheses.vim) -----
-" Define custom colors for rose-pine theme (no harsh red)
+" ----- Rainbow Brackets (junegunn/rainbow_parentheses.vim) -----
+" rose-pineテーマに合わせたカスタムカラー設定
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    '#c4a7e7'],
@@ -427,11 +427,14 @@ let g:rbpt_colorpairs = [
     \ ['red',         '#f6c177'],
     \ ]
 
-" Enable rainbow parentheses automatically
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare  
-au Syntax * RainbowParenthesesLoadBraces
+" 起動コマンドの修正: Toggleを外した RainbowParentheses を使用
+augroup rainbow_brackets
+  autocmd!
+  autocmd VimEnter * RainbowParentheses
+  autocmd Syntax * RainbowParenthesesLoadRound
+  autocmd Syntax * RainbowParenthesesLoadSquare  
+  autocmd Syntax * RainbowParenthesesLoadBraces
+augroup END
 
 " ==============================================================================
 "   _  __
