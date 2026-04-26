@@ -1,13 +1,12 @@
-# ==============================================================================
-#   _    ____   _  _____ _   _          __    __ _     _
-#  | |  |  _ \ / \|_   _| | | |   ___  / _|  / _(_)___| |__
-# / __) | |_) / _ \ | | | |_| |  / _ \| |_  | |_| / __| '_ \
-# \__ \ |  __/ ___ \| | |  _  | | (_) |  _| |  _| \__ \ | | |
-# (   / |_| /_/   \_\_| |_| |_|  \___/|_|   |_| |_|___/_| |_|
-#  |_/
-# ==============================================================================
+# ╔═╗ ╔═╗ ╔╦╗ ╦ ╦              ╔═╗ ╔╗╔ ╦  ╦
+# ╠═╝ ╠═╣  ║  ╠═╣      ──      ║╣  ║║║ ╚╗╔╝
+# ╩   ╩ ╩  ╩  ╩ ╩              ╚═╝ ╝╚╝  ╚╝ 
 
 if status is-interactive
+    if not type -q fisher
+      curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+    end
+
     set -g fish_history_max 1000000
 
     set -l os (uname -s)
@@ -20,6 +19,8 @@ if status is-interactive
         fish_add_path (brew --prefix gnu-sed)/libexec/gnubin
         fish_add_path /opt/homebrew/opt/llvm/bin
         fish_add_path /opt/homebrew/bin
+        fish_add_path /opt/homebrew/opt/llvm@20/bin
+        fish_add_path /Library/TeX/texbin
 
     else # run on linux
         if test -f /etc/os-release
@@ -43,6 +44,10 @@ if status is-interactive
 
         set -U fish_ambiguous_case_sensitive
         set -gx EDITOR "nvim"
+
+        if test -n $SSH_CONNECTION
+          export TERM=xterm-256color
+        end
     end
 
     # cargo
@@ -51,12 +56,8 @@ if status is-interactive
     fish_add_path $HOME/Library/Android/sdk/platform-tools
     # lm studio
     fish_add_path $HOME/.lmstudio/bin
-    # Tex
-    fish_add_path /Library/TeX/texbin
     # npm
     fish_add_path $HOME/.npm-global/bin
-    # clangd (llvm@20)
-    fish_add_path /opt/homebrew/opt/llvm@20/bin
     # My tools
     fish_add_path $HOME/my_tools/bin
     # My apps
@@ -65,8 +66,6 @@ if status is-interactive
     fish_add_path $HOME/.moon/bin
     # Bun
     fish_add_path $HOME/.bun/bin
-
-    # type -q starship; and starship init fish | source
 
     if test -f "$HOME/.env"
         for line in (grep -v '^#' "$HOME/.env")
@@ -94,41 +93,21 @@ if status is-interactive
     set -gx XMODIFIERS @im=fcitx
     set -gx HYPRSHOT_DIR "$HOME/Pictures/Screenshots"
     set -g fish_greeting
-
-    # NVM disabled
-    # set --universal nvm_default_version lts
 end
 
-# =====================================================================
-#     _    _     _                          _ _
-#    / \  | |__ | |__  _ __   _____    __ _| (_) __ _ ___
-#   / _ \ | '_ \| '_ \| '__| |_____|  / _` | | |/ _` / __|
-#  / ___ \| |_) | |_) | |    |_____| | (_| | | | (_| \__ \
-# /_/   \_\_.__/|_.__/|_|             \__,_|_|_|\__,_|___/
-# =====================================================================
+# ╔═╗ ╔╗  ╔╗  ╦═╗
+# ╠═╣ ╠╩╗ ╠╩╗ ╠╦╝
+# ╩ ╩ ╚═╝ ╚═╝ ╩╚═
 
-
-# ---------------------------------------------------------------------
-#       _                                  _ _
-#   ___| |__   __ _ _ __   __ _  ___    __| (_)_ __
-#  / __| '_ \ / _` | '_ \ / _` |/ _ \  / _` | | '__|
-# | (__| | | | (_| | | | | (_| |  __/ | (_| | | |
-#  \___|_| |_|\__,_|_| |_|\__, |\___|  \__,_|_|_|
-#                         |___/
-# ---------------------------------------------------------------------
-
+# ╔═╗ ╔╦╗       ╦ ╦  ╦ ╦  ╦ ╦
+# ║    ║║      ╔╩╦╝ ╔╩╦╝ ╔╩╦╝
+# ╚═╝ ═╩╝      ╩ ╩  ╩ ╩  ╩ ╩
 abbr -a cdd 'cd $HOME/Develop'
 abbr -a cdn 'cd $HOME/Documents/notes/'
 
-# ---------------------------------------------------------------------
-#        _ _           _ _
-#   __ _(_) |_    __ _| (_) __ _ ___
-#  / _` | | __|  / _` | | |/ _` / __|
-# | (_| | | |_  | (_| | | | (_| \__ \
-#  \__, |_|\__|  \__,_|_|_|\__,_|___/
-#  |___/
-# ---------------------------------------------------------------------
-
+# ╔═╗ ╦ ╔╦╗      ╔═╗ ╔╗  ╔╗  ╦═╗
+# ║ ╦ ║  ║       ╠═╣ ╠╩╗ ╠╩╗ ╠╦╝
+# ╚═╝ ╩  ╩       ╩ ╩ ╚═╝ ╚═╝ ╩╚═
 abbr -a gst 'git status'
 abbr -a gda 'git --no-pager diff'
 abbr -a gln 'git            log --all --date-order --date=format:"%Y-%m-%d" --graph --format=" <%h> %ad [%an] %C(green)%d%Creset %s"'
@@ -168,19 +147,9 @@ function githelp
     end
 end
 
-# ---------------------------------------------------------------------
-#  _   _ _   _ _ _ _              __ __     ___                __
-# | | | | |_(_) (_) |_ _   _     / / \ \   / (_)_ __ ___      / /
-# | | | | __| | | | __| | | |   / /   \ \ / /| | '_ ` _ \    / /
-# | |_| | |_| | | | |_| |_| |  / /     \ V / | | | | | | |  / /
-#  \___/ \__|_|_|_|\__|\__, | /_/       \_/  |_|_| |_| |_| /_/
-#                      |___/
-#  _____
-# |_   _| __ ___  _   ___  __
-#   | || '_ ` _ \| | | \ \/ /
-#   | || | | | | | |_| |>  <
-#   |_||_| |_| |_|\__,_/_/\_\
-# ---------------------------------------------------------------------
+# ╦ ╦ ╔╦╗ ╦ ╦   ╔═╗
+# ║ ║  ║  ║ ║   ╚═╗
+# ╚═╝  ╩  ╩ ╩═╝ ╚═╝
 
 abbr -a lss      'ls -l'
 abbr -a ff       'fastfetch'
@@ -189,6 +158,12 @@ abbr -a glist    '/bin/ls'
 abbr -a printimg 'chafa -f kitty'
 abbr -a cow      'cowsay'
 abbr -a mi       'mediainfo'
+
+abbr -a y        'yazi'
+abbr -a :q       'exit'
+abbr -a :Q       'exit'
+abbr -a :wq      'exit'
+abbr -a :Wq      'exit'
 
 abbr -a rg       'rg --hidden'
 
@@ -210,10 +185,6 @@ abbr -a nv       'nvim'
 abbr -a nvd      'nvim .'
 abbr -a nnv      'nightly_nvim'
 abbr -a nnvd     'nightly_nvim .'
-abbr -a e        'emacs -nw'
-abbr -a ed       'emacs -nw .'
-abbr -a eg       'emacs'
-abbr -a egd       'emacs .'
 
 abbr -a tl       'tmux ls'
 abbr -a tmr      'tmux kill-session -t'
@@ -229,87 +200,36 @@ function ta --description 'Attach or create a tmux session'
     end
 end
 
-# ---------------------------------------------------------------------
-#   ____                           __   ____ _
-#  / ___|__ _ _ __ __ _  ___      / /  / ___| | __ _ _ __   __ _
-# | |   / _` | '__/ _` |/ _ \    / /  | |   | |/ _` | '_ \ / _` |
-# | |__| (_| | | | (_| | (_) |  / /   | |___| | (_| | | | | (_| |
-#  \____\__,_|_|  \__, |\___/  /_/     \____|_|\__,_|_| |_|\__, |
-#                 |___/                                    |___/
-# ---------------------------------------------------------------------
+# ╔═╗ ╔═╗ ╦═╗ ╔═╗ ╔═╗       ╔      ╔═╗ ╦   ╔═╗ ╔╗╔ ╔═╗
+# ║   ╠═╣ ╠╦╝ ║ ╦ ║ ║      ╔╝      ║   ║   ╠═╣ ║║║ ║ ╦
+# ╚═╝ ╩ ╩ ╩╚═ ╚═╝ ╚═╝      ╝       ╚═╝ ╩═╝ ╩ ╩ ╝╚╝ ╚═╝
 
 abbr -a cb 'cargo build'
 abbr -a cr 'cargo run'
 abbr -a cf 'cargo fmt'
 abbr -a ch 'cargo check'
 
-# ---------------------------------------------------------------------
-#   ____      __   ____
-#  / ___|    / /  / ___| _     _
-# | |       / /  | |   _| |_ _| |_
-# | |___   / /   | |__|_   _|_   _|
-#  \____| /_/     \____||_|   |_|
-# ---------------------------------------------------------------------
-
 abbr -a cpr 'clang++ main.cpp -o out && ./out'
 
-# ---------------------------------------------------------------------
-#  __  __                   ____  _ _
-# |  \/  | ___   ___  _ __ | __ )(_) |_
-# | |\/| |/ _ \ / _ \| '_ \|  _ \| | __|
-# | |  | | (_) | (_) | | | | |_) | | |_
-# |_|  |_|\___/ \___/|_| |_|____/|_|\__|
-# ---------------------------------------------------------------------
+# ╔╦╗ ╔═╗ ╔═╗ ╔╗╔ ╔╗  ╦ ╔╦╗
+# ║║║ ║ ║ ║ ║ ║║║ ╠╩╗ ║  ║
+# ╩ ╩ ╚═╝ ╚═╝ ╝╚╝ ╚═╝ ╩  ╩
 
 abbr -a mb 'moon build'
 abbr -a mr 'moon run'
 abbr -a mf 'moon fmt'
 abbr -a mh 'moon check'
 
-# ---------------------------------------------------------------------
-#   ___  ____            _                           _            _
-#  / _ \/ ___|        __| | ___ _ __   ___ _ __   __| | ___ _ __ | |_
-# | | | \___ \ _____ / _` |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \| __|
-# | |_| |___) |_____| (_| |  __/ |_) |  __/ | | | (_| |  __/ | | | |_
-#  \___/|____/       \__,_|\___| .__/ \___|_| |_|\__,_|\___|_| |_|\__|
-#                              |_|
-#        _ _
-#   __ _| (_) __ _ ___  ___  ___
-#  / _` | | |/ _` / __|/ _ \/ __|
-# | (_| | | | (_| \__ \  __/\__ \
-#  \__,_|_|_|\__,_|___/\___||___/
-# ---------------------------------------------------------------------
-
-function distro
-    if test -f /etc/os-release
-        grep '^NAME=' /etc/os-release | sed 's/NAME=//; s/"//g'
-    else
-        echo Unknown
-    end
-end
-
-abbr -a y        'yazi'
-abbr -a :q       'exit'
-abbr -a :Q       'exit'
-abbr -a :wq      'exit'
-abbr -a :Wq      'exit'
+# ╔═╗ ╔═╗    ╔╦╗ ╔═╗ ╔═╗ ╔═╗      ╔═╗ ╔╗  ╔╗  ╦═╗
+# ║ ║ ╚═╗ ──  ║║ ║╣  ╠═╝ ╚═╗      ╠═╣ ╠╩╗ ╠╩╗ ╠╦╝
+# ╚═╝ ╚═╝    ═╩╝ ╚═╝ ╩   ╚═╝      ╩ ╩ ╚═╝ ╚═╝ ╩╚═
 
 if string match -q '*Darwin*' (uname)
     abbr -a copy pbcopy
-    abbr -a update 'brew update && brew upgrade && rustup update'
 else
     abbr -a copy wl-copy
     abbr -a c    wl-copy
     abbr -a cc   clang
     abbr -a ccc  clang++
-    abbr -a hx   helix
-    abbr -a hxd  helix .
-
-    set distro_name (distro)
-    if string match -qi '*Fedora*' $distro_name
-        abbr -a update 'sudo dnf update -y && brew update && brew upgrade && rustup update'
-    else
-        abbr -a update 'yay -Syu --noconfirm'
-    end
 end
 
