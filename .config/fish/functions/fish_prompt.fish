@@ -5,7 +5,7 @@ function fish_prompt
     set -l red (set_color -o red)
     set -l blue (set_color -o blue)
     set -l green (set_color -o green)
-    set -l status_face (set_color -o 90b99f)
+    set -l status_face (set_color -o blue)
     set -l normal (set_color normal)
 
     if set -q SSH_TTY
@@ -16,7 +16,7 @@ function fish_prompt
 
     set -l git_info (fish_git_prompt)
     if test -n "$git_info"
-        echo -n -s $green $git_info $normal
+        echo -n -s $blue $git_info $normal
     end
 
     if test -n "$CMD_DURATION"
