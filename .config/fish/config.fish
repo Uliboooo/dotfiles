@@ -231,5 +231,6 @@ else
     abbr -a c    wl-copy
     abbr -a cc   clang
     abbr -a ccc  clang++
+    abbr -a reboot 'systemctl reboot'
 end
 
