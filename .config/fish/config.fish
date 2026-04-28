@@ -158,6 +158,7 @@ abbr -a glist    '/bin/ls'
 abbr -a printimg 'chafa -f kitty'
 abbr -a cow      'cowsay'
 abbr -a mi       'mediainfo'
+abbr -a l        'lazygit'
 
 abbr -a y        'yazi'
 abbr -a :q       'exit'
@@ -199,6 +200,15 @@ function ta --description 'Attach or create a tmux session'
         fi
     end
 end
+
+function ff --description 'fastfetch alias'
+  if set -q TERM_BACKGROUND; and test "$TERM_BACKGROUND" = "light"
+    fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
+  else
+		fastfetch --config ~/dotfiles/.config/fastfetch/config.jsonc
+  end
+end
+
 
 # ╔═╗ ╔═╗ ╦═╗ ╔═╗ ╔═╗       ╔      ╔═╗ ╦   ╔═╗ ╔╗╔ ╔═╗
 # ║   ╠═╣ ╠╦╝ ║ ╦ ║ ║      ╔╝      ║   ║   ╠═╣ ║║║ ║ ╦
