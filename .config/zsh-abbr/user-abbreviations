@@ -80,3 +80,5 @@ abbr :Q="exit"
 abbr :wq="exit"
 abbr :Wq="exit"
 
+abbr reboot="systemctl reboot"
+
