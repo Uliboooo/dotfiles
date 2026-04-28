@@ -6,7 +6,7 @@
     "Noto Sans CJK JP",
     sans-serif;
 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -19,7 +19,7 @@ window#waybar {
 tooltip {
   background: rgba(17, 17, 27, 0.7);
   border: 1px solid #f5c2e7;
-  border-radius: 10px;
+  border-radius: 4px;
   text-shadow: none;
 }
 
@@ -41,8 +41,8 @@ tooltip label {
 #custom-notification,
 #custom-tlp {
   background-color: rgba(24, 24, 37, 0.6);
-  border-radius: 10px;
   padding: 0 12px;
+  border-radius: 6px;
   margin: 3px 2px 0px;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }

@@ -6,7 +6,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
-  editor = "vim"
+  editor = "nvim"
 
 [diff]
 	tool = difftastic
