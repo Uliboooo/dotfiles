@@ -73,10 +73,6 @@
       "key": "{#separator}│  {#separator}󱂬 WM      "
     },
     {
-      "type": "wmtheme",
-      "key": "{#separator}│  {#separator}󰉼 Theme   "
-    },
-    {
       "type": "shell",
       "key": "{#separator}│  {#separator}󰞷 Shell   "
     },
