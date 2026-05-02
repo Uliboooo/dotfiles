@@ -20,3 +20,14 @@
 
 Catppuccin, and rose-pine are used mainly themes of my tools.
 and many of these scripts are dependent on my personal environment, it might not work as-is in your environment...
+
+## Requires of Hyprland
+
+- hyprshot:   take screenshots
+- hypridle:   auto start lock
+- hyprlock:   lock screen
+- hyprpicker: to use freeze option of hyprshot
+- awww:       wallpapers manager
+- systemd:    manage wallpapers slideshow
+- waybar:     status bar
+- btop,bluetui,nmtui: TUI tools for waybar
