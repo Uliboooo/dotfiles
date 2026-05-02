@@ -84,8 +84,14 @@ fi
 
 # sheldon
 eval "$(sheldon -q source)"
+
+# complete
 autoload -Uz compinit
-compinit
+if [[ -f ~/.zcompdump ]]; then
+  compinit -C
+else
+  compinit
+fi
 
 # ==============================================================================
 # PATH

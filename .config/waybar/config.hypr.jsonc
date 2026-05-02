@@ -45,6 +45,7 @@
       "firefox": " Firefox",
       "kitty": "󰄛 Kitty",
       "emacs": " Emacs",
+      "org.gnome.Nautilus": " Nautilus",
       "^$": "󰇄 Desktop"
     }
   },

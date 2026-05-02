@@ -7,6 +7,8 @@ if status is-interactive
       curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
     end
 
+    fish_config theme choose "Rosé Pine Moon"
+
     set -g fish_history_max 1000000
 
     set -l os (uname -s)

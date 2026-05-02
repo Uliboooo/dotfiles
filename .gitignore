@@ -45,3 +45,4 @@ config.local.fish
 .config/fish/vars.fish
 .config/fish/local.fish
 .config/fish/fish_variables
+.config/fish/themes
