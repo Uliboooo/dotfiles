@@ -12,7 +12,7 @@ return {
 
       require("mason-lspconfig").setup({
         ensure_installed = {
-          "ts_ls",
+          -- "ts_ls",
           "lua_ls",
           "marksman",
           "basedpyright",
@@ -161,35 +161,33 @@ return {
       vim.lsp.enable("rust_analyzer")
 
       -- TypeScript/JavaScript LSP
-      vim.lsp.config("ts_ls", {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-        root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", ".git" }),
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all", -- or "literals"
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-            },
-          },
-        },
-      })
-
-      vim.lsp.enable("ts_ls")
-      vim.lsp.enable("ts_ls")
+      -- vim.lsp.config("ts_ls", {
+      --   on_attach = on_attach,
+      --   capabilities = capabilities,
+      --   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+      --   root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", ".git" }),
+      --   settings = {
+      --     typescript = {
+      --       inlayHints = {
+      --         includeInlayParameterNameHints = "all", -- or "literals"
+      --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      --         includeInlayFunctionParameterTypeHints = true,
+      --         includeInlayVariableTypeHints = true,
+      --         includeInlayPropertyDeclarationTypeHints = true,
+      --         includeInlayFunctionLikeReturnTypeHints = true,
+      --         includeInlayEnumMemberValueHints = true,
+      --       },
+      --     },
+      --     javascript = {
+      --       inlayHints = {
+      --         includeInlayParameterNameHints = "all",
+      --         includeInlayFunctionParameterTypeHints = true,
+      --         includeInlayVariableTypeHints = true,
+      --       },
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable("ts_ls")
 
       vim.lsp.config("biome", {
         on_attach = on_attach,
@@ -329,7 +327,7 @@ return {
               typeCheckingMode = "standard",
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
-              diagnosticMode = "openFilesOnly", -- パフォーマンス向上のため
+              diagnosticMode = "openFilesOnly",
             },
           },
         },
@@ -337,6 +335,34 @@ return {
       vim.lsp.enable("basedpyright")
     end,
   },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+    },
+    opts = {
+      settings = {
+        separate_diagnostic_server = true,
+        publish_diagnostic_on = "insert_leave",
+
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+
+        tsserver_format_options = {
+          allowIncompleteCompletions = false,
+          allowRenameOfImportPath = false,
+        },
+      },
+    },
+  }
   -- {
   --   "cordx56/rustowl",
   --   version = "*", -- Latest stable version
