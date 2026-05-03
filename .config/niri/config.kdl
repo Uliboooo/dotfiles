@@ -311,6 +311,17 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^(com\.mitchellh\.ghostty|ghostty|kitty|org\.wezfurlong\.wezterm)$"#
+    draw-border-with-background false
+    opacity 0.94
+    background-effect {
+        blur true
+        noise 0.03
+        saturation 1.1
+    }
+}
+
+window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }
@@ -334,4 +345,3 @@ window-rule {
   match title=".*Bluetooth Devices.*"
   open-floating true
 }
-
