@@ -1,700 +1,82 @@
-" ==============================================================================
-"   ____  _
-"  |  _ \| |_   _  __ _
-"  | |_) | | | | |/ _` |
-"  |  __/| | |_| | (_| |
-"  |_|   |_|\__,_|\__, |
-"                 |___/
-" ==============================================================================
+" Disable netrw (default file explorer)
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
-" Ensure ~/.vim is in runtimepath
-set runtimepath^=~/.vim
-
-" downloads vim-plug
-let data_dir = '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-endif
-
-" Source vim-plug
-if filereadable(expand('~/.vim/autoload/plug.vim'))
-    source ~/.vim/autoload/plug.vim
-endif
-
-" ---------------------
-"  install plugins
-" ---------------------
-call plug#begin()
-
-" Color scheme
-Plug 'rose-pine/vim', { 'as': 'rosepine' }
-
-" Status line
-Plug 'itchyny/lightline.vim'
-
-" Git
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'rhysd/git-messenger.vim'
-
-" LSP / Completion (vim-lsp)
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-
-" Completion UI
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-
-" Editing
-Plug 'tpope/vim-commentary'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
-
-" File search
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Syntax highlighting
-Plug 'sheerun/vim-polyglot'
-
-" Rainbow brackets
-Plug 'junegunn/rainbow_parentheses.vim'
-
-" Debugging
-Plug 'puremourning/vimspector'
-
-call plug#end()
-
-" ==============================================================================
-"  _     ____  ____
-" | |   / ___||  _ \
-" | |   \___ \| |_) |
-" | |___ ___) |  __/
-" |_____|____/|_|
-" ==============================================================================
-
-" LSP (vim-lsp) UI options
-let g:lsp_preview_float = 1
-let g:lsp_hover_ui = 'float'
-let g:lsp_signature_help_enabled = 1
-
-" Diagnostics: keep it clean (no virtual text), show float on CursorHold
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_virtual_text_enabled = 0
-let g:lsp_diagnostics_signs_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 0
-let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_diagnostics_float_delay = 200
-let g:lsp_diagnostics_float_insert_mode_enabled = 0
-
-" Inlay hints (modern UI)
-let g:lsp_inlay_hints_enabled = 1
-let g:lsp_inlay_hints_delay = 200
-
-" Formatting
-let g:lsp_format_sync_timeout = 1000
-
-" vim-lsp-settings server config (migrate from old coc-settings.json)
-let g:lsp_settings = {
-\ 'rust-analyzer': {
-\   'initialization_options': {
-\     'cargo': { 'allFeatures': v:true },
-\     'check': { 'command': 'clippy' },
-\     'inlayHints': {
-\       'typeHints': v:true,
-\       'parameterHints': v:true,
-\       'chainingHints': v:true,
-\       'lifetimeElisionHints': v:true,
-\     },
-\   },
-\ },
-\ 'gopls': {
-\   'workspace_config': {
-\     'gopls': {
-\       'hints': {
-\         'parameterNames': v:true,
-\         'assignVariableTypes': v:true,
-\       },
-\       'analyses': {
-\         'unusedparams': v:true,
-\         'shadow': v:true,
-\       },
-\       'staticcheck': v:true,
-\     },
-\   },
-\ },
-\ 'basedpyright-langserver': {
-\   'workspace_config': {
-\     'basedpyright': {
-\       'analysis': {
-\         'typeCheckingMode': 'standard',
-\         'autoSearchPaths': v:true,
-\         'useLibraryCodeForTypes': v:true,
-\         'diagnosticMode': 'openFilesOnly',
-\       },
-\     },
-\   },
-\ },
-\ 'sumneko-lua-language-server': {
-\   'workspace_config': {
-\     'Lua': {
-\       'runtime': { 'version': 'LuaJIT' },
-\       'diagnostics': { 'globals': ['vim'] },
-\       'telemetry': { 'enable': v:false },
-\     },
-\   },
-\ },
-\ 'lua-language-server': {
-\   'workspace_config': {
-\     'Lua': {
-\       'runtime': { 'version': 'LuaJIT' },
-\       'diagnostics': { 'globals': ['vim'] },
-\       'telemetry': { 'enable': v:false },
-\     },
-\   },
-\ },
-\ 'pyright-langserver': {
-\   'workspace_config': {
-\     'python': {
-\       'analysis': {
-\         'typeCheckingMode': 'standard',
-\         'autoSearchPaths': v:true,
-\         'useLibraryCodeForTypes': v:true,
-\         'diagnosticMode': 'openFilesOnly',
-\       },
-\     },
-\   },
-\ },
-\ }
-
-" Install/update language servers:
-"   :LspInstallServer
-
-" ==============================================================================
-"   _     _
-"  | |   (_)_ __   ___
-"  | |   | | '_ \ / _ \
-"  | |___| | | | |  __/
-"  |_____|_|_| |_|\___|
-" ==============================================================================
-
-set laststatus=2
-set noshowmode
-
-" Theme: choose light/dark by $TERM_BACKGROUND (set in terminal)
-let s:term_bg = exists('$TERM_BACKGROUND') ? tolower($TERM_BACKGROUND) : ''
-if s:term_bg ==# 'light'
-  set background=light
-  let s:lightline_cs = 'rosepine_dawn'
-else
-  set background=dark
-  let s:lightline_cs = 'rosepine_moon'
-endif
-
-function! LspStatusline() abort
-  if exists('*lsp#get_progress')
-    return lsp#get_progress()
-  endif
-  return ''
-endfunction
-
-let g:lightline = {'colorscheme': s:lightline_cs, 'active': {'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']], 'right': [['lineinfo'], ['percent'], ['lspstatus', 'fileformat', 'fileencoding', 'filetype']]}, 'component_function': {'gitbranch': 'FugitiveHead', 'lspstatus': 'LspStatusline'}}
-
-" ==============================================================================
-"    ___        _
-"   / _ \ _ __ | |_ ___
-"  | | | | '_ \| __/ __|
-"  | |_| | |_) | |_\__ \
-"   \___/| .__/ \__|___/
-"        |_|
-" ==============================================================================
-
-" Line numbers
 set relativenumber
 set number
 
-" List characters (show tabs, trailing spaces, nbsp)
 set list
 set listchars=tab:›\ ,trail:~,nbsp:␣
 
-" Wrap settings
 set wrap
 set linebreak
 set breakindent
 set showbreak=⤷\ 
 
-" Clipboard (use system clipboard)
 set clipboard=unnamedplus
-
-" Search
 set hlsearch
-set incsearch
 
-" Tab/indent settings (match Neovim: 2 spaces)
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set softtabstop=2
 
-" Colors
 set termguicolors
-
-" Keep fzf preview (bat) in sync with current light/dark theme.
-function! s:BatThemeList() abort
-  if !exists('s:bat_theme_list')
-    if executable('bat')
-      let s:bat_theme_list = systemlist('bat --list-themes')
-    elseif executable('batcat')
-      let s:bat_theme_list = systemlist('batcat --list-themes')
-    else
-      let s:bat_theme_list = []
-    endif
-  endif
-  return s:bat_theme_list
-endfunction
-
-function! s:HasTheme(themes, name) abort
-  if type(a:themes) != type([])
-    return 0
-  endif
-
-  for l:theme_name in a:themes
-    if l:theme_name ==# a:name
-      return 1
-    endif
-  endfor
-
-  return 0
-endfunction
-
-function! s:ApplyFzfPreviewTheme() abort
-  if &background ==# 'light'
-    let l:candidates = ['rose-pine-dawn', 'Catppuccin Latte', 'GitHub']
-  else
-    let l:candidates = ['rose-pine-moon', 'Catppuccin Mocha', 'TwoDark']
-  endif
-
-  let l:themes = s:BatThemeList()
-
-  for l:theme in l:candidates
-    if s:HasTheme(l:themes, l:theme)
-      let $BAT_THEME = l:theme
-      return
-    endif
-  endfor
-
-  unlet! $BAT_THEME
-endfunction
-
-function! s:ApplyTerminalPalette() abort
-  if !has('terminal')
-    return
-  endif
-
-  if &background ==# 'light'
-    let g:terminal_ansi_colors = [
-          \ '#f2e9e1', '#b4637a', '#286983', '#ea9d34',
-          \ '#56949f', '#907aa9', '#d7827e', '#575279',
-          \ '#9893a5', '#b4637a', '#286983', '#ea9d34',
-          \ '#56949f', '#907aa9', '#d7827e', '#575279'
-          \ ]
-  else
-    let g:terminal_ansi_colors = [
-          \ '#393552', '#eb6f92', '#3e8fb0', '#f6c177',
-          \ '#9ccfd8', '#c4a7e7', '#ea9a97', '#e0def4',
-          \ '#6e6a86', '#eb6f92', '#3e8fb0', '#f6c177',
-          \ '#9ccfd8', '#c4a7e7', '#ea9a97', '#e0def4'
-          \ ]
-  endif
-endfunction
-
-" Apply colorscheme based on &background
-function! SetColorscheme() abort
-  try
-    if &background ==# 'light'
-      colorscheme rosepine_dawn
-    else
-      colorscheme rosepine_moon
-    endif
-  catch
-    colorscheme default
-  endtry
-
-  call s:ApplyTerminalPalette()
-  call s:ApplyFzfPreviewTheme()
-
-  " Re-apply transparent background
-  hi Normal guibg=NONE ctermbg=NONE
-  hi NonText guibg=NONE ctermbg=NONE
-  hi LineNr guibg=NONE ctermbg=NONE
-  hi SignColumn guibg=NONE ctermbg=NONE
-  hi EndOfBuffer guibg=NONE ctermbg=NONE
-endfunction
-
-" Toggle between dark/light and refresh lightline
-function! ToggleBackground() abort
-  if &background ==# 'dark'
-    set background=light
-  else
-    set background=dark
-  endif
-
-  let g:lightline.colorscheme = (&background ==# 'light') ? 'rosepine_dawn' : 'rosepine_moon'
-  call SetColorscheme()
-  call lightline#colorscheme()
-  call lightline#update()
-endfunction
-
-command! ToggleBackground call ToggleBackground()
-
-" Initial apply
-call SetColorscheme()
-
-" Cursor
+set updatetime=1000
 set cursorline
-set updatetime=300
 
-" Mouse
+" set foldtext=
+" set foldmethod=expr
+" set foldexpr=v:lua.vim.treesitter.foldexpr()
+" set foldenable
+" set foldlevel=99
+" set foldlevelstart=99
+" set foldcolumn=auto
+"
 set mouse=a
-
-" Sign column (always show for git/diagnostics)
 set signcolumn=yes
+" set colorcolumn=100
 
-" Folding (syntax-based, similar to treesitter)
-set foldmethod=syntax
-set foldenable
-set foldlevel=99
-set foldlevelstart=99
-
-" Auto reload files changed outside vim
 set autoread
-autocmd FocusGained,BufEnter * checktime
+set nomodeline
 
-" Cursor shape (insert: beam, replace: underline, normal: block)
-let &t_SI = "\e[6 q"
-let &t_SR = "\e[4 q"
-let &t_EI = "\e[2 q"
-
-" Highlight dangerous unicode characters
+syntax on
 syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
 highlight DangerousChars ctermbg=red guibg=red
 
-" ==============================================================================
-"   ____  _             _
-"  |  _ \| |_   _  __ _(_)_ __  ___
-"  | |_) | | | | |/ _` | | '_ \/ __|
-"  |  __/| | |_| | (_| | | | | \__ \
-"  |_|   |_|\__,_|\__, |_|_| |_|___/
-"                 |___/
-" ==============================================================================
+" ---------------------
+"  XDG base directory
+" ---------------------
+let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
+let s:data_home   = empty($XDG_DATA_HOME)   ? expand('~/.local/share') : $XDG_DATA_HOME
 
-" ----- Git Gutter -----
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_modified_removed = '~'
+let s:vim_dir     = s:config_home . '/vim'
+let s:autoload_dir= s:data_home . '/vim/autoload'
+let s:plug_path   = s:autoload_dir . '/plug.vim'
 
-" Git gutter settings
-let g:gitgutter_enabled = 1
-let g:gitgutter_map_keys = 0
-let g:gitgutter_override_sign_column_highlight = 1
-let g:gitgutter_preview_win_floating = 1
-let g:gitgutter_close_preview_on_escape = 1
-let g:gitgutter_use_location_list = 0
-let g:gitgutter_signs = 1
-let g:gitgutter_highlight_lines = 0
-let g:gitgutter_highlight_linenrs = 0
-set signcolumn=yes
+" Ensure runtimepath
+execute 'set runtimepath^=' . s:vim_dir
 
-" ----- Rainbow Brackets (junegunn/rainbow_parentheses.vim) -----
-" rose-pineテーマに合わせたカスタムカラー設定
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    '#c4a7e7'],
-    \ ['darkgray',    '#f6c177'],  
-    \ ['darkgreen',   '#9ccfd8'],
-    \ ['darkcyan',    '#31748f'],
-    \ ['darkred',     '#eb6f92'],
-    \ ['darkmagenta', '#ebbcba'],
-    \ ['brown',       '#c4a7e7'],
-    \ ['gray',        '#f6c177'],
-    \ ['darkmagenta', '#9ccfd8'],
-    \ ['Darkblue',    '#31748f'],
-    \ ['darkgreen',   '#eb6f92'],
-    \ ['darkcyan',    '#ebbcba'],
-    \ ['darkred',     '#c4a7e7'],
-    \ ['red',         '#f6c177'],
-    \ ]
-
-" 起動コマンドの修正: Toggleを外した RainbowParentheses を使用
-augroup rainbow_brackets
-  autocmd!
-  autocmd VimEnter * RainbowParentheses
-  autocmd Syntax * RainbowParenthesesLoadRound
-  autocmd Syntax * RainbowParenthesesLoadSquare  
-  autocmd Syntax * RainbowParenthesesLoadBraces
-augroup END
-
-" ==============================================================================
-"   _  __
-"  | |/ /___ _   _ _ __ ___   __ _ _ __  ___
-"  | ' // _ \ | | | '_ ` _ \ / _` | '_ \/ __|
-"  | . \  __/ |_| | | | | | | (_| | |_) \__ \
-"  |_|\_\___|\__, |_| |_| |_|\__,_| .__/|___/
-"            |___/                |_|
-" ==============================================================================
-
-" Leader key
-let mapleader = " "
-
-" Basic keymaps
-nnoremap <Leader>n :nohlsearch<CR>
-nnoremap U <C-r>
-nnoremap <C-b> <Nop>
-
-" Save with Ctrl+S
-nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>a
-vnoremap <C-s> <Esc>:w<CR>
-
-" Keep selection when indenting
-vnoremap > >gv
-vnoremap < <gv
-
-" Commentary toggle with Ctrl+C
-nmap <C-c> gcc
-vmap <C-c> gc
-nmap <Leader>gc gcc
-vmap <Leader>gc gc
-
-" Git hunk preview and navigation  
-nnoremap <C-p> :GitGutterPreviewHunk<CR>
-nnoremap ]h :GitGutterNextHunk<CR>
-nnoremap [h :GitGutterPrevHunk<CR>
-
-" Git blame functionality
-nnoremap <Leader>gb :Git blame<CR>
-nnoremap <Leader>gbl :GitMessenger<CR>
-
-" Git messenger settings
-let g:git_messenger_no_default_mappings = v:true
-let g:git_messenger_include_diff = "current"
-let g:git_messenger_always_into_popup = v:true
-let g:git_messenger_max_popup_height = 15
-let g:git_messenger_max_popup_width = 60
-
-" Toggle background (dark/light mode)
-nnoremap <Leader>tb :ToggleBackground<CR>
-
-" ==============================================================================
-"  _     ____  ____      _  __                     _      _
-" | |   / ___||  _ \    | |/ /___ _   _ _ __   ___| | ___| |
-" | |   \___ \| |_) |   | ' // _ \ | | | '_ \ / _ \ |/ _ \ |
-" | |___ ___) |  __/    | . \  __/ |_| | |_) |  __/ |  __/ |
-" |_____|____/|_|       |_|\_\___|\__, | .__/ \___|_|\___|_|
-"                                 |___/|_|
-" ==============================================================================
-
-" asyncomplete.vim keymaps (Tab to navigate, trigger refresh when needed)
-let g:asyncomplete_auto_completeopt = 0
-set completeopt=menuone,noinsert,noselect,preview
-
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1] =~# '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <CR> pumvisible() ? asyncomplete#close_popup() . "\<CR>" : "\<CR>"
-
-" Force refresh completion
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-" For Vim 8 (<c-@> corresponds to <c-space>)
-imap <c-@> <Plug>(asyncomplete_force_refresh)
-
-" vim-lsp buffer local mappings
-function! s:on_lsp_buffer_enabled() abort
-  setlocal omnifunc=lsp#complete
-  if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-  setlocal signcolumn=yes
-
-  nmap <buffer> gd <plug>(lsp-definition)
-  nmap <buffer> gy <plug>(lsp-type-definition)
-  nmap <buffer> gi <plug>(lsp-implementation)
-  nmap <buffer> gr <plug>(lsp-references)
-  nmap <buffer> K  <plug>(lsp-hover)
-
-  nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-  nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-
-  nmap <buffer> <Leader>r <plug>(lsp-rename)
-  nmap <buffer> <Leader>a <plug>(lsp-code-action)
-
-  nnoremap <silent><buffer> <Leader>gf :LspDocumentFormatSync<CR>
-  nnoremap <silent><buffer> dc :LspDocumentDiagnostics<CR>
-  nnoremap <silent><buffer> <Leader>d :LspDocumentDiagnostics<CR>
-  nnoremap <silent><buffer> <Leader>s :LspDocumentSymbol<CR>
-  nnoremap <silent><buffer> <Leader>ss :LspWorkspaceSymbol<CR>
-
-  augroup lsp_format_on_save
-    autocmd! * <buffer>
-    autocmd BufWritePre <buffer> silent! LspDocumentFormatSync
-  augroup END
-endfunction
-
-augroup vim_lsp_setup
-  autocmd!
-  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-" ==============================================================================
-"   _____ __________ 
-"  |  ___|__  /  ___|
-"  | |_    / /| |_   
-"  |  _|  / /_|  _|  
-"  |_|   /____|_|    
-" ==============================================================================
-
-" File search (like snacks.picker.files)
-nnoremap <Leader>f :Files<CR>
-
-" Grep search (like snacks.picker.grep)
-nnoremap <Leader>/ :Rg<CR>
-
-" Marks
-nnoremap <Leader>m :Marks<CR>
-
-" FZF layout and keybindings
-let g:fzf_layout = { 'down': '40%' }
-
-" FZF key bindings - Enable Escape to close
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-" Escape key mapping for fzf
-autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-
-" FZF colors to match rose-pine theme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Use fd for FZF if available
-if executable('fd')
-  let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git --exclude node_modules --exclude target --exclude .mooncakes'
+" ---------------------
+"  download vim-plug
+" ---------------------
+if empty(glob(s:plug_path))
+    silent execute '!curl -fLo ' . s:plug_path . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-" Additional fzf options for better UX
-let $FZF_DEFAULT_OPTS = '--bind=ctrl-u:page-up,ctrl-d:page-down,ctrl-a:select-all,ctrl-n:deselect-all'
-
-" ==============================================================================
-"   _____                   _             _
-"  |_   _|__ _ __ _ __ ___ (_)_ __   __ _| |
-"    | |/ _ \ '__| '_ ` _ \| | '_ \ / _` | |
-"    | |  __/ |  | | | | | | | | | | (_| | |
-"    |_|\___|_|  |_| |_| |_|_|_| |_|\__,_|_|
-" ==============================================================================
-
-" Terminal toggle state
-let g:term_buf = 0
-let g:term_win = 0
-let g:term_small = 1
-
-function! TermToggle(height)
-    if win_gotoid(g:term_win)
-        hide
-    else
-        " Check if terminal buffer exists and is valid
-        if g:term_buf != 0 && bufexists(g:term_buf) && getbufvar(g:term_buf, '&buftype') ==# 'terminal'
-            botright split
-            exec "resize " . a:height
-            exec "buffer " . g:term_buf
-        else
-            " Create new terminal
-            botright new
-            exec "resize " . a:height
-            terminal ++curwin
-            let g:term_buf = bufnr("")
-            " Configure terminal buffer
-            setlocal nonumber
-            setlocal norelativenumber
-            setlocal signcolumn=no
-            setlocal nospell
-            setlocal winfixheight
-            setlocal nobuflisted
-        endif
-        startinsert!
-        let g:term_win = win_getid()
-    endif
-endfunction
-
-" Toggle terminal with Ctrl+\
-nnoremap <silent> <C-\> :call TermToggle(20)<CR>
-tnoremap <silent> <C-\> <C-\><C-n>:call TermToggle(20)<CR>
-
-" Resize terminal with Ctrl+_
-nnoremap <silent> <C-_> :call TermResize()<CR>
-tnoremap <silent> <C-_> <C-\><C-n>:call TermResize()<CR>i
-
-function! TermResize()
-    if g:term_small
-        exec "resize " . (&lines - 5)
-        let g:term_small = 0
-    else
-        exec "resize 20"
-        let g:term_small = 1
-    endif
-endfunction
-
-" Exit terminal mode with Escape (except for fzf)
-tnoremap <Esc> <C-\><C-n>
-
-" Terminal support (palette/theme selection is handled by SetColorscheme)
-if has('terminal')
-  set termguicolors
+" Source vim-plug
+if filereadable(s:plug_path)
+    execute 'source ' . s:plug_path
 endif
 
-" Auto-enter insert mode when switching to terminal
-autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
-autocmd BufLeave * if &buftype == 'terminal' | :stopinsert | endif
+" ---------------------
+"  install plugins
+" ---------------------
+call plug#begin(s:data_home . '/vim/plugged')
 
-" ==============================================================================
-"  __     ___                                _
-"  \ \   / (_)_ __ ___  ___ _ __   ___  ___| |_ ___  _ __
-"   \ \ / /| | '_ ` _ \/ __| '_ \ / _ \/ __| __/ _ \| '__|
-"    \ V / | | | | | | \__ \ |_) |  __/ (__| || (_) | |
-"     \_/  |_|_| |_| |_|___/ .__/ \___|\___|\__\___/|_|
-"                          |_|
-" ==============================================================================
+" Color scheme
+Plug 'rose-pine/vim', { 'as': 'rosepine' }
 
-" Debugger keymaps
-nmap <F5> <Plug>VimspectorContinue
-nmap <F10> <Plug>VimspectorStepOver
-nmap <F11> <Plug>VimspectorStepInto
-nmap <F12> <Plug>VimspectorStepOut
-nmap <Leader>b <Plug>VimspectorToggleBreakpoint
-nmap <Leader>dr <Plug>VimspectorRestart
+call plug#end()
 
-" Vimspector configuration
-let g:vimspector_enable_mappings = 'HUMAN'
+set background=dark
+colorscheme rosepine_moon
