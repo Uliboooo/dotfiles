@@ -39,6 +39,10 @@ set signcolumn=yes
 set autoread
 set nomodeline
 
+let &t_SI = "\<Esc>[6 q" " Insert mode: Steady Bar
+let &t_SR = "\<Esc>[4 q" " Replace mode: Steady Underline
+let &t_EI = "\<Esc>[2 q" " Normal mode: Steady Block
+
 syntax on
 syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
 highlight DangerousChars ctermbg=red guibg=red
@@ -76,7 +80,120 @@ call plug#begin(s:data_home . '/vim/plugged')
 " Color scheme
 Plug 'rose-pine/vim', { 'as': 'rosepine' }
 
+" Finders
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'BurntSushi/ripgrep'
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'airblade/vim-gitgutter'
+
 call plug#end()
 
+function! s:open_file_with_icon(line)
+  let filepath = matchstr(a:line, '\S\+\s\+\zs.*')
+  execute 'edit' fnameescape(filepath)
+endfunction
+
+function! FilesWithIcons()
+  let files = systemlist('fd --type f --hidden')
+  let files = map(files, 'WebDevIconsGetFileTypeSymbol(v:val) . " " . v:val')
+  call fzf#run(fzf#wrap({
+        \ 'source': files,
+        \ 'sink': function('s:open_file_with_icon'),
+        \ }))
+endfunction
+
+command! FilesIcons call FilesWithIcons()
+
+function! CopyDiagnostic()
+  " get current line (0-based for diagnostic)
+  let lnum = line('.') - 1
+
+  " get diagnostics (Neovim API)
+  let diags = luaeval('vim.diagnostic.get(0, { lnum = _A })', lnum)
+
+  if len(diags) > 0
+    let d = diags[0]
+
+    let cmap = {
+          \ 1: 'Error',
+          \ 2: 'Warn',
+          \ 3: 'Info',
+          \ 4: 'Hint',
+          \ }
+
+    let red_lnum = 3
+
+    let start_lnum_by_lsp = d.lnum + 1
+    let end_line_by_lsp = d.end_lnum + 1
+
+    let stt_lnum = min([start_lnum_by_lsp - red_lnum, start_lnum_by_lsp])
+    let end_lnum = max([end_line_by_lsp, end_line_by_lsp + red_lnum + 1])
+
+    " get lines
+    let lines = nvim_buf_get_lines(d.bufnr, stt_lnum, end_lnum, v:false)
+    let target_text = join(lines, "\n")
+
+    let ebuf = printf(
+          \ "%s: %s [%s] (Source: %s) at %d:%d-%d:%d\n%s\n",
+          \ get(cmap, d.severity, 'Unknown'),
+          \ d.message,
+          \ string(get(d, 'code', 'N/A')),
+          \ get(d, 'source', 'N/A'),
+          \ start_lnum_by_lsp,
+          \ d.col + 1,
+          \ end_line_by_lsp,
+          \ d.end_col + 1,
+          \ target_text
+          \ )
+
+    call setreg('+', ebuf)
+    echo "Diagnostic copied to clipboard!"
+  else
+    echohl WarningMsg
+    echo "No diagnostics found on current line."
+    echohl None
+  endif
+endfunction
+
+" Settings about colorscheme
 set background=dark
 colorscheme rosepine_moon
+
+" fzf finder
+let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
+let g:fzf_preview_window = ['right:50%']
+let g:fzf_files_options =
+      \ '--prompt "Files> " ' .
+      \ '--preview "cat {}"'
+
+command! -bang -nargs=* Files
+  \ call fzf#vim#files(<q-args>, {
+  \ 'options': ['--preview', 'bat --style=numbers --color=always {}']
+  \ }, <bang>0)
+
+let g:gitgutter_blame = 1
+let g:gitgutter_blame_delay = 300
+let g:gitgutter_blame_prefix = ' > '
+
+" Vim Keybinds
+let mapleader = " "
+
+" finders
+" nnoremap <leader>f :FilesWithIcons <CR>
+nnoremap <leader>f :FilesIcons <CR>
+nnoremap <leader>/ :Rg <CR>
+
+nnoremap <leader>n :nohlsearch <CR>
+nnoremap <leader>
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+vnoremap <C-s> :w<CR>
+
+" keep selection when indent/out
+vnoremap <silent> > >gv
+vnoremap <silent> < <gv
+
+nnoremap <silent> dc :call CopyDiagnostic()<CR>
+
