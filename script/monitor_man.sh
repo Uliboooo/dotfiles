@@ -3,6 +3,10 @@
 base_path="$HOME/dotfiles/.config/hypr/monitor"
 moni_path="$HOME/dotfiles/.config/hypr/monitor/monitor.conf"
 
+help_msg="dsgl: thinkpad + ~~4k~~
+lsgl: thinkpad
+dual: thinkpad + 4k"
+
 case "$1" in
 dsgl) path="${base_path}/home.conf" ;;
 lsgl) path="${base_path}/laptop.conf" ;;
