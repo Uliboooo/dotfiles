@@ -2,7 +2,7 @@
 
 # : App {{{
 
-[manager]
+[app]
 overall = { bg = "#232136" }
 
 # : }}}
@@ -10,7 +10,7 @@ overall = { bg = "#232136" }
 
 # : Manager {{{
 
-# [mgr]
+[mgr]
 cwd = { fg = "#9ccfd8" }
 
 # Find
@@ -42,6 +42,7 @@ syntect_theme = ""
 
 # : Indicator of hovered file {{{
 
+[indicator]
 parent  = { reversed = true }
 current = { reversed = true }
 preview = { underline = true }
@@ -49,7 +50,7 @@ padding = { open = "", close = "" }
 
 # : Tabs {{{
 
-[tab]
+[tabs]
 active   = { fg = "#e0def4", bg = "#3e8fb0", bold = true }
 inactive = { fg = "#3e8fb0", bg = "#e0def4" }
 
@@ -182,7 +183,7 @@ selected = { reversed = true }
 
 # : Completion {{{
 
-[completion]
+[cmp]
 border   = { fg = "#3e8fb0" }
 active   = { bg = "#e0def4", fg = "#232136", bold = true }
 inactive = { fg = "#908caa" }
@@ -197,7 +198,7 @@ icon_command = ""
 
 # : Task manager {{{
 
-[task]
+[tasks]
 border  = { fg = "#3e8fb0" }
 title   = { bold = true }
 hovered = { fg = "#c4a7e7", bold = true, reversed = true }
@@ -219,7 +220,7 @@ footer  = { fg = "#232136", bg = "#e0def4" }
 
 # : File-specific styles {{{
 
-[filetree]
+[filetype]
 rules = [
   # Images
   { mime = "image/*", fg = "#c4a7e7" },
