@@ -4,6 +4,7 @@
 abbr cdd="cd \$HOME/Develop"
 abbr cdn="cd \$HOME/Documents/notes/"
 abbr cdr="cd \$HOME/Recent/"
+abbr g='cd "$(ghq list | fzf --preview 'ls $(ghq root)/{}')"'
 
 # ---------------------------------------------------------------------
 # git

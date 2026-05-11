@@ -244,8 +244,8 @@ function ff() {
   fi
 }
 
-function note() {
-  cd ~/Documents/org/ && emacs -nw .
+function g() {
+  cd "$(ghq root)/$(ghq list | fzf --preview 'ls $(ghq root)/{}')"
 }
 
 # zprof
