@@ -109,6 +109,8 @@ export PATH="$HOME/.moon/bin:$PATH"
 export PATH="$HOME/.bun/bin:$PATH"
 # copilot
 export PATH="$HOME/.local/bin:$PATH"
+# go bin
+export PATH="$PATH:$(go env GOPATH)/bin"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -139,9 +141,16 @@ else
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
     fi
 
-    if [ -z "$SSH_AUTH_SOCK" ]; then
-      eval "$(ssh-agent -s)" > /dev/null
+    # if [ -z "$SSH_AUTH_SOCK" ]; then
+    #   eval "$(ssh-agent -s)" > /dev/null
+    # fi
+
+    # for KDE
+    export SSH_ASKPASS=/usr/bin/ksshaskpass
+    if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+      eval "$(ssh-agent -s)" >/dev/null
     fi
+    export SSH_ASKPASS_REQUIRE=prefer
 
     if [[ -n "$SSH_CONNECTION" ]]; then
       export TERM=xterm-256color
