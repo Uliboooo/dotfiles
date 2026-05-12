@@ -139,6 +139,10 @@ else
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
     fi
 
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+      eval "$(ssh-agent -s)" > /dev/null
+    fi
+
     if [[ -n "$SSH_CONNECTION" ]]; then
       export TERM=xterm-256color
     fi
