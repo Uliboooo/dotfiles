@@ -34,7 +34,7 @@ spawn-at-startup "swaync"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-at-startup "hypridle" "-c" "~/dotfiles/.config/niri/hypridle.conf"
+spawn-at-startup "swayidle" "-w" "timeout" "1800" "loginctl lock-session" "before-sleep" "loginctl lock-session" "after-resume" "niri msg action power-on-monitors"
 hotkey-overlay {
     skip-at-startup
 }
@@ -226,7 +226,7 @@ binds {
     Mod+Shift+K     { move-window-up; }
     Mod+Shift+L     { move-column-right; }
 
-    Alt+L hotkey-overlay-title="Lock the Screen: Hyprlock" { spawn "hyprlock"; }
+    Alt+L hotkey-overlay-title="Lock the Screen: Swaylock" { spawn "swaylock"; }
 
     Mod+W { spawn "~/dotfiles/script/cycle_wallpaper.sh" "seq"; }
     Mod+Shift+W { spawn "~/dotfiles/script/cycle_wallpaper.sh" "rev"; }
