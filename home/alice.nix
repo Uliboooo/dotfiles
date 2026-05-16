@@ -51,7 +51,8 @@ in
   };
   programs.zsh = {
     enable = true;
-    dotDir = config.home.homeDirectory;
+    # $HOME 直下運用を明示（絶対パスは使わない）
+    dotDir = ".";
   };
 
   xdg.enable = true;
@@ -69,8 +70,4 @@ in
     "rofi".source = mkConfigLink "rofi";
     "swaync".source = mkConfigLink "swaync";
   };
-
-  # ~/.zshrc も dotfiles 実体を参照
-  home.file.".zshrc".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
 }
