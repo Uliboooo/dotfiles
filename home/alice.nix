@@ -26,6 +26,8 @@ in
     bun
     sheldon
     zsh-abbr
+    lazygit
+    gh
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避
