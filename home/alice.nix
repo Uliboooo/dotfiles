@@ -2,7 +2,8 @@
 let
   dotfilesDir = "${config.home.homeDirectory}/dotfiles";
   npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
-  bunBinDir = "${config.home.homeDirectory}/.bun/bin";
+  bunInstallDir = "${config.home.homeDirectory}/.cache/.bun";
+  bunBinDir = "${bunInstallDir}/bin";
 
   mkConfigLink = name:
     # 実体は dotfiles/.config/<name> に固定
@@ -28,7 +29,10 @@ in
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避
-  home.sessionVariables.NPM_CONFIG_PREFIX = npmGlobalDir;
+  home.sessionVariables = {
+    NPM_CONFIG_PREFIX = npmGlobalDir;
+    BUN_INSTALL = bunInstallDir;
+  };
   home.sessionPath = [
     "${npmGlobalDir}/bin"
     bunBinDir

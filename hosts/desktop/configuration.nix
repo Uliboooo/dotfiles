@@ -20,6 +20,8 @@
 
   # flakes コマンドを常用できるようにする
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # bun/npm で入れた動的リンク実行ファイル (copilot など) を動かす
+  programs.nix-ld.enable = true;
 
   # 利用中アプリ都合で unfree を許可
   nixpkgs.config.allowUnfree = true;
