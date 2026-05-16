@@ -5,15 +5,16 @@ let
   bunBinDir = "${config.home.homeDirectory}/.bun/bin";
 
   # 将来的に ~/dotfiles/<app> へ移行しても動くように
-  # 1) ~/dotfiles/<app>
-  # 2) ~/dotfiles/.config/<app>
+  # 現在の実体配置に合わせて
+  # 1) ~/dotfiles/.config/<app>
+  # 2) ~/dotfiles/<app>
   # の順で参照する。
   resolveAppDir = name:
     let
       topLevel = "${dotfilesDir}/${name}";
       legacy = "${dotfilesDir}/.config/${name}";
     in
-    if builtins.pathExists topLevel then topLevel else legacy;
+    if builtins.pathExists legacy then legacy else topLevel;
 
   mkConfigLink = name:
     config.lib.file.mkOutOfStoreSymlink (resolveAppDir name);
@@ -26,6 +27,9 @@ in
   # ===== 個人レイヤー =====
   # 個人で使う CLI/TUI は Home Manager 側で管理
   home.packages = with pkgs; [
+    git
+    neovim
+    kitty
     yazi
     fzf
     fastfetch
@@ -39,33 +43,47 @@ in
     bunBinDir
   ];
 
-  programs.kitty.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    # 26.05 以降のデフォルトに合わせて警告を抑制
-    withRuby = false;
-    withPython3 = false;
-  };
-  programs.yazi = {
-    enable = true;
-    shellWrapperName = "y";
-  };
-
   xdg.enable = true;
   xdg.configFile = {
     # 実体は dotfiles 側の「普通のファイル/ディレクトリ」を使う
-    "nvim".source = mkConfigLink "nvim";
-    "kitty".source = mkConfigLink "kitty";
-    "hypr".source = mkConfigLink "hypr";
-    "waybar".source = mkConfigLink "waybar";
+    "nvim" = {
+      source = mkConfigLink "nvim";
+      recursive = false;
+    };
+    "kitty" = {
+      source = mkConfigLink "kitty";
+      recursive = false;
+    };
+    "hypr" = {
+      source = mkConfigLink "hypr";
+      recursive = false;
+    };
+    "waybar" = {
+      source = mkConfigLink "waybar";
+      recursive = false;
+    };
 
     # 既存運用に合わせて必要なものを順次追加
-    "git".source = mkConfigLink "git";
-    "yazi".source = mkConfigLink "yazi";
-    "fish".source = mkConfigLink "fish";
-    "rofi".source = mkConfigLink "rofi";
-    "swaync".source = mkConfigLink "swaync";
+    "git" = {
+      source = mkConfigLink "git";
+      recursive = false;
+    };
+    "yazi" = {
+      source = mkConfigLink "yazi";
+      recursive = false;
+    };
+    "fish" = {
+      source = mkConfigLink "fish";
+      recursive = false;
+    };
+    "rofi" = {
+      source = mkConfigLink "rofi";
+      recursive = false;
+    };
+    "swaync" = {
+      source = mkConfigLink "swaync";
+      recursive = false;
+    };
   };
 
   # zsh は dotfiles 実体をそのまま使う
