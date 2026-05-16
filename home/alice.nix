@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
   dotfilesDir = "${config.home.homeDirectory}/dotfiles";
+  npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
+  bunBinDir = "${config.home.homeDirectory}/.bun/bin";
 
   # 将来的に ~/dotfiles/<app> へ移行しても動くように
   # 1) ~/dotfiles/<app>
@@ -27,6 +29,14 @@ in
     yazi
     fzf
     fastfetch
+    bun
+  ];
+
+  # npm の global install をユーザー領域へ逃がして権限エラーを回避
+  home.sessionVariables.NPM_CONFIG_PREFIX = npmGlobalDir;
+  home.sessionPath = [
+    "${npmGlobalDir}/bin"
+    bunBinDir
   ];
 
   programs.git = {

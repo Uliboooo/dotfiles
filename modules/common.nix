@@ -14,6 +14,7 @@
     eza
     bat
     gh
+    nodejs
   ];
 
   # sudo 可能にする基本設定
