@@ -11,7 +11,12 @@
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Tokyo";
-  i18n.defaultLocale = "ja_JP.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # UEFI 環境向けの基本ブートローダー設定
+  # Legacy BIOS の場合は grub 設定へ差し替えてください
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # flakes コマンドを常用できるようにする
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

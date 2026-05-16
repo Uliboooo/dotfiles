@@ -39,6 +39,9 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    # 26.05 以降のデフォルトに合わせて警告を抑制
+    withRuby = false;
+    withPython3 = false;
   };
   programs.yazi.enable = true;
   programs.zsh.enable = true;
