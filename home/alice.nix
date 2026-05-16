@@ -31,8 +31,10 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Alice";
-    userEmail = "alice@example.com";
+    settings.user = {
+      name = "Alice";
+      email = "alice@example.com";
+    };
   };
 
   programs.kitty.enable = true;
@@ -43,8 +45,14 @@ in
     withRuby = false;
     withPython3 = false;
   };
-  programs.yazi.enable = true;
-  programs.zsh.enable = true;
+  programs.yazi = {
+    enable = true;
+    shellWrapperName = "y";
+  };
+  programs.zsh = {
+    enable = true;
+    dotDir = config.home.homeDirectory;
+  };
 
   xdg.enable = true;
   xdg.configFile = {

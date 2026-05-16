@@ -28,12 +28,12 @@
   # ログインマネージャは必要に応じて変更
   services.greetd.enable = true;
   services.greetd.settings.default_session.command =
-    "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd Hyprland";
+    "${pkgs.tuigreet}/bin/tuigreet --cmd Hyprland";
 
   environment.systemPackages = with pkgs; [
     # Hyprland 周辺ユーティリティ
     waybar
-    rofi-wayland
+    rofi
     hyprpaper
     hyprlock
     hypridle
