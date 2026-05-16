@@ -23,6 +23,8 @@ in
     fzf
     fastfetch
     bun
+    sheldon
+    zsh-abbr
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避
@@ -71,6 +73,14 @@ in
     };
     "swaync" = {
       source = mkConfigLink "swaync";
+      recursive = false;
+    };
+    "sheldon" = {
+      source = mkConfigLink "sheldon";
+      recursive = false;
+    };
+    "zsh-abbr" = {
+      source = mkConfigLink "zsh-abbr";
       recursive = false;
     };
   };
