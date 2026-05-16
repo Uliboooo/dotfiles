@@ -39,14 +39,6 @@ in
     bunBinDir
   ];
 
-  programs.git = {
-    enable = true;
-    settings.user = {
-      name = "Alice";
-      email = "alice@example.com";
-    };
-  };
-
   programs.kitty.enable = true;
   programs.neovim = {
     enable = true;
@@ -58,11 +50,6 @@ in
   programs.yazi = {
     enable = true;
     shellWrapperName = "y";
-  };
-  programs.zsh = {
-    enable = true;
-    # $HOME 直下運用を明示（絶対パスは使わない）
-    dotDir = ".";
   };
 
   xdg.enable = true;
@@ -80,4 +67,8 @@ in
     "rofi".source = mkConfigLink "rofi";
     "swaync".source = mkConfigLink "swaync";
   };
+
+  # zsh は dotfiles 実体をそのまま使う
+  home.file.".zshrc".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
 }
