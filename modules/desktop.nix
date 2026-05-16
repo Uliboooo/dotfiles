@@ -25,10 +25,11 @@
   # polkit
   security.polkit.enable = true;
 
-  # ログインマネージャは必要に応じて変更
-  services.greetd.enable = true;
-  services.greetd.settings.default_session.command =
-    "${pkgs.tuigreet}/bin/tuigreet --cmd Hyprland";
+  # GDM (GUI ログイン) を使う
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.defaultSession = "hyprland";
+  services.greetd.enable = false;
 
   environment.systemPackages = with pkgs; [
     # Hyprland 周辺ユーティリティ
