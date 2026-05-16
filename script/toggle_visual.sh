@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ENV_PATH="$HOME/dotfiles/.config/hypr/env/IS_HYPR_DESIGN"
 

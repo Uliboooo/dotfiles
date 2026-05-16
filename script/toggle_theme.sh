@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CURRENT=$(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)
 
