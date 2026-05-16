@@ -10,6 +10,7 @@
     tmux
     ripgrep
     fd
+    fzf
     eza
     bat
     gh
