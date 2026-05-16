@@ -4,20 +4,9 @@ let
   npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
   bunBinDir = "${config.home.homeDirectory}/.bun/bin";
 
-  # 将来的に ~/dotfiles/<app> へ移行しても動くように
-  # 現在の実体配置に合わせて
-  # 1) ~/dotfiles/.config/<app>
-  # 2) ~/dotfiles/<app>
-  # の順で参照する。
-  resolveAppDir = name:
-    let
-      topLevel = "${dotfilesDir}/${name}";
-      legacy = "${dotfilesDir}/.config/${name}";
-    in
-    if builtins.pathExists legacy then legacy else topLevel;
-
   mkConfigLink = name:
-    config.lib.file.mkOutOfStoreSymlink (resolveAppDir name);
+    # 実体は dotfiles/.config/<name> に固定
+    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
   home.username = "alice";
