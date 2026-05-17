@@ -1,0 +1,11 @@
+hl.on("hyprland.start", function()
+  hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+  hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+  hl.exec_cmd("systemctl --user start hyprpolkitagent")
+  hl.exec_cmd(
+    "fcitx5 && wl-paste --type text --watch cliphist store && wl-paste --type image --watch cliphist store && hypridle && swaync")
+  hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
+  hl.exec_cmd("awww-daemon")
+  hl.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh")
+  hl.exec_cmd("sh ~/dotfiles/script/launch-waybar.sh")
+end)

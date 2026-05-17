@@ -293,6 +293,18 @@ return {
       })
       vim.lsp.enable("moonbit-lsp")
 
+      local hyprlnad_bin = vim.fn.exepath("Hyprland")
+      local hypr_stubs = ""
+
+      if hyprlnad_bin ~= "" then
+        hypr_stubs = vim.fn.fnamemodify(hyprlnad_bin, ":h:h") .. "/share/hypr/stubs"
+      end
+
+      local lib = { vim.env.VIMRUNTIME }
+      if vim.fn.isdirectory(hypr_stubs) == 1 then
+        table.insert(lib, hypr_stubs)
+      end
+
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
@@ -306,7 +318,8 @@ return {
               globals = { "vim" },
             },
             workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
+              library = lib,
+              checkThirdParty = false,
             },
             telemetry = {
               enable = false,
