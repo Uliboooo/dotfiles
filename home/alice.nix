@@ -89,10 +89,12 @@ in
       source = mkConfigLink "zsh-abbr";
       recursive = false;
     };
-    "systemd" = {
-      source = mkConfigLink "systemd";
-      recursive = false;
-    };
+    "systemd/user/cycle_wallpaper.service".source =
+      config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.service";
+    "systemd/user/cycle_wallpaper.timer".source =
+      config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.timer";
+    "systemd/user/ssh-agent.service".source =
+      config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
   };
 
   # zsh は dotfiles 実体をそのまま使う
