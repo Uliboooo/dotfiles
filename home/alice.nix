@@ -6,7 +6,7 @@ let
   bunBinDir = "${bunInstallDir}/bin";
 
   mkConfigLink = name:
-    # 実体は dotfiles/.config/<name> に固定
+    # the actual files are fixed dotfiles/.config/<name>
     config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
@@ -15,8 +15,7 @@ in
   home.stateVersion = "24.11";
   nixpkgs.config.allowUnfree = true;
 
-  # ===== 個人レイヤー =====
-  # 個人で使う CLI/TUI は Home Manager 側で管理
+  # ===== personal ====
   home.packages = with pkgs; [
     git
     neovim
@@ -47,9 +46,13 @@ in
     gopls
     zig
     zls
+    ghostty
+    jq
+    hollywood
+    tree-sitter
   ];
 
-  # npm の global install をユーザー領域へ逃がして権限エラーを回避
+  # moving global npm installs to the user direcotry to avoid permission errors
   home.sessionVariables = {
     NPM_CONFIG_PREFIX = npmGlobalDir;
     BUN_INSTALL = bunInstallDir;
@@ -61,7 +64,6 @@ in
 
   xdg.enable = true;
   xdg.configFile = {
-    # 実体は dotfiles 側の「普通のファイル/ディレクトリ」を使う
     "nvim" = {
       source = mkConfigLink "nvim";
       recursive = false;
@@ -116,7 +118,6 @@ in
       config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
   };
 
-  # zsh は dotfiles 実体をそのまま使う
   home.file.".zshrc".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
 }

@@ -27,7 +27,6 @@
           ./hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           {
-            # Home Manager を NixOS モジュールとして統合
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.alice = import ./home/alice.nix;
