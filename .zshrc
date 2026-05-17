@@ -136,6 +136,7 @@ else
     export LIBVIRT_DEFAULT_URI=qemu:///system
     # npm
     export PATH="$HOME/.npm-global/bin:$PATH"
+    export PATH="/home/alice/.cache/.bun/bin:$PATH"
 
     if [[ -n "$XDG_RUNTIME_DIR" ]]; then
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
@@ -176,6 +177,8 @@ export XMODIFIERS=@im=fcitx
 export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
 
 export EDITOR=nvim
+export SSH_ASKPASS_REQUIRE=never
+export SSH_ASKPASS=""
 
 # load .env
 if [[ -f "$HOME/.env" ]]; then

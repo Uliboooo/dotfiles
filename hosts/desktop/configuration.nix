@@ -28,6 +28,11 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # bun/npm で入れた動的リンク実行ファイル (copilot など) を動かす
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+  stdenv.cc.cc
+  zlib
+  openssl
+];
 
   # 利用中アプリ都合で unfree を許可
   nixpkgs.config.allowUnfree = true;

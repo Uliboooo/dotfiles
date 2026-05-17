@@ -15,6 +15,9 @@
     bat
     gh
     nodejs
+    zip
+    unzip
+    python3
   ];
 
   # sudo 可能にする基本設定

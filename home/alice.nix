@@ -38,6 +38,11 @@ in
     btop
     bluetui
     pulsemixer
+    brightnessctl
+    difftastic
+    playerctl
+    tokei
+    wget
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避
