@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 INTERNAL="eDP-1"
 EXTERNAL="DP-1"

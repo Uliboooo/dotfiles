@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 get_all() {
   find $1 -maxdepth 1 -type f | sort
