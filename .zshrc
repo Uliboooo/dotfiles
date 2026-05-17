@@ -63,7 +63,13 @@ remote_info() {
   fi
 }
 
-PROMPT='$(remote_info)%F{blue}%~%f $(git_prompt)
+nix_shell_prompt() {
+  if [[ -n "$IN_NIX_SHELL" ]]; then
+    echo "%F{magenta}[nix:${IN_NIX_SHELL}]%f "
+  fi
+}
+
+PROMPT='$(remote_info)%F{blue}%~%f $(nix_shell_prompt)$(git_prompt)
 $(face_prompt) '
 
 # if ! command -v yay &>/dev/null; then
