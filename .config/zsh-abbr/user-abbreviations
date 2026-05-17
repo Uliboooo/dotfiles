@@ -83,3 +83,7 @@ abbr :Wq="exit"
 
 abbr reboot="systemctl reboot"
 
+# ---------------------------------------------------------------------
+# NixOS
+# ---------------------------------------------------------------------
+abbr nbuild="sudo nixos-rebuild switch --flake .#desktop"
