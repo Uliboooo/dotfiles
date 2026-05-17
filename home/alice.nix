@@ -28,6 +28,9 @@ in
     zsh-abbr
     lazygit
     gh
+    zip
+    unzip
+    ghq
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避
