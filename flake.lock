@@ -20,6 +20,48 @@
         "type": "github"
       }
     },
+    "home-manager_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nix-hazkey",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778444552,
+        "narHash": "sha256-f18pIiR9q/p1vHY93gmAum7aHhQOG49oGvAB9+lptRo=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "dcebe66f958673729896eec2de4abfd86ef22d21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nix-hazkey": {
+      "inputs": {
+        "home-manager": "home-manager_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778491659,
+        "narHash": "sha256-91b+Ju9yvEAWiNjitSQTWxM8cbu3Y8K7KNJiYBcb83s=",
+        "owner": "aster-void",
+        "repo": "nix-hazkey",
+        "rev": "4f791a241963f6804420d69613c25c6d25610e73",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aster-void",
+        "repo": "nix-hazkey",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1778443072,
@@ -39,6 +81,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nix-hazkey": "nix-hazkey",
         "nixpkgs": "nixpkgs"
       }
     }

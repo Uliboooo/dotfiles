@@ -13,6 +13,7 @@ in
   home.username = "alice";
   home.homeDirectory = "/home/alice";
   home.stateVersion = "24.11";
+  nixpkgs.config.allowUnfree = true;
 
   # ===== 個人レイヤー =====
   # 個人で使う CLI/TUI は Home Manager 側で管理
@@ -31,6 +32,12 @@ in
     zip
     unzip
     ghq
+    nerd-fonts.symbols-only
+    nerd-fonts.jetbrains-mono
+    google-chrome
+    btop
+    bluetui
+    pulsemixer
   ];
 
   # npm の global install をユーザー領域へ逃がして権限エラーを回避

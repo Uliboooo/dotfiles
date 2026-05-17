@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # script/launch-waybar.sh
 
 # $1: style file
