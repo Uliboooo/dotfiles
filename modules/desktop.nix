@@ -53,6 +53,7 @@
 
   environment.systemPackages = with pkgs; [
     # Hyprland 周辺ユーティリティ
+    awww
     flatpak
     waybar
     rofi
