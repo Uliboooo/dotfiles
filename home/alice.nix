@@ -89,6 +89,10 @@ in
       source = mkConfigLink "zsh-abbr";
       recursive = false;
     };
+    "systemd" = {
+      source = mkConfigLink "systemd";
+      recursive = false;
+    };
   };
 
   # zsh は dotfiles 実体をそのまま使う
