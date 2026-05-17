@@ -1,9 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/desktop.nix
+    inputs.nix-hazkey.nixosModules.hazkey
     # ../../modules/thinkpad.nix
   ];
 
@@ -12,6 +13,11 @@
 
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+  };
+  services.hazkey.enable = true;
 
   # UEFI 環境向けの基本ブートローダー設定
   # Legacy BIOS の場合は grub 設定へ差し替えてください
