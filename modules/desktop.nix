@@ -42,12 +42,18 @@
   # TLP と競合しやすいため無効化
   services.power-profiles-daemon.enable = false;
 
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
   services.flatpak = {
     enable = true;
   };
 
   environment.systemPackages = with pkgs; [
     # Hyprland 周辺ユーティリティ
+    flatpak
     waybar
     rofi
     hyprpaper
