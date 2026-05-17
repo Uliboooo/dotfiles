@@ -15,6 +15,12 @@ in
   home.stateVersion = "24.11";
   nixpkgs.config.allowUnfree = true;
 
+  home.sessionVariables = {
+    CC = "clang";
+    CXX = "clang++";
+    LD = "lld";
+  };
+
   # ===== personal ====
   home.packages = with pkgs; [
     git
@@ -50,6 +56,9 @@ in
     jq
     hollywood
     tree-sitter
+    clang
+    llvm
+    lld
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
