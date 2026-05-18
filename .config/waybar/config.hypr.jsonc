@@ -27,12 +27,6 @@
       "urgent": ""
     }
   },
-  "hyprland/submap": {
-    "format": "{}",
-    "max-length": 25,
-    "tooltip": false,
-    "show-empty": false
-  },
   "hyprland/window": {
     "format": "{class}",
     "max-length": 40,
@@ -49,6 +43,14 @@
       "^$": "󰇄 Desktop"
     }
   },
+
+  "hyprland/submap": {
+    "format": "{}",
+    "max-length": 25,
+    "tooltip": false,
+    "show-empty": false
+  },
+
   "mpris": {
     "format": "󰎆 {artist} - {title}",
     "format-paused": "󰏤 <i>{artist} / {title}</i>",
@@ -56,14 +58,6 @@
     "player-icons": {
       "default": "󰎆"
     }
-  },
-  "temperature": {
-    "critical-threshold": 80,
-    "format-critical": "{icon} {temperatureC}°C",
-    "format": "{icon} {temperatureC}°C",
-    "format-icons": [""],
-    "interval": 10,
-    "on-click": "kitty --title='dev-float' -e btop"
   },
   "clock": {
     "format": "{:%b %d %a %H:%M}",
@@ -78,13 +72,22 @@
       }
     }
   },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{icon} {temperatureC}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [""],
+    "interval": 10,
+    "on-click": "kitty --title='dev-float' -e btop"
+  },
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "󰝟 MUTED",
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-click": "pulsemixer"
+    "on-click": "kitty --class='dev-float' -e wiremix"
   },
   "bluetooth": {
     "format": "{status}",

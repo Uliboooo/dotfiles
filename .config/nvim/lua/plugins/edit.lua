@@ -52,7 +52,7 @@ return {
           json = { "biome" },
           jsonc = { "biome" },
           sh = { "shfmt" },
-          astro = { "prettier" },
+          astro = { "biome" },
         },
         format_on_save = {
           timeout_ms = 500,
