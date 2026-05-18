@@ -60,7 +60,7 @@ in
     llvm
     lld
     restic
-    libreoffice-bin
+    libreoffice
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
