@@ -10,6 +10,11 @@
 
   networking.hostName = "aliceinnixland";
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "none";
+  networking.nameservers = [
+    "1.1.1.1"
+    "1.0.0.1"
+  ];
 
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";

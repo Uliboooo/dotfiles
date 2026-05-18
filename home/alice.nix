@@ -13,7 +13,6 @@ in
   home.username = "alice";
   home.homeDirectory = "/home/alice";
   home.stateVersion = "24.11";
-  nixpkgs.config.allowUnfree = true;
 
   home.sessionVariables = {
     CC = "clang";
@@ -61,6 +60,7 @@ in
     lld
     restic
     libreoffice
+    nautilus
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
@@ -81,6 +81,10 @@ in
     };
     "kitty" = {
       source = mkConfigLink "kitty";
+      recursive = false;
+    };
+    "ghostty" = {
+      source = mkConfigLink "ghostty";
       recursive = false;
     };
     "hypr" = {

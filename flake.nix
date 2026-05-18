@@ -29,6 +29,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.users.alice = import ./home/alice.nix;
           }
         ];
