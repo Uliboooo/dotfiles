@@ -8,7 +8,7 @@
     # ../../modules/thinkpad.nix
   ];
 
-  networking.hostName = "desktop";
+  networking.hostName = "aliceinnixland";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Tokyo";
