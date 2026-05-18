@@ -59,6 +59,8 @@ in
     clang
     llvm
     lld
+    restic
+    libreoffice-bin
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
