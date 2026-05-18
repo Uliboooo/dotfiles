@@ -52,5 +52,4 @@ hl.config({
       scroll_factor = 0.5,
     },
   },
-
 })
