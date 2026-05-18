@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 let
   dotfilesDir = "${config.home.homeDirectory}/dotfiles";
   npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
@@ -72,6 +72,8 @@ in
     biome
     stylua
     shfmt
+
+    inputs.self.packages.${pkgs.system}.sampler
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
@@ -126,6 +128,10 @@ in
     };
     "swaync" = {
       source = mkConfigLink "swaync";
+      recursive = false;
+    };
+    "sampler" = {
+      source = mkConfigLink "sampler";
       recursive = false;
     };
     "sheldon" = {
