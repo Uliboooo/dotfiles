@@ -2,7 +2,6 @@
 {
   # ===== desktop base (entire system) =====
   programs.hyprland.enable = true;
-
   # PipeWire + rtkit
   security.rtkit.enable = true;
   services.pipewire = {

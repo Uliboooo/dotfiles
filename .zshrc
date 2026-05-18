@@ -72,11 +72,6 @@ nix_shell_prompt() {
 PROMPT='$(remote_info)%F{blue}%~%f $(nix_shell_prompt)$(git_prompt)
 $(face_prompt) '
 
-# if ! command -v yay &>/dev/null; then
-#   sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-# fi
-
-
 if ! command -v sheldon &>/dev/null; then
   echo "Installing sheldon..."
   ln -fs $HOME/dotfiles/.config/zsh-abbr ~/.config/zsh-abbr/
