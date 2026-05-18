@@ -61,6 +61,17 @@ in
     restic
     libreoffice
     nautilus
+    ffmpeg
+    mpv
+    loupe
+    ffmpegthumbnailer
+    clapper
+    vlc
+    showtime
+    wiremix
+    biome
+    stylua
+    shfmt
   ];
 
   # moving global npm installs to the user direcotry to avoid permission errors
