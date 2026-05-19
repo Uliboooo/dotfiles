@@ -40,6 +40,7 @@ in
     nerd-fonts.jetbrains-mono
     google-chrome
     btop
+    inputs.jolt.packages.${pkgs.system}.default
     bluetui
     pulsemixer
     brightnessctl
