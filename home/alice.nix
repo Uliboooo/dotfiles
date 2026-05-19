@@ -1,11 +1,17 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   dotfilesDir = "${config.home.homeDirectory}/dotfiles";
   npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
   bunInstallDir = "${config.home.homeDirectory}/.cache/.bun";
   bunBinDir = "${bunInstallDir}/bin";
 
-  mkConfigLink = name:
+  mkConfigLink =
+    name:
     # the actual files are fixed dotfiles/.config/<name>
     config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
@@ -75,6 +81,10 @@ in
     biome
     stylua
     shfmt
+    statix
+    deadnix
+    nil
+    nixfmt-rfc-style
 
     inputs.self.packages.${pkgs.system}.sampler
   ];
@@ -112,7 +122,6 @@ in
       recursive = false;
     };
 
-    # 既存運用に合わせて必要なものを順次追加
     "git" = {
       source = mkConfigLink "git";
       recursive = false;
@@ -141,6 +150,10 @@ in
       source = mkConfigLink "sheldon";
       recursive = false;
     };
+    "stylua" = {
+      source = mkConfigLink "stylua";
+      recursive = false;
+    };
     "zsh-abbr" = {
       source = mkConfigLink "zsh-abbr";
       recursive = false;
@@ -153,6 +166,5 @@ in
       config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
   };
 
-  home.file.".zshrc".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
+  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
 }

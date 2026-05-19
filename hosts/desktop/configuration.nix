@@ -29,19 +29,25 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-  stdenv.cc.cc
-  zlib
-  openssl
-];
+    stdenv.cc.cc
+    zlib
+    openssl
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
   users.users.alice = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
     shell = pkgs.zsh;
   };
 

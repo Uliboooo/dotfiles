@@ -115,7 +115,8 @@
     "format": "{icon}{capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": " {capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "on-click": "kitty --class='dev-float' -e jolt"
   },
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",

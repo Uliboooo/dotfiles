@@ -42,6 +42,9 @@ return {
       scroll = { enabled = true },
       statuscolumn = { enabled = false },
       words = { enabled = true },
+      terminal = {
+        enabled = true,
+      },
     },
     keys = {
       {
@@ -91,7 +94,7 @@ return {
         desc = "lazygit",
       },
     },
-  }
+  },
   -- file tree toggle sidebar
   -- {
   --   "nvim-neo-tree/neo-tree.nvim",

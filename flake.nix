@@ -17,7 +17,8 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... } @ inputs:
+  outputs =
+    { nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
 
@@ -25,7 +26,7 @@
         inherit system;
       };
 
-      sampler = pkgs.callPackage ./pkgs/sampler.nix {};
+      sampler = pkgs.callPackage ./pkgs/sampler.nix { };
     in
     {
       packages.${system}.sampler = sampler;
