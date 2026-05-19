@@ -1,7 +1,7 @@
 theme: dark
 gauges:
   - title: CPU
-    position: [[0, 11], [20, 7]]
+    position: [[0, 11], [20, 6]]
     rate-ms: 2000
     color: 203
     percent-only: true
@@ -12,7 +12,7 @@ gauges:
     min:
         sample: echo 0
   - title: RAM
-    position: [[40, 11], [20, 8]]
+    position: [[40, 11], [20, 11]]
     rate-ms: 2000
     color: 81
     percent-only: true
@@ -23,7 +23,7 @@ gauges:
     min:
         sample: echo 0
   - title: DISK /
-    position: [[0, 26], [20, 7]]
+    position: [[0, 23], [20, 9]]
     rate-ms: 5000
     color: 220
     percent-only: true
@@ -34,7 +34,7 @@ gauges:
     min:
         sample: echo 0
   - title: GPU
-    position: [[20, 33], [20, 7]]
+    position: [[20, 32], [20, 8]]
     rate-ms: 3000
     color: 141
     percent-only: true
@@ -49,23 +49,23 @@ gauges:
         sample: echo 0
 sparklines:
   - title: CPU Trend (%)
-    position: [[20, 11], [20, 15]]
+    position: [[20, 11], [20, 12]]
     rate-ms: 2000
     scale: 0
     sample: vmstat 1 2 | tail -1 | awk '{print 100 - $15}'
   - title: RAM Trend (%)
-    position: [[60, 10], [20, 15]]
+    position: [[60, 11], [20, 11]]
     rate-ms: 2000
     scale: 0
     sample: free | awk '/^Mem:/ {printf "%.2f", ($3 / $2) * 100}'
   - title: Swap Trend (%)
-    position: [[20, 26], [20, 7]]
+    position: [[20, 23], [20, 9]]
     rate-ms: 3000
     scale: 0
     sample: free | awk '/^Swap:/ {if ($2==0) print 0; else printf "%.2f", ($3 / $2)
         * 100}'
   - title: GPU Temp (C)
-    position: [[0, 33], [20, 7]]
+    position: [[0, 32], [20, 8]]
     rate-ms: 3000
     scale: 0
     sample: sh -c 'if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=temperature.gpu
@@ -74,39 +74,40 @@ sparklines:
         2>/dev/null | head -1; else echo 0; fi'
 textboxes:
   - title: Weather
-    position: [[63, 0], [17, 9]]
+    position: [[50, 0], [30, 9]]
     rate-ms: 300000
     color: 178
     sample: curl -s 'wttr.in?0ATQF'
     border: false
   - title: Bluetooth Status
-    position: [[90, 0], [30, 10]]
+    position: [[150, 0], [30, 9]]
     rate-ms: 5000
     color: 81
     sample: |
         sh -c 'if ! command -v bluetoothctl >/dev/null 2>&1; then echo "Bluetooth: command not found"; exit 0; fi; powered=$(bluetoothctl show 2>/dev/null | awk -F": " "/Powered/ {print \$2; exit}"); if [ -z "$powered" ]; then echo "Bluetooth: no controller"; exit 0; fi; [ "$powered" = "yes" ] && state="ON" || state="OFF"; connected=$(bluetoothctl devices Connected 2>/dev/null); count=$(printf "%s\n" "$connected" | sed "/^$/d" | wc -l); echo "Bluetooth: ${state}"; echo "Connected: ${count}"; if [ "$count" -gt 0 ]; then printf "%s\n" "$connected" | sed -E "s/^Device [0-9A-F:]+ /- /"; else echo "- none"; fi'
     border: true
   - title: Performance Snapshot
-    position: [[0, 18], [20, 8]]
+    position: [[0, 17], [20, 6]]
     rate-ms: 4000
     color: 121
     sample: |
         sh -c 'cpu=$(vmstat 1 2 | tail -1 | awk "{print 100-\$15}"); ram=$(free -h | awk "/^Mem:/ {print \$3\"/\"\$2}"); load=$(awk "{print \$1\" \"\$2\" \"\$3}" /proc/loadavg); root=$(df -h / | awk "NR==2 {print \$3\"/\"\$2\" (\"\$5\")\"}"); cpu_temp=$(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null | awk "{printf \"%.1f\", \$1/1000}"); [ -z "$cpu_temp" ] && cpu_temp="N/A"; echo "CPU: ${cpu}%"; echo "RAM: ${ram}"; echo "Load: ${load}"; echo "Root: ${root}"; echo "CPU Temp: ${cpu_temp}C"'
     border: true
   - title: System Info
-    position: [[40, 18], [20, 7]]
+    position: [[25, 0], [20, 6]]
     rate-ms: 10000
     color: 220
     sample: |
         sh -c 'bat=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -1); [ -n "$bat" ] && bat="${bat}%"; [ -z "$bat" ] && bat="N/A"; echo "Host: $(hostname)"; echo "Kernel: $(uname -r)"; echo "Uptime: $(uptime -p)"; echo "Battery: ${bat}"'
-    border: true
+    border: false
   - title: Asciiquarium
-    position: [[40, 25], [40, 15]]
+    position: [[40, 22], [40, 18]]
     rate-ms: 60000
     color: 45
     sample: |
         sh -c 'if command -v asciiquarium >/dev/null 2>&1; then echo "Installed: yes"; echo "Run in terminal:"; echo "  asciiquarium"; else echo "Installed: no"; echo "Add package and rebuild Home Manager."; fi'
     border: true
+
 asciiboxes:
   - title: Clock
     position: [[0, 0], [30, 6]]
@@ -116,7 +117,7 @@ asciiboxes:
     border: false
     font: 2d
   - title: Date
-    position: [[0, 5], [60, 6]]
+    position: [[0, 5], [50, 6]]
     rate-ms: 10000
     color: 153
     sample: date +"%Y-%m-%d %a"

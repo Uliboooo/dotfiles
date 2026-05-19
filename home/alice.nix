@@ -54,6 +54,7 @@ in
     ghostty
     jq
     hollywood
+    asciiquarium
     tree-sitter
     clang
     llvm

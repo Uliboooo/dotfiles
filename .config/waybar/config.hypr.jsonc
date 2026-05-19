@@ -61,6 +61,7 @@
   },
   "clock": {
     "format": "{:%b %d %a %H:%M}",
+    "on-click": "kitty --class='dev-float' -e sampler -c ~/.config/sampler/config_1.yml 2>/dev/null",
     "tooltip-format": "<tt>{calendar}</tt>",
     "calendar": {
       "mode": "month",
