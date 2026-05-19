@@ -1,86 +1,90 @@
 return {
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+  },
 
-	{
-		"windwp/nvim-ts-autotag",
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {},
-	},
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
 
-	{
-		"nvim-mini/mini.comment",
-		version = false,
-		config = function()
-			local comment = require("mini.comment")
+  {
+    "nvim-mini/mini.comment",
+    version = false,
+    config = function()
+      local comment = require("mini.comment")
 
-			comment.setup()
+      comment.setup()
 
-			-- ctrl+c
-			vim.keymap.set("n", "<C-c>", function()
-				local line = vim.fn.line(".")
-				comment.toggle_lines(line, line)
-			end, { desc = "toggle current line comment" })
+      -- ctrl+c
+      vim.keymap.set("n", "<C-c>", function()
+        local line = vim.fn.line(".")
+        comment.toggle_lines(line, line)
+      end, { desc = "toggle current line comment" })
 
-			vim.keymap.set("x", "<C-c>", function()
-				local start_line = vim.fn.line("v")
-				local end_line = vim.fn.line(".")
+      vim.keymap.set("x", "<C-c>", function()
+        local start_line = vim.fn.line("v")
+        local end_line = vim.fn.line(".")
 
-				if start_line > end_line then
-					start_line, end_line = end_line, start_line
-				end
+        if start_line > end_line then
+          start_line, end_line = end_line, start_line
+        end
 
-				comment.toggle_lines(start_line, end_line)
-			end, { desc = "toggle selected comment" })
-		end,
-	},
+        comment.toggle_lines(start_line, end_line)
+      end, { desc = "toggle selected comment" })
+    end,
+  },
 
-	{
-		"stevearc/conform.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			require("conform").setup({
-				formatters_by_ft = {
-					cpp = { "clang-format" },
-					c = { "clang-format" },
-					rust = { "rustfmt", lsp_format = "fallback" },
-					go = { "gofmt" },
-					lua = { "stylua" },
-					json = { "biome" },
-					jsonc = { "biome" },
-					sh = { "shfmt" },
-					astro = { "biome" },
-					nix = { "nixfmt" },
-				},
-				format_on_save = {
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				},
-			})
-		end,
-	},
-	-- {
-	--   "nvim-tree/nvim-tree.lua",
-	--   version = "*",
-	--   lazy = false,
-	--   dependencies = {
-	--     "nvim-tree/nvim-web-devicons",
-	--   },
-	--   config = function()
-	--     vim.keymap.set(
-	--       "n",
-	--       "<leader>e",
-	--       function() require("nvim-tree.api").tree.toggle() end,
-	--       { desc = "toggle file tree" }
-	--     )
-	--     require("nvim-tree").setup({
-	--       view = {
-	--         width = 30,
-	--       },
-	--     })
-	--   end,
-	-- },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          cpp = { "clang-format" },
+          c = { "clang-format" },
+          rust = { "rustfmt", lsp_format = "fallback" },
+          go = { "gofmt" },
+          lua = { "stylua" },
+          json = { "biome" },
+          jsonc = { "biome" },
+          sh = { "shfmt" },
+          astro = { "biome" },
+          nix = { "nixfmt" },
+          typescript = { "biome" },
+          typescriptreact = { "biome" },
+          javascript = { "biome" },
+          javascriptreact = { "biome" },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_format = "fallback",
+        },
+      })
+    end,
+  },
+  -- {
+  --   "nvim-tree/nvim-tree.lua",
+  --   version = "*",
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons",
+  --   },
+  --   config = function()
+  --     vim.keymap.set(
+  --       "n",
+  --       "<leader>e",
+  --       function() require("nvim-tree.api").tree.toggle() end,
+  --       { desc = "toggle file tree" }
+  --     )
+  --     require("nvim-tree").setup({
+  --       view = {
+  --         width = 30,
+  --       },
+  --     })
+  --   end,
+  -- },
 }

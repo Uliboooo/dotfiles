@@ -37,6 +37,20 @@
         };
         modules = [
           ./hosts/desktop/configuration.nix
+
+          (
+            {
+              pkgs,
+              ...
+            }:
+            {
+              environment.systemPackages = with pkgs; [
+                bash
+              ];
+              environment.pathsToLink = [ "/bin" ];
+            }
+          )
+
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

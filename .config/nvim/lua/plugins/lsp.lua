@@ -301,9 +301,7 @@ return {
       end
 
       local lib = { vim.env.VIMRUNTIME }
-      if vim.fn.isdirectory(hypr_stubs) == 1 then
-        table.insert(lib, hypr_stubs)
-      end
+      if vim.fn.isdirectory(hypr_stubs) == 1 then table.insert(lib, hypr_stubs) end
 
       vim.lsp.config("lua_ls", {
         settings = {
@@ -375,7 +373,7 @@ return {
         },
       },
     },
-  }
+  },
   -- {
   --   "cordx56/rustowl",
   --   version = "*", -- Latest stable version

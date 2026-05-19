@@ -85,6 +85,7 @@ in
     deadnix
     nil
     nixfmt-rfc-style
+    typescript
 
     inputs.self.packages.${pkgs.system}.sampler
   ];
