@@ -55,6 +55,7 @@ in
     jq
     hollywood
     asciiquarium
+    tmux
     tree-sitter
     clang
     llvm

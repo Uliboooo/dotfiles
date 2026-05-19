@@ -102,10 +102,10 @@ textboxes:
     border: true
   - title: Asciiquarium
     position: [[40, 25], [40, 15]]
-    rate-ms: 60000
+    rate-ms: 500
     color: 45
     sample: |
-        sh -c 'if command -v asciiquarium >/dev/null 2>&1; then echo "Installed: yes"; echo "Run in terminal:"; echo "  asciiquarium"; else echo "Installed: no"; echo "Add package and rebuild Home Manager."; fi'
+        sh -c '$HOME/dotfiles/script/asciiquarium-sampler.sh 40 15'
     border: true
 asciiboxes:
   - title: Clock
