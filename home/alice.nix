@@ -86,6 +86,7 @@ in
     nil
     nixfmt-rfc-style
     typescript
+    mpvpaper
 
     inputs.self.packages.${pkgs.system}.sampler
   ];
