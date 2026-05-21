@@ -1,5 +1,4 @@
 #!/usr/bin/env ysh
-# shellcheck shell=bash
 
 get_all() {
   find "$1" -maxdepth 1 -type f | sort
@@ -100,7 +99,7 @@ toggle_video() {
       notify-send "failed stop wallvideo"
     fi
   else
-    if mpvpaper '*' "$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4" -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu"; then
+    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu"; then
       notify-send "start wallvideo"
     else
       notify-send "failed start wallvideo"
@@ -109,6 +108,7 @@ toggle_video() {
 }
 
 wallpaper_dir="$HOME/Pictures/wallpapers/"
+wallvideo_path="$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4"
 
 case "${1:-}" in
   seq) wall_path="$(seq_or_rev 0 "$wallpaper_dir")" ;;
