@@ -1,11 +1,11 @@
 #!/usr/bin/env ysh
 
-CURRENT=$(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)
+var CURRENT = $(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)
 
-if [[ "$CURRENT" == *"dark"* ]]; then
+if (CURRENT.contains("dark")) {
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
     notify-send -i weather-clear "Theme" "Switched to Light Mode"
-else
+} else {
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
     notify-send -i weather-clear-night "Theme" "Switched to Dark Mode"
-fi
+}
