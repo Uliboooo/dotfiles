@@ -76,13 +76,24 @@ set_video() {
   echo "$HOME/Pictures/wallvideo/ok_geek_eyes_filt_cont.mp4"
 }
 
+toggle_video() {
+  local v_pid=$(pgrep mpvpaper)
+
+  if [ -n "$v_pid" ]; then
+    pkill mpvpaper && notify-send "stop wallvideo" || notify-send "failed stop slideshow"
+  else
+    mpvpaper '*' ~/Pictures/wallvideo/ok_geek_eyes_24.mp4 -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu" && notify-send "start wallvideo" || notify-send "failed start wallvideo"
+  fi
+
+}
+
 WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
 
 case "$1" in
 seq) wall_path=$(seq_or_rev 0 "$WALLPAPER_DIR") ;;
 rev) wall_path=$(seq_or_rev 1 "$WALLPAPER_DIR") ;;
 rnd) wall_path=$(random_paper "$WALLPAPER_DIR") ;;
-vdo) wall_path=$(set_video) ;;
+vdo) toggle_video && exit 0 || exit 1 ;;
 pse) toggle_systemtimer && exit 0 || exit 1 ;;
 *) wall_path=$2 ;;
 esac
