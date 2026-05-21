@@ -1,0 +1,25 @@
+name: Validate Nix flake and configs
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Validate flake checks
+        run: nix flake check --show-trace
+
+      - name: Validate NixOS configuration evaluation
+        run: nix eval .#nixosConfigurations.desktop.config.system.build.toplevel.drvPath --show-trace
+
+      - name: Validate Home Manager evaluation
+        run: nix eval .#nixosConfigurations.desktop.config.home-manager.users.alice.home.activationPackage.drvPath --show-trace
