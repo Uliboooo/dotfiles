@@ -265,4 +265,18 @@ function g() {
   cd "$(ghq root)/$(ghq list | fzf --preview 'ls $(ghq root)/{}')"
 }
 
+function nsh() {
+  local file
+
+  file=$(
+    fd --type f -0 . \
+      | xargs -0 stat --format "%Y %n" \
+      | sort -rn \
+      | cut -d " " -f2- \
+      | fzf
+  ) || return
+
+  [[ -n "$file" ]] && nvim "$file"
+}
+
 # zprof

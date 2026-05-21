@@ -39,7 +39,7 @@ abbr tl="tmux ls"
 abbr tmr="tmux kill-session -t"
 abbr rtss="rts -cli | jq -r '.list[] | \"title: \(.title)\nlink: \(.link)\"'"
 abbr rg="rg --hidden"
-abbr fd="fd --hidden"
+abbr fd="fd"
 
 abbr y="yazi"
 abbr l="lazygit"
