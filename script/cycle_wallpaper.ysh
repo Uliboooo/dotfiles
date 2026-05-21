@@ -1,5 +1,12 @@
 #!/usr/bin/env ysh
 
+forward_mode=0
+reverse_mode=1
+current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
+wallpaper_dir="$HOME/Pictures/wallpapers/"
+wallvideo_path="$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4"
+mpvpaper_args="--hwdec=auto-safe --vo=gpu"
+
 get_all() {
   find "$1" -maxdepth 1 -type f | sort
 }
@@ -14,7 +21,7 @@ get_next_path() {
   local rev_mode="$3"
   local matched
 
-  if (( rev_mode == 0 )); then
+  if (( rev_mode == forward_mode )); then
     matched="$(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -A 1)"
   else
     matched="$(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -B 1)"
@@ -24,13 +31,13 @@ get_next_path() {
   matched_lines="$(printf '%s\n' "$matched" | wc -l | tr -d ' ')"
 
   if (( matched_lines != 2 )); then
-    if (( rev_mode == 0 )); then
+    if (( rev_mode == forward_mode )); then
       printf '%s\n' "$listed_paths" | head -n 1
     else
       printf '%s\n' "$listed_paths" | tail -n 1
     fi
   else
-    if (( rev_mode == 0 )); then
+    if (( rev_mode == forward_mode )); then
       printf '%s\n' "$matched" | tail -n 1
     else
       printf '%s\n' "$matched" | head -n 1
@@ -41,7 +48,6 @@ get_next_path() {
 seq_or_rev() {
   local rev_mode="$1"
   local wallpaper_dir="$2"
-  local current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
   local next
 
   if [[ -s "$current_paper_path" ]]; then
@@ -64,7 +70,6 @@ seq_or_rev() {
 
 random_paper() {
   local wallpaper_dir="$1"
-  local current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
   local randomed_path
 
   randomed_path="$(find "$wallpaper_dir" -type f | shuf -n 1)"
@@ -75,15 +80,15 @@ random_paper() {
 toggle_systemtimer() {
   if systemctl --user is-active --quiet cycle_wallpaper.timer; then
     if systemctl --user stop cycle_wallpaper.timer; then
-      notify-send "stop slideshow"
+      notify-send "Stop slideshow"
     else
-      notify-send "failed stop slideshow"
+      notify-send "Failed stop slideshow"
     fi
   else
     if systemctl --user start cycle_wallpaper.timer; then
-      notify-send "start slideshow"
+      notify-send "Start slideshow"
     else
-      notify-send "failed start slideshow"
+      notify-send "Failed start slideshow"
     fi
   fi
 }
@@ -94,25 +99,22 @@ toggle_video() {
 
   if [[ -n "$v_pid" ]]; then
     if pkill mpvpaper; then
-      notify-send "stop wallvideo"
+      notify-send "Stop wallvideo"
     else
-      notify-send "failed stop wallvideo"
+      notify-send "Failed stop wallvideo"
     fi
   else
-    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu"; then
-      notify-send "start wallvideo"
+    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork --mpv-args="$mpvpaper_args"; then
+      notify-send "Start wallvideo"
     else
-      notify-send "failed start wallvideo"
+      notify-send "Failed start wallvideo"
     fi
   fi
 }
 
-wallpaper_dir="$HOME/Pictures/wallpapers/"
-wallvideo_path="$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4"
-
 case "${1:-}" in
-  seq) wall_path="$(seq_or_rev 0 "$wallpaper_dir")" ;;
-  rev) wall_path="$(seq_or_rev 1 "$wallpaper_dir")" ;;
+  seq) wall_path="$(seq_or_rev "$forward_mode" "$wallpaper_dir")" ;;
+  rev) wall_path="$(seq_or_rev "$reverse_mode" "$wallpaper_dir")" ;;
   rnd) wall_path="$(random_paper "$wallpaper_dir")" ;;
   vdo) toggle_video && exit 0 || exit 1 ;;
   pse) toggle_systemtimer && exit 0 || exit 1 ;;
