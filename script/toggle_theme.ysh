@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ysh
 
 CURRENT=$(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null)
 

@@ -28,8 +28,8 @@ spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd WAYLAND
 spawn-at-startup "sh" "-c" "systemctl --user stop xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-wlr xdg-desktop-portal-gtk; systemctl --user start xdg-desktop-portal"
 
 spawn-at-startup "awww-daemon"
-spawn-at-startup "sh" "$HOME/dotfiles/script/cycle_wallpaper.sh"
-spawn-at-startup "sh" "$HOME/dotfiles/script/launch-waybar.sh"
+spawn-at-startup "ysh" "$HOME/dotfiles/script/cycle_wallpaper.ysh"
+spawn-at-startup "ysh" "$HOME/dotfiles/script/launch-waybar.ysh"
 spawn-at-startup "swaync"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
@@ -228,10 +228,10 @@ binds {
 
     Alt+L hotkey-overlay-title="Lock the Screen: Swaylock" { spawn "swaylock"; }
 
-    Mod+W { spawn "~/dotfiles/script/cycle_wallpaper.sh" "seq"; }
-    Mod+Shift+W { spawn "~/dotfiles/script/cycle_wallpaper.sh" "rev"; }
-    Ctrl+Alt+W { spawn "~/dotfiles/script/cycle_wallpaper.sh" "rnd"; }
-    Mod+Alt+W { spawn "~/dotfiles/script/safe_wallpaper.sh"; }
+    Mod+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "seq"; }
+    Mod+Shift+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "rev"; }
+    Ctrl+Alt+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "rnd"; }
+    Mod+Alt+W { spawn "ysh" "/home/alice/dotfiles/script/safe_wallpaper.ysh"; }
 
     Super+Print { screenshot; }
     Print { screenshot-window; }

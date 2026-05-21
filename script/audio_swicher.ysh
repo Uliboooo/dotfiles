@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ysh
 
 # 1. Sinks（出力）セクションから次のセクション（Sources）までの間だけを抜き出す
 # 2. その中からIDと名前の行を取得

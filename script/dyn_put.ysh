@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env ysh
 
 if command -v bat >/dev/null 2>&1; then
   bat "$@"

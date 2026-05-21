@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ysh
 
 mount_p="$(mount | grep bk | awk '{print $3}')"
 if 

@@ -3,7 +3,7 @@ Description=wallpaper cycle by awww
 
 [Service]
 Type=oneshot
-ExecStart=%h/dotfiles/script/cycle_wallpaper.sh rnd
+ExecStart=/usr/bin/env ysh %h/dotfiles/script/cycle_wallpaper.ysh rnd
 StandardOutput=journal
 StandardError=journal
 

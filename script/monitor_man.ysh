@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ysh
 
 base_path="$HOME/dotfiles/.config/hypr/monitor"
 moni_path="$HOME/dotfiles/.config/hypr/monitor/monitor.conf"

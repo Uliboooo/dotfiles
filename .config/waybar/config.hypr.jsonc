@@ -119,7 +119,7 @@
     "on-click": "kitty --class='dev-float' -e jolt"
   },
   "custom/tlp": {
-    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
+    "exec": "~/dotfiles/script/tlp-waybar-status.ysh",
     "interval": 30,
     "format": "󰌪 {}"
   },

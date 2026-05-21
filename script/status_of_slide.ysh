@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env ysh
 
 systemctl --user status cycle_wallpaper.timer | grep "Active"
 

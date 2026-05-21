@@ -70,12 +70,12 @@ hl.bind("SUPER + backslash", hl.dsp.workspace.toggle_special("SCR"))
 hl.bind("SUPER + SHIFT + backslash", hl.dsp.window.move({ workspace = "special:SCR" }))
 
 -- wallpapers
-hl.bind("SUPER + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'seq'"))
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'rev'"))
+hl.bind("SUPER + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'seq'"))
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'rev'"))
 -- video wallpaper
-hl.bind("ALT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'vdo'"))
+hl.bind("ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'vdo'"))
 -- safe wallpaper
-hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/safe_wallpaper.sh"))
+hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/safe_wallpaper.ysh"))
 
 -- Immediately lock
 -- bind = SUPER SHIFT, E, exec, ~/dotfiles/commands/logout.py

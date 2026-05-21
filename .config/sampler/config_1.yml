@@ -105,7 +105,7 @@ textboxes:
     rate-ms: 500
     color: 45
     sample: |
-        sh -c '$HOME/dotfiles/script/asciiquarium-sampler.sh 100 18'
+        ysh -c '$HOME/dotfiles/script/asciiquarium-sampler.ysh 100 18'
     border: true
 
 asciiboxes:
