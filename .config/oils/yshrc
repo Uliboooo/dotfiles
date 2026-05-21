@@ -2,6 +2,7 @@
 # shellcheck shell=bash
 
 export HISTFILE="$HOME/.local/share/oils/ysh_history"
+export DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
 export PATH="$HOME/my_tools/bin:$HOME/my_apps/bin:$PATH"
@@ -82,8 +83,8 @@ ta() {
 
 ff() {
   if [[ "${TERM_BACKGROUND:-}" == "light" ]]; then
-    fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc
+    fastfetch --config "$DOTFILES_DIR/.config/fastfetch/light.jsonc"
   else
-    fastfetch --config ~/dotfiles/.config/fastfetch/config.jsonc
+    fastfetch --config "$DOTFILES_DIR/.config/fastfetch/config.jsonc"
   fi
 }
