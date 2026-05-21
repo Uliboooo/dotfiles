@@ -1,0 +1,124 @@
+#!/usr/bin/env ysh
+# shellcheck shell=bash
+
+get_all() {
+  find "$1" -maxdepth 1 -type f | sort
+}
+
+get_first_path() {
+  get_all "$1" | head -n 1
+}
+
+get_next_path() {
+  local current_path="$1"
+  local listed_paths="$2"
+  local rev_mode="$3"
+  local matched
+
+  if (( rev_mode == 0 )); then
+    matched="$(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -A 1)"
+  else
+    matched="$(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -B 1)"
+  fi
+
+  local matched_lines
+  matched_lines="$(printf '%s\n' "$matched" | wc -l | tr -d ' ')"
+
+  if (( matched_lines != 2 )); then
+    if (( rev_mode == 0 )); then
+      printf '%s\n' "$listed_paths" | head -n 1
+    else
+      printf '%s\n' "$listed_paths" | tail -n 1
+    fi
+  else
+    if (( rev_mode == 0 )); then
+      printf '%s\n' "$matched" | tail -n 1
+    else
+      printf '%s\n' "$matched" | head -n 1
+    fi
+  fi
+}
+
+seq_or_rev() {
+  local rev_mode="$1"
+  local wallpaper_dir="$2"
+  local current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
+  local next
+
+  if [[ -s "$current_paper_path" ]]; then
+    local current_paper
+    current_paper="$(cat "$current_paper_path")"
+    if [[ -f "$current_paper" ]]; then
+      local list
+      list="$(get_all "$wallpaper_dir")"
+      next="$(get_next_path "$current_paper" "$list" "$rev_mode")"
+    else
+      next="$(get_first_path "$wallpaper_dir")"
+    fi
+  else
+    next="$(get_first_path "$wallpaper_dir")"
+  fi
+
+  printf '%s\n' "$next" >"$current_paper_path"
+  printf '%s\n' "$next"
+}
+
+random_paper() {
+  local wallpaper_dir="$1"
+  local current_paper_path="$HOME/dotfiles/.config/hypr/env/CURRENT_PAPER"
+  local randomed_path
+
+  randomed_path="$(find "$wallpaper_dir" -type f | shuf -n 1)"
+  printf '%s\n' "$randomed_path" >"$current_paper_path"
+  printf '%s\n' "$randomed_path"
+}
+
+toggle_systemtimer() {
+  if systemctl --user is-active --quiet cycle_wallpaper.timer; then
+    if systemctl --user stop cycle_wallpaper.timer; then
+      notify-send "stop slideshow"
+    else
+      notify-send "failed stop slideshow"
+    fi
+  else
+    if systemctl --user start cycle_wallpaper.timer; then
+      notify-send "start slideshow"
+    else
+      notify-send "failed start slideshow"
+    fi
+  fi
+}
+
+toggle_video() {
+  local v_pid
+  v_pid="$(pgrep mpvpaper || true)"
+
+  if [[ -n "$v_pid" ]]; then
+    if pkill mpvpaper; then
+      notify-send "stop wallvideo"
+    else
+      notify-send "failed stop slideshow"
+    fi
+  else
+    if mpvpaper '*' "$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4" -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu"; then
+      notify-send "start wallvideo"
+    else
+      notify-send "failed start wallvideo"
+    fi
+  fi
+}
+
+wallpaper_dir="$HOME/Pictures/wallpapers/"
+
+case "${1:-}" in
+  seq) wall_path="$(seq_or_rev 0 "$wallpaper_dir")" ;;
+  rev) wall_path="$(seq_or_rev 1 "$wallpaper_dir")" ;;
+  rnd) wall_path="$(random_paper "$wallpaper_dir")" ;;
+  vdo) toggle_video && exit 0 || exit 1 ;;
+  pse) toggle_systemtimer && exit 0 || exit 1 ;;
+  *) wall_path="${2:-}" ;;
+esac
+
+mkdir -p "$HOME/dotfiles/.config/hypr/env"
+
+awww img "$wall_path" --transition-type center --transition-duration 0.5

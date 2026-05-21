@@ -35,6 +35,7 @@ in
     fzf
     fastfetch
     bun
+    oils-for-unix
     sheldon
     zsh-abbr
     lazygit
@@ -118,10 +119,6 @@ in
     };
     "ghostty" = {
       source = mkConfigLink "ghostty";
-      recursive = false;
-    };
-    "oils" = {
-      source = mkConfigLink "oils";
       recursive = false;
     };
     "hypr" = {

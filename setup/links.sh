@@ -38,7 +38,7 @@ link_or_ovr() {
 config_names=(
   "fastfetch" "fish" "fontconfig" "fuzzel" "ghostty" "git"
   "helix" "hypr" "hypr-presto" "karukan-im" "kitty" "niri" "nwg-drawer"
-  "nvim" "oils" "rofi" "sheldon" "stylua" "swaync" "systemd"
+  "nvim" "rofi" "sheldon" "stylua" "swaync" "systemd"
   "voime" "waybar" "vim" "xdg-desktop-portal" "yazi" "zsh-abbr"
 )
 
