@@ -35,6 +35,7 @@ in
     fzf
     fastfetch
     bun
+    oils-for-unix
     sheldon
     zsh-abbr
     lazygit
