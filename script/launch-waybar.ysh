@@ -24,12 +24,12 @@ if test -e "$arg1" {
 
 case "$XDG_CURRENT_DESKTOP" in
   Hyprland)
-    waybar -c "$BASE/config.hypr.jsonc" -s "$STYLE" &
+    fork { waybar -c "$BASE/config.hypr.jsonc" -s "$STYLE" }
     ;;
   niri)
-    waybar -c "$BASE/config.niri.jsonc" -s "$STYLE" &
+    fork { waybar -c "$BASE/config.niri.jsonc" -s "$STYLE" }
     ;;
   sway:wlroots)
-    waybar -c "$BASE/config.sway.jsonc" -s "$STYLE" &
+    fork { waybar -c "$BASE/config.sway.jsonc" -s "$STYLE" }
     ;;
 esac

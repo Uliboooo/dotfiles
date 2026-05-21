@@ -7,7 +7,7 @@ var reverse_mode = 1
 var current_paper_path = "${HOME}/dotfiles/.config/hypr/env/CURRENT_PAPER"
 var wallpaper_dir = "${HOME}/Pictures/wallpapers/"
 var wallvideo_path = "${HOME}/Pictures/wallvideo/ok_geek_eyes_24.mp4"
-var mpvpaper_args = "--hwdec=auto-safe --vo=gpu"
+var mpvpaper_args = "--hwdec=auto-safe --panscan=1.0"
 
 proc get_all(dir) {
   find "$dir" -maxdepth 1 -type f | sort
@@ -92,7 +92,7 @@ proc toggle_video() {
       notify-send "Failed stop wallvideo"
     }
   } else {
-    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork --mpv-args="$mpvpaper_args" {
+    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork -o "no-audio loop --panscan=1.0" --mpv-args="$mpvpaper_args" {
       notify-send "Start wallvideo"
     } else {
       notify-send "Failed start wallvideo"
