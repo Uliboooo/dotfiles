@@ -97,7 +97,7 @@ toggle_video() {
     if pkill mpvpaper; then
       notify-send "stop wallvideo"
     else
-      notify-send "failed stop slideshow"
+      notify-send "failed stop wallvideo"
     fi
   else
     if mpvpaper '*' "$HOME/Pictures/wallvideo/ok_geek_eyes_24.mp4" -o "no-audio loop" --fork --mpv-args="--hwdec=auto-safe --vo=gpu"; then
