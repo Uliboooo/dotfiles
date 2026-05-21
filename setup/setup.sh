@@ -132,7 +132,7 @@ DOTFILES_DIR="$HOME/dotfiles"
 configs=(
   "fastfetch" "fish" "fontconfig" "fuzzel" "ghostty" "git"
   "helix" "hypr" "hypr-presto" "karukan-im" "kitty" "niri" "nwg-drawer"
-  "nvim" "rofi" "sheldon" "stylua" "swaync" "systemd"
+  "nvim" "oils" "rofi" "sheldon" "stylua" "swaync" "systemd"
   "voime" "waybar" "vim" "xdg-desktop-portal" "yazi" "zsh-abbr"
 )
 

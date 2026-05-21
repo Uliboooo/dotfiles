@@ -8,7 +8,7 @@
 | :---: | :---: |
 | Terminal | Kitty, Ghostty |
 | Editor | Neovim, Vim|
-| Shell | zsh, fish |
+| Shell | YSH, zsh, fish |
 | Launcher | rofi, fuzzel |
 | VCS | git |
 | DE/WM | Hyprland |
@@ -16,10 +16,16 @@
 | Bar | Waybar |
 | Wallpaper | awww(swww) |
 | Filer | yazi |
-| Scripts | Bash, Python |
+| Scripts | YSH, Bash, Python |
 
 Catppuccin, and rose-pine are used mainly themes of my tools.
 and many of these scripts are dependent on my personal environment, it might not work as-is in your environment...
+
+## YSH
+
+YSH config now lives in `~/.config/oils/yshrc` (tracked in the repo as `.config/oils/yshrc`).
+
+The current setup keeps the existing zsh login-shell flow intact, but the shared shell environment now also has a first-class YSH config so it can be tried incrementally.
 
 ## Requires of Hyprland
 

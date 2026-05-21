@@ -120,6 +120,10 @@ in
       source = mkConfigLink "ghostty";
       recursive = false;
     };
+    "oils" = {
+      source = mkConfigLink "oils";
+      recursive = false;
+    };
     "hypr" = {
       source = mkConfigLink "hypr";
       recursive = false;
