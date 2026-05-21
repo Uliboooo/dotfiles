@@ -54,7 +54,11 @@ hl.bind("SUPER + P", hl.dsp.exec_cmd("hyprshot -m window -m active --freeze"), {
 -- region
 hl.bind("CONTROL + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --freeze"), { locked = true })
 -- output
-hl.bind("SUPER + PRINT", hl.dsp.exec_cmd("hyprshot -m output -m active --freeze"), { locked = true })
+hl.bind(
+  "SUPER + PRINT",
+  hl.dsp.exec_cmd("hyprshot -m output -m active --freeze"),
+  { locked = true }
+)
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh ~/dotfiles/commands/cmd_p.py"))
 
 -- toggle msg ws
@@ -62,21 +66,14 @@ hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh ~/dotfiles/commands/cmd_p.py"))
 hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("MSG"))
 hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:MSG" }))
 
--- bind = SUPER, grave, togglespecialworkspace, ScrPad
--- bind = SUPER SHIFT, grave, movetoworkspace, special:ScrPad
-
--- toggle ScrPad
--- bind = SUPER, backslash, togglespecialworkspace, ScrPad
--- bind = SUPER SHIFT, backslash, movetoworkspace, special:ScrPad
-
 hl.bind("SUPER + backslash", hl.dsp.workspace.toggle_special("SCR"))
 hl.bind("SUPER + SHIFT + backslash", hl.dsp.window.move({ workspace = "special:SCR" }))
 
 -- wallpapers
--- bind = SUPER, W, exec, ~/dotfiles/script/cycle_wallpaper.sh "seq"
 hl.bind("SUPER + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'seq'"))
--- bind = SUPER SHIFT, W, exec, ~/dotfiles/script/cycle_wallpaper.sh "rev"
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'rev'"))
+-- video wallpaper
+hl.bind("ALT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/cycle_wallpaper.sh 'vdo'"))
 -- safe wallpaper
 hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/safe_wallpaper.sh"))
 
@@ -85,7 +82,10 @@ hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("sh ~/dotfiles/script/safe_wallpaper.
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/commands/logout.py"))
 
 -- cliphist
-hl.bind("SUPER + SHIFT + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -p ' ' | cliphist decode | wl-copy"))
+hl.bind(
+  "SUPER + SHIFT + V",
+  hl.dsp.exec_cmd("cliphist list | rofi -dmenu -p ' ' | cliphist decode | wl-copy")
+)
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
@@ -93,16 +93,36 @@ hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- ラップトップ マルチメディアキー（音量・輝度）
 -- bindel = repeating + locked → { repeating = true, locked = true }
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-  { repeating = true, locked = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 3%+"), { repeating = true, locked = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 3%-"), { repeating = true, locked = true })
+hl.bind(
+  "XF86AudioRaiseVolume",
+  hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"),
+  { repeating = true, locked = true }
+)
+hl.bind(
+  "XF86AudioLowerVolume",
+  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"),
+  { repeating = true, locked = true }
+)
+hl.bind(
+  "XF86AudioMute",
+  hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+  { repeating = true, locked = true }
+)
+hl.bind(
+  "XF86AudioMicMute",
+  hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+  { repeating = true, locked = true }
+)
+hl.bind(
+  "XF86MonBrightnessUp",
+  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 3%+"),
+  { repeating = true, locked = true }
+)
+hl.bind(
+  "XF86MonBrightnessDown",
+  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 3%-"),
+  { repeating = true, locked = true }
+)
 -- hl.bind("XF86LinkPhone", hl.dsp.workspace.change({ delta = 1 }), { repeating = true, locked = true })
 
 -- playerctl（bindl = locked のみ）
@@ -113,8 +133,16 @@ hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("SUPER + K", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 
 -- 蓋スイッチ
-hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh close"), { locked = true })
-hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh open"), { locked = true })
+hl.bind(
+  "switch:on:Lid Switch",
+  hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh close"),
+  { locked = true }
+)
+hl.bind(
+  "switch:off:Lid Switch",
+  hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh open"),
+  { locked = true }
+)
 
 -- リサイズモード（submap）
 hl.bind("SUPER + R", hl.dsp.submap("resize"))
