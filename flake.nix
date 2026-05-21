@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-hazkey = {
-      url = "github:aster-void/nix-hazkey";
+      url = "github:aster-void/nix-hazkey/4f791a241963f6804420d69613c25c6d25610e73";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
