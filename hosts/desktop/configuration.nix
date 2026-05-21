@@ -40,6 +40,8 @@
     openssl
   ];
 
+  programs.direnv.enable = true;
+
   nixpkgs.config.allowUnfree = true;
 
   users.users.alice = {

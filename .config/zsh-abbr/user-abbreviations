@@ -51,6 +51,9 @@ abbr cb="cargo build"
 abbr cr="cargo run"
 abbr cf="cargo fmt"
 abbr ch="cargo check"
+abbr cn="cp ~/dotfiles/rust_dev_temp/flake.nix ./flake.nix && ls ./flake.nix"
+
+abbr nd='nix develop -c $SHELL'
 
 # ---------------------------------------------------------------------
 # C / C++

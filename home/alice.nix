@@ -87,6 +87,11 @@ in
     nixfmt-rfc-style
     typescript
     mpvpaper
+    libnotify
+    mediainfo
+    rust-analyzer
+    rustfmt
+    cargo
 
     inputs.self.packages.${pkgs.system}.sampler
   ];
