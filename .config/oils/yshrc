@@ -37,7 +37,7 @@ else
   export PATH="/opt/rocm/bin:$PATH"
   export PATH="$HOME/.local/bin/lap_tap:$PATH"
   export PATH="$HOME/.npm-global/bin:$PATH"
-  export PATH="/home/alice/.cache/.bun/bin:$PATH"
+  export PATH="$HOME/.cache/.bun/bin:$PATH"
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}:/opt/rocm/lib"
   export ROCM_PATH=/opt/rocm
   export OLLAMA_DEBUG=1
