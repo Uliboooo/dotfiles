@@ -13,8 +13,8 @@ window-width = 200
 # background-image-opacity = 1.5
 background-image-fit = cover
 
-background-opacity = 0.96
-background-blur-radius = 20
+background-opacity = 0.94
+background-blur-radius = 6
 
 #  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
 #   ║  ╠═╣ ║╣  ║║║ ║╣
