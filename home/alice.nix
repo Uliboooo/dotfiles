@@ -10,14 +10,14 @@ let
   bunInstallDir = "${config.home.homeDirectory}/.cache/.bun";
   bunBinDir = "${bunInstallDir}/bin";
 
-  mkConfigLink =
-    name:
-    # the actual files are fixed dotfiles/.config/<name>
-    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
+  isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.isDarwin;
+
+  mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
   home.username = "alice";
-  home.homeDirectory = "/home/alice";
+  home.homeDirectory = pkgs.lib.mkForce (if isDarwin then "/Users/alice" else "/home/alice");
   home.stateVersion = "24.11";
 
   home.sessionVariables = {
@@ -26,78 +26,84 @@ in
     LD = "lld";
   };
 
-  # ===== personal ====
-  home.packages = with pkgs; [
-    git
-    neovim
-    kitty
-    yazi
-    fzf
-    fastfetch
-    bun
-    oils-for-unix
-    sheldon
-    zsh-abbr
-    lazygit
-    gh
-    zip
-    unzip
-    ghq
-    nerd-fonts.symbols-only
-    nerd-fonts.jetbrains-mono
-    google-chrome
-    btop
-    inputs.jolt.packages.${pkgs.system}.default
-    bluetui
-    pulsemixer
-    brightnessctl
-    difftastic
-    playerctl
-    tokei
-    wget
-    go
-    gopls
-    zig
-    zls
-    ghostty
-    jq
-    hollywood
-    asciiquarium
-    tmux
-    tree-sitter
-    clang
-    llvm
-    lld
-    restic
-    libreoffice
-    nautilus
-    ffmpeg
-    mpv
-    loupe
-    ffmpegthumbnailer
-    clapper
-    vlc
-    showtime
-    wiremix
-    biome
-    stylua
-    shfmt
-    statix
-    deadnix
-    nil
-    nixfmt-rfc-style
-    typescript
-    mpvpaper
-    libnotify
-    mediainfo
-    rust-analyzer
-    rustfmt
-    cargo
+  # ===== packages =====
+  home.packages =
+    with pkgs;
+    [
+      # common
+      git
+      neovim
+      kitty
+      yazi
+      fzf
+      fastfetch
+      bun
+      oils-for-unix
+      sheldon
+      zsh-abbr
+      lazygit
+      gh
+      zip
+      unzip
+      ghq
+      nerd-fonts.symbols-only
+      nerd-fonts.jetbrains-mono
+      google-chrome
+      btop
+      difftastic
+      tokei
+      wget
+      go
+      gopls
+      zig
+      zls
+      jq
+      asciiquarium
+      tmux
+      tree-sitter
+      clang
+      llvm
+      lld
+      restic
+      ffmpeg
+      mpv
+      biome
+      stylua
+      shfmt
+      statix
+      deadnix
+      nil
+      nixfmt-rfc-style
+      typescript
+      libnotify
+      mediainfo
+      rust-analyzer
+      rustfmt
+      cargo
+      eza
+      bat
+    ]
+    ++ pkgs.lib.optionals isLinux [
+      ghostty
+      hollywood
+      inputs.jolt.packages.${pkgs.system}.default
+      inputs.self.packages.${pkgs.system}.sampler
+      # Linux-only
+      bluetui
+      pulsemixer
+      brightnessctl
+      playerctl
+      libreoffice
+      nautilus
+      loupe
+      ffmpegthumbnailer
+      clapper
+      vlc
+      showtime
+      wiremix
+      mpvpaper
+    ];
 
-    inputs.self.packages.${pkgs.system}.sampler
-  ];
-
-  # moving global npm installs to the user direcotry to avoid permission errors
   home.sessionVariables = {
     NPM_CONFIG_PREFIX = npmGlobalDir;
     BUN_INSTALL = bunInstallDir;
@@ -121,15 +127,6 @@ in
       source = mkConfigLink "ghostty";
       recursive = false;
     };
-    "hypr" = {
-      source = mkConfigLink "hypr";
-      recursive = false;
-    };
-    "waybar" = {
-      source = mkConfigLink "waybar";
-      recursive = false;
-    };
-
     "git" = {
       source = mkConfigLink "git";
       recursive = false;
@@ -144,10 +141,6 @@ in
     };
     "rofi" = {
       source = mkConfigLink "rofi";
-      recursive = false;
-    };
-    "swaync" = {
-      source = mkConfigLink "swaync";
       recursive = false;
     };
     "sampler" = {
@@ -168,6 +161,21 @@ in
     };
     "cliphist" = {
       source = mkConfigLink "cliphist";
+      recursive = false;
+    };
+  }
+  // pkgs.lib.optionalAttrs isLinux {
+    # Linux-only xdg configs (Wayland/Hyprland)
+    "hypr" = {
+      source = mkConfigLink "hypr";
+      recursive = false;
+    };
+    "waybar" = {
+      source = mkConfigLink "waybar";
+      recursive = false;
+    };
+    "swaync" = {
+      source = mkConfigLink "swaync";
       recursive = false;
     };
     "systemd/user/cycle_wallpaper.service".source =

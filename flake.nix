@@ -15,23 +15,30 @@
       url = "github:jordond/jolt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }@inputs:
+    { nixpkgs, home-manager, nix-darwin, ... }@inputs:
     let
-      system = "x86_64-linux";
+      linuxSystem = "x86_64-linux";
+      darwinSystem = "aarch64-darwin"; # change to x86_64-darwin for Intel Mac
 
       pkgs = import nixpkgs {
-        inherit system;
+        system = linuxSystem;
       };
 
       sampler = pkgs.callPackage ./pkgs/sampler.nix { };
     in
     {
-      packages.${system}.sampler = sampler;
+      packages.${linuxSystem}.sampler = sampler;
+
+      # ===== NixOS (desktop) =====
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = linuxSystem;
         specialArgs = {
           inherit inputs;
         };
@@ -53,6 +60,28 @@
 
           home-manager.nixosModules.home-manager
           {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+            home-manager.users.alice = import ./home/alice.nix;
+          }
+        ];
+      };
+
+      # ===== macOS =====
+      darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
+        system = darwinSystem;
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          home-manager.darwinModules.home-manager
+          {
+            system.stateVersion = 7;
+            nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
