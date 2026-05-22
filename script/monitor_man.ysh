@@ -1,0 +1,31 @@
+#!/usr/bin/env ysh
+
+var HOME = ENV.HOME
+
+var base_path = "${HOME}/dotfiles/.config/hypr/monitor"
+var moni_path = "${HOME}/dotfiles/.config/hypr/monitor/monitor.conf"
+
+var help_msg = "dsgl: thinkpad + ~~4k~~
+lsgl: thinkpad
+dual: thinkpad + 4k"
+
+var arg1 = ""
+if (len(ARGV) > 0) {
+  setvar arg1 = ARGV[0]
+}
+
+var path = ""
+case "$arg1" in
+  dsgl) setvar path = "${base_path}/home.conf" ;;
+  lsgl) setvar path = "${base_path}/laptop.conf" ;;
+  dual) setvar path = "${base_path}/home_dual.conf" ;;
+  *) 
+    if (len(ARGV) > 1) {
+      setvar path = ARGV[1]
+    }
+    ;;
+esac
+
+ln -fs "$path" "$moni_path"
+
+eza -l "$moni_path"

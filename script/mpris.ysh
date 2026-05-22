@@ -1,0 +1,155 @@
+#!/usr/bin/env ysh
+
+# mpris.ysh <status|title|artist|progress|art>
+
+var HOME = ENV.HOME
+var XDG_CACHE_HOME = ENV.XDG_CACHE_HOME || "${HOME}/.cache"
+var CACHE_DIR = "${XDG_CACHE_HOME}/hyprlock"
+
+mkdir -p "$CACHE_DIR"
+
+proc _player() {
+    playerctl --list-all 2>/dev/null | head -1
+}
+
+proc _is_active(player) {
+    var status = $(playerctl --player="$player" status 2>/dev/null)
+    if (status === "Playing" || status === "Paused") {
+        return 0
+    }
+    return 1
+}
+
+proc mpris_status() {
+    var player = $(_player)
+    if (player === "") { return }
+
+    var status = $(playerctl --player="$player" status 2>/dev/null)
+    case "$status" in
+        Playing)
+            var icon = ""
+            case "$player" in
+                *spotify*)          setvar icon = "" ;;
+                *mpd*|*mopidy*)    setvar icon = "󰎆" ;;
+                *firefox*|*chrom*) setvar icon = "󰈹" ;;
+                *)                  setvar icon = "󰝚" ;;
+            esac
+            echo "$icon  Now Playing"
+            ;;
+        Paused)
+            echo "󰏤  Paused"
+            ;;
+    esac
+}
+
+proc mpris_title() {
+    var player = $(_player)
+    if (player === "") { return }
+    if _is_active "$player" { 
+        # continue
+    } else {
+        return
+    }
+
+    var title = $(playerctl --player="$player" metadata title 2>/dev/null)
+    if (title === "") { return }
+
+    if (len(title) > 28) {
+        echo "${title:0:26}…"
+    else
+        echo "$title"
+    }
+}
+
+proc mpris_artist() {
+    var player = $(_player)
+    if (player === "") { return }
+    if _is_active "$player" {
+        # continue
+    } else {
+        return
+    }
+
+    var artist = $(playerctl --player="$player" metadata artist 2>/dev/null)
+    if (artist === "") { return }
+
+    if (len(artist) > 32) {
+        echo "${artist:0:30}…"
+    else
+        echo "$artist"
+    }
+}
+
+proc mpris_progress() {
+    var player = $(_player)
+    if (player === "") { return }
+    if _is_active "$player" {
+        # continue
+    } else {
+        return
+    }
+
+    var pos = $(playerctl --player="$player" position 2>/dev/null | cut -d. -f1)
+    var length = $(playerctl --player="$player" metadata mpris:length 2>/dev/null)
+    if (pos === "" || length === "") { return }
+
+    var len_sec = $(echo $((length / 1000000)))
+    if (len_sec === "0") { return }
+
+    var pos_min = $(echo $((pos / 60)))
+    var pos_sec = $(echo $((pos % 60)))
+    var len_min = $(echo $((len_sec / 60)))
+    var len_sec_r = $(echo $((len_sec % 60)))
+
+    var filled = $(echo $((pos * 16 / len_sec)))
+    if (int(filled) > 16) { setvar filled = "16" }
+
+    var bar = ""
+    for i in $(seq 1 $filled) { setvar bar = "${bar}━" }
+    for i in $(seq $((int(filled)+1)) 16) { setvar bar = "${bar}─" }
+
+    printf "%d:%02d  %s  %d:%02d\n" $pos_min $pos_sec "$bar" $len_min $len_sec_r
+}
+
+proc mpris_art() {
+    var player = $(_player)
+    if (player === "") { return }
+    if _is_active "$player" {
+        # continue
+    } else {
+        return
+    }
+
+    var url = $(playerctl --player="$player" metadata mpris:artUrl 2>/dev/null)
+    if (url === "") { return }
+
+    if (url.startsWith("file://")) {
+        echo "${url#file://}"
+    else
+        var trackid = $(playerctl --player="$player" metadata mpris:trackid 2>/dev/null | tr -dc 'a-zA-Z0-9' | tail -c 40)
+        var cached = "${CACHE_DIR}/art_${trackid}.jpg"
+        if test ! -f "$cached" {
+            rm -f "$CACHE_DIR"/art_*.jpg 2>/dev/null
+            curl -sL "$url" -o "$cached" 2>/dev/null
+        }
+        if test -f "$cached" { echo "$cached" }
+    }
+}
+
+# エントリポイント
+var arg1 = ""
+if (len(ARGV) > 0) {
+  setvar arg1 = ARGV[0]
+}
+
+case "$arg1" in
+    status)   mpris_status   ;;
+    title)    mpris_title    ;;
+    artist)   mpris_artist   ;;
+    progress) mpris_progress ;;
+    art)      mpris_art      ;;
+    *)
+        echo "Usage: $0 <status|title|artist|progress|art>" >&2
+        exit 1
+        ;;
+esac

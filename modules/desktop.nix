@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  # ===== デスクトップ基盤 (システム全体) =====
+  # ===== desktop base (entire system) =====
   programs.hyprland.enable = true;
-
   # PipeWire + rtkit
   security.rtkit.enable = true;
   services.pipewire = {
@@ -24,22 +23,21 @@
 
   # polkit
   security.polkit.enable = true;
-  # gnome-keyring を NixOS サービスとして有効化
+  # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
-  # ログイン時に keyring を PAM 連携で解錠
+  # unlock keyring by PAM relation when login
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  # GDM (GUI ログイン) を使う
+  # GDM
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
   services.displayManager.defaultSession = "hyprland";
   services.greetd.enable = false;
 
-  # 省電力管理 (TLP)
+  # tlp
   services.tlp.enable = true;
-  # TLP と競合しやすいため無効化
   services.power-profiles-daemon.enable = false;
 
   # Bluetooth

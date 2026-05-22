@@ -1,0 +1,138 @@
+#!/usr/bin/env ysh
+
+var HOME = ENV.HOME
+
+var forward_mode = 0
+var reverse_mode = 1
+var current_paper_path = "${HOME}/dotfiles/.config/hypr/env/CURRENT_PAPER"
+var wallpaper_dir = "${HOME}/Pictures/wallpapers/"
+var wallvideo_path = "${HOME}/Pictures/wallvideo/ok_geek_eyes_24.mp4"
+var mpvpaper_args = "--hwdec=auto-safe --panscan=1.0"
+
+proc get_all(dir) {
+  find "$dir" -maxdepth 1 -type f | sort
+}
+
+proc get_first_path(dir) {
+  get_all "$dir" | head -n 1
+}
+
+proc get_next_path(current_path, listed_paths, rev_mode) {
+  var matched = ""
+  if (rev_mode === forward_mode) {
+    setvar matched = $(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -A 1)
+  } else {
+    setvar matched = $(printf '%s\n' "$listed_paths" | grep -Fx "$current_path" -B 1)
+  }
+
+  var matched_lines = $(printf '%s\n' "$matched" | wc -l | tr -d ' ')
+
+  if (matched_lines !== "2") {
+    if (rev_mode === forward_mode) {
+      printf '%s\n' "$listed_paths" | head -n 1
+    } else {
+      printf '%s\n' "$listed_paths" | tail -n 1
+    }
+  } else {
+    if (rev_mode === forward_mode) {
+      printf '%s\n' "$matched" | tail -n 1
+    } else {
+      printf '%s\n' "$matched" | head -n 1
+    }
+  }
+}
+
+proc seq_or_rev(rev_mode, wallpaper_dir) {
+  var next = ""
+  if test -s "$current_paper_path" {
+    var current_paper = $(cat "$current_paper_path")
+    if test -f "$current_paper" {
+      var list = $(get_all "$wallpaper_dir")
+      setvar next = $(get_next_path "$current_paper" "$list" "$rev_mode")
+    } else {
+      setvar next = $(get_first_path "$wallpaper_dir")
+    }
+  } else {
+    setvar next = $(get_first_path "$wallpaper_dir")
+  }
+
+  printf '%s\n' "$next" > "$current_paper_path"
+  printf '%s\n' "$next"
+}
+
+proc random_paper(wallpaper_dir) {
+  var randomed_path = $(find "$wallpaper_dir" -type f | shuf -n 1)
+  printf '%s\n' "$randomed_path" > "$current_paper_path"
+  printf '%s\n' "$randomed_path"
+}
+
+proc toggle_systemtimer() {
+  if systemctl --user is-active --quiet cycle_wallpaper.timer {
+    if systemctl --user stop cycle_wallpaper.timer {
+      notify-send "Stop slideshow"
+    } else {
+      notify-send "Failed stop slideshow"
+    }
+  } else {
+    if systemctl --user start cycle_wallpaper.timer {
+      notify-send "Start slideshow"
+    } else {
+      notify-send "Failed start slideshow"
+    }
+  }
+}
+
+proc toggle_video() {
+  var v_pid = $(pgrep mpvpaper || true)
+
+  if (v_pid !== "") {
+    if pkill mpvpaper {
+      notify-send "Stop wallvideo"
+    } else {
+      notify-send "Failed stop wallvideo"
+    }
+  } else {
+    if mpvpaper '*' "$wallvideo_path" -o "no-audio loop" --fork -o "no-audio loop --panscan=1.0" --mpv-args="$mpvpaper_args" {
+      notify-send "Start wallvideo"
+    } else {
+      notify-send "Failed start wallvideo"
+    }
+  }
+}
+
+var wall_path = ""
+var arg1 = ""
+if (len(ARGV) > 0) {
+  setvar arg1 = ARGV[0]
+}
+
+case "$arg1" in
+  seq)
+    setvar wall_path = $(seq_or_rev "$forward_mode" "$wallpaper_dir")
+    ;;
+  rev)
+    setvar wall_path = $(seq_or_rev "$reverse_mode" "$wallpaper_dir")
+    ;;
+  rnd)
+    setvar wall_path = $(random_paper "$wallpaper_dir")
+    ;;
+  vdo)
+    toggle_video
+    exit 0
+    ;;
+  pse)
+    toggle_systemtimer
+    exit 0
+    ;;
+  *) 
+    if (len(ARGV) > 1) {
+      setvar wall_path = ARGV[1]
+    }
+    ;;
+esac
+
+mkdir -p "${HOME}/dotfiles/.config/hypr/env"
+
+if (wall_path !== "") {
+  awww img "$wall_path" --transition-type center --transition-duration 0.5
+}

@@ -10,14 +10,14 @@ slide_dev = home + "/Develop/linux_slide/"
 
 cmds = {
     "󰸉 Toggle WP slideshow":   ["sh", script + "cycle_wallpaper.sh", "pse"],
-    "󰔎 Toggle theme L-D":          ["sh", script + "toggle_theme.sh"],
+    "󰔎 Toggle theme L-D":          ["ysh", script + "toggle_theme.ysh"],
     " Random WP":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
-    "󰴰 Change to pub WP":               ["sh", script + "safe_wallpaper.sh"],
-    " Show status of WP slide":   ["sh", script + "status_of_slide.sh"],
+    "󰴰 Change to pub WP":               ["ysh", script + "safe_wallpaper.ysh"],
+    " Show status of WP slide":   ["ysh", script + "status_of_slide.ysh"],
     "󱎐 Launch white in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
     "󰹑 Screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
     "󱂬 Screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
-    " Toggle visual effects":            ["sh", script + "toggle_visual.sh"],
+    " Toggle visual effects":            ["ysh", script + "toggle_visual.ysh"],
     "󰑓 Reload Hyprland config":           ["hyprctl", "reload"],
 }
 

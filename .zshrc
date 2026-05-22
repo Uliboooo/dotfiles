@@ -72,11 +72,6 @@ nix_shell_prompt() {
 PROMPT='$(remote_info)%F{blue}%~%f $(nix_shell_prompt)$(git_prompt)
 $(face_prompt) '
 
-# if ! command -v yay &>/dev/null; then
-#   sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-# fi
-
-
 if ! command -v sheldon &>/dev/null; then
   echo "Installing sheldon..."
   ln -fs $HOME/dotfiles/.config/zsh-abbr ~/.config/zsh-abbr/
@@ -268,6 +263,20 @@ function ff() {
 
 function g() {
   cd "$(ghq root)/$(ghq list | fzf --preview 'ls $(ghq root)/{}')"
+}
+
+function nsh() {
+  local file
+
+  file=$(
+    fd --type f -0 . \
+      | xargs -0 stat --format "%Y %n" \
+      | sort -rn \
+      | cut -d " " -f2- \
+      | fzf
+  ) || return
+
+  [[ -n "$file" ]] && nvim "$file"
 }
 
 # zprof

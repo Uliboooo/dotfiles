@@ -8,8 +8,13 @@
     # ../../modules/thinkpad.nix
   ];
 
-  networking.hostName = "desktop";
+  networking.hostName = "aliceinnixland";
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "none";
+  networking.nameservers = [
+    "1.1.1.1"
+    "1.0.0.1"
+  ];
 
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -19,32 +24,36 @@
   };
   services.hazkey.enable = true;
 
-  # UEFI 環境向けの基本ブートローダー設定
-  # Legacy BIOS の場合は grub 設定へ差し替えてください
+  # bootloader configurations for UEFI
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # flakes コマンドを常用できるようにする
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # bun/npm で入れた動的リンク実行ファイル (copilot など) を動かす
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-  stdenv.cc.cc
-  zlib
-  openssl
-];
+    stdenv.cc.cc
+    zlib
+    openssl
+  ];
 
-  # 利用中アプリ都合で unfree を許可
+  programs.direnv.enable = true;
+
   nixpkgs.config.allowUnfree = true;
 
   users.users.alice = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
     shell = pkgs.zsh;
   };
 
   programs.zsh.enable = true;
 
-  # ここはマシン導入時に決めた値から変更しない
   system.stateVersion = "24.11";
 }

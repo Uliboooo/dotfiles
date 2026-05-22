@@ -10,15 +10,15 @@ slide_dev = home + "/Develop/linux_slide/"
 
 cmds = {
     "󰸉 Toggle slideshow of wallpapers":   ["sh", script + "cycle_wallpaper.sh", "pse"],
-    "󰔎 Toggle light-dark theme":          ["sh", script + "toggle_theme.sh"],
+    "󰔎 Toggle light-dark theme":          ["ysh", script + "toggle_theme.ysh"],
     " Random wallpaper":                 ["sh", script + "cycle_wallpaper.sh", "rnd"],
-    "󰴰 Change to pub wall":               ["sh", script + "safe_wallpaper.sh"],
-    "Show status of wallpaper slide":   ["sh", script + "status_of_slide.sh"],
+    "󰴰 Change to pub wall":               ["ysh", script + "safe_wallpaper.ysh"],
+    "Show status of wallpaper slide":   ["ysh", script + "status_of_slide.ysh"],
     "Launch slide in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/slide.conf", "--directory", slide_dev],
     "Launch white in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
     "󰹑 Screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
     "󱂬 Screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
-    "Toggle visual effects":            ["sh", script + "toggle_visual.sh"],
+    "Toggle visual effects":            ["ysh", script + "toggle_visual.ysh"],
     "Reload Hyprland config":           ["hyprctl", "reload"],
 }
 

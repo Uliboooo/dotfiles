@@ -1,22 +1,32 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   dotfilesDir = "${config.home.homeDirectory}/dotfiles";
   npmGlobalDir = "${config.home.homeDirectory}/.npm-global";
   bunInstallDir = "${config.home.homeDirectory}/.cache/.bun";
   bunBinDir = "${bunInstallDir}/bin";
 
-  mkConfigLink = name:
-    # 実体は dotfiles/.config/<name> に固定
+  mkConfigLink =
+    name:
+    # the actual files are fixed dotfiles/.config/<name>
     config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
   home.username = "alice";
   home.homeDirectory = "/home/alice";
   home.stateVersion = "24.11";
-  nixpkgs.config.allowUnfree = true;
 
-  # ===== 個人レイヤー =====
-  # 個人で使う CLI/TUI は Home Manager 側で管理
+  home.sessionVariables = {
+    CC = "clang";
+    CXX = "clang++";
+    LD = "lld";
+  };
+
+  # ===== personal ====
   home.packages = with pkgs; [
     git
     neovim
@@ -25,6 +35,7 @@ in
     fzf
     fastfetch
     bun
+    oils-for-unix
     sheldon
     zsh-abbr
     lazygit
@@ -36,6 +47,7 @@ in
     nerd-fonts.jetbrains-mono
     google-chrome
     btop
+    inputs.jolt.packages.${pkgs.system}.default
     bluetui
     pulsemixer
     brightnessctl
@@ -47,9 +59,45 @@ in
     gopls
     zig
     zls
+    ghostty
+    jq
+    hollywood
+    asciiquarium
+    tmux
+    tree-sitter
+    clang
+    llvm
+    lld
+    restic
+    libreoffice
+    nautilus
+    ffmpeg
+    mpv
+    loupe
+    ffmpegthumbnailer
+    clapper
+    vlc
+    showtime
+    wiremix
+    biome
+    stylua
+    shfmt
+    statix
+    deadnix
+    nil
+    nixfmt-rfc-style
+    typescript
+    mpvpaper
+    libnotify
+    mediainfo
+    rust-analyzer
+    rustfmt
+    cargo
+
+    inputs.self.packages.${pkgs.system}.sampler
   ];
 
-  # npm の global install をユーザー領域へ逃がして権限エラーを回避
+  # moving global npm installs to the user direcotry to avoid permission errors
   home.sessionVariables = {
     NPM_CONFIG_PREFIX = npmGlobalDir;
     BUN_INSTALL = bunInstallDir;
@@ -61,13 +109,16 @@ in
 
   xdg.enable = true;
   xdg.configFile = {
-    # 実体は dotfiles 側の「普通のファイル/ディレクトリ」を使う
     "nvim" = {
       source = mkConfigLink "nvim";
       recursive = false;
     };
     "kitty" = {
       source = mkConfigLink "kitty";
+      recursive = false;
+    };
+    "ghostty" = {
+      source = mkConfigLink "ghostty";
       recursive = false;
     };
     "hypr" = {
@@ -79,7 +130,6 @@ in
       recursive = false;
     };
 
-    # 既存運用に合わせて必要なものを順次追加
     "git" = {
       source = mkConfigLink "git";
       recursive = false;
@@ -100,8 +150,16 @@ in
       source = mkConfigLink "swaync";
       recursive = false;
     };
+    "sampler" = {
+      source = mkConfigLink "sampler";
+      recursive = false;
+    };
     "sheldon" = {
       source = mkConfigLink "sheldon";
+      recursive = false;
+    };
+    "stylua" = {
+      source = mkConfigLink "stylua";
       recursive = false;
     };
     "zsh-abbr" = {
@@ -116,7 +174,5 @@ in
       config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
   };
 
-  # zsh は dotfiles 実体をそのまま使う
-  home.file.".zshrc".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
+  home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
 }

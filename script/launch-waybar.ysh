@@ -1,0 +1,35 @@
+#!/usr/bin/env ysh
+
+# script/launch-waybar.ysh
+
+# $1: style file
+
+var HOME = ENV.HOME
+var XDG_CURRENT_DESKTOP = ENV.XDG_CURRENT_DESKTOP
+
+pkill waybar || true
+sleep 0.5
+
+var STYLE = "${HOME}/dotfiles/.config/waybar/style.css"
+var BASE = "${HOME}/dotfiles/.config/waybar"
+
+var arg1 = ""
+if (len(ARGV) > 0) {
+  setvar arg1 = ARGV[0]
+}
+
+if test -e "$arg1" {
+  setvar STYLE = arg1
+}
+
+case "$XDG_CURRENT_DESKTOP" in
+  Hyprland)
+    fork { waybar -c "$BASE/config.hypr.jsonc" -s "$STYLE" }
+    ;;
+  niri)
+    fork { waybar -c "$BASE/config.niri.jsonc" -s "$STYLE" }
+    ;;
+  sway:wlroots)
+    fork { waybar -c "$BASE/config.sway.jsonc" -s "$STYLE" }
+    ;;
+esac

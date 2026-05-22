@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   # 全ホスト共通の最小セット
+  # minimal set common to all hosts
   environment.systemPackages = with pkgs; [
     git
     curl

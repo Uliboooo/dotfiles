@@ -52,7 +52,12 @@ return {
           json = { "biome" },
           jsonc = { "biome" },
           sh = { "shfmt" },
-          astro = { "prettier" },
+          astro = { "biome" },
+          nix = { "nixfmt" },
+          typescript = { "biome" },
+          typescriptreact = { "biome" },
+          javascript = { "biome" },
+          javascriptreact = { "biome" },
         },
         format_on_save = {
           timeout_ms = 500,
