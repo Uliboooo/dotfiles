@@ -166,6 +166,10 @@ in
       source = mkConfigLink "zsh-abbr";
       recursive = false;
     };
+    "cliphist" = {
+      source = mkConfigLink "cliphist";
+      recursive = false;
+    };
     "systemd/user/cycle_wallpaper.service".source =
       config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.service";
     "systemd/user/cycle_wallpaper.timer".source =
