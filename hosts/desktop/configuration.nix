@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./hardware-configuration.nix
@@ -25,9 +30,30 @@
   services.hazkey.enable = true;
 
   services.fprintd.enable = true;
+  security.pam.services = {
+    login.fprintAuth = lib.mkForce true;
+    sudo.fprintAuth = true;
+  };
 
-  security.pam.services.login.fprintAuth = true;
-  security.pam.services.sudo.fprintAuth = true;
+  # LUKS devices
+  boot.initrd.luks.devices = {
+    # Swap partition
+    "luks-1dc20a4c-0384-4870-bb99-e5a65f1df495" = {
+      device = "/dev/disk/by-uuid/1dc20a4c-0384-4870-bb99-e5a65f1df495";
+      allowDiscards = true;
+    };
+    # Backup disk
+    "bk_disk" = {
+      device = "/dev/disk/by-uuid/86f101a3-83e7-42e6-9cba-06b2621f8db2";
+      allowDiscards = true;
+    };
+  };
+
+  fileSystems."/mnt/bk_disk" = {
+    device = "/dev/mapper/bk_disk";
+    fsType = "ext4";
+    options = [ "noauto" "nofail" ];
+  };
 
   # bootloader configurations for UEFI
   boot.loader.systemd-boot.enable = true;
@@ -59,6 +85,9 @@
   };
 
   programs.zsh.enable = true;
+
+  # Manage /etc/crypttab via Nix to override manual/broken entries
+  environment.etc."crypttab".text = lib.mkForce "";
 
   system.stateVersion = "24.11";
 }

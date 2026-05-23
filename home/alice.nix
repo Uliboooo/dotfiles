@@ -74,7 +74,7 @@ in
       statix
       deadnix
       nil
-      nixfmt-rfc-style
+      nixfmt
       typescript
       libnotify
       mediainfo
@@ -87,8 +87,8 @@ in
     ++ pkgs.lib.optionals isLinux [
       ghostty
       hollywood
-      inputs.jolt.packages.${pkgs.system}.default
-      inputs.self.packages.${pkgs.system}.sampler
+      inputs.jolt.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sampler
       # Linux-only
       bluetui
       pulsemixer

@@ -74,8 +74,7 @@ abbr mh="moon check"
 abbr copy="wl-copy"
 abbr cc="clang"
 abbr ccc="clang++"
-abbr hx="helix"
-abbr hxd="helix ."
+abbr hxd="hx ."
 
 abbr update="yay -Syu --noconfirm"
 
