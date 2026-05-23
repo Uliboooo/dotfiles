@@ -93,6 +93,7 @@ in
     rust-analyzer
     rustfmt
     cargo
+    helix
 
     inputs.self.packages.${pkgs.system}.sampler
   ];
@@ -111,6 +112,10 @@ in
   xdg.configFile = {
     "nvim" = {
       source = mkConfigLink "nvim";
+      recursive = false;
+    };
+    "helix" = {
+      source = mkConfigLink "helix";
       recursive = false;
     };
     "kitty" = {

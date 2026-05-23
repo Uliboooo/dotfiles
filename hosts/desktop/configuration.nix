@@ -24,6 +24,11 @@
   };
   services.hazkey.enable = true;
 
+  services.fprintd.enable = true;
+
+  security.pam.services.login.fprintAuth = true;
+  security.pam.services.sudo.fprintAuth = true;
+
   # bootloader configurations for UEFI
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
