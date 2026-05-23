@@ -8,15 +8,15 @@
 | :---: | :---: |
 | Terminal | Kitty, Ghostty |
 | Editor | Neovim, Vim|
-| Shell | zsh, fish |
-| Launcher | rofi, fuzzel |
+| Shell | zsh |
+| Launcher | rofi |
 | VCS | git |
 | DE/WM | Hyprland |
 | Lock | Hypridle, Hyprlock |
 | Bar | Waybar |
-| Wallpaper | awww(swww) |
+| Wallpaper | awww(swww), mpvpaper |
 | Filer | yazi |
-| Scripts | Bash, Python |
+| Scripts | Bash, Python, YSH |
 
 Catppuccin, and rose-pine are used mainly themes of my tools.
 and many of these scripts are dependent on my personal environment, it might not work as-is in your environment...
@@ -26,7 +26,7 @@ and many of these scripts are dependent on my personal environment, it might not
 - hyprshot:   take screenshots
 - hypridle:   auto start lock
 - hyprlock:   lock screen
-- hyprpicker: to use freeze option of hyprshot
+- hyprpicker: to use `freeze` option of hyprshot
 - awww:       wallpapers manager
 - systemd:    manage wallpapers slideshow
 - waybar:     status bar
@@ -65,9 +65,18 @@ This repo can manage both system and user settings with Nix, while keeping app c
 
 ### Rebuild commands
 
+linux
+
 ```bash
 cd ~/dotfiles
 sudo nixos-rebuild switch --flake .#desktop
+```
+
+macOS
+
+```bash
+cd ~/dotfiles
+darwin-rebuild switch --flake .#macbook
 ```
 
 Update flake inputs first (optional):
@@ -88,3 +97,4 @@ Then move your old system settings into:
 - `hosts/desktop/configuration.nix`
 - `modules/common.nix`
 - `modules/desktop.nix`
+

@@ -88,7 +88,7 @@ return {
             },
           },
           lualine_x = { "filesize", "filetype" },
-          lualine_y = { "" },
+          lualine_y = { "progress" },
           lualine_z = { "location" },
         },
         inactive_sections = {
