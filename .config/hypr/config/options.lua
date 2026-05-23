@@ -1,57 +1,61 @@
 hl.config({
-	general = {
-		gaps_in = 3,
-		gaps_out = 8,
-		border_size = 3,
+  general = {
+    gaps_in = 3,
+    gaps_out = 8,
+    border_size = 3,
 
-		layout = "dwindle",
+    layout = "dwindle",
 
-		col = {
-			active_border = "rgba(DFC3E4cf)",
-			inactive_border = "rgba(4F3360ff)",
-		},
-	},
+    col = {
+      active_border = "rgba(DFC3E4cf)",
+      inactive_border = "rgba(4F3360ff)",
+    },
+  },
 
-	decoration = {
-		rounding = 8,
+  dwindle = {
+    smart_split = false,
+  },
 
-		active_opacity = 1.0,
-		inactive_opacity = 1.0,
-		fullscreen_opacity = 1.0,
+  decoration = {
+    rounding = 8,
 
-		dim_inactive = false,
-		dim_strength = 0.08,
+    active_opacity = 1.0,
+    inactive_opacity = 1.0,
+    fullscreen_opacity = 1.0,
 
-		blur = {
-			enabled = false,
-			size = 1,
-			passes = 1,
-			new_optimizations = true,
-			ignore_opacity = true,
-			xray = true,
-		},
+    dim_inactive = false,
+    dim_strength = 0.08,
 
-		shadow = {
-			enabled = false,
-		},
-	},
+    blur = {
+      enabled = false,
+      size = 1,
+      passes = 1,
+      new_optimizations = true,
+      ignore_opacity = true,
+      xray = true,
+    },
 
-	input = {
-		kb_layout = "us",
-		kb_options = "ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl,caps:super",
+    shadow = {
+      enabled = false,
+    },
+  },
 
-		natural_scroll = true,
+  input = {
+    kb_layout = "us",
+    kb_options = "ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl,caps:super",
 
-		follow_mouse = 1,
+    natural_scroll = true,
 
-		sensitivity = 0,
+    follow_mouse = 1,
 
-		repeat_delay = 230,
-		repeat_rate = 42,
+    sensitivity = 0,
 
-		touchpad = {
-			natural_scroll = false,
-			scroll_factor = 0.5,
-		},
-	},
+    repeat_delay = 230,
+    repeat_rate = 42,
+
+    touchpad = {
+      natural_scroll = false,
+      scroll_factor = 0.5,
+    },
+  },
 })

@@ -71,7 +71,7 @@ return {
     lazy = false,
     config = function()
       vim.diagnostic.config({
-        virtual_text = true,
+        virtual_text = false,
         update_in_insert = false,
         float = {
           border = "rounded",

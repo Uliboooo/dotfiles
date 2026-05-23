@@ -4,6 +4,7 @@ return {
     version = "*",
     config = function()
       require("toggleterm").setup({
+        shell = "zsh",
         direction = "float",
 
         float_opts = {
