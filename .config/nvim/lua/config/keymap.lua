@@ -5,7 +5,12 @@ vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, desc = "Redo" })
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
-vim.keymap.set("n", "eh", ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>", { desc = "enable lsp inlay hint" })
+vim.keymap.set(
+  "n",
+  "eh",
+  ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>",
+  { desc = "enable lsp inlay hint" }
+)
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
@@ -36,7 +41,8 @@ vim.keymap.set("n", "dc", function()
     local stt_lnum = math.min(start_lnum_by_lsp - red_lnum, start_lnum_by_lsp)
     local end_lnum = math.max(end_line_by_lsp, end_line_by_lsp + red_lnum + 1)
 
-    local target_text = table.concat(vim.api.nvim_buf_get_lines(d.bufnr, stt_lnum, end_lnum, false), "\n")
+    local target_text =
+      table.concat(vim.api.nvim_buf_get_lines(d.bufnr, stt_lnum, end_lnum, false), "\n")
 
     local ebuf = string.format(
       "%s: %s [%s] (Source: %s) at %d:%d-%d:%d\n%s\n",
@@ -58,8 +64,12 @@ vim.keymap.set("n", "dc", function()
   end
 end, { desc = "Copy diagnostic message to clipboard" })
 
--- Gitsigns 設定
-vim.keymap.set("n", "<C-p>", ":Gitsigns preview_hunk_inline<CR>", { desc = "Preview git hunk inline" })
+vim.keymap.set(
+  "n",
+  "<C-p>",
+  ":Gitsigns preview_hunk_inline<CR>",
+  { desc = "Preview git hunk inline" }
+)
 
 vim.keymap.set("n", "<C-p>", ":Gitsigns preview_hunk_inline<CR>")
 
@@ -88,3 +98,5 @@ vim.keymap.set("n", "<C-x>", function()
     vim.cmd("normal! \24")
   end
 end, { desc = "Decrement or toggle boolean" })
+
+vim.keymap.set("v", ":", [[:s/\v/g<Left><Left>]])

@@ -1,8 +1,8 @@
 return {
   {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = true,
+    "nvim-mini/mini.pairs",
+    version = false,
+    config = function() require("mini.pairs").setup() end,
   },
 
   {
