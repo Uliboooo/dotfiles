@@ -76,7 +76,7 @@ macOS
 
 ```bash
 cd ~/dotfiles
-darwin-rebuild switch --flake .#macbook
+sudo darwin-rebuild switch --flake .#macbook
 ```
 
 Update flake inputs first (optional):

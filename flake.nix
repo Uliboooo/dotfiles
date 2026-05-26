@@ -22,7 +22,12 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, nix-darwin, ... }@inputs:
+    {
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      ...
+    }@inputs:
     let
       linuxSystem = "x86_64-linux";
       darwinSystem = "aarch64-darwin"; # change to x86_64-darwin for Intel Mac
@@ -82,6 +87,10 @@
           {
             system.stateVersion = 7;
             nixpkgs.config.allowUnfree = true;
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
