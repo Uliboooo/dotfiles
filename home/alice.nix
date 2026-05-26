@@ -141,6 +141,10 @@ in
       source = mkConfigLink "yazi";
       recursive = false;
     };
+    "nix" = {
+      source = mkConfigLink "nix";
+      recursive = false;
+    };
     "fish" = {
       source = mkConfigLink "fish";
       recursive = false;
