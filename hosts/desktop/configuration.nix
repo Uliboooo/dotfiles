@@ -52,7 +52,10 @@
   fileSystems."/mnt/bk_disk" = {
     device = "/dev/mapper/bk_disk";
     fsType = "ext4";
-    options = [ "noauto" "nofail" ];
+    options = [
+      "noauto"
+      "nofail"
+    ];
   };
 
   # bootloader configurations for UEFI
@@ -80,6 +83,8 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "libvirtd"
+      "kvm"
     ];
     shell = pkgs.zsh;
   };
