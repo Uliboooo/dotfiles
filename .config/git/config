@@ -1,8 +1,10 @@
 [init]
 	defaultBranch = main
 [user]
-	name = uliboooo
-	email = uliboulibo@gmail.com
+	name = lilan
+	email = l1lan@proton.me
+[includeIf "gitdir:/Users/"]
+  path = ~/.config/git/config_mac
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
