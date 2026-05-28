@@ -13,6 +13,11 @@ let
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
   system = pkgs.stdenv.hostPlatform.system;
+  chromeSupported = pkgs.lib.elem system [
+    "x86_64-linux"
+    "x86_64-darwin"
+    "aarch64-darwin"
+  ];
   hasJolt = builtins.hasAttr system inputs.jolt.packages;
   joltPkg = if hasJolt then (builtins.getAttr system inputs.jolt.packages).default else null;
   hasSampler =
@@ -58,7 +63,6 @@ in
       ghq
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
-      google-chrome
       btop
       difftastic
       tokei
@@ -93,6 +97,9 @@ in
       eza
       bat
       inkscape
+    ]
+    ++ pkgs.lib.optionals chromeSupported [
+      google-chrome
     ]
     ++ pkgs.lib.optionals (isLinux && hasJolt) [
       joltPkg
