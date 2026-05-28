@@ -83,6 +83,7 @@ in
       cargo
       eza
       bat
+      inkscape
     ]
     ++ pkgs.lib.optionals isLinux [
       ghostty
