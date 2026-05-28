@@ -44,7 +44,7 @@
       # ===== Home Manager (standalone) =====
       homeConfigurations.lilan = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
-          system = linuxSystem;
+          system = builtins.currentSystem;
           config.allowUnfree = true;
         };
         modules = [ ./home/lilan.nix ];
