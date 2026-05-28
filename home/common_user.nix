@@ -12,6 +12,13 @@ let
 
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
+  system = pkgs.stdenv.hostPlatform.system;
+  hasJolt = builtins.hasAttr system inputs.jolt.packages;
+  joltPkg = if hasJolt then (builtins.getAttr system inputs.jolt.packages).default else null;
+  hasSampler =
+    builtins.hasAttr system inputs.self.packages
+    && builtins.hasAttr "sampler" (builtins.getAttr system inputs.self.packages);
+  samplerPkg = if hasSampler then (builtins.getAttr system inputs.self.packages).sampler else null;
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
@@ -87,11 +94,15 @@ in
       bat
       inkscape
     ]
+    ++ pkgs.lib.optionals (isLinux && hasJolt) [
+      joltPkg
+    ]
+    ++ pkgs.lib.optionals (isLinux && hasSampler) [
+      samplerPkg
+    ]
     ++ pkgs.lib.optionals isLinux [
       ghostty
       hollywood
-      inputs.jolt.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sampler
       # Linux-only
       bluetui
       pulsemixer
