@@ -125,6 +125,9 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
     # Tex
     export PATH="/Library/TeX/texbin:$PATH"
+
+    alias copy='pbcopy'
+    alias vmrun='/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
 else
     # Linux
     export PATH="/opt/rocm/bin:$PATH"
