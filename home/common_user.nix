@@ -32,6 +32,7 @@ let
     bun
     oils-for-unix
     sheldon
+    zsh
     zsh-abbr
     lazygit
     gh
