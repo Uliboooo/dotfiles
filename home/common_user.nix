@@ -18,12 +18,6 @@ let
     "x86_64-darwin"
     "aarch64-darwin"
   ];
-  hasJolt = builtins.hasAttr system inputs.jolt.packages;
-  joltPkg = if hasJolt then (builtins.getAttr system inputs.jolt.packages).default else null;
-  hasSampler =
-    builtins.hasAttr system inputs.self.packages
-    && builtins.hasAttr "sampler" (builtins.getAttr system inputs.self.packages);
-  samplerPkg = if hasSampler then (builtins.getAttr system inputs.self.packages).sampler else null;
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
@@ -100,12 +94,6 @@ in
     ]
     ++ pkgs.lib.optionals chromeSupported [
       google-chrome
-    ]
-    ++ pkgs.lib.optionals (isLinux && hasJolt) [
-      joltPkg
-    ]
-    ++ pkgs.lib.optionals (isLinux && hasSampler) [
-      samplerPkg
     ]
     ++ pkgs.lib.optionals isLinux [
       ghostty
