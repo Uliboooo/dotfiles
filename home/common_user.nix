@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }:
 let
@@ -18,10 +19,100 @@ let
     "x86_64-darwin"
     "aarch64-darwin"
   ];
+  enableGui = config.dotfiles.enableGui;
+
+  basePackages = with pkgs; [
+    # common
+    git
+    neovim
+    helix
+    yazi
+    fzf
+    fastfetch
+    bun
+    oils-for-unix
+    sheldon
+    zsh-abbr
+    lazygit
+    gh
+    zip
+    unzip
+    ghq
+    btop
+    difftastic
+    tokei
+    wget
+    go
+    gopls
+    zig
+    zls
+    jq
+    asciiquarium
+    tmux
+    tree-sitter
+    clang
+    llvm
+    lld
+    restic
+    ffmpeg
+    biome
+    stylua
+    shfmt
+    statix
+    deadnix
+    nil
+    nixfmt
+    typescript
+    mediainfo
+    rust-analyzer
+    rustfmt
+    cargo
+    eza
+    bat
+  ];
+
+  guiPackages =
+    (with pkgs; [
+      kitty
+      nerd-fonts.symbols-only
+      nerd-fonts.jetbrains-mono
+      libnotify
+      mpv
+      inkscape
+    ])
+    ++ lib.optionals chromeSupported [
+      pkgs.google-chrome
+    ];
+
+  linuxGuiPackages = with pkgs; [
+    ghostty
+    hollywood
+    # Linux-only
+    bluetui
+    pulsemixer
+    brightnessctl
+    playerctl
+    libreoffice
+    nautilus
+    loupe
+    ffmpegthumbnailer
+    clapper
+    vlc
+    showtime
+    wiremix
+    mpvpaper
+  ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
+  options.dotfiles.enableGui = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Install GUI and desktop-related packages.";
+  };
+
+  config = {
   home.username = pkgs.lib.mkDefault "alice";
   home.homeDirectory = pkgs.lib.mkForce (
     if isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}"
@@ -36,83 +127,9 @@ in
 
   # ===== packages =====
   home.packages =
-    with pkgs;
-    [
-      # common
-      git
-      neovim
-      helix
-      kitty
-      yazi
-      fzf
-      fastfetch
-      bun
-      oils-for-unix
-      sheldon
-      zsh-abbr
-      lazygit
-      gh
-      zip
-      unzip
-      ghq
-      nerd-fonts.symbols-only
-      nerd-fonts.jetbrains-mono
-      btop
-      difftastic
-      tokei
-      wget
-      go
-      gopls
-      zig
-      zls
-      jq
-      asciiquarium
-      tmux
-      tree-sitter
-      clang
-      llvm
-      lld
-      restic
-      ffmpeg
-      mpv
-      biome
-      stylua
-      shfmt
-      statix
-      deadnix
-      nil
-      nixfmt
-      typescript
-      libnotify
-      mediainfo
-      rust-analyzer
-      rustfmt
-      cargo
-      eza
-      bat
-      inkscape
-    ]
-    ++ pkgs.lib.optionals chromeSupported [
-      google-chrome
-    ]
-    ++ pkgs.lib.optionals isLinux [
-      ghostty
-      hollywood
-      # Linux-only
-      bluetui
-      pulsemixer
-      brightnessctl
-      playerctl
-      libreoffice
-      nautilus
-      loupe
-      ffmpegthumbnailer
-      clapper
-      vlc
-      showtime
-      wiremix
-      mpvpaper
-    ];
+    basePackages
+    ++ lib.optionals enableGui guiPackages
+    ++ lib.optionals (enableGui && isLinux) linuxGuiPackages;
 
   home.sessionVariables = {
     NPM_CONFIG_PREFIX = npmGlobalDir;
@@ -205,4 +222,5 @@ in
   };
 
   home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
+  };
 }

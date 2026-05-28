@@ -7,4 +7,5 @@
 {
   imports = [ ./common_user.nix ];
   home.username = "lilan";
+  dotfiles.enableGui = false;
 }
