@@ -246,3 +246,8 @@ else
     abbr -a reboot 'systemctl reboot'
 end
 
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/alice/.lmstudio/bin
+# End of LM Studio CLI section
+

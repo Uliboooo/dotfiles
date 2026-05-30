@@ -292,3 +292,8 @@ function y() {
 }
 
 # zprof
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/alice/.lmstudio/bin"
+# End of LM Studio CLI section
+
