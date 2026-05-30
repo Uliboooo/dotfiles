@@ -78,7 +78,7 @@ if ! command -v sheldon &>/dev/null; then
   ln -fs $HOME/dotfiles/.config/sheldon ~/.config/sheldon
   case "$OSTYPE" in
     linux*)  yay -Syu sheldon --noconfirm && echo "sheldon installed." || echo "faield install." ;;
-    darwin*) brew install sheldon && echo "sheldon installed." || echo "faield install." ;;
+    darwin*) echo "sheldon is missing. Install via nix/home-manager." ;;
     *)       echo "Σ(・ω・ノ)ノ" ;;
   esac
 fi
@@ -114,15 +114,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$(go env GOPATH)/bin"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-    export PATH="$(brew --prefix zip)/bin:$PATH"
-    export PATH="$(brew --prefix unzip)/bin:$PATH"
-    export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
-    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-    export PATH="/opt/homebrew/bin:$PATH"
-    # clangd (llvm@20)
-    export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
     # Tex
     export PATH="/Library/TeX/texbin:$PATH"
 
@@ -296,4 +287,3 @@ function y() {
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/alice/.lmstudio/bin"
 # End of LM Studio CLI section
-

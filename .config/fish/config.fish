@@ -13,17 +13,7 @@ if status is-interactive
 
     set -l os (uname -s)
     if test "$os" = Darwin
-        eval (/opt/homebrew/bin/brew shellenv)
-
-        fish_add_path (brew --prefix coreutils)/libexec/gnubin
-        fish_add_path (brew --prefix zip)/bin
-        fish_add_path (brew --prefix unzip)/bin
-        fish_add_path (brew --prefix gnu-sed)/libexec/gnubin
-        fish_add_path /opt/homebrew/opt/llvm/bin
-        fish_add_path /opt/homebrew/bin
-        fish_add_path /opt/homebrew/opt/llvm@20/bin
         fish_add_path /Library/TeX/texbin
-
     else # run on linux
         if test -f /etc/os-release
             set DIST (string replace -r '^NAME=["\']?(.*)["\']?$' '$1' (grep '^NAME=' /etc/os-release))
@@ -250,4 +240,3 @@ end
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/alice/.lmstudio/bin
 # End of LM Studio CLI section
-
