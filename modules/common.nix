@@ -21,6 +21,5 @@
     python3
   ];
 
-  # sudo 可能にする基本設定
   security.sudo.wheelNeedsPassword = true;
 }

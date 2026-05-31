@@ -88,6 +88,7 @@ in
       eza
       bat
       inkscape
+      nodejs
     ]
     ++ pkgs.lib.optionals isLinux [
       ghostty
