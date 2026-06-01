@@ -4,14 +4,34 @@
   outputs =
     { nixpkgs, ... }:
     let
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      systems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          f {
+            pkgs = nixpkgs.legacyPackages.${system};
+            inherit system;
+          }
+        );
     in
     {
-      devShells.x86_64-linux.default = pkgs.mkShell {
-        buildInputs = [
-          pkgs.rustc
-          pkgs.cargo
-        ];
-      };
+      devShells = forAllSystems (
+        { pkgs, ... }:
+        {
+          default = pkgs.mkShell {
+            buildInputs = [
+              pkgs.rustc
+              pkgs.cargo
+            ];
+          };
+        }
+      );
     };
 }

@@ -46,6 +46,8 @@ in
       gh
       zip
       unzip
+      coreutils
+      gnused
       ghq
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
@@ -81,9 +83,12 @@ in
       rust-analyzer
       rustfmt
       cargo
+      fd
+      ripgrep
       eza
       bat
       inkscape
+      nodejs
     ]
     ++ pkgs.lib.optionals isLinux [
       ghostty

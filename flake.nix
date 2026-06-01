@@ -41,6 +41,18 @@
     {
       packages.${linuxSystem}.sampler = sampler;
 
+      # ===== Home Manager (standalone) =====
+      homeConfigurations.lilan = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          config.allowUnfree = true;
+        };
+        modules = [ ./home/lilan.nix ];
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+      };
+
       # ===== NixOS (desktop) =====
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
