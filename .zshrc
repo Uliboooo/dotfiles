@@ -106,8 +106,6 @@ export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
 export PATH="$HOME/my_tools/bin:$HOME/my_apps/bin:$PATH"
 # Moonbit
 export PATH="$HOME/.moon/bin:$PATH"
-# Bun
-export PATH="$HOME/.bun/bin:$PATH"
 # copilot
 export PATH="$HOME/.local/bin:$PATH"
 # go bin

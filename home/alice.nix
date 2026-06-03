@@ -128,6 +128,7 @@ in
   home.sessionVariables = {
     NPM_CONFIG_PREFIX = npmGlobalDir;
     BUN_INSTALL = bunInstallDir;
+    PATH = "${bunBinDir}:$PATH";
   };
   home.sessionPath = [
     "${npmGlobalDir}/bin"
