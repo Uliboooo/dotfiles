@@ -14,11 +14,24 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
+
+  tex = pkgs.texliveSmall.withPackages (ps: with ps; [
+    collection-langjapanese   # luatexja 等の日本語サポート
+    collection-luatex          # LuaLaTeX エンジン
+    collection-latexextra      # 汎用パッケージ群
+    haranoaji                  # 原ノ味フォント（明朝・TeX Live 内蔵）
+    haranoaji-extra            # 原ノ味フォント（ゴシック）
+    fontspec
+    hyperref
+    latexmk                    # 自動コンパイルツール
+  ]);
 in
 {
   home.username = "alice";
   home.homeDirectory = pkgs.lib.mkForce (if isDarwin then "/Users/alice" else "/home/alice");
   home.stateVersion = "24.11";
+
+  fonts.fontconfig.enable = true;
 
   home.sessionVariables = {
     CC = "clang";
@@ -89,6 +102,7 @@ in
       bat
       inkscape
       nodejs
+      tex
     ]
     ++ pkgs.lib.optionals isLinux [
       ghostty
