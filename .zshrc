@@ -188,6 +188,36 @@ fi
 # functions
 # ==============================================================================
 
+# Homebrew Legacy Command Handler
+command_not_found_handler() {
+    [[ "$(uname -s)" != "Darwin" ]] && return 127
+    local cmd="$1"
+    shift
+    local brew_bin
+    if [[ -x "/opt/homebrew/bin/$cmd" ]]; then
+        brew_bin="/opt/homebrew/bin/$cmd"
+    elif [[ -x "/opt/homebrew/sbin/$cmd" ]]; then
+        brew_bin="/opt/homebrew/sbin/$cmd"
+    fi
+
+    if [[ -n "$brew_bin" ]]; then
+        echo "⚠️  Warning: '$cmd' is not in your PATH but found in Homebrew."
+        echo "Homebrew is being deprecated in this environment in favor of Nix."
+        echo -n "Do you want to run the Homebrew version? (y/N): "
+        read -r opt
+        if [[ "$opt" =~ ^[yY]$ ]]; then
+            "$brew_bin" "$@"
+            return $?
+        else
+            echo "Aborted."
+            return 127
+        fi
+    fi
+
+    echo "zsh: command not found: $cmd"
+    return 127
+}
+
 # Git
 function gc() {
     git add .

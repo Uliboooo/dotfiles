@@ -46,3 +46,4 @@ config.local.fish
 .config/fish/local.fish
 .config/fish/fish_variables
 .config/fish/themes
+/lualatex-japanese-guide.md
