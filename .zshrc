@@ -114,6 +114,7 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # Tex
     export PATH="/Library/TeX/texbin:$PATH"
+    export PATH="/Users/alice/.bun/bin:$PATH"
 
     alias copy='pbcopy'
     alias vmrun='/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
