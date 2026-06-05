@@ -28,4 +28,4 @@ jobs:
         run: nix eval .#nixosConfigurations.desktop.config.system.build.toplevel.drvPath
 
       - name: Validate Home Manager evaluation
-        run: nix eval .#nixosConfigurations.desktop.config.home-manager.users.alice.home.activationPackage.drvPath
+        run: nix eval .#nixosConfigurations.desktop.config.home-manager.users.lilan.home.activationPackage.drvPath

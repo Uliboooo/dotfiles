@@ -13,7 +13,7 @@
     # ../../modules/thinkpad.nix
   ];
 
-  networking.hostName = "aliceinnixland";
+  networking.hostName = "lilan-nix";
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "none";
   networking.nameservers = [
@@ -78,7 +78,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  users.users.alice = {
+  users.users.lilan = {
     isNormalUser = true;
     extraGroups = [
       "wheel"

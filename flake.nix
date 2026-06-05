@@ -44,7 +44,7 @@
       # ===== Home Manager (standalone) =====
       homeConfigurations.lilan = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
-          system = "aarch64-linux";
+          system = linuxSystem;
           config.allowUnfree = true;
         };
         modules = [ ./home/lilan.nix ];
@@ -83,7 +83,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
-            home-manager.users.alice = import ./home/alice.nix;
+            home-manager.users.lilan = import ./home/lilan.nix;
           }
         ];
       };
@@ -109,6 +109,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
+            users.users.alice.home = "/Users/alice";
             home-manager.users.alice = import ./home/alice.nix;
           }
         ];

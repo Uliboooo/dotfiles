@@ -114,7 +114,7 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 if [[ "$(uname -s)" == "Darwin" ]]; then
     # Tex
     export PATH="/Library/TeX/texbin:$PATH"
-    export PATH="/Users/alice/.bun/bin:$PATH"
+    export PATH="$HOME/.bun/bin:$PATH"
 
     alias copy='pbcopy'
     alias vmrun='/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
@@ -130,7 +130,7 @@ else
     export LIBVIRT_DEFAULT_URI=qemu:///system
     # npm
     export PATH="$HOME/.npm-global/bin:$PATH"
-    export PATH="/home/alice/.cache/.bun/bin:$PATH"
+    export PATH="$HOME/.cache/.bun/bin:$PATH"
 
     if [[ -n "$XDG_RUNTIME_DIR" ]]; then
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
@@ -152,7 +152,7 @@ else
     fi
 
     # bun completions
-    [ -s "/home/alice/.bun/_bun" ] && source "/home/alice/.bun/_bun"
+    [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
     # moonbit
     export PATH="$HOME/.moon/bin:$PATH"
@@ -314,5 +314,5 @@ function y() {
 # zprof
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/alice/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section

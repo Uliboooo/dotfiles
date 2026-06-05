@@ -70,6 +70,8 @@ let
     cargo
     eza
     bat
+    direnv
+    nix-direnv
   ];
 
   guiPackages =
@@ -114,11 +116,28 @@ in
   };
 
   config = {
-    home.username = pkgs.lib.mkDefault "alice";
+    home.username = pkgs.lib.mkDefault "lilan";
     home.homeDirectory = pkgs.lib.mkForce (
-      if isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}"
+      if isDarwin then
+        "/Users/alice" # macOS specific fallback
+      else
+        "/home/lilan" # Linux specific fallback
     );
     home.stateVersion = "24.11";
+
+    programs.zsh = {
+      enable = true;
+      dotDir = "${config.home.homeDirectory}/.config/zsh";
+      initContent = ''
+        if [ -f "${dotfilesDir}/.zshrc" ]; then
+          source "${dotfilesDir}/.zshrc"
+        fi
+      '';
+    };
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
     home.sessionVariables = {
       CC = "clang";
@@ -221,7 +240,5 @@ in
       "systemd/user/ssh-agent.service".source =
         config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
     };
-
-    home.file.".zshrc".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.zshrc";
   };
 }

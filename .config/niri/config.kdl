@@ -228,10 +228,10 @@ binds {
 
     Alt+L hotkey-overlay-title="Lock the Screen: Swaylock" { spawn "swaylock"; }
 
-    Mod+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "seq"; }
-    Mod+Shift+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "rev"; }
-    Ctrl+Alt+W { spawn "ysh" "/home/alice/dotfiles/script/cycle_wallpaper.ysh" "rnd"; }
-    Mod+Alt+W { spawn "ysh" "/home/alice/dotfiles/script/safe_wallpaper.ysh"; }
+    Mod+W { spawn "ysh" "$HOME/dotfiles/script/cycle_wallpaper.ysh" "seq"; }
+    Mod+Shift+W { spawn "ysh" "$HOME/dotfiles/script/cycle_wallpaper.ysh" "rev"; }
+    Ctrl+Alt+W { spawn "ysh" "$HOME/dotfiles/script/cycle_wallpaper.ysh" "rnd"; }
+    Mod+Alt+W { spawn "ysh" "$HOME/dotfiles/script/safe_wallpaper.ysh"; }
 
     Super+Print { screenshot; }
     Print { screenshot-window; }
