@@ -68,6 +68,8 @@ let
     rust-analyzer
     rustfmt
     cargo
+    fd
+    ripgrep
     eza
     bat
     direnv
