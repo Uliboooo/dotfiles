@@ -24,12 +24,14 @@ let
   basePackages = with pkgs; [
     # common
     git
+    vim
     neovim
     helix
     yazi
     fzf
     fastfetch
     bun
+    nodejs
     oils-for-unix
     sheldon
     zsh
