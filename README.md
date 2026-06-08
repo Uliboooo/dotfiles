@@ -121,10 +121,35 @@ darwin-rebuild switch --flake .#macbook
 - real app config files stay in this dotfiles repo as normal files/directories
 - Home Manager deploys `~/.config/*` via `xdg.configFile` symlinks
 
-### Update flake inputs (optional)
+## Maintenance & Updates
 
+After making changes to your configuration files, use the following commands to apply them.
+
+### Rebuild (Apply Changes)
+
+**Standalone Linux (Debian, Ubuntu, etc.)**
+```bash
+cd ~/dotfiles
+home-manager switch --flake .#lilan
+```
+
+**NixOS**
+```bash
+cd ~/dotfiles
+sudo nixos-rebuild switch --flake .#desktop
+```
+
+**macOS (nix-darwin)**
+```bash
+cd ~/dotfiles
+darwin-rebuild switch --flake .#macbook
+```
+
+### Update Packages (Flake Inputs)
+To update the underlying packages (nixpkgs, etc.) to their latest versions:
 ```bash
 cd ~/dotfiles
 nix flake update
+# Then run the appropriate rebuild command above
 ```
 
