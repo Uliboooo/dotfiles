@@ -1,0 +1,19 @@
+[[mgr.prepend_keymap]]
+on = ["z"]
+run = "shell --confirm --block -- sh -c 'p=$1; name=${p##*/}; cd -- \"$p\" && zip -r \"../$name.zip\" .' sh %h"
+desc = "Zip selected folder contents"
+
+[[mgr.prepend_keymap]]
+on = ["g", "z"]
+run = "plugin fzf"
+desc = "Jump to a file/directory via fzf"
+
+[[mgr.prepend_keymap]]
+on = ["g", "Z"]
+run = "plugin zoxide"
+desc = "Jump to a directory via zoxide"
+
+[[mgr.prepend_keymap]]
+on = ["Z"]
+run = "noop"
+desc = "Disable default zoxide key"
