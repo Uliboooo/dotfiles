@@ -142,7 +142,7 @@ sudo nixos-rebuild switch --flake .#desktop
 **macOS (nix-darwin)**
 ```bash
 cd ~/dotfiles
-darwin-rebuild switch --flake .#macbook
+sudo darwin-rebuild switch --flake .#macbook
 ```
 
 ### Update Packages (Flake Inputs)

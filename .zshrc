@@ -321,6 +321,14 @@ function y() {
   rm -f -- "$tmp"
 }
 
+function rebuild() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    sudo darwin-rebuild switch --flake .#macbook
+  else
+    home-manager switch --flake .#lilan
+  fi
+}
+
 # zprof
 
 # Added by LM Studio CLI (lms)
