@@ -1,5 +1,4 @@
 [language-server.moonbit-lsp]
-# ここをバイナリ名に変更します
 command = "moonbit-lsp"
 
 [[language]]
@@ -11,7 +10,12 @@ comment-tokens = "//"
 indent = { tab-width = 2, unit = "  " }
 language-servers = [ "moonbit-lsp" ]
 roots = ["moon.mod.json"]
-formatter = { command = "moon" , args = ["fmt"] } # moonfmtよりもこちらが確実です
+formatter = { command = "moon" , args = ["fmt"] }
+
+[[language]]
+name = "bash"
+formatter = { command = "shfmt"}
+auto-format = true
 
 [[grammar]]
 name = "moonbit"

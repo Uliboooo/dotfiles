@@ -1,7 +1,7 @@
 # Empty values reset the configuration to the default value
-font-family = "Annotation Mono"
+font-family = "Monaspace Radon Var"
 font-family = "Cica"
-font-size = 13
+font-size = 15
 
 # font-feature = "-calt,-liga,-dlig"
 cursor-opacity = 0.2

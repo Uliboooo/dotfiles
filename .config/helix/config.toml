@@ -1,7 +1,8 @@
-theme = "catppuccin_frappe"
+# theme = "rose_pine_moon"
+theme = "rose_pine_moon_transparent"
 
 [editor]
-auto-info = false
+auto-info = true
 bufferline = "always"
 line-number = "relative"
 #mouse = true
@@ -80,16 +81,6 @@ C-r = ":reload"
 # a = "code_action"
 g = "goto_file_start"
 c = "toggle_comments"
-
-# [keys.normal.d]
-# d = [ "goto_line_start", "kill_to_line_end", "delete_char_backward"]
-# d = [ "extend_to_line_bounds", "delete_selection_to_clipboard"]
-# d = [
-#   "goto_line_start",
-#   "yank_to_clipboard",   # 行全体をコピー
-#   "kill_to_line_end",
-#   "delete_char_backward"
-# ]
 
 [keys.select]
 y = [":pipe-to tmux load-buffder -", "yank"]
