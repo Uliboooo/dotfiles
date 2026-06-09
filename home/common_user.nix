@@ -45,6 +45,7 @@ let
     difftastic
     tokei
     wget
+    kitty
     wl-clipboard
     go
     gopls
@@ -81,7 +82,6 @@ let
 
   guiPackages =
     (with pkgs; [
-      kitty
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
       libnotify
@@ -94,7 +94,6 @@ let
 
   linuxGuiPackages = with pkgs; [
     ghostty
-    kitty
     hollywood
     # Linux-only
     bluetui
