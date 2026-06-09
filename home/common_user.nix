@@ -159,6 +159,8 @@ in
       extraConfig = builtins.readFile ../.tmux.conf;
     };
 
+    targets.genericLinux.enable = isLinux;
+
     home.sessionVariables = {
       CC = "clang";
       CXX = "clang++";

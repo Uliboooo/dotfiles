@@ -8,3 +8,8 @@ enter = "enter"
 [[manager.prepend_rules]]
 name = ".git/"
 use = false
+
+[plugin]
+prepend_previewers = [
+	{ url = "*.wav", run = "wav-transcribe" },
+]
