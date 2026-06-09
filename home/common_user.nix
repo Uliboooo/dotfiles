@@ -144,6 +144,8 @@ in
       nix-direnv.enable = true;
     };
 
+    targets.genericLinux.enable = isLinux;
+
     home.sessionVariables = {
       CC = "clang";
       CXX = "clang++";
