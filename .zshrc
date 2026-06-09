@@ -288,6 +288,16 @@ function g() {
   cd "$(ghq root)/$(ghq list | fzf --preview 'ls $(ghq root)/{}')"
 }
 
+function gg() {
+	local dir
+
+	dir=$(fd . "$HOME/Develop" --max-depth 1 --type d |
+		sed "s|$HOME/Develop/||" |
+		fzf --preview 'eza "$HOME/Develop/{}"')
+
+	[[ -n $dir ]] && cd "$HOME/Develop/$dir"
+}
+
 function nsh() {
   local file
 
