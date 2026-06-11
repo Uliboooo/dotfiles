@@ -8,7 +8,6 @@
     wget
     vim
     neovim
-    tmux
     ripgrep
     fd
     fzf

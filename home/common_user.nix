@@ -45,13 +45,15 @@ let
     difftastic
     tokei
     wget
+    kitty
+    wl-clipboard
     go
     gopls
     zig
     zls
     jq
     asciiquarium
-    tmux
+    tmux-mem-cpu-load
     tree-sitter
     clang
     llvm
@@ -80,7 +82,6 @@ let
 
   guiPackages =
     (with pkgs; [
-      kitty
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
       libnotify
@@ -142,6 +143,20 @@ in
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
+    };
+    programs.tmux = {
+      enable = true;
+      package = pkgs.tmux;
+      plugins = with pkgs.tmuxPlugins; [
+        sensible
+        yank
+        battery
+        cpu
+        resurrect
+        continuum
+        catppuccin
+      ];
+      extraConfig = builtins.readFile ../.tmux.conf;
     };
 
     targets.genericLinux.enable = isLinux;
