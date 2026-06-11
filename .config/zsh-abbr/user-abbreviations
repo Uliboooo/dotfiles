@@ -41,7 +41,7 @@ abbr rtss="rts -cli | jq -r '.list[] | \"title: \(.title)\nlink: \(.link)\"'"
 abbr rg="rg --hidden"
 abbr fd="fd"
 
-# abbr y="yazi"
+abbr y="yazi"
 abbr l="lazygit"
 
 # ---------------------------------------------------------------------
@@ -75,6 +75,7 @@ abbr copy="wl-copy"
 abbr cc="clang"
 abbr ccc="clang++"
 abbr hxd="hx ."
+abbr h='hx .'
 
 abbr update="yay -Syu --noconfirm"
 

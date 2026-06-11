@@ -170,7 +170,7 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
 
-export EDITOR=nvim
+export EDITOR=hx
 export SSH_ASKPASS_REQUIRE=never
 export SSH_ASKPASS=""
 
@@ -312,14 +312,14 @@ function nsh() {
   [[ -n "$file" ]] && nvim "$file"
 }
 
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
+# function y() {
+#   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+#   yazi "$@" --cwd-file="$tmp"
+#   if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+#     cd -- "$cwd"
+#   fi
+#   rm -f -- "$tmp"
+# }
 
 function rebuild() {
   if [[ "$(uname -s)" == "Darwin" ]]; then
