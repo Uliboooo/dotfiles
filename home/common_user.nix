@@ -46,7 +46,6 @@ let
     tokei
     wget
     kitty
-    wl-clipboard
     go
     gopls
     zig
@@ -78,6 +77,8 @@ let
     bat
     direnv
     nix-direnv
+    typst
+    tinymist
   ];
 
   guiPackages =
@@ -93,9 +94,10 @@ let
     ];
 
   linuxGuiPackages = with pkgs; [
+    # Linux-only
+    wl-clipboard
     ghostty
     hollywood
-    # Linux-only
     bluetui
     pulsemixer
     brightnessctl
