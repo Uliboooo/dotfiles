@@ -47,15 +47,7 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        modules = [
-          ./home/lilan.nix
-          inputs.nix-hazkey.homeModules.hazkey
-          {
-            services.hazkey.enable = true;
-            i18n.inputMethod.type = "fcitx5";
-            i18n.inputMethod.enable = true;
-          }
-        ];
+        modules = [ ./home/lilan.nix ];
         extraSpecialArgs = {
           inherit inputs;
         };
@@ -66,15 +58,7 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        modules = [
-          ./home/seli.nix
-          inputs.nix-hazkey.homeModules.hazkey
-          {
-            services.hazkey.enable = true;
-            i18n.inputMethod.type = "fcitx5";
-            i18n.inputMethod.enable = true;
-          }
-        ];
+        modules = [ ./home/seli.nix ];
         extraSpecialArgs = {
           inherit inputs;
         };
