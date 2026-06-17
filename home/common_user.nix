@@ -79,6 +79,7 @@ let
     nix-direnv
     typst
     tinymist
+    dust
   ];
 
   guiPackages =
