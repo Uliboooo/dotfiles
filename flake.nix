@@ -52,7 +52,9 @@
           inputs.nix-hazkey.homeModules.hazkey
           {
             services.hazkey.enable = true;
-            i18n.inputMethod.enabled = "fcitx5";
+            i18n.inputMethod.enabled = null; # Disable deprecated option
+            i18n.inputMethod.type = "fcitx5";
+            i18n.inputMethod.enable = true;
           }
         ];
         extraSpecialArgs = {
