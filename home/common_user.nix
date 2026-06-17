@@ -96,7 +96,6 @@ let
 
   linuxGuiPackages = with pkgs; [
     # Linux-only
-    qt6Packages.fcitx5-configtool
     wl-clipboard
     ghostty
     hollywood
