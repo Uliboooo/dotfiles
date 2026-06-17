@@ -47,7 +47,34 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        modules = [ ./home/lilan.nix ];
+        modules = [
+          ./home/lilan.nix
+          inputs.nix-hazkey.homeModules.hazkey
+          {
+            services.hazkey.enable = true;
+            i18n.inputMethod.enabled = "fcitx5";
+          }
+        ];
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+      };
+
+      homeConfigurations.seli = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = linuxSystem;
+          config.allowUnfree = true;
+        };
+        modules = [
+          ./home/lilan.nix
+          inputs.nix-hazkey.homeModules.hazkey
+          {
+            home.username = "seli";
+            home.homeDirectory = "/home/seli";
+            services.hazkey.enable = true;
+            i18n.inputMethod.enabled = "fcitx5";
+          }
+        ];
         extraSpecialArgs = {
           inherit inputs;
         };

@@ -96,6 +96,8 @@ let
 
   linuxGuiPackages = with pkgs; [
     # Linux-only
+    fcitx5
+    fcitx5-configtool
     wl-clipboard
     ghostty
     hollywood
@@ -125,11 +127,11 @@ in
 
   config = {
     home.username = pkgs.lib.mkDefault "lilan";
-    home.homeDirectory = pkgs.lib.mkForce (
+    home.homeDirectory = pkgs.lib.mkDefault (
       if isDarwin then
-        "/Users/alice" # macOS specific fallback
+        "/Users/${config.home.username}"
       else
-        "/home/lilan" # Linux specific fallback
+        "/home/${config.home.username}"
     );
     home.stateVersion = "24.11";
 
