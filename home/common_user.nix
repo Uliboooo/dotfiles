@@ -96,7 +96,6 @@ let
 
   linuxGuiPackages = with pkgs; [
     # Linux-only
-    fcitx5
     qt6Packages.fcitx5-configtool
     wl-clipboard
     ghostty
