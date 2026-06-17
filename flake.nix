@@ -67,11 +67,9 @@
           config.allowUnfree = true;
         };
         modules = [
-          ./home/lilan.nix
+          ./home/seli.nix
           inputs.nix-hazkey.homeModules.hazkey
           {
-            home.username = "seli";
-            home.homeDirectory = "/home/seli";
             services.hazkey.enable = true;
             i18n.inputMethod.type = "fcitx5";
             i18n.inputMethod.enable = true;
@@ -113,6 +111,7 @@
               inherit inputs;
             };
             home-manager.users.lilan = import ./home/lilan.nix;
+            home-manager.users.seli = import ./home/seli.nix;
           }
         ];
       };

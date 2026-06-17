@@ -89,6 +89,17 @@
     shell = pkgs.zsh;
   };
 
+  users.users.seli = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "libvirtd"
+      "kvm"
+    ];
+    shell = pkgs.zsh;
+  };
+
   programs.zsh.enable = true;
 
   # Manage /etc/crypttab via Nix to override manual/broken entries
