@@ -72,8 +72,6 @@ abbr mh="moon check"
 # OS依存 (macOS / Linux)
 # ---------------------------------------------------------------------
 abbr copy="wl-copy"
-abbr cc="clang"
-abbr ccc="clang++"
 abbr hxd="hx ."
 abbr h='hx .'
 
