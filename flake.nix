@@ -42,17 +42,6 @@
       packages.${linuxSystem}.sampler = sampler;
 
       # ===== Home Manager (standalone) =====
-      homeConfigurations.lilan = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = linuxSystem;
-          config.allowUnfree = true;
-        };
-        modules = [ ./home/lilan.nix ];
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-      };
-
       homeConfigurations.seli = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = linuxSystem;
@@ -94,7 +83,6 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
-            home-manager.users.lilan = import ./home/lilan.nix;
             home-manager.users.seli = import ./home/seli.nix;
           }
         ];

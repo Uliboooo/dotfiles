@@ -28,6 +28,7 @@
     type = "fcitx5";
   };
   services.hazkey.enable = true;
+  services.tailscale.enable = true;
 
   services.fprintd.enable = true;
   security.pam.services = {
@@ -77,17 +78,6 @@
   programs.direnv.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
-  users.users.lilan = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "libvirtd"
-      "kvm"
-    ];
-    shell = pkgs.zsh;
-  };
 
   users.users.seli = {
     isNormalUser = true;

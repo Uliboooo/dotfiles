@@ -75,6 +75,7 @@ let
     ripgrep
     eza
     bat
+    tailscale
     direnv
     nix-direnv
     typst
@@ -124,7 +125,7 @@ in
   };
 
   config = {
-    home.username = pkgs.lib.mkDefault "lilan";
+    home.username = pkgs.lib.mkDefault "seli";
     home.homeDirectory = pkgs.lib.mkDefault (
       if isDarwin then
         "/Users/${config.home.username}"
