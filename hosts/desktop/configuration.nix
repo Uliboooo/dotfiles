@@ -78,6 +78,9 @@
     openssl
   ];
 
+  programs.ssh.startAgent = true;
+  services.gnome.gcr-ssh-agent.enable = false;
+
   programs.direnv.enable = true;
 
   nixpkgs.config.allowUnfree = true;
