@@ -5,16 +5,18 @@
   ...
 }:
 let
-  tex = pkgs.texliveSmall.withPackages (ps: with ps; [
-    collection-langjapanese   # luatexja 等の日本語サポート
-    collection-luatex          # LuaLaTeX エンジン
-    collection-latexextra      # 汎用パッケージ群
-    haranoaji                  # 原ノ味フォント（明朝・TeX Live 内蔵）
-    haranoaji-extra            # 原ノ味フォント（ゴシック）
-    fontspec
-    hyperref
-    latexmk                    # 自動コンパイルツール
-  ]);
+  tex = pkgs.texliveSmall.withPackages (
+    ps: with ps; [
+      collection-langjapanese
+      collection-luatex
+      collection-latexextra
+      haranoaji
+      haranoaji-extra
+      fontspec
+      hyperref
+      latexmk
+    ]
+  );
 in
 {
   imports = [ ./common_user.nix ];
@@ -22,6 +24,11 @@ in
   home.username = pkgs.lib.mkDefault "seli";
 
   fonts.fontconfig.enable = true;
+
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+  };
 
   home.packages = [
     tex

@@ -21,6 +21,8 @@
     "1.0.0.1"
   ];
 
+  hardware.enableAllFirmware = true;
+
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod = {
@@ -29,6 +31,7 @@
   };
   services.hazkey.enable = true;
   services.tailscale.enable = true;
+  services.flatpak.enable = true;
 
   services.fprintd.enable = true;
   security.pam.services = {

@@ -15,7 +15,7 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
   system = pkgs.stdenv.hostPlatform.system;
   chromeSupported = pkgs.lib.elem system [
-    "x86_64-linux"
+    # "x86_64-linux"
     "x86_64-darwin"
     "aarch64-darwin"
   ];
