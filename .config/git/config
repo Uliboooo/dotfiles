@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [user]
-	name = lilan
+	name = seli
 	email = l1lan@proton.me
 [includeIf "gitdir:/Users/"]
   path = ~/.config/git/config_mac
