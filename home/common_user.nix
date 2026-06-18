@@ -81,6 +81,8 @@ let
     typst
     tinymist
     dust
+    sioyek
+    glow
   ];
 
   guiPackages =
@@ -127,10 +129,7 @@ in
   config = {
     home.username = pkgs.lib.mkDefault "seli";
     home.homeDirectory = pkgs.lib.mkDefault (
-      if isDarwin then
-        "/Users/${config.home.username}"
-      else
-        "/home/${config.home.username}"
+      if isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}"
     );
     home.stateVersion = "24.11";
 
