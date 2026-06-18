@@ -324,6 +324,8 @@ function nsh() {
 function rebuild() {
   if [[ "$(uname -s)" == "Darwin" ]]; then
     sudo darwin-rebuild switch --flake .#macbook
+  elif [[ -f /etc/NIXOS ]]; then
+    sudo nixos-rebuild switch --flake .#desktop
   else
     home-manager switch --flake .#lilan
   fi
