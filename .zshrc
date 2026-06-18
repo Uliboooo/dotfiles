@@ -141,11 +141,11 @@ else
     # fi
 
     # for KDE
-    export SSH_ASKPASS=/usr/bin/ksshaskpass
-    if ! pgrep -u "$USER" ssh-agent >/dev/null; then
-      eval "$(ssh-agent -s)" >/dev/null
-    fi
-    export SSH_ASKPASS_REQUIRE=prefer
+    # export SSH_ASKPASS=/usr/bin/ksshaskpass
+    # if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+    #   eval "$(ssh-agent -s)" >/dev/null
+    # fi
+    # export SSH_ASKPASS_REQUIRE=prefer
 
     if [[ -n "$SSH_CONNECTION" ]]; then
       export TERM=xterm-256color
