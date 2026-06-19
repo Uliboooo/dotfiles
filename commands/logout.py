@@ -7,8 +7,9 @@ home = os.path.expanduser("~")
 script = home + "/dotfiles/script/"
 slide_dev = home + "/Develop/linux_slide/"
 
+#hyprctl dispatch 'hl.dsp.exit()'
 cmds = {
-    "󰗽 Logout": ["hyprctl", "dispatch", "exit"],
+    "󰗽 Logout": ["hyprctl", "dispatch", "hl.dsp.exit()"],
     "󰜉 Reboot": ["reboot"],
     " Lock":   ["hyprlock"],
     "󰜺 Cancel": ["exit"],
