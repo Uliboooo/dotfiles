@@ -83,6 +83,7 @@ let
     dust
     sioyek
     glow
+    inputs.antigravity.packages.${pkgs.system}.default
   ];
 
   guiPackages =
@@ -262,8 +263,8 @@ in
         config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.service";
       "systemd/user/cycle_wallpaper.timer".source =
         config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.timer";
-      "systemd/user/ssh-agent.service".source =
-        config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
+      # "systemd/user/ssh-agent.service".source =
+      #   config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
     };
   };
 }

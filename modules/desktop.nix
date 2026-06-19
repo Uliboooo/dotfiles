@@ -36,6 +36,15 @@
   services.displayManager.defaultSession = "hyprland";
   services.greetd.enable = false;
 
+  services.keyd = {
+    enable = true;
+
+    keyboards.default.settings.main = {
+      pageup = "noop";
+      pagedown = "noop";
+    };
+  };
+
   # Virtualization (libvirt + virt-manager + TPM2.0)
   virtualisation.libvirtd = {
     enable = true;
