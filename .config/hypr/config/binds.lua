@@ -91,8 +91,7 @@ hl.bind(
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- ラップトップ マルチメディアキー（音量・輝度）
--- bindel = repeating + locked → { repeating = true, locked = true }
+-- control Volume and brightness
 hl.bind(
   "XF86AudioRaiseVolume",
   hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"),
@@ -123,16 +122,15 @@ hl.bind(
   hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 3%-"),
   { repeating = true, locked = true }
 )
--- hl.bind("XF86LinkPhone", hl.dsp.workspace.change({ delta = 1 }), { repeating = true, locked = true })
 
--- playerctl（bindl = locked のみ）
+-- playerctl（bindl = allow in locked）
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("SUPER + K", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 
--- 蓋スイッチ
+-- for laptop?
 hl.bind(
   "switch:on:Lid Switch",
   hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh close"),
@@ -144,7 +142,7 @@ hl.bind(
   { locked = true }
 )
 
--- リサイズモード（submap）
+-- resize mode
 hl.bind("SUPER + R", hl.dsp.submap("resize"))
 
 hl.define_submap("resize", function()

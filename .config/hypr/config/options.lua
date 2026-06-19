@@ -14,6 +14,7 @@ hl.config({
 
   dwindle = {
     smart_split = false,
+    preserve_split = true,
   },
 
   decoration = {
