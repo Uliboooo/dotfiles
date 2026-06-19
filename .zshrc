@@ -156,7 +156,7 @@ else
 
     # moonbit
     export PATH="$HOME/.moon/bin:$PATH"
-    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+    # export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
     alias copy='wl-copy'
 fi
