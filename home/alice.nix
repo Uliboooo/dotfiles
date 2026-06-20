@@ -1,5 +1,5 @@
 { ... }:
 {
-  imports = [ ./lilan.nix ];
+  imports = [ ./common_user.nix ];
   home.username = "alice";
 }
