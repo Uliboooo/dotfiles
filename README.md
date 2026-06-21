@@ -6,8 +6,8 @@
 
 | Tool | |
 | :---: | :---: |
-| Terminal | Kitty, Ghostty |
-| Editor | Neovim, Vim|
+| Terminal | Kitty(Linux), Ghostty(mac) |
+| Editor | Neovim, Vim, Helix |
 | Shell | zsh |
 | Launcher | rofi |
 | VCS | git |
@@ -44,25 +44,31 @@ This repository supports three main setup methods:
 Use this if you are on Debian, Ubuntu, Arch, etc., and only want to use Nix for your user environment.
 
 #### Step 1: Install Nix
+
 Install Nix with the official installer:
+
 ```bash
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
 #### Step 2: Enable Flakes
+
 Ensure Flakes and Nix-command are enabled by adding this to `~/.config/nix/nix.conf` (or `/etc/nix/nix.conf`):
+
 ```text
 experimental-features = nix-command flakes
 ```
 
 #### Step 3: Clone & Deploy
+
 ```bash
 git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-nix run home-manager/master -- init --flake .#lilan
-nix run home-manager/master -- switch --flake .#lilan
+nix run home-manager/master -- init --flake .#seli
+nix run home-manager/master -- switch --flake .#seli
 ```
 Subsequent updates:
+
 ```bash
 home-manager switch --flake .#lilan
 ```
