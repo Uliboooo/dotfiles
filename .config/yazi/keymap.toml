@@ -1,7 +1,19 @@
 [[mgr.prepend_keymap]]
 on = ["z"]
-run = "shell --confirm --block -- sh -c 'p=$1; name=${p##*/}; cd -- \"$p\" && zip -r \"../$name.zip\" .' sh %h"
-desc = "Zip selected folder contents"
+run = '''
+shell --confirm --block -- sh -c '
+p=$1
+
+if [ -d "$p" ]; then
+    name=${p##*/}
+    cd -- "$(dirname "$p")" &&
+    zip -r "$name.zip" "$name"
+elif [ -f "$p" ] && [ "${p##*.}" = zip ]; then
+    unzip -d "${p%.zip}" -- "$p"
+fi
+' sh %h
+'''
+desc = "Zip/Unzip toggle"
 
 [[mgr.prepend_keymap]]
 on = ["g", "z"]
