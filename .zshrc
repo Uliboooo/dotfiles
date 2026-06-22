@@ -327,10 +327,13 @@ function yy() {
 
 function rebuild() {
   if [[ "$(uname -s)" == "Darwin" ]]; then
+    echo "sudo darwin-rebuild switch --flake .#macbook"
     sudo darwin-rebuild switch --flake .#macbook
   elif [[ -f /etc/NIXOS ]]; then
+    echo "sudo nixos-rebuild switch --flake .#desktop"
     sudo nixos-rebuild switch --flake .#desktop
   else
+    echo "home-manager switch --flake .#lilan"
     home-manager switch --flake .#lilan
   fi
 }
