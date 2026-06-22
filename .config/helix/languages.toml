@@ -8,13 +8,18 @@ injection-regex = "moonbit"
 file-types = ["mbt"]
 comment-tokens = "//"
 indent = { tab-width = 2, unit = "  " }
-language-servers = [ "moonbit-lsp" ]
+language-servers = ["moonbit-lsp"]
 roots = ["moon.mod.json"]
-formatter = { command = "moon" , args = ["fmt"] }
+formatter = { command = "moon", args = ["fmt"] }
 
 [[language]]
 name = "bash"
-formatter = { command = "shfmt"}
+formatter = { command = "shfmt", args = ["-i", "2"] }
+auto-format = true
+
+[[language]]
+name = "nix"
+formatter = { command = "nixfmt" }
 auto-format = true
 
 [[grammar]]
