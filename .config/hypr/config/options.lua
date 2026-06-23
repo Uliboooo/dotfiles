@@ -28,9 +28,9 @@ hl.config({
     dim_strength = 0.08,
 
     blur = {
-      enabled = false,
-      size = 1,
-      passes = 1,
+      enabled = true,
+      size = 8,
+      passes = 2,
       new_optimizations = true,
       ignore_opacity = true,
       xray = true,
