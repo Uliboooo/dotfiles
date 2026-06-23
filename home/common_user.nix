@@ -117,6 +117,7 @@ let
     showtime
     wiremix
     mpvpaper
+    firefox
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
