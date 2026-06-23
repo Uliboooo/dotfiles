@@ -5,7 +5,7 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd("kitty -e yazi ."))
 hl.bind("SUPER + V", hl.dsp.window.float())
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ "fullscreen", "toggele" }))
-hl.bind("SUPER + J", hl.dsp.layout("togglesplit"))
+hl.bind("SUPER + SHIFT + J", hl.dsp.layout("togglesplit"))
 
 -- hl.bind("CONTROL + BackSpace", hl.dsp.send_shortcut({ mods = "", key = "Delete" }))
 
@@ -14,6 +14,11 @@ hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
 hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
 hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }))
+
+hl.bind("SUPER + H", hl.dsp.focus({ direction = "left" }))
+hl.bind("SUPER + L", hl.dsp.focus({ direction = "right" }))
+hl.bind("SUPER + K", hl.dsp.focus({ direction = "up" }))
+hl.bind("SUPER + J", hl.dsp.focus({ direction = "down" }))
 
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e+1" }))
@@ -59,7 +64,7 @@ hl.bind(
   hl.dsp.exec_cmd("hyprshot -m output -m active --freeze"),
   { locked = true }
 )
-hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh ~/dotfiles/commands/cmd_p.py"))
+hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/commands/cmd_p.py"))
 
 -- toggle msg ws
 -- bind = SUPER, S, togglespecialworkspace, Msg
@@ -78,7 +83,6 @@ hl.bind("ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'v
 hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/safe_wallpaper.ysh"))
 
 -- Immediately lock
--- bind = SUPER SHIFT, E, exec, ~/dotfiles/commands/logout.py
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/commands/logout.py"))
 
 -- cliphist
