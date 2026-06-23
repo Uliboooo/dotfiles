@@ -26,9 +26,12 @@
         { pkgs, ... }:
         {
           default = pkgs.mkShell {
-            buildInputs = [
+            packages = [
               pkgs.rustc
               pkgs.cargo
+              pkgs.rust-analyzer
+              pkgs.clippy
+              pkgs.rustfmt
             ];
           };
         }
