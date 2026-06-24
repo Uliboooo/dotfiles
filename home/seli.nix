@@ -22,8 +22,13 @@ in
   imports = [ ./common_user.nix ];
 
   home.username = pkgs.lib.mkDefault "seli";
-  home.sessionVariables = {
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      Host *
+        AddKeysToAgent yes
+    '';
   };
 
   fonts.fontconfig.enable = true;

@@ -28,9 +28,6 @@ if status is-interactive
         set -gx OLLAMA_DEBUG 1
         set -gx OLLAMA_HOST 0.0.0.0:11434
 
-        if set -q XDG_RUNTIME_DIR
-            set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/keyring/ssh
-        end
         set -gx LD_LIBRARY_PATH $LD_LIBRARY_PATH /opt/rocm/lib
         set -gx ROCM_PATH /opt/rocm
 

@@ -142,10 +142,6 @@ else
     export PATH="$HOME/.npm-global/bin:$PATH"
     export PATH="$HOME/.cache/.bun/bin:$PATH"
 
-    if [[ -n "$XDG_RUNTIME_DIR" ]]; then
-        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
-    fi
-
     # if [ -z "$SSH_AUTH_SOCK" ]; then
     #   eval "$(ssh-agent -s)" > /dev/null
     # fi

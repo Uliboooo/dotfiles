@@ -78,8 +78,8 @@
     openssl
   ];
 
-  programs.ssh.startAgent = true;
-  services.gnome.gcr-ssh-agent.enable = false;
+  programs.ssh.startAgent = false;
+  services.gnome.gcr-ssh-agent.enable = true;
 
   programs.direnv.enable = true;
 
