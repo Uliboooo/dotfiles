@@ -21,6 +21,8 @@ let
   ];
   enableGui = config.dotfiles.enableGui;
 
+  wlmstr = inputs.wlmstr.packages.${pkgs.system}.default;
+
   basePackages = with pkgs; [
     # common
     git
@@ -118,6 +120,7 @@ let
     wiremix
     mpvpaper
     firefox
+    wlmstr
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
@@ -263,12 +266,33 @@ in
         source = mkConfigLink "swaync";
         recursive = false;
       };
-      "systemd/user/cycle_wallpaper.service".source =
-        config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.service";
-      "systemd/user/cycle_wallpaper.timer".source =
-        config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/cycle_wallpaper.timer";
-      # "systemd/user/ssh-agent.service".source =
-      #   config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/systemd/user/ssh-agent.service";
+    };
+
+    systemd.user.services.cycle_wallpaper = lib.mkIf isLinux {
+      Unit.Description = "wallpaper cycle by awww";
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = lib.escapeShellArgs [
+          (lib.getExe wlmstr)
+          "next"
+          "seq"
+        ];
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.timers.cycle_wallpaper = lib.mkIf isLinux {
+      Unit.Description = "Change wallpaper every 15 minutes";
+
+      Timer = {
+        OnBootSec = "1min";
+        OnCalendar = "*-*-* *:00,15,30,45:00";
+        Persistent = true;
+      };
+
+      Install.WantedBy = [ "timers.target" ];
     };
   };
 }

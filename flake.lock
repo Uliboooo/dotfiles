@@ -184,7 +184,8 @@
         "jolt": "jolt",
         "nix-darwin": "nix-darwin",
         "nix-hazkey": "nix-hazkey",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "wlmstr": "wlmstr"
       }
     },
     "systems": {
@@ -214,6 +215,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "wlmstr": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782288402,
+        "narHash": "sha256-dENfbBoKf5j1F/9wxwXvUxyWzElSsRWDCebm7bGv4wQ=",
+        "owner": "Uliboooo",
+        "repo": "wlmstr",
+        "rev": "c65c5aace55ba574073490c221d14ab1ab4556da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Uliboooo",
+        "repo": "wlmstr",
         "type": "github"
       }
     }

@@ -40,18 +40,18 @@
   };
 
   # LUKS devices
-  boot.initrd.luks.devices = {
-    # Swap partition
-    "luks-1dc20a4c-0384-4870-bb99-e5a65f1df495" = {
-      device = "/dev/disk/by-uuid/1dc20a4c-0384-4870-bb99-e5a65f1df495";
-      allowDiscards = true;
-    };
-    # Backup disk
-    "bk_disk" = {
-      device = "/dev/disk/by-uuid/86f101a3-83e7-42e6-9cba-06b2621f8db2";
-      allowDiscards = true;
-    };
-  };
+  # boot.initrd.luks.devices = {
+  # Swap partition
+  # "luks-1dc20a4c-0384-4870-bb99-e5a65f1df495" = {
+  #   device = "/dev/disk/by-uuid/1dc20a4c-0384-4870-bb99-e5a65f1df495";
+  #   allowDiscards = true;
+  # };
+  # Backup disk
+  # "bk_disk" = {
+  #   device = "/dev/disk/by-uuid/86f101a3-83e7-42e6-9cba-06b2621f8db2";
+  #   allowDiscards = true;
+  # };
+  # };
 
   fileSystems."/mnt/bk_disk" = {
     device = "/dev/mapper/bk_disk";

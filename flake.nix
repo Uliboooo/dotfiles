@@ -24,6 +24,11 @@
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    wlmstr = {
+      url = "github:Uliboooo/wlmstr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
