@@ -56,7 +56,15 @@
   programs.virt-manager.enable = true;
 
   # tlp
-  services.tlp.enable = true;
+  # services.tlp.enable = true;
+  services.tlp = {
+    enable = true;
+
+    settings = {
+      PLATFORM_PROFILE_ON_AC = "balanced";
+      PLATFORM_PROFILE_ON_BAT = "low-power";
+    };
+  };
   services.power-profiles-daemon.enable = false;
 
   # Bluetooth

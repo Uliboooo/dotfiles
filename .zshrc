@@ -88,10 +88,11 @@ eval "$(sheldon -q source)"
 
 # complete
 autoload -Uz compinit
-if [[ -f ~/.zcompdump ]]; then
-  compinit -C
-else
+
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
   compinit
+else
+  compinit -C
 fi
 
 # ==============================================================================
@@ -115,6 +116,10 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     # Tex
     export PATH="/Library/TeX/texbin:$PATH"
     export PATH="$HOME/.bun/bin:$PATH"
+    
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
 
     eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -177,13 +182,10 @@ export SSH_ASKPASS_REQUIRE=never
 export SSH_ASKPASS=""
 
 # load .env
-if [[ -f "$HOME/.env" ]]; then
-    while IFS='=' read -r key value; do
-        [[ "$key" =~ ^#.*$ ]] && continue
-        [[ -z "$key" ]] && continue
-        export "$key=$value"
-    done < <(grep -v '^#' "$HOME/.env")
-fi
+while IFS='=' read -r key value; do
+  [[ -z "$key" || "$key" == \#* ]] && continue
+  export "$key=$value"
+done < "$HOME/.env"
 
 # ==============================================================================
 # functions
@@ -338,8 +340,5 @@ function rebuild() {
   fi
 }
 
-# zprof
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.lmstudio/bin"
-# End of LM Studio CLI section
+# zprof
