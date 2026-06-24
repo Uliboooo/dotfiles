@@ -28,6 +28,13 @@ return {
               "--exclude",
               ".mooncakes",
             },
+            win = {
+              input = {
+                keys = {
+                  ["<CR>"] = { "edit_tab", mode = { "n", "i" } },
+                },
+              },
+            },
           },
           grep = {
             hidden = true,

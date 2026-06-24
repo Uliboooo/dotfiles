@@ -13,7 +13,7 @@
     # ../../modules/thinkpad.nix
   ];
 
-  networking.hostName = "thunkseli";
+  networking.hostName = "selitank";
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "none";
   networking.nameservers = [

@@ -37,6 +37,12 @@ vim.opt.signcolumn = "yes"
 vim.opt.autoread = true
 vim.opt.modeline = false
 
+vim.opt.autowriteall = true
+
+vim.api.nvim_create_autocmd({ "InsertLeave", "FocusLost" }, {
+  callback = function() vim.cmd("silent! wall") end,
+})
+
 vim.cmd(
   [[
   syntax match DangerousChars /[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]/
