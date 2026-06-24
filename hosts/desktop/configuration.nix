@@ -102,4 +102,10 @@
   environment.etc."crypttab".text = lib.mkForce "";
 
   system.stateVersion = "24.11";
+
+  nix.gc = {
+    automatic = true;
+    dates = "dayly";
+    options = "--delete-older-than 7d";
+  };
 }

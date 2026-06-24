@@ -60,3 +60,8 @@ hl.config({
     },
   },
 })
+
+hl.device({
+  name = "tpps/2-elan-trackpoint",
+  sensitivity = 0.2,
+})

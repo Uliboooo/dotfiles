@@ -180,7 +180,7 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
 
-export EDITOR=hx
+export EDITOR=nvim
 export SSH_ASKPASS_REQUIRE=never
 export SSH_ASKPASS=""
 

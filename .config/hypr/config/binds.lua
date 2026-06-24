@@ -7,8 +7,6 @@ hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ "fullscreen", "toggele" }))
 hl.bind("SUPER + SHIFT + J", hl.dsp.layout("togglesplit"))
 
--- hl.bind("CONTROL + BackSpace", hl.dsp.send_shortcut({ mods = "", key = "Delete" }))
-
 -- Move focus with mainMod + arrow keys)
 hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
 hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
@@ -48,9 +46,30 @@ hl.bind("SUPER + SHIFT + 8", hl.dsp.window.move({ workspace = 8 }))
 hl.bind("SUPER + SHIFT + 9", hl.dsp.window.move({ workspace = 9 }))
 hl.bind("SUPER + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
 
+hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("MSG"))
+hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:MSG" }))
+
+hl.bind("SUPER + backslash", hl.dsp.workspace.toggle_special("SCR"))
+hl.bind("SUPER + SHIFT + backslash", hl.dsp.window.move({ workspace = "special:SCR" }))
+
 -- swap windows
 hl.bind("SUPER + SHIFT + H", hl.dsp.window.swap({ direction = "left" }))
 hl.bind("SUPER + SHIFT + L", hl.dsp.window.swap({ direction = "right" }))
+
+-- Move/resize windows with mainMod + LMB/RMB and dragging
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+-- resize mode
+hl.bind("SUPER + R", hl.dsp.submap("resize"))
+
+hl.define_submap("resize", function()
+  hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
+  hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+  hl.bind("K", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+  hl.bind("J", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+  hl.bind("escape", hl.dsp.submap("reset"))
+end)
 
 -- screenshot
 -- active window
@@ -64,23 +83,8 @@ hl.bind(
   hl.dsp.exec_cmd("hyprshot -m output -m active --freeze"),
   { locked = true }
 )
+
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/commands/cmd_p.py"))
-
--- toggle msg ws
--- bind = SUPER, S, togglespecialworkspace, Msg
-hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("MSG"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:MSG" }))
-
-hl.bind("SUPER + backslash", hl.dsp.workspace.toggle_special("SCR"))
-hl.bind("SUPER + SHIFT + backslash", hl.dsp.window.move({ workspace = "special:SCR" }))
-
--- wallpapers
-hl.bind("SUPER + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'seq'"))
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'rev'"))
--- video wallpaper
-hl.bind("ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/cycle_wallpaper.ysh 'vdo'"))
--- safe wallpaper
-hl.bind("SUPER + ALT + W", hl.dsp.exec_cmd("ysh ~/dotfiles/script/safe_wallpaper.ysh"))
 
 -- Immediately lock
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/commands/logout.py"))
@@ -91,9 +95,10 @@ hl.bind(
   hl.dsp.exec_cmd("cliphist list | rofi -dmenu -p ' ' | cliphist decode | wl-copy")
 )
 
--- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- wallpapers
+hl.bind("SUPER + W", hl.dsp.exec_cmd("wlmstr next seq"))
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("wlmstr next pre"))
+-- hl.bind("ALT + W", hl.dsp.exec_cmd("wlmstr status"))
 
 -- control Volume and brightness
 hl.bind(
@@ -132,7 +137,6 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("SUPER + K", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 
 -- for laptop?
 hl.bind(
@@ -145,14 +149,3 @@ hl.bind(
   hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh open"),
   { locked = true }
 )
-
--- resize mode
-hl.bind("SUPER + R", hl.dsp.submap("resize"))
-
-hl.define_submap("resize", function()
-  hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-  hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-  hl.bind("K", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
-  hl.bind("J", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-  hl.bind("escape", hl.dsp.submap("reset"))
-end)

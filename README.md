@@ -1,13 +1,15 @@
 ## Overview
 
-![image](./README_Screenshots/2026-03-15-163050_hyprshot.jpg)
+![image](./README/images/2026-06-24-24_hl_eg.png)
+
+view [Hyprlnad manual](./README/Hyprland.md)
 
 ## includes config
 
 | Tool | |
 | :---: | :---: |
 | Terminal | Kitty(Linux), Ghostty(mac) |
-| Editor | Neovim, Vim, Helix |
+| Editor | Neovim |
 | Shell | zsh |
 | Launcher | rofi |
 | VCS | git |
