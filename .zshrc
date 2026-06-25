@@ -174,7 +174,7 @@ fi
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
+export HYPRSHOT_DIR="$HOME/Desktop/"
 
 export EDITOR=nvim
 export SSH_ASKPASS_REQUIRE=never

@@ -10,10 +10,9 @@ hl.env("CLUTTER_BACKEND", "Wayland")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Ice")
 hl.env("XCURSOR_SIZE", "20")
 
-local pictures = os.getenv("XDG_PICTURES_DIR")
-    or (os.getenv("HOME") .. "/Pictures")
+local desktop = os.getenv("XDG_DESKTOP_DIR") or (os.getenv("HOME") .. "/Desktop/")
 
-hl.env("HYPRSHOT_DIR", pictures .. "/Screenshots")
+hl.env("HYPRSHOT_DIR", desktop)
 
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 

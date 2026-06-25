@@ -63,24 +63,21 @@ if status is-interactive
         end
     end
 
-    # Gitステータス表示の有効化
     set -g __fish_git_prompt_show_informative_status 1
     set -g __fish_git_prompt_showdirtystate 1
     set -g __fish_git_prompt_showuntrackedfiles 1
     set -g __fish_git_prompt_showupstream informative
     set -g __fish_git_prompt_showcolorhints 1
 
-    # 記号のカスタマイズ (お好みで)
     set -g __fish_git_prompt_char_dirtystate '*'
     set -g __fish_git_prompt_char_stagedstate '+'
     set -g __fish_git_prompt_char_untrackedfiles '…'
     set -g __fish_git_prompt_char_cleanstate '✔'
 
-    # --- 環境変数 ---
     set -gx GTK_IM_MODULE fcitx
     set -gx QT_IM_MODULE fcitx
     set -gx XMODIFIERS @im=fcitx
-    set -gx HYPRSHOT_DIR "$HOME/Pictures/Screenshots"
+    set -gx HYPRSHOT_DIR "$HOME/Desktop/"
     set -g fish_greeting
 end
 

@@ -60,6 +60,9 @@ hl.bind("SUPER + SHIFT + L", hl.dsp.window.swap({ direction = "right" }))
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+hl.bind("ALT + J", hl.dsp.exec_cmd("wlrctl pointer scroll 120 0"), { repeating = true })
+hl.bind("ALT + K", hl.dsp.exec_cmd("wlrctl pointer scroll -120 0"), { repeating = true })
+
 -- resize mode
 hl.bind("SUPER + R", hl.dsp.submap("resize"))
 
@@ -72,18 +75,36 @@ hl.define_submap("resize", function()
 end)
 
 -- screenshot
--- active window
-hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m window -m active --freeze"), { locked = true })
-hl.bind("SUPER + P", hl.dsp.exec_cmd("hyprshot -m window -m active --freeze"), { locked = true })
--- region
-hl.bind("CONTROL + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --freeze"), { locked = true })
--- output
+hl.bind(
+  "PRINT",
+  hl.dsp.exec_cmd(
+    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+  ),
+  { locked = true }
+)
+hl.bind(
+  "SUPER + P",
+  hl.dsp.exec_cmd(
+    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+  ),
+  { locked = true }
+)
+hl.bind(
+  "CONTROL + SHIFT + S",
+  hl.dsp.exec_cmd(
+    "hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+  ),
+  { locked = true }
+)
 hl.bind(
   "SUPER + PRINT",
-  hl.dsp.exec_cmd("hyprshot -m output -m active --freeze"),
+  hl.dsp.exec_cmd(
+    "hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+  ),
   { locked = true }
 )
 
+-- command pallete
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/commands/cmd_p.py"))
 
 -- Immediately lock
