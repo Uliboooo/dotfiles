@@ -225,11 +225,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782288402,
-        "narHash": "sha256-dENfbBoKf5j1F/9wxwXvUxyWzElSsRWDCebm7bGv4wQ=",
+        "lastModified": 1782360054,
+        "narHash": "sha256-OtwJtC4uxpDlnzpSICpL25lg0R7EhlXm+bkhHI6D3aI=",
         "owner": "Uliboooo",
         "repo": "wlmstr",
-        "rev": "c65c5aace55ba574073490c221d14ab1ab4556da",
+        "rev": "80518be4227899d8a5fa57d1b7cef381aa729969",
         "type": "github"
       },
       "original": {

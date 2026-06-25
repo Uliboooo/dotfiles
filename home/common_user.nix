@@ -87,6 +87,9 @@ let
     glow
     inputs.antigravity.packages.${pkgs.system}.default
     taplo
+    imagemagick
+    chafa
+    codex
   ];
 
   guiPackages =

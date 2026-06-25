@@ -30,7 +30,9 @@ return {
           name = "Launch Rust",
           type = "codelldb",
           request = "launch",
-          program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end,
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
         },
@@ -41,6 +43,7 @@ return {
       vim.keymap.set("n", "<F11>", dap.step_into)
       vim.keymap.set("n", "<F12>", dap.step_out)
       vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
+      vim.keymap.set("n", "<C-b>", dap.toggle_breakpoint)
       vim.keymap.set("n", "<leader>dr", dap.repl.open)
     end,
   },
