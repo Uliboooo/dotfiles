@@ -42,6 +42,8 @@
     keyboards.default.settings.main = {
       pageup = "noop";
       pagedown = "noop";
+
+      assistant = "rightmeta";
     };
   };
 

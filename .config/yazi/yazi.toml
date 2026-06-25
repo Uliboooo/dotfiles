@@ -4,6 +4,7 @@ show_hidden = true
 show_symlink = true
 sort_reverse = true
 enter = "enter"
+sort_dir_first = false
 
 [[manager.prepend_rules]]
 name = ".git/"
