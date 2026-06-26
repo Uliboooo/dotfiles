@@ -251,7 +251,6 @@ return {
         on_attach = on_attach,
         filetypes = { "astro" },
       })
-
       vim.lsp.enable("astro")
 
       vim.lsp.config("zls", {

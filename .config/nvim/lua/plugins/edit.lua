@@ -75,6 +75,12 @@ return {
               "Always",
             },
           },
+          shfmt = {
+            append_args = {
+              "-i",
+              "2",
+            },
+          },
         },
 
         format_on_save = {
