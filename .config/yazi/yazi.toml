@@ -1,6 +1,6 @@
 [mgr]
 sort_by = "mtime"
-show_hidden = true
+show_hidden = false
 show_symlink = true
 sort_reverse = true
 enter = "enter"

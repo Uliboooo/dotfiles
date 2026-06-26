@@ -59,6 +59,24 @@ return {
           javascript = { "biome" },
           javascriptreact = { "biome" },
         },
+
+        formatters = {
+          stylua = {
+            append_args = {
+              "--column-width",
+              "100",
+              "--indent-type",
+              "Spaces",
+              "--indent-width",
+              "2",
+              "--quote-style",
+              "AutoPreferDouble",
+              "--collapse-simple-statement",
+              "Always",
+            },
+          },
+        },
+
         format_on_save = {
           timeout_ms = 500,
           lsp_format = "fallback",
@@ -66,25 +84,4 @@ return {
       })
     end,
   },
-  -- {
-  --   "nvim-tree/nvim-tree.lua",
-  --   version = "*",
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --   config = function()
-  --     vim.keymap.set(
-  --       "n",
-  --       "<leader>e",
-  --       function() require("nvim-tree.api").tree.toggle() end,
-  --       { desc = "toggle file tree" }
-  --     )
-  --     require("nvim-tree").setup({
-  --       view = {
-  --         width = 30,
-  --       },
-  --     })
-  --   end,
-  -- },
 }

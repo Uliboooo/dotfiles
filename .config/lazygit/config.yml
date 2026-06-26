@@ -1,3 +1,0 @@
-git:
-  pagers:
-    - externalDiffCommand: difft --color=always
