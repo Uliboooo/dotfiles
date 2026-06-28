@@ -160,35 +160,6 @@ return {
       })
       vim.lsp.enable("rust_analyzer")
 
-      -- TypeScript/JavaScript LSP
-      -- vim.lsp.config("ts_ls", {
-      --   on_attach = on_attach,
-      --   capabilities = capabilities,
-      --   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-      --   root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", ".git" }),
-      --   settings = {
-      --     typescript = {
-      --       inlayHints = {
-      --         includeInlayParameterNameHints = "all", -- or "literals"
-      --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-      --         includeInlayFunctionParameterTypeHints = true,
-      --         includeInlayVariableTypeHints = true,
-      --         includeInlayPropertyDeclarationTypeHints = true,
-      --         includeInlayFunctionLikeReturnTypeHints = true,
-      --         includeInlayEnumMemberValueHints = true,
-      --       },
-      --     },
-      --     javascript = {
-      --       inlayHints = {
-      --         includeInlayParameterNameHints = "all",
-      --         includeInlayFunctionParameterTypeHints = true,
-      --         includeInlayVariableTypeHints = true,
-      --       },
-      --     },
-      --   },
-      -- })
-      -- vim.lsp.enable("ts_ls")
-
       vim.lsp.config("biome", {
         on_attach = on_attach,
         capabilities = capabilities,

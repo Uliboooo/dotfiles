@@ -88,4 +88,4 @@ abbr reboot="systemctl reboot"
 # NixOS
 # ---------------------------------------------------------------------
 abbr nbuild="sudo nixos-rebuild switch --flake .#desktop"
-abbr nupdate="nix flake update nixpkgs"
+abbr nupdate="nix flake update"

@@ -170,11 +170,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782361971,
-        "narHash": "sha256-aIj1kytzyX2ghVK5fqqcQAmqv5rT/ww6GQX6dzLP6MQ=",
+        "lastModified": 1782639026,
+        "narHash": "sha256-gT8Pr7+9ehXBt+xzwPWA/bYQFQ7lWZ70WqV7GCdmrVs=",
         "owner": "Uliboooo",
         "repo": "wlmstr",
-        "rev": "f23c4fad0dbd5f9cdf173e818bc04c34233140e7",
+        "rev": "45b0823e5d8fc03774c518c866b8caa710f0f641",
         "type": "github"
       },
       "original": {
