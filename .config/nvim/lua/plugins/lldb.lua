@@ -25,6 +25,9 @@ return {
         },
       }
 
+      -- local debug = {}
+      -- pcall(function() debug = dofile(vim.fn.getcwd() .. "/.nvim/debug.lua") end)
+
       dap.configurations.rust = {
         {
           name = "Launch Rust",
@@ -34,6 +37,11 @@ return {
             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
           end,
           cwd = "${workspaceFolder}",
+          args = function()
+            local ok, result = pcall(dofile, vim.fn.getcwd() .. "/.nvim/debug.lua")
+            if ok and type(result) == "table" then return result.args or {} end
+            return {}
+          end,
           stopOnEntry = false,
         },
       }

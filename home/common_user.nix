@@ -85,7 +85,9 @@ let
     dust
     sioyek
     glow
-    inputs.antigravity.packages.${pkgs.system}.default
+    # inputs.antigravity.packages.${pkgs.system}.default
+    antigravity-cli
+    # antigravity
     taplo
     imagemagick
     chafa
