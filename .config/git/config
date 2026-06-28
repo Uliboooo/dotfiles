@@ -8,11 +8,10 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
-	editor = "hx"
 
 [diff]
 	tool = difftastic
-	external = difft --display inline
+	external = difft
 
 [difftool]
 	prompt = false

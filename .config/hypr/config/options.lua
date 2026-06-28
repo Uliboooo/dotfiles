@@ -7,8 +7,10 @@ hl.config({
     layout = "dwindle",
 
     col = {
-      active_border = "rgba(DFC3E4cf)",
-      inactive_border = "rgba(4F3360ff)",
+      -- Active: barely-there mauve (matches waybar #clock)
+      active_border = "rgba(cba6f7cc)",
+      -- Inactive: nearly invisible
+      inactive_border = "rgba(2a1f3d1a)",
     },
   },
 
@@ -18,22 +20,22 @@ hl.config({
   },
 
   decoration = {
-    rounding = 4,
+    rounding = 6,
 
     active_opacity = 1.0,
     inactive_opacity = 1.0,
     fullscreen_opacity = 1.0,
 
-    dim_inactive = false,
-    dim_strength = 0.08,
+    dim_inactive = true,
+    dim_strength = 0.06,
 
     blur = {
       enabled = true,
       size = 2,
-      passes = 2,
+      passes = 1,
       new_optimizations = true,
-      ignore_opacity = true,
-      xray = true,
+      ignore_opacity = false,
+      xray = false,
     },
 
     shadow = {
