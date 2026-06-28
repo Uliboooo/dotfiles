@@ -30,6 +30,8 @@
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
+  services.upower.enable = true;
+
   # GDM
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;

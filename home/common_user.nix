@@ -25,6 +25,7 @@ let
 
   basePackages = with pkgs; [
     # common
+    ashell
     git
     vim
     neovim
