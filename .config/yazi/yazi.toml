@@ -1,5 +1,5 @@
 [mgr]
-radio = [3,3,4]
+radio = [3, 3, 4]
 sort_by = "mtime"
 linemode = "size"
 show_hidden = false
@@ -13,6 +13,13 @@ name = ".git/"
 use = false
 
 [plugin]
-prepend_previewers = [
-	{ url = "*.wav", run = "wav-transcribe" },
+prepend_previewers = [{ url = "*.wav", run = "wav-transcribe" }]
+
+[opener]
+pdf = [
+  { run = 'zathura "$@"', orphan = true, desc = "Zathura" },
+  { run = 'flatpak run com.google.Chrome "$@"', orphan = true, desc = "Google Chrome" },
 ]
+
+[open]
+prepend_rules = [{ mime = "application/pdf", use = "pdf" }]

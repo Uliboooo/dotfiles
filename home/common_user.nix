@@ -95,6 +95,7 @@ let
     codex
     kdePackages.kdenlive
     noctalia-shell
+    pinta
   ];
 
   guiPackages =

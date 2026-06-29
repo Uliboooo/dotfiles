@@ -21,6 +21,9 @@ hl.bind("SUPER + J", hl.dsp.focus({ direction = "down" }))
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e+1" }))
 
+hl.bind("SUPER + grave", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind("SUPER + SHIFT + grave", hl.dsp.focus({ workspace = "e-1" }))
+
 -- Switch workspaces with mainMod + [0-9])
 hl.bind("SUPER + 1", hl.dsp.focus({ workspace = 1 }))
 hl.bind("SUPER + 2", hl.dsp.focus({ workspace = 2 }))
