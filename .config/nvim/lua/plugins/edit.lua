@@ -54,6 +54,7 @@ return {
           sh = { "shfmt" },
           astro = { "biome" },
           nix = { "nixfmt" },
+          toml = { "taplo" },
           typescript = { "biome" },
           typescriptreact = { "biome" },
           javascript = { "biome" },

@@ -93,6 +93,8 @@ let
     imagemagick
     chafa
     codex
+    kdePackages.kdenlive
+    noctalia-shell
   ];
 
   guiPackages =
@@ -229,32 +231,16 @@ in
         source = mkConfigLink "nix";
         recursive = false;
       };
-      "fish" = {
-        source = mkConfigLink "fish";
-        recursive = false;
-      };
       "rofi" = {
         source = mkConfigLink "rofi";
-        recursive = false;
-      };
-      "sampler" = {
-        source = mkConfigLink "sampler";
         recursive = false;
       };
       "sheldon" = {
         source = mkConfigLink "sheldon";
         recursive = false;
       };
-      "stylua" = {
-        source = mkConfigLink "stylua";
-        recursive = false;
-      };
       "zsh-abbr" = {
         source = mkConfigLink "zsh-abbr";
-        recursive = false;
-      };
-      "cliphist" = {
-        source = mkConfigLink "cliphist";
         recursive = false;
       };
     }
@@ -270,6 +256,10 @@ in
       };
       "swaync" = {
         source = mkConfigLink "swaync";
+        recursive = false;
+      };
+      "noctalia" = {
+        source = mkConfigLink "noctalia";
         recursive = false;
       };
     };
