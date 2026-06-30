@@ -24,6 +24,11 @@
       url = "github:Uliboooo/wlmstr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    tirith = {
+      url = "github:sheeki03/tirith";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

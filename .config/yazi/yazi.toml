@@ -21,5 +21,13 @@ pdf = [
   { run = 'flatpak run com.google.Chrome "$@"', orphan = true, desc = "Google Chrome" },
 ]
 
+image = [
+  { run = 'loupe "$@"', orphan = true, desc = "loupe" },
+  { run = 'flatpak run com.google.Chrome "$@"', orphan = true, desc = "Google Chrome" },
+]
+
 [open]
-prepend_rules = [{ mime = "application/pdf", use = "pdf" }]
+prepend_rules = [
+  { mime = "application/pdf", use = "pdf" },
+  { mime = "image/*", use = "image" },
+]

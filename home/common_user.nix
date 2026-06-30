@@ -22,6 +22,7 @@ let
   enableGui = config.dotfiles.enableGui;
 
   wlmstr = inputs.wlmstr.packages.${pkgs.system}.default;
+  tirith = inputs.tirith.packages.${pkgs.system}.default;
 
   basePackages = with pkgs; [
     # common
@@ -96,6 +97,7 @@ let
     kdePackages.kdenlive
     noctalia-shell
     pinta
+    tirith
   ];
 
   guiPackages =
