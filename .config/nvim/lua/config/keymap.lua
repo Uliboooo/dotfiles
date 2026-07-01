@@ -5,6 +5,7 @@ vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, desc = "Redo" })
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
+vim.keymap.set("i", "jj", "<Esc>", { silent = true })
 vim.keymap.set(
   "n",
   "eh",

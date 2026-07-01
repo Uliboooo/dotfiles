@@ -119,7 +119,7 @@
   },
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.ysh",
-    "interval": 30,
+    "interval": 10,
     "format": "󰌪 {}"
   },
   "custom/notification": {
