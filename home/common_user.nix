@@ -30,6 +30,7 @@ let
     git
     vim
     neovim
+    emacs
     helix
     yazi
     fzf
@@ -71,6 +72,13 @@ let
     nil
     nixfmt
     typescript
+    # typescript-language-server
+    # vscode-langservers-extracted
+    # lua-language-server
+    # marksman
+    # basedpyright
+    # astro-language-server
+    # emmet-language-server
     mediainfo
     rust-analyzer
     rustfmt
@@ -208,6 +216,10 @@ in
     xdg.configFile = {
       "nvim" = {
         source = mkConfigLink "nvim";
+        recursive = false;
+      };
+      "emacs" = {
+        source = mkConfigLink "emacs";
         recursive = false;
       };
       "helix" = {

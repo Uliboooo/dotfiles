@@ -47,3 +47,4 @@ config.local.fish
 .config/fish/fish_variables
 .config/fish/themes
 /lualatex-japanese-guide.md
+/.config/emacs/eln-cache/30.2-50acd47f
