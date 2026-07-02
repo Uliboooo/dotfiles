@@ -40,6 +40,13 @@ return {
             hidden = true,
             cmd = "rg",
             regex = true,
+            win = {
+              input = {
+                keys = {
+                  ["<CR>"] = { "edit_tab", mode = { "n", "i" } },
+                },
+              },
+            },
           },
         },
       },
@@ -102,41 +109,4 @@ return {
       },
     },
   },
-  -- file tree toggle sidebar
-  -- {
-  --   "nvim-neo-tree/neo-tree.nvim",
-  --   branch = "v3.x",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --
-  --   config = function()
-  --     require("neo-tree").setup({
-  --       close_if_last_window = true,
-  --
-  --       filesystem = {
-  --         follow_current_file = {
-  --           enabled = true,
-  --         },
-  --
-  --         filtered_items = {
-  --           visible = true,
-  --           hide_dotfiles = false,
-  --           hide_gitignored = false,
-  --         },
-  --       },
-  --
-  --       window = {
-  --         width = 25,
-  --       },
-  --     })
-  --
-  --     vim.keymap.set("n", "<Leader>e", function()
-  --       vim.cmd("Neotree toggle left")
-  --     end, { desc = "NeoTree Toggle" })
-  --   end,
-  --
-  -- }
 }
