@@ -1,6 +1,6 @@
 ## Overview
 
-![image](./README/images/2026-06-24-24_hl_eg.png)
+![image](./README/images/hl.png)
 
 view [Hyprlnad manual](./README/Hyprland.md)
 view [Emacs quick start](./README/Emacs.md)
