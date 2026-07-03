@@ -79,3 +79,11 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
   end,
 })
+
+vim.filetype.add({
+  extension = {
+    prepoly = "pp",
+    pp = "pp",
+    -- pp = "prepoly",
+  },
+})

@@ -263,6 +263,13 @@ return {
       })
       vim.lsp.enable("moonbit-lsp")
 
+      vim.lsp.config("prepoly", {
+        cmd = { "prepoly-lsp" },
+        on_attach = on_attach,
+        filetypes = { "pp", "prepoly" },
+      })
+      vim.lsp.enable("prepoly")
+
       local hyprlnad_bin = vim.fn.exepath("Hyprland")
       local hypr_stubs = ""
 
@@ -304,7 +311,6 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              -- 型チェックの厳格度設定 ("off", "basic", "standard", "strict", "all")
               typeCheckingMode = "standard",
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
