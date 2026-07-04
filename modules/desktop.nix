@@ -2,6 +2,7 @@
 {
   # ===== desktop base (entire system) =====
   programs.hyprland.enable = true;
+  programs.niri.enable = true;
   # PipeWire + rtkit
   security.rtkit.enable = true;
   services.pipewire = {
@@ -95,5 +96,7 @@
     kitty
     cliphist
     swtpm
+    udiskie
+    usbutils
   ];
 }

@@ -310,4 +310,45 @@ function rebuild() {
   fi
 }
 
+function fcp() {
+  local name
+
+  case $1 in
+    *rust*)
+      echo "copy rust flake.nix"
+      name="rust.nix"
+      ;;
+    *nim*)
+      echo "copy nim flake.nix"
+      name="nim.nix"
+      ;;
+    *gleam*)
+      echo "copy gleam flake.nix"
+      name="gleam.nix"
+      ;;
+    *typst*)
+      echo "copy typst flake.nix"
+      name="typst.nix"
+      ;;
+    *astro*)
+      echo "copy astro flake.nix"
+      name="bun_astro_vscode_lsp.nix"
+      ;;
+    *bun*)
+      echo "copy bun flake.nix"
+      name="bun_ts_flake.nix"
+      ;;
+    *)
+      echo "unknown template: $1"
+      return 1
+      ;;
+  esac
+
+  cp "$HOME/dotfiles/flake_templates/$name" "$PWD/flake.nix" \
+  && git init \
+  && git add flake.nix \
+  && echo "use flake" > .envrc && echo ".direnv/" >> .gitignore \
+  && direnv allow
+}
+
 # zprof

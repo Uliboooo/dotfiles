@@ -33,6 +33,9 @@
   services.tailscale.enable = true;
   services.flatpak.enable = true;
 
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
   services.fprintd.enable = true;
   security.pam.services = {
     login.fprintAuth = lib.mkForce true;

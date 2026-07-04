@@ -258,11 +258,19 @@ in
         source = mkConfigLink "zsh-abbr";
         recursive = false;
       };
+      "btop" = {
+        source = mkConfigLink "btop";
+        recursive = false;
+      };
     }
     // pkgs.lib.optionalAttrs isLinux {
       # Linux-only xdg configs (Wayland/Hyprland)
       "hypr" = {
         source = mkConfigLink "hypr";
+        recursive = false;
+      };
+      "niri" = {
+        source = mkConfigLink "niri";
         recursive = false;
       };
       "waybar" = {
