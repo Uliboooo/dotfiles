@@ -4,9 +4,8 @@
   "position": "top",
   "height": 34,
   "spacing": 1,
-
   "modules-left": ["niri/workspaces", "niri/window"],
-  "modules-center": ["clock", "mpris"],
+  "modules-center": ["mpris", "clock"],
   "modules-right": [
     "temperature",
     "pulseaudio",
@@ -17,9 +16,9 @@
     "tray",
     "custom/notification"
   ],
-
   "niri/workspaces": {
-    "format": "{index}",
+    "format": "{name}",
+    "on-click": "activate",
     "all-outputs": false,
     "format-icons": {
       "active": "",
@@ -27,7 +26,6 @@
       "urgent": ""
     }
   },
-
   "niri/window": {
     "format": "{app_id}",
     "max-length": 40,
@@ -35,36 +33,27 @@
     "rewrite": {
       "ghostty": "󰊠 Ghostty",
       "com.mitchellh.ghostty": "󰊠 Ghostty",
+      "com.obsproject.Studio": "󰻃 OBS-Studio",
       "google-chrome": " Chrome",
       "Google-chrome": " Chrome",
       "firefox": " Firefox",
       "kitty": "󰄛 Kitty",
+      "emacs": " Emacs",
+      "org.gnome.Nautilus": " Nautilus",
       "^$": "󰇄 Desktop"
     }
   },
-
   "mpris": {
     "format": "󰎆 {artist} - {title}",
-    "format-paused": "󰏤 <i>{artist} - {title}</i>",
-    "max-length": 30,
+    "format-paused": "󰏤 <i>{artist} / {title}</i>",
+    "max-length": 35,
     "player-icons": {
       "default": "󰎆"
     }
   },
-
-  "temperature": {
-    "critical-threshold": 80,
-    "format-critical": "{icon} {temperatureC}°C",
-    "format": "{icon} {temperatureC}°C",
-    "format-icons": [""],
-    "interval": 10,
-    "on-click": "ghostty --title='dev-float' -e btm"
-  },
-
   "clock": {
     "format": "{:%b %d %a %H:%M}",
     "tooltip-format": "<tt>{calendar}</tt>",
-    "on-click": "gnome-calendar",
     "calendar": {
       "mode": "month",
       "on-scroll": 1,
@@ -75,52 +64,54 @@
       }
     }
   },
-
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{icon} {temperatureC}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [""],
+    "interval": 10,
+    "on-click": "kitty --title='dev-float' -e btop"
+  },
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "󰝟 MUTED",
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-click": "pavucontrol"
+    "on-click": "kitty --class='dev-float' -e wiremix"
   },
-
   "bluetooth": {
-    "format": " {status}",
-    "format-connected": " {device_alias}",
+    "format": "{status}",
+    "format-connected": " {num_connections}",
     "format-connected-battery": " {device_alias}",
-    "on-click": "blueman-manager",
+    "on-click": "kitty --class='dev-float' -e bluetui",
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
   },
-
   "network": {
-    "format-wifi": "  {essid}",
+    "format-wifi": " {essid}",
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
     "max-length": 11,
     "on-click": "kitty --class='dev-float' -e nmtui"
   },
-
   "battery": {
     "states": {
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon} {capacity}%",
+    "format": "{icon}{capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": " {capacity}%",
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
-
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.ysh",
-    "interval": 30,
+    "interval": 10,
     "format": "󰌪 {}"
   },
-
   "custom/notification": {
     "tooltip": true,
     "format": "<span size='13pt'>{icon}</span>",
@@ -142,3 +133,4 @@
     "escape": true
   }
 }
+

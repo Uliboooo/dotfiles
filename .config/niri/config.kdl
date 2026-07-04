@@ -1,0 +1,311 @@
+// Hyprland-parity niri config (niri 26.04+)
+// https://github.com/niri-wm/niri/wiki/Configuration:-Introduction
+
+workspace "MSG"
+workspace "SCR"
+
+environment {
+    MOZ_ENABLE_WAYLAND "1"
+    GDK_BACKEND "wayland,x11,*"
+    QT_QPA_PLATFORM "wayland;xcb"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    SDL_VIDEODRIVER "wayland"
+    CLUTTER_BACKEND "Wayland"
+    XCURSOR_THEME "Bibata-Modern-Ice"
+    XCURSOR_SIZE "20"
+    HYPRSHOT_DIR "~/Desktop"
+    ELECTRON_OZONE_PLATFORM_HINT "wayland"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+    XDG_SESSION_DESKTOP "niri"
+    GTK_USE_PORTAL "1"
+}
+
+prefer-no-csd
+
+blur {
+    passes 1
+    offset 2
+    noise 0
+    saturation 1.0
+}
+
+cursor {
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 24
+}
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+spawn-sh-at-startup "dbus-update-activation-environment --systemd --all"
+spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-at-startup "hyprpolkitagent"
+spawn-at-startup "fcitx5"
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
+spawn-at-startup "hypridle"
+spawn-at-startup "swaync"
+spawn-at-startup "awww-daemon"
+spawn-sh-at-startup "ysh $HOME/dotfiles/script/_cycle_wallpaper.ysh seq"
+spawn-sh-at-startup "ysh $HOME/dotfiles/script/launch-waybar.ysh"
+spawn-at-startup "udiskie" "-a" "-t" "--notify"
+
+input {
+    focus-follows-mouse max-scroll-amount="0%"
+
+    keyboard {
+        xkb {
+            layout "us"
+            options "ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl,caps:super"
+        }
+        repeat-delay 230
+        repeat-rate 42
+    }
+
+    touchpad {
+        tap
+        scroll-factor 0.5
+    }
+
+    mouse {
+        natural-scroll
+    }
+
+    trackpoint {
+        accel-speed 0.2
+    }
+}
+
+output "eDP-1" {
+    mode "1920x1200"
+    scale 1
+    position x=320 y=1440
+}
+
+output "DP-1" {
+    mode "3840x2160"
+    scale 1.5
+    position x=0 y=0
+}
+
+layout {
+    gaps 4
+
+    struts {
+        left -2
+        right -2
+        top -2
+        bottom -2
+    }
+
+    center-focused-column "never"
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        on
+        width 3
+        active-color "#cba6f7cc"
+        inactive-color "#2a1f3d1a"
+    }
+
+    shadow {
+        off
+    }
+}
+
+animations {
+    workspace-switch {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+
+    window-open {
+        duration-ms 250
+        curve "ease-out-expo"
+    }
+
+    window-close {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
+
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-resize {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+}
+
+window-rule {
+    match app-id="dev-float"
+    match title="dev-float"
+    open-floating true
+    default-column-width { proportion 0.75; }
+    default-window-height { proportion 0.9; }
+}
+
+window-rule {
+    geometry-corner-radius 6
+    clip-to-geometry true
+}
+
+window-rule {
+    match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
+    draw-border-with-background false
+    background-effect {
+        blur true
+    }
+}
+
+layer-rule {
+    match namespace="^notifications$"
+    background-effect {
+        blur true
+    }
+}
+
+switch-events {
+    lid-close { spawn "sh" "-c" "$HOME/.config/hypr/handle_lid.sh close"; }
+    lid-open { spawn "sh" "-c" "$HOME/.config/hypr/handle_lid.sh open"; }
+}
+
+binds {
+    // --- apps (match hypr binds.lua) ---
+    Super+Q repeat=false { close-window; }
+    Super+T { spawn "kitty"; }
+    Super+M repeat=false { quit skip-confirmation=true; }
+    Super+E { spawn "kitty" "-e" "yazi" "."; }
+    Super+V { toggle-window-floating; }
+    Super+D { spawn "rofi" "-show" "drun"; }
+    Super+F { fullscreen-window; }
+
+    // --- focus ---
+    Super+Left { focus-column-left; }
+    Super+Right { focus-column-right; }
+    Super+Up { focus-window-up; }
+    Super+Down { focus-window-down; }
+    Super+H { focus-column-left; }
+    Super+L { focus-column-right; }
+    Super+K { focus-window-up; }
+    Super+J { focus-window-down; }
+
+    // --- workspaces ---
+    Super+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Super+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+
+    Super+grave { focus-workspace-down; }
+    Super+Shift+grave { focus-workspace-up; }
+
+    Super+1 { focus-workspace 1; }
+    Super+2 { focus-workspace 2; }
+    Super+3 { focus-workspace 3; }
+    Super+4 { focus-workspace 4; }
+    Super+5 { focus-workspace 5; }
+    Super+6 { focus-workspace 6; }
+    Super+7 { focus-workspace 7; }
+    Super+8 { focus-workspace 8; }
+    Super+9 { focus-workspace 9; }
+    Super+0 { focus-workspace 10; }
+
+    Super+Shift+1 { move-window-to-workspace 1; }
+    Super+Shift+2 { move-window-to-workspace 2; }
+    Super+Shift+3 { move-window-to-workspace 3; }
+    Super+Shift+4 { move-window-to-workspace 4; }
+    Super+Shift+5 { move-window-to-workspace 5; }
+    Super+Shift+6 { move-window-to-workspace 6; }
+    Super+Shift+7 { move-window-to-workspace 7; }
+    Super+Shift+8 { move-window-to-workspace 8; }
+    Super+Shift+9 { move-window-to-workspace 9; }
+    Super+Shift+0 { move-window-to-workspace 10; }
+
+    // special workspaces (named; closest niri equivalent)
+    Super+S { focus-workspace "MSG"; }
+    Super+Shift+S { move-window-to-workspace "MSG"; }
+    Super+Backslash { focus-workspace "SCR"; }
+    Super+Shift+Backslash { move-window-to-workspace "SCR"; }
+
+    // --- swap / layout ---
+    Super+Shift+H { swap-window-left; }
+    Super+Shift+L { swap-window-right; }
+    Super+Shift+J { consume-or-expel-window-right; }
+
+    // resize: niri has no submaps; Super+Ctrl+HJKL mirrors hypr resize-mode keys
+    Super+Ctrl+H repeat=true { set-column-width "-10"; }
+    Super+Ctrl+L repeat=true { set-column-width "10"; }
+    Super+Ctrl+K repeat=true { set-window-height "-10"; }
+    Super+Ctrl+J repeat=true { set-window-height "10"; }
+    Super+R repeat=false { reset-window-height; }
+
+    // horizontal scroll (match hypr Alt+J/K)
+    Alt+J repeat=true { spawn-sh "wlrctl pointer scroll 120 0"; }
+    Alt+K repeat=true { spawn-sh "wlrctl pointer scroll -120 0"; }
+
+    // --- screenshots (hyprshot) ---
+    Print allow-when-locked=true repeat=false {
+        spawn-sh "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    }
+    Super+P allow-when-locked=true repeat=false {
+        spawn-sh "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    }
+    Ctrl+Shift+S allow-when-locked=true repeat=false {
+        spawn-sh "hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    }
+    Super+Print allow-when-locked=true repeat=false {
+        spawn-sh "hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    }
+
+    // --- utilities ---
+    Super+Shift+P { spawn-sh "$HOME/dotfiles/commands/cmd_p.py"; }
+    Super+Shift+E { spawn-sh "$HOME/dotfiles/commands/logout.py"; }
+    Super+Shift+V {
+        spawn-sh "cliphist list | rofi -dmenu -p ' ' | cliphist decode | wl-copy"
+    }
+
+    // --- wallpapers ---
+    Super+W { spawn "wlmstr" "next" "seq"; }
+    Super+Shift+W { spawn "wlmstr" "next" "pre"; }
+
+    // --- media / brightness ---
+    XF86AudioRaiseVolume allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"
+    }
+    XF86AudioLowerVolume allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"
+    }
+    XF86AudioMute allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    }
+    XF86AudioMicMute allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    }
+    XF86MonBrightnessUp allow-when-locked=true repeat=true {
+        spawn "brightnessctl" "-e4" "-n2" "set" "3%+"
+    }
+    XF86MonBrightnessDown allow-when-locked=true repeat=true {
+        spawn "brightnessctl" "-e4" "-n2" "set" "3%-"
+    }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86Favorites allow-when-locked=true { spawn "playerctl" "play-pause"; }
+
+    Super+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+}
