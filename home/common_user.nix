@@ -140,6 +140,7 @@ let
     mpvpaper
     firefox
     wlmstr
+    google-chrome
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";

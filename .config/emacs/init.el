@@ -27,6 +27,9 @@
 (defconst seli/data-dir
   (expand-file-name "emacs/" (or (getenv "XDG_DATA_HOME") "~/.local/share/")))
 
+(defconst seli/config-dir
+  (file-name-directory (or load-file-name buffer-file-name)))
+
 (dolist (dir (list seli/cache-dir seli/state-dir seli/data-dir))
   (unless (file-directory-p dir)
     (make-directory dir t)))
@@ -64,6 +67,34 @@
       evil-replace-state-cursor 'bar
       evil-operator-state-cursor 'hbar
       evil-motion-state-cursor 'box)
+
+(defconst seli/terminal-cursor-shapes
+  '((box . "\e[2 q")
+    (bar . "\e[6 q")
+    (hbar . "\e[4 q"))
+  "DECSCUSR cursor shape escape sequences for terminal Emacs.")
+
+(defun seli/set-cursor-shape (shape)
+  "Set cursor SHAPE in GUI and terminal frames."
+  (setq-default cursor-type shape)
+  (setq cursor-type shape)
+  (unless (display-graphic-p)
+    (let ((sequence (alist-get shape seli/terminal-cursor-shapes)))
+      (when sequence
+        (send-string-to-terminal sequence)))))
+
+(defun seli/apply-evil-cursor-shape ()
+  "Apply cursor shape for the current Evil state."
+  (seli/set-cursor-shape
+   (pcase (and (boundp 'evil-state) evil-state)
+     ('insert 'bar)
+     ('replace 'bar)
+     ('operator 'hbar)
+     ('normal 'box)
+     ('visual 'box)
+     ('motion 'box)
+     ('emacs 'box)
+     (_ 'box))))
 
 ;;; Files, backups, and XDG-friendly state
 
@@ -170,20 +201,7 @@
     tab-line
     hl-line
     fill-column-indicator
-    display-fill-column-indicator
-    region
-    secondary-selection
-    lazy-highlight
-    isearch
-    isearch-fail
-    match
-    show-paren-match
-    show-paren-mismatch
-    minibuffer-prompt
-    completions-first-difference
-    vertico-current
-    corfu-default
-    corfu-current)
+    display-fill-column-indicator)
   "Faces that should inherit the terminal background.")
 
 (defun seli/apply-frame-appearance (&optional frame)
@@ -208,18 +226,14 @@
 (advice-add 'load-theme :after #'seli/reapply-frame-appearance)
 (seli/apply-frame-appearance)
 
-(setq modus-themes-bold-constructs t
-      modus-themes-italic-constructs t)
-
-(load-theme 'modus-vivendi t)
+(add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
+(load-theme 'rose-pine-moon t)
 
 (defun seli/toggle-theme ()
-  "Toggle dark/light theme variants."
+  "Reload the configured theme."
   (interactive)
   (mapc #'disable-theme custom-enabled-themes)
-  (if (memq 'modus-vivendi custom-enabled-themes)
-      (load-theme 'modus-operandi t)
-    (load-theme 'modus-vivendi t)))
+  (load-theme 'rose-pine-moon t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -250,6 +264,15 @@
   :demand t
   :config
   (evil-mode 1)
+  (dolist (hook '(evil-normal-state-entry-hook
+                  evil-insert-state-entry-hook
+                  evil-visual-state-entry-hook
+                  evil-replace-state-entry-hook
+                  evil-operator-state-entry-hook
+                  evil-motion-state-entry-hook
+                  evil-emacs-state-entry-hook))
+    (add-hook hook #'seli/apply-evil-cursor-shape))
+  (seli/apply-evil-cursor-shape)
   (define-key evil-normal-state-map (kbd "U") #'evil-redo)
   (define-key evil-normal-state-map (kbd "C-b") nil)
   (define-key evil-normal-state-map (kbd "C-a") #'seli/increment-or-toggle-at-point)

@@ -68,6 +68,8 @@ hl.bind("ALT + K", hl.dsp.exec_cmd("wlrctl pointer scroll -120 0"), { repeating 
 
 -- resize mode
 hl.bind("SUPER + R", hl.dsp.submap("resize"))
+hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl keyword general:layout equalcolumns"))
+hl.bind("SUPER + CONTROL + R", hl.dsp.exec_cmd("hyprctl keyword general:layout dwindle"))
 
 hl.define_submap("resize", function()
   hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
