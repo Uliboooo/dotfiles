@@ -1,7 +1,7 @@
 hl.bind("SUPER + Q", hl.dsp.window.close())
 hl.bind("SUPER + T", hl.dsp.exec_cmd("kitty"))
 hl.bind("SUPER + M", hl.dsp.exit(), { locked = true })
-hl.bind("SUPER + E", hl.dsp.exec_cmd("kitty -e yazi ."))
+hl.bind("SUPER + E", hl.dsp.exec_cmd("EDITOR=nvim kitty -e yazi ."))
 hl.bind("SUPER + V", hl.dsp.window.float())
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ "fullscreen", "toggele" }))
