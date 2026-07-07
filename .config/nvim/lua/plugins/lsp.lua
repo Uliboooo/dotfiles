@@ -193,6 +193,20 @@ return {
       })
       vim.lsp.enable("gopls")
 
+      vim.lsp.config("ocamllsp", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = {
+          "ocaml",
+          "ocamlinterface",
+          "ocamllex",
+          "menhir",
+          "dune",
+        },
+      })
+
+      vim.lsp.enable("ocamllsp")
+
       vim.lsp.config("emmet_ls", {
         capabilities = capabilities,
         on_attach = on_attach,

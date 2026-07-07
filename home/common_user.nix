@@ -30,7 +30,7 @@ let
     git
     vim
     neovim
-    emacs
+    (if isLinux then emacs-pgtk else emacs)
     helix
     yazi
     fzf
@@ -284,6 +284,10 @@ in
       };
       "noctalia" = {
         source = mkConfigLink "noctalia";
+        recursive = false;
+      };
+      "nixpkgs" = {
+        source = mkConfigLink "nixpkgs";
         recursive = false;
       };
     };

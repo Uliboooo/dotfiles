@@ -59,6 +59,7 @@ return {
           typescriptreact = { "biome" },
           javascript = { "biome" },
           javascriptreact = { "biome" },
+          ocaml = { "ocamlformat" },
         },
 
         formatters = {

@@ -211,20 +211,36 @@
       (when (facep face)
         (set-face-attribute face frame :background 'unspecified)
         (set-face-attribute face t :background 'unspecified)))
-    (modify-frame-parameters frame '((background-color . "unspecified-bg")))
-    (when (display-graphic-p frame)
-      (set-frame-parameter frame 'alpha-background seli/frame-alpha-background))))
+    (if (display-graphic-p frame)
+        (set-frame-parameter frame 'alpha-background seli/frame-alpha-background)
+      (modify-frame-parameters frame '((background-color . "unspecified-bg"))))))
 
 (defun seli/reapply-frame-appearance (&rest _)
   "Reapply frame appearance after theme changes."
   (dolist (frame (frame-list))
     (seli/apply-frame-appearance frame)))
 
-(add-to-list 'default-frame-alist '(background-color . "unspecified-bg"))
 (add-to-list 'default-frame-alist `(alpha-background . ,seli/frame-alpha-background))
 (add-hook 'after-make-frame-functions #'seli/apply-frame-appearance)
 (advice-add 'load-theme :after #'seli/reapply-frame-appearance)
 (seli/apply-frame-appearance)
+
+(defconst seli/default-font-family "Monaspace Radon Var")
+(defconst seli/default-font-height 130)
+(defconst seli/cjk-font-family "Yomogi")
+
+(defun seli/apply-fonts ()
+  "Set the default monospace font and the CJK fallback font, if installed."
+  (when (display-graphic-p)
+    (when (member seli/default-font-family (font-family-list))
+      (set-face-attribute 'default nil :family seli/default-font-family :height seli/default-font-height))
+    (when (member seli/cjk-font-family (font-family-list))
+      (dolist (charset '(kana han cjk-misc))
+        (set-fontset-font t charset (font-spec :family seli/cjk-font-family))))))
+
+(seli/apply-fonts)
+
+(tab-bar-mode 1)
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
 (load-theme 'rose-pine-moon t)
@@ -301,7 +317,7 @@
     "a" '(eglot-code-actions :which-key "code action")
     "r" '(eglot-rename :which-key "rename")
     "n" '(consult-focus-lines :which-key "hide non-matches")
-    "f" '(consult-fd :which-key "find files")
+    "f" '(seli/consult-fd-other-tab :which-key "find files")
     "/" '(consult-ripgrep :which-key "grep")
     "m" '(consult-mark :which-key "marks")
     "u" '(undo-redo :which-key "undo redo")
@@ -339,6 +355,14 @@
   :custom
   (consult-fd-args "fd --color=never --hidden --exclude .git --exclude node_modules --exclude target --exclude .mooncakes")
   (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --hidden --glob !.git --glob !node_modules --glob !target --glob !.mooncakes"))
+
+(defvar consult--buffer-display)
+
+(defun seli/consult-fd-other-tab ()
+  "Find files with `consult-fd', opening the selected file in a new tab."
+  (interactive)
+  (let ((consult--buffer-display #'switch-to-buffer-other-tab))
+    (call-interactively #'consult-fd)))
 
 (use-package consult-eglot
   :after (consult eglot))
