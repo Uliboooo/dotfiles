@@ -4,7 +4,7 @@
   "position": "top",
   "height": 34,
   "spacing": 1,
-  "modules-left": ["niri/workspaces", "niri/window"],
+  "modules-left": ["niri/workspaces", "custom/niri-windows"],
   "modules-center": ["mpris", "clock"],
   "modules-right": [
     "temperature",
@@ -17,7 +17,7 @@
     "custom/notification"
   ],
   "niri/workspaces": {
-    "format": "{name}",
+    "format": "{index}",
     "on-click": "activate",
     "all-outputs": false,
     "format-icons": {
@@ -25,6 +25,12 @@
       "default": "",
       "urgent": ""
     }
+  },
+  "custom/niri-windows": {
+    "exec": "~/dotfiles/.config/waybar/scripts/niri-ws-windows.sh",
+    "return-type": "json",
+    "escape": false,
+    "tooltip": true
   },
   "niri/window": {
     "format": "{app_id}",

@@ -143,6 +143,7 @@ let
     firefox
     wlmstr
     google-chrome
+    obs-studio
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";

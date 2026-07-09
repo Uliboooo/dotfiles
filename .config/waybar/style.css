@@ -41,7 +41,8 @@ tooltip label {
 #temperature,
 #tray,
 #custom-notification,
-#custom-tlp {
+#custom-tlp,
+#custom-niri-windows {
   background-color: rgba(24, 24, 37, 0.6);
   padding: 0 12px;
   border-radius: 10px;
@@ -79,6 +80,11 @@ tooltip label {
 #mpris {
   color: #f2cdcd;
   border: 1px solid #f2cdcd;
+}
+
+#custom-niri-windows {
+  color: #eba0ac;
+  border: 1px solid #eba0ac;
 }
 
 #submap {

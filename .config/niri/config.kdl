@@ -3,7 +3,11 @@
 
 environment {
     MOZ_ENABLE_WAYLAND "1"
-    GDK_BACKEND "wayland,x11,*"
+    // GDK_BACKEND must NOT be set globally here: it propagates to
+    // xdg-desktop-portal-gnome via dbus-update-activation-environment and
+    // breaks its display-server compatibility check, disabling ScreenCast
+    // ("Non-compatible display server, exposing settings only").
+    // https://github.com/niri-wm/niri/wiki/Important-Software
     QT_QPA_PLATFORM "wayland;xcb"
     QT_QPA_PLATFORMTHEME "qt6ct"
     QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
@@ -19,6 +23,8 @@ environment {
 }
 
 prefer-no-csd
+
+screenshot-path "~/Desktop/ScreenShot_%Y-%m-%d at %H.%M.%S.png"
 
 blur {
     passes 1
@@ -44,6 +50,10 @@ gestures {
 
 spawn-sh-at-startup "dbus-update-activation-environment --systemd --all"
 spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+// Ensure the desktop portal re-reads XDG_CURRENT_DESKTOP=niri on every niri
+// start; otherwise a long-lived xdg-desktop-portal.service can keep routing
+// ScreenCast to xdg-desktop-portal-hyprland (unsupported under niri, crashes).
+spawn-sh-at-startup "systemctl --user restart xdg-desktop-portal.service"
 spawn-at-startup "hyprpolkitagent"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
@@ -57,6 +67,7 @@ spawn-at-startup "udiskie" "-a" "-t" "--notify"
 
 input {
     focus-follows-mouse
+    warp-mouse-to-focus
 
     keyboard {
         xkb {
@@ -80,6 +91,7 @@ input {
 
     trackpoint {
         accel-speed 0.2
+        natural-scroll
     }
 }
 
@@ -189,7 +201,7 @@ binds {
     // --- apps (match hypr binds.lua) ---
     Super+Q repeat=false { close-window; }
     Super+T { spawn "kitty"; }
-    Super+M repeat=false { quit skip-confirmation=true; }
+    Super+M { quit; }
     Super+E { spawn "kitty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
     Super+D { spawn "rofi" "-show" "drun"; }
@@ -268,21 +280,11 @@ binds {
     Alt+J repeat=true { spawn-sh "wlrctl pointer scroll 120 0"; }
     Alt+K repeat=true { spawn-sh "wlrctl pointer scroll -120 0"; }
 
-    // --- screenshots (hyprshot) ---
-    // HYPRSHOT_DIR is set inline (not in environment{}) so $HOME expands via
-    // the real shell spawn-sh uses, instead of being taken as a literal string.
-    Print allow-when-locked=true repeat=false {
-        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
-    }
-    Super+P allow-when-locked=true repeat=false {
-        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
-    }
-    Ctrl+Shift+S allow-when-locked=true repeat=false {
-        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
-    }
-    Super+Print allow-when-locked=true repeat=false {
-        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
-    }
+    // --- screenshots (native niri) ---
+    Print repeat=false { screenshot-window; }
+    Super+P repeat=false { screenshot-window; }
+    Ctrl+Shift+S repeat=false { screenshot; }
+    Super+Print repeat=false { screenshot-screen; }
 
     // --- utilities ---
     Super+Shift+P { spawn-sh "$HOME/dotfiles/commands/cmd_p.py"; }
