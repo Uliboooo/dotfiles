@@ -1,9 +1,6 @@
 // Hyprland-parity niri config (niri 26.04+)
 // https://github.com/niri-wm/niri/wiki/Configuration:-Introduction
 
-workspace "MSG"
-workspace "SCR"
-
 environment {
     MOZ_ENABLE_WAYLAND "1"
     GDK_BACKEND "wayland,x11,*"
@@ -14,7 +11,6 @@ environment {
     CLUTTER_BACKEND "Wayland"
     XCURSOR_THEME "Bibata-Modern-Ice"
     XCURSOR_SIZE "20"
-    HYPRSHOT_DIR "~/Desktop"
     ELECTRON_OZONE_PLATFORM_HINT "wayland"
     XDG_CURRENT_DESKTOP "niri"
     XDG_SESSION_TYPE "wayland"
@@ -60,7 +56,7 @@ spawn-sh-at-startup "ysh $HOME/dotfiles/script/launch-waybar.ysh"
 spawn-at-startup "udiskie" "-a" "-t" "--notify"
 
 input {
-    focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse
 
     keyboard {
         xkb {
@@ -73,6 +69,8 @@ input {
 
     touchpad {
         tap
+        natural-scroll
+        accel-speed 0.4
         scroll-factor 0.5
     }
 
@@ -196,6 +194,12 @@ binds {
     Super+V { toggle-window-floating; }
     Super+D { spawn "rofi" "-show" "drun"; }
     Super+F { fullscreen-window; }
+    Super+O repeat=false { toggle-overview; }
+
+    // maximize: Shift+F fills the column width (keeps gaps/border),
+    // Ctrl+F expands the window edge-to-edge (no gaps/border)
+    Super+Shift+F { maximize-column; }
+    Super+Ctrl+F { maximize-window-to-edges; }
 
     // --- focus ---
     Super+Left { focus-column-left; }
@@ -204,8 +208,14 @@ binds {
     Super+Down { focus-window-down; }
     Super+H { focus-column-left; }
     Super+L { focus-column-right; }
-    Super+K { focus-window-up; }
-    Super+J { focus-window-down; }
+    // Super+K { focus-window-up; }
+    // Super+J { focus-window-down; }
+
+    // jump to first/last column (head/tail)
+    Super+Home { focus-column-first; }
+    Super+End { focus-column-last; }
+    Super+Ctrl+Home { move-column-to-first; }
+    Super+Ctrl+End { move-column-to-last; }
 
     // --- workspaces ---
     Super+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
@@ -213,6 +223,8 @@ binds {
 
     Super+grave { focus-workspace-down; }
     Super+Shift+grave { focus-workspace-up; }
+    Super+J { focus-workspace-down; }
+    Super+K { focus-workspace-up; }
 
     Super+1 { focus-workspace 1; }
     Super+2 { focus-workspace 2; }
@@ -236,12 +248,6 @@ binds {
     Super+Shift+9 { move-window-to-workspace 9; }
     Super+Shift+0 { move-window-to-workspace 10; }
 
-    // special workspaces (named; closest niri equivalent)
-    Super+S { focus-workspace "MSG"; }
-    Super+Shift+S { move-window-to-workspace "MSG"; }
-    Super+Backslash { focus-workspace "SCR"; }
-    Super+Shift+Backslash { move-window-to-workspace "SCR"; }
-
     // --- swap / layout ---
     Super+Shift+H { swap-window-left; }
     Super+Shift+L { swap-window-right; }
@@ -252,24 +258,30 @@ binds {
     Super+Ctrl+L repeat=true { set-column-width "10"; }
     Super+Ctrl+K repeat=true { set-window-height "-10"; }
     Super+Ctrl+J repeat=true { set-window-height "10"; }
-    Super+R repeat=false { reset-window-height; }
+    Super+Ctrl+R repeat=false { reset-window-height; }
+
+    // cycle through preset column-width "templates" (see layout.preset-column-widths)
+    Super+R { switch-preset-column-width; }
+    Super+Shift+R { switch-preset-column-width-back; }
 
     // horizontal scroll (match hypr Alt+J/K)
     Alt+J repeat=true { spawn-sh "wlrctl pointer scroll 120 0"; }
     Alt+K repeat=true { spawn-sh "wlrctl pointer scroll -120 0"; }
 
     // --- screenshots (hyprshot) ---
+    // HYPRSHOT_DIR is set inline (not in environment{}) so $HOME expands via
+    // the real shell spawn-sh uses, instead of being taken as a literal string.
     Print allow-when-locked=true repeat=false {
-        spawn-sh "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
     }
     Super+P allow-when-locked=true repeat=false {
-        spawn-sh "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
     }
     Ctrl+Shift+S allow-when-locked=true repeat=false {
-        spawn-sh "hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
     }
     Super+Print allow-when-locked=true repeat=false {
-        spawn-sh "hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+        spawn-sh "HYPRSHOT_DIR=\"$HOME/Desktop\" hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
     }
 
     // --- utilities ---
