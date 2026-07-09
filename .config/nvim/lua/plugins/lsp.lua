@@ -318,6 +318,12 @@ return {
       })
       vim.lsp.enable("lua_ls")
 
+      vim.lsp.config("gleam", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+      vim.lsp.enable("gleam")
+
       vim.lsp.config("basedpyright", {
         capabilities = capabilities,
         on_attach = on_attach,

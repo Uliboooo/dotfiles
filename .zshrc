@@ -98,7 +98,7 @@ fi
 # direnv
 eval "$(direnv hook zsh)"
 
-eval "$(tirith init --shell zsh)"
+command -v tirith >/dev/null 2>&1 && eval "$(tirith init --shell zsh)"
 
 # ==============================================================================
 # PATH

@@ -105,7 +105,9 @@ let
     kdePackages.kdenlive
     noctalia-shell
     pinta
-    tirith
+    # tirith
+    claude-code
+    zathura
   ];
 
   guiPackages =
