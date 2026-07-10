@@ -25,6 +25,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zathura-gui = {
+      url = "github:Uliboooo/zathura_thin_gui_wrapper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     tirith = {
       url = "github:sheeki03/tirith";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -23,6 +23,7 @@ let
 
   wlmstr = inputs.wlmstr.packages.${pkgs.system}.default;
   tirith = inputs.tirith.packages.${pkgs.system}.default;
+  zathura-gui = inputs.zathura-gui.packages.${pkgs.system}.default;
 
   basePackages = with pkgs; [
     # common
@@ -142,8 +143,10 @@ let
     mpvpaper
     firefox
     wlmstr
+    zathura-gui
     google-chrome
     obs-studio
+    discord
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";

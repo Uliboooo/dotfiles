@@ -13,6 +13,7 @@ declare -A icons=(
   [kitty]="󰄛"
   [emacs]=""
   [org.gnome.Nautilus]=""
+  ["com.discordapp.Discord.desktop"]=" "
 )
 
 declare -A names=(
