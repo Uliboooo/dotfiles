@@ -17,7 +17,7 @@
     "custom/notification"
   ],
   "niri/workspaces": {
-    "format": "{index}",
+    "format": "{value}",
     "on-click": "activate",
     "all-outputs": false,
     "format-icons": {

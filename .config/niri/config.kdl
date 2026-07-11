@@ -26,6 +26,11 @@ prefer-no-csd
 
 screenshot-path "~/Desktop/ScreenShot_%Y-%m-%d at %H.%M.%S.png"
 
+overview {
+  zoom 0.48
+  backdrop-color "#777"
+}
+
 blur {
     passes 1
     offset 2
@@ -197,7 +202,12 @@ switch-events {
     lid-open { spawn "sh" "-c" "$HOME/.config/hypr/handle_lid.sh open"; }
 }
 
+workspace "chats"
+
 binds {
+    Super+S { focus-workspace "chats"; }
+    Super+Shift+S { move-window-to-workspace "chats"; }
+
     // --- apps (match hypr binds.lua) ---
     Super+Q repeat=false { close-window; }
     Super+T { spawn "kitty"; }
