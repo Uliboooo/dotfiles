@@ -4,7 +4,8 @@ hl.config({
     gaps_out = 4,
     border_size = 3,
 
-    layout = "dwindle",
+    -- layout = "dwindle",
+    layout = "scrolling",
 
     col = {
       -- Active: barely-there mauve (matches waybar #clock)
@@ -17,6 +18,11 @@ hl.config({
   dwindle = {
     smart_split = false,
     preserve_split = true,
+  },
+
+  scrolling = {
+    -- niri-style resize toggle: cycled with colresize +conf/-conf
+    explicit_column_widths = "0.25, 0.333, 0.5",
   },
 
   decoration = {

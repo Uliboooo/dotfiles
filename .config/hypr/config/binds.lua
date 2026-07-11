@@ -66,18 +66,10 @@ hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind("ALT + J", hl.dsp.exec_cmd("wlrctl pointer scroll 120 0"), { repeating = true })
 hl.bind("ALT + K", hl.dsp.exec_cmd("wlrctl pointer scroll -120 0"), { repeating = true })
 
--- resize mode
-hl.bind("SUPER + R", hl.dsp.submap("resize"))
+-- resize: niri-style toggle, cycles column width through 1/4, 1/3, 1/2 (see scrolling.explicit_column_widths)
+hl.bind("SUPER + R", hl.dsp.layout("colresize +conf"))
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl keyword general:layout equalcolumns"))
 hl.bind("SUPER + CONTROL + R", hl.dsp.exec_cmd("hyprctl keyword general:layout dwindle"))
-
-hl.define_submap("resize", function()
-  hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-  hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-  hl.bind("K", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
-  hl.bind("J", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-  hl.bind("escape", hl.dsp.submap("reset"))
-end)
 
 -- screenshot
 hl.bind(

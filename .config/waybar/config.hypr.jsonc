@@ -4,7 +4,7 @@
   "position": "top",
   "height": 34,
   "spacing": 1,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-left": ["hyprland/workspaces", "custom/hypr-windows"],
   "modules-center": ["hyprland/submap", "mpris", "clock"],
   "modules-right": [
     "temperature",
@@ -27,24 +27,12 @@
       "urgent": ""
     }
   },
-  "hyprland/window": {
-    "format": "{class}",
-    "max-length": 40,
-    "separate-outputs": true,
-    "rewrite": {
-      "ghostty": "󰊠 Ghostty",
-      "com.mitchellh.ghostty": "󰊠 Ghostty",
-      "com.obsproject.Studio": "󰻃 OBS-Studio",
-      "google-chrome": " Chrome",
-      "Google-chrome": " Chrome",
-      "firefox": " Firefox",
-      "kitty": "󰄛 Kitty",
-      "emacs": " Emacs",
-      "org.gnome.Nautilus": " Nautilus",
-      "^$": "󰇄 Desktop"
-    }
+  "custom/hypr-windows": {
+    "exec": "~/dotfiles/.config/waybar/scripts/hypr-ws-windows.sh",
+    "return-type": "json",
+    "escape": false,
+    "tooltip": true
   },
-
   "hyprland/submap": {
     "format": "{}",
     "max-length": 25,

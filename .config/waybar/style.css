@@ -42,7 +42,8 @@ tooltip label {
 #tray,
 #custom-notification,
 #custom-tlp,
-#custom-niri-windows {
+#custom-niri-windows,
+#custom-hypr-windows {
   background-color: rgba(24, 24, 37, 0.6);
   padding: 0 12px;
   border-radius: 10px;
@@ -82,7 +83,8 @@ tooltip label {
   border: 1px solid #f2cdcd;
 }
 
-#custom-niri-windows {
+#custom-niri-windows,
+#custom-hypr-windows {
   color: #eba0ac;
   border: 1px solid #eba0ac;
 }
