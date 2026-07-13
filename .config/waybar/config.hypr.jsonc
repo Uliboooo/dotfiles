@@ -93,7 +93,7 @@
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
     "max-length": 11,
-    "on-click": "kitty --class='dev-float' -e nmtui"
+    "on-click": "kitty --class='dev-float' -e ~/dotfiles/script/wifi.bash"
   },
   "battery": {
     "states": {
