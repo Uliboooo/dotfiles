@@ -4,6 +4,7 @@
 
 view [Hyprlnad manual](./README/Hyprland.md)
 view [Emacs quick start](./README/Emacs.md)
+view [Uncoated Paper design manual](./README/PaperDesign.md)
 
 ## includes config
 
