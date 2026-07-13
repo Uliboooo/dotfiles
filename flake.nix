@@ -34,6 +34,11 @@
       url = "github:sheeki03/tirith";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    shojiwm = {
+      url = "github:bea4dev/ShojiWM";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

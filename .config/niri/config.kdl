@@ -31,13 +31,6 @@ overview {
   backdrop-color "#777"
 }
 
-blur {
-    passes 1
-    offset 2
-    noise 0
-    saturation 1.0
-}
-
 cursor {
     xcursor-theme "Bibata-Modern-Ice"
     xcursor-size 24
@@ -113,7 +106,7 @@ output "DP-1" {
 }
 
 layout {
-    gaps 4
+    gaps 2
 
     struts {
         left -2
@@ -131,9 +124,9 @@ layout {
 
     border {
         on
-        width 3
-        active-color "#cba6f7cc"
-        inactive-color "#2a1f3d1a"
+        width 4
+        active-color "#d38ca0"
+        inactive-color "#989286"
     }
 
     shadow {
@@ -178,23 +171,13 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 6
+    geometry-corner-radius 0
     clip-to-geometry true
 }
 
 window-rule {
     match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
     draw-border-with-background false
-    background-effect {
-        blur true
-    }
-}
-
-layer-rule {
-    match namespace="^notifications$"
-    background-effect {
-        blur true
-    }
 }
 
 switch-events {

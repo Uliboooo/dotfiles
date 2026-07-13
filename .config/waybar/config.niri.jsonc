@@ -2,8 +2,8 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 34,
-  "spacing": 1,
+  "height": 32,
+  "spacing": 0,
   "modules-left": ["niri/workspaces", "custom/niri-windows"],
   "modules-center": ["mpris", "clock"],
   "modules-right": [
@@ -64,9 +64,9 @@
       "mode": "month",
       "on-scroll": 1,
       "format": {
-        "months": "<span color='#cba6f7'><b>{}</b></span>",
-        "days": "<span color='#cdd6f4'>{}</span>",
-        "today": "<span color='#1e1e2e' background='#cba6f7'><b>{}</b></span>"
+        "months": "<span color='#d38ca0'><b>{}</b></span>",
+        "days": "<span color='#2d302b'>{}</span>",
+        "today": "<span color='#fbf9f2' background='#d38ca0'><b>{}</b></span>"
       }
     }
   },
@@ -139,4 +139,3 @@
     "escape": true
   }
 }
-

@@ -56,14 +56,14 @@ print_state() {
     icon="${icons[$app_id]:-$app_id}"
     if [[ "$focused" == "true" ]]; then
       app_name="${names[$app_id]:-$app_id}"
-      text+="<span color='#cba6f7'></span><span color='#1e1e2e' background='#cba6f7'>${icon} ${app_name}</span><span color='#cba6f7'></span> │ "
+      text+="${icon} ${app_name} | "
     else
-      text+="${icon} │ "
+      text+="${icon} | "
     fi
     tooltip+="$(xml_escape <<<"$title")"$'\n'
   done < <(jq -r '.[] | [.app_id, .title, .is_focused] | @tsv' <<<"$windows")
 
-  text="${text% │ }"
+  text="${text% | }"
   tooltip="${tooltip%$'\n'}"
 
   jq -nc --arg text "$text" --arg tooltip "$tooltip" '{text: $text, tooltip: $tooltip}'

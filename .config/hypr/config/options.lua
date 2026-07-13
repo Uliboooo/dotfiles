@@ -1,17 +1,16 @@
 hl.config({
   general = {
     gaps_in = 2,
-    gaps_out = 4,
-    border_size = 3,
+    gaps_out = 3,
+    border_size = 4,
 
-    -- layout = "dwindle",
-    layout = "scrolling",
+    layout = "dwindle",
+    -- layout = "scrolling",
 
     col = {
-      -- Active: barely-there mauve (matches waybar #clock)
-      active_border = "rgba(cba6f7cc)",
-      -- Inactive: nearly invisible
-      inactive_border = "rgba(2a1f3d1a)",
+      -- Quiet paper palette: soft sakura focus, opaque rule for inactive windows.
+      active_border = "rgb(d38ca0)",
+      inactive_border = "rgb(989286)",
     },
   },
 
@@ -23,10 +22,13 @@ hl.config({
   scrolling = {
     -- niri-style resize toggle: cycled with colresize +conf/-conf
     explicit_column_widths = "0.25, 0.333, 0.5",
+    follow_focus = true, -- フォーカス移動時にレイアウトが自動スクロール
+    follow_min_visible = 0.4, -- ウィンドウの40%以上が見えていれば追従しない
+    focus_fit_method = 1, -- 0 = 中央に寄せる, 1 = 画面内に収まるだけ
   },
 
   decoration = {
-    rounding = 6,
+    rounding = 0,
 
     active_opacity = 1.0,
     inactive_opacity = 1.0,
@@ -36,7 +38,7 @@ hl.config({
     -- dim_strength = 0.04,
 
     blur = {
-      enabled = true,
+      enabled = false,
       size = 2,
       passes = 1,
       new_optimizations = true,
