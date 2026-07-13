@@ -4,6 +4,7 @@ hl.bind("SUPER + M", hl.dsp.exit(), { locked = true })
 hl.bind("SUPER + E", hl.dsp.exec_cmd("EDITOR=nvim kitty -e yazi ."))
 hl.bind("SUPER + V", hl.dsp.window.float())
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
+hl.bind("SUPER + TAB", hl.dsp.exec_cmd("hyprpanopticon"))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ "fullscreen", "toggele" }))
 hl.bind("SUPER + SHIFT + J", hl.dsp.layout("togglesplit"))
 

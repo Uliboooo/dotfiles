@@ -25,6 +25,7 @@ let
   tirith = inputs.tirith.packages.${pkgs.system}.default;
   zathura-gui = inputs.zathura-gui.packages.${pkgs.system}.default;
   shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
+  hyprpanopticon = inputs.hyprpanopticon.packages.${pkgs.system}.default;
 
   basePackages = with pkgs; [
     # common
@@ -145,6 +146,7 @@ let
     firefox
     wlmstr
     zathura-gui
+    hyprpanopticon
     google-chrome
     obs-studio
     discord

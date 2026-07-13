@@ -39,6 +39,11 @@
       url = "github:bea4dev/ShojiWM";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprpanopticon = {
+      url = "github:Uliboooo/hyprPanopticon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

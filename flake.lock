@@ -95,6 +95,26 @@
         "type": "github"
       }
     },
+    "hyprpanopticon": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783929702,
+        "narHash": "sha256-sYzoQstWuue4IOEhyfg9R4weR5YGUe2MVAKtZPbibUc=",
+        "owner": "Uliboooo",
+        "repo": "hyprPanopticon",
+        "rev": "d7197ee7cc84aff12d034a70eac60c89276ea584",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Uliboooo",
+        "repo": "hyprPanopticon",
+        "type": "github"
+      }
+    },
     "jolt": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -177,6 +197,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "hyprpanopticon": "hyprpanopticon",
         "jolt": "jolt",
         "nix-darwin": "nix-darwin",
         "nix-hazkey": "nix-hazkey",
