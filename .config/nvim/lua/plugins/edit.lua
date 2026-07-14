@@ -52,7 +52,7 @@ return {
           json = { "biome" },
           jsonc = { "biome" },
           sh = { "shfmt" },
-          astro = { "biome" },
+          astro = { "prettier" },
           nix = { "nixfmt" },
           toml = { "taplo" },
           typescript = { "biome" },

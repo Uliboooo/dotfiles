@@ -1,16 +1,14 @@
 ## Overview
 
-![image](./README/images/hl.png)
+![image](./README/jul14.png)
 
-view [Hyprlnad manual](./README/Hyprland.md)
-view [Emacs quick start](./README/Emacs.md)
-view [Uncoated Paper design manual](./README/PaperDesign.md)
+view [Hyprland manual](./README/Hyprland.md), view [Uncoated Paper design manual](./README/PaperDesign.md)
 
 ## includes config
 
 | Tool | |
 | :---: | :---: |
-| Terminal | Kitty(Linux), Ghostty(mac) |
+| Terminal | Kitty |
 | Editor | Neovim |
 | Shell | zsh |
 | Launcher | rofi |
@@ -74,7 +72,7 @@ nix run home-manager/master -- switch --flake .#seli
 Subsequent updates:
 
 ```bash
-home-manager switch --flake .#lilan
+home-manager switch --flake .#seli
 ```
 
 ### 2. NixOS
@@ -116,7 +114,7 @@ darwin-rebuild switch --flake .#macbook
 │   ├── desktop.nix
 │   └── thinkpad.nix
 ├── home/
-│   ├── lilan.nix
+│   ├── seli.nix
 │   ├── common_user.nix
 │   └── ...
 ├── nvim/
@@ -127,7 +125,7 @@ darwin-rebuild switch --flake .#macbook
 ```
 
 - `modules/desktop.nix`: system-wide desktop infrastructure (Hyprland, PipeWire, portal, polkit, etc.)
-- `home/lilan.nix`: personal apps and user config
+- `home/seli.nix`: personal apps and user config
 - real app config files stay in this dotfiles repo as normal files/directories
 - Home Manager deploys `~/.config/*` via `xdg.configFile` symlinks
 
@@ -140,7 +138,7 @@ After making changes to your configuration files, use the following commands to 
 **Standalone Linux (Debian, Ubuntu, etc.)**
 ```bash
 cd ~/dotfiles
-home-manager switch --flake .#lilan
+home-manager switch --flake .#seli
 ```
 
 **NixOS**
