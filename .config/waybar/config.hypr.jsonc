@@ -73,6 +73,8 @@
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "󰝟 MUTED",
+    "reverse-mouse-scrolling": true,
+    "reverse-scrolling": true,
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     },
