@@ -120,8 +120,6 @@ let
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
       mpv
-      firefox
-      discord
     ])
     ++ lib.optionals chromeSupported [
       pkgs.google-chrome
@@ -139,6 +137,8 @@ let
     clapper
     showtime
     libreoffice
+    firefox
+    discord
   ];
 
   linuxGuiPackages = with pkgs; [
