@@ -119,7 +119,6 @@ let
     (with pkgs; [
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
-      mpv
     ])
     ++ lib.optionals chromeSupported [
       pkgs.google-chrome
@@ -147,6 +146,10 @@ let
     noctalia-shell
     kdePackages.kdenlive
     libnotify # freedesktop の D-Bus 通知。macOS には対応する仕組みが無い。
+    # mpv は GTK 非依存で meta 上も darwin 対応だが、この nixpkgs では
+    # aarch64-darwin のリンクが cctools ld のクラッシュで通らない (Hydra も
+    # 同様に失敗するためキャッシュも無い)。macOS では IINA 等を使う。
+    mpv
     wl-clipboard
     ghostty
     hollywood
