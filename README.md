@@ -89,15 +89,44 @@ cd ~/dotfiles
 sudo nixos-rebuild switch --flake .#desktop
 ```
 
-### 3. macOS (nix-darwin)
+### 3. macOS
 
-#### Step 1: Install nix-darwin
-Follow instructions at [nix-community/nix-darwin](https://github.com/LnL7/nix-darwin).
+Two options. Use nix-darwin if you want system settings managed by Nix too;
+use standalone Home Manager if you only want Nix as a package manager.
 
-#### Step 2: Apply Configuration
+Both assume the macOS username is `seli` and an Apple Silicon machine
+(`aarch64-darwin`). For a different username, change `hosts/macbook/configuration.nix`
+and the `home-manager.users` attribute in `flake.nix`. For an Intel Mac, set
+`darwinSystem = "x86_64-darwin"` in `flake.nix`.
+
+#### Option A: nix-darwin (system + user)
+
 ```bash
+sh <(curl -L https://nixos.org/nix/install)
 cd ~/dotfiles
-darwin-rebuild switch --flake .#macbook
+sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake .#macbook
+```
+
+Subsequent updates:
+
+```bash
+sudo darwin-rebuild switch --flake .#macbook
+```
+
+#### Option B: Standalone Home Manager (packages only)
+
+No `sudo`, no system settings touched — just the user environment.
+
+```bash
+sh <(curl -L https://nixos.org/nix/install)
+cd ~/dotfiles
+nix run home-manager/master -- switch --flake .#seli@aarch64-darwin
+```
+
+Subsequent updates:
+
+```bash
+home-manager switch --flake .#seli@aarch64-darwin
 ```
 
 ## Structure (simple)
@@ -106,9 +135,11 @@ darwin-rebuild switch --flake .#macbook
 ~/dotfiles
 ├── flake.nix
 ├── hosts/
-│   └── desktop/
-│       ├── configuration.nix
-│       └── hardware-configuration.nix
+│   ├── desktop/
+│   │   ├── configuration.nix
+│   │   └── hardware-configuration.nix
+│   └── macbook/
+│       └── configuration.nix
 ├── modules/
 │   ├── common.nix
 │   ├── desktop.nix
@@ -151,6 +182,12 @@ sudo nixos-rebuild switch --flake .#desktop
 ```bash
 cd ~/dotfiles
 sudo darwin-rebuild switch --flake .#macbook
+```
+
+**macOS (standalone Home Manager)**
+```bash
+cd ~/dotfiles
+home-manager switch --flake .#seli@aarch64-darwin
 ```
 
 ### Update Packages (Flake Inputs)

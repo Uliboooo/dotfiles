@@ -162,11 +162,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1783776592,
-        "narHash": "sha256-UgCQzxeWI75XM8G+hPrPh+MKzEPjG3SpAj7dtqSbksA=",
+        "lastModified": 1784007870,
+        "narHash": "sha256-djcLt/JJphyNt4eDY9XTly+/WbCK5lqWq9lSgCmJkkQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e7a3ca8092b61ff85b6a45bf863ea2b2d6a661b3",
+        "rev": "18b9261cb3294b6d2a06d03f96872827b8fe2698",
         "type": "github"
       },
       "original": {
@@ -184,8 +184,29 @@
         "nix-darwin": "nix-darwin",
         "nix-hazkey": "nix-hazkey",
         "nixpkgs": "nixpkgs",
+        "shojiwm": "shojiwm",
         "wlmstr": "wlmstr",
         "zathura-gui": "zathura-gui"
+      }
+    },
+    "shojiwm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784087376,
+        "narHash": "sha256-femeJp7Hnp8aEGHHtoDYFrZcKIzuggcXUdGnwPx+TJM=",
+        "owner": "bea4dev",
+        "repo": "ShojiWM",
+        "rev": "b5137ea13d9da58c4fc8c82341d358cc118b7178",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bea4dev",
+        "repo": "ShojiWM",
+        "type": "github"
       }
     },
     "systems": {

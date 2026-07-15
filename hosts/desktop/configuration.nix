@@ -42,6 +42,36 @@
     sudo.fprintAuth = true;
   };
 
+  # nixbuild.net remote builder. The nix-daemon runs as root, so the key must be
+  # passphrase-less and reachable from root's ssh config (/etc/ssh/ssh_config).
+  programs.ssh.extraConfig = ''
+    Host eu.nixbuild.net
+      PubkeyAcceptedKeyTypes ssh-ed25519
+      ServerAliveInterval 60
+      IdentityFile /home/seli/.ssh/nixbuild
+  '';
+
+  programs.ssh.knownHosts.nixbuild = {
+    hostNames = [ "eu.nixbuild.net" ];
+    publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+  };
+
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    {
+      hostName = "eu.nixbuild.net";
+      system = "x86_64-linux";
+      maxJobs = 100;
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+      ];
+    }
+  ];
+  # Let nixbuild.net fetch dependencies from cache.nixos.org itself instead of
+  # uploading them from this machine.
+  nix.settings.builders-use-substitutes = true;
+
   # LUKS devices
   # boot.initrd.luks.devices = {
   # Swap partition

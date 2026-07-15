@@ -16,7 +16,9 @@
 (add-to-list 'display-buffer-alist
              '("\\`\\*Compile-Log\\*\\'" . (display-buffer-no-window)))
 
-(defconst seli/frame-alpha-background 88)
+(defconst seli/opaque-ui-background "#2a273f")
+(defconst seli/opaque-ui-background-active "#393552")
+(defconst seli/buffer-alpha-background 88)
 
 (defconst seli/cache-dir
   (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache/")))
@@ -193,16 +195,33 @@
     line-number-current-line
     vertical-border
     internal-border
-    mode-line
-    mode-line-inactive
-    mode-line-active
-    header-line
-    tab-bar
-    tab-line
     hl-line
     fill-column-indicator
     display-fill-column-indicator)
-  "Faces that should inherit the terminal background.")
+  "Buffer faces that should inherit the transparent frame background.")
+
+(defconst seli/opaque-ui-faces
+  '((menu . seli/opaque-ui-background-active)
+    (tool-bar . seli/opaque-ui-background-active)
+    (tab-bar . seli/opaque-ui-background-active)
+    (tab-bar-tab . seli/opaque-ui-background)
+    (tab-bar-tab-inactive . seli/opaque-ui-background-active)
+    (tab-bar-tab-group-current . seli/opaque-ui-background)
+    (tab-bar-tab-group-inactive . seli/opaque-ui-background-active)
+    (tab-bar-tab-ungrouped . seli/opaque-ui-background-active)
+    (tab-line . seli/opaque-ui-background)
+    (tab-line-tab . seli/opaque-ui-background-active)
+    (tab-line-tab-current . seli/opaque-ui-background-active)
+    (tab-line-tab-inactive . seli/opaque-ui-background)
+    (tab-line-highlight . seli/opaque-ui-background-active)
+    (tab-line-close-highlight . seli/opaque-ui-background-active)
+    (header-line . seli/opaque-ui-background)
+    (header-line-highlight . seli/opaque-ui-background-active)
+    (mode-line . seli/opaque-ui-background-active)
+    (mode-line-active . seli/opaque-ui-background-active)
+    (mode-line-inactive . seli/opaque-ui-background)
+    (mode-line-highlight . seli/opaque-ui-background-active))
+  "UI faces that should stay opaque in GUI frames.")
 
 (defun seli/apply-frame-appearance (&optional frame)
   "Apply frame appearance settings to FRAME."
@@ -212,7 +231,15 @@
         (set-face-attribute face frame :background 'unspecified)
         (set-face-attribute face t :background 'unspecified)))
     (if (display-graphic-p frame)
-        (set-frame-parameter frame 'alpha-background seli/frame-alpha-background)
+        (progn
+          (set-frame-parameter frame 'alpha '(100 . 100))
+          (set-frame-parameter frame 'alpha-background seli/buffer-alpha-background)
+          (dolist (entry seli/opaque-ui-faces)
+            (let ((face (car entry))
+                  (background (symbol-value (cdr entry))))
+              (when (facep face)
+                (set-face-attribute face frame :background background)
+                (set-face-attribute face t :background background)))))
       (modify-frame-parameters frame '((background-color . "unspecified-bg"))))))
 
 (defun seli/reapply-frame-appearance (&rest _)
@@ -220,7 +247,8 @@
   (dolist (frame (frame-list))
     (seli/apply-frame-appearance frame)))
 
-(add-to-list 'default-frame-alist `(alpha-background . ,seli/frame-alpha-background))
+(add-to-list 'default-frame-alist '(alpha . (100 . 100)))
+(add-to-list 'default-frame-alist `(alpha-background . ,seli/buffer-alpha-background))
 (add-hook 'after-make-frame-functions #'seli/apply-frame-appearance)
 (advice-add 'load-theme :after #'seli/reapply-frame-appearance)
 (seli/apply-frame-appearance)
@@ -240,7 +268,13 @@
 
 (seli/apply-fonts)
 
-(tab-bar-mode 1)
+(setq tab-bar-show nil
+      tab-line-close-button-show nil
+      tab-line-new-button-show nil
+      tab-line-separator "")
+
+(tab-bar-mode -1)
+(global-tab-line-mode 1)
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
 (load-theme 'rose-pine-moon t)
@@ -317,7 +351,7 @@
     "a" '(eglot-code-actions :which-key "code action")
     "r" '(eglot-rename :which-key "rename")
     "n" '(consult-focus-lines :which-key "hide non-matches")
-    "f" '(seli/consult-fd-other-tab :which-key "find files")
+    "f" '(seli/consult-fd-buffer-tab :which-key "find files")
     "/" '(consult-ripgrep :which-key "grep")
     "m" '(consult-mark :which-key "marks")
     "u" '(undo-redo :which-key "undo redo")
@@ -356,13 +390,10 @@
   (consult-fd-args "fd --color=never --hidden --exclude .git --exclude node_modules --exclude target --exclude .mooncakes")
   (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --hidden --glob !.git --glob !node_modules --glob !target --glob !.mooncakes"))
 
-(defvar consult--buffer-display)
-
-(defun seli/consult-fd-other-tab ()
-  "Find files with `consult-fd', opening the selected file in a new tab."
+(defun seli/consult-fd-buffer-tab ()
+  "Find files with `consult-fd', showing opened buffers in `tab-line-mode'."
   (interactive)
-  (let ((consult--buffer-display #'switch-to-buffer-other-tab))
-    (call-interactively #'consult-fd)))
+  (call-interactively #'consult-fd))
 
 (use-package consult-eglot
   :after (consult eglot))

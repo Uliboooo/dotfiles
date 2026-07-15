@@ -89,11 +89,17 @@ eval "$(sheldon -q source)"
 # complete
 autoload -Uz compinit
 
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+() {
+  # (#q..) は extended_glob 必須。無いと [[ -n .. ]] が常に真になりフルの
+  # compinit を毎回引く。dump は compinit の既定と同じ $ZDOTDIR に置く。
+  setopt local_options extended_glob
+  local zcd="${ZDOTDIR:-$HOME}/.zcompdump"
+  if [[ ! -f "$zcd" || -n ${~zcd}(#qN.mh+24) ]]; then
+    compinit -d "$zcd"
+  else
+    compinit -C -d "$zcd"
+  fi
+}
 
 # direnv
 eval "$(direnv hook zsh)"
@@ -305,8 +311,8 @@ function rebuild() {
     echo "sudo nixos-rebuild switch --flake .#desktop"
     sudo nixos-rebuild switch --flake .#desktop
   else
-    echo "home-manager switch --flake .#lilan"
-    home-manager switch --flake .#lilan
+    echo "home-manager switch --flake .#seli"
+    home-manager switch --flake .#seli
   fi
 }
 

@@ -15,21 +15,20 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
   system = pkgs.stdenv.hostPlatform.system;
   chromeSupported = pkgs.lib.elem system [
-    # "x86_64-linux"
+    "x86_64-linux"
     "x86_64-darwin"
     "aarch64-darwin"
   ];
   enableGui = config.dotfiles.enableGui;
 
-  wlmstr = inputs.wlmstr.packages.${pkgs.system}.default;
+  wlmstr = inputs.wlmstr.packages.${system}.default;
   # tirith = inputs.tirith.packages.${pkgs.system}.default;
-  zathura-gui = inputs.zathura-gui.packages.${pkgs.system}.default;
+  zathura-gui = inputs.zathura-gui.packages.${system}.default;
   # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
-  hyprpanopticon = inputs.hyprpanopticon.packages.${pkgs.system}.default;
+  hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
 
   basePackages = with pkgs; [
     # common
-    ashell
     git
     vim
     neovim
@@ -62,9 +61,6 @@ let
     asciiquarium
     tmux-mem-cpu-load
     tree-sitter
-    clang
-    llvm
-    lld
     restic
     ffmpeg
     biome
@@ -90,13 +86,11 @@ let
     ripgrep
     eza
     bat
-    tailscale
     direnv
     nix-direnv
     typst
     tinymist
     dust
-    sioyek
     glow
     # inputs.antigravity.packages.${pkgs.system}.default
     antigravity-cli
@@ -105,28 +99,54 @@ let
     imagemagick
     chafa
     codex
-    kdePackages.kdenlive
-    noctalia-shell
-    pinta
     # tirith
     claude-code
-    zathura
   ];
 
+  # GUI ではない Linux 専用 CLI。
+  linuxPackages = with pkgs; [
+    # macOS では Xcode CLT の clang / ld を使う。nixpkgs の clang を profile に
+    # 入れると Apple clang を PATH で覆い、SDK/framework 参照が壊れる。
+    clang
+    llvm
+    lld
+    # macOS 版は NetworkExtension の entitlement が要るため App 版を使う。
+    tailscale
+  ];
+
+  # GUI だが GTK に依存しないもの。macOS ではネイティブ (Cocoa) で動く。
   guiPackages =
     (with pkgs; [
       nerd-fonts.symbols-only
       nerd-fonts.jetbrains-mono
-      libnotify
       mpv
-      inkscape
+      firefox
+      discord
     ])
     ++ lib.optionals chromeSupported [
       pkgs.google-chrome
     ];
 
+  # GTK に依存するものは Linux 限定。darwin でも eval は通るが、GTK ごと
+  # ソースビルドになる上に X11/quartz 経由で実用にならない。
+  linuxGtkPackages = with pkgs; [
+    zathura
+    sioyek # Qt だが qtbase の platformtheme 経由で gtk+3 を引く
+    pinta
+    inkscape
+    nautilus
+    loupe
+    clapper
+    showtime
+    libreoffice
+  ];
+
   linuxGuiPackages = with pkgs; [
     # Linux-only
+    ashell
+    noctalia-shell
+    kdePackages.kdenlive
+    libnotify # freedesktop の D-Bus 通知。macOS には対応する仕組みが無い。
     wl-clipboard
     ghostty
     hollywood
@@ -134,22 +154,14 @@ let
     pulsemixer
     brightnessctl
     playerctl
-    libreoffice
-    nautilus
-    loupe
     ffmpegthumbnailer
-    clapper
     vlc
-    showtime
     wiremix
     mpvpaper
-    firefox
     wlmstr
     zathura-gui
     hyprpanopticon
-    google-chrome
     obs-studio
-    discord
     # shojiwm
   ];
 
@@ -174,6 +186,9 @@ in
     programs.zsh = {
       enable = true;
       dotDir = "${config.home.homeDirectory}/.config/zsh";
+      # compinit は dotfiles/.zshrc 側が呼ぶ。non-nix なマシンでも同じ .zshrc を
+      # 使うため、そちらを正とする。true にすると compinit が二重に走る。
+      enableCompletion = false;
       initContent = ''
         if [ -f "${dotfilesDir}/.zshrc" ]; then
           source "${dotfilesDir}/.zshrc"
@@ -202,21 +217,23 @@ in
 
     targets.genericLinux.enable = isLinux;
 
-    home.sessionVariables = {
-      CC = "clang";
-      CXX = "clang++";
-      LD = "lld";
-    };
-
     # ===== packages =====
     home.packages =
       basePackages
+      ++ lib.optionals isLinux linuxPackages
       ++ lib.optionals enableGui guiPackages
-      ++ lib.optionals (enableGui && isLinux) linuxGuiPackages;
+      ++ lib.optionals (enableGui && isLinux) (linuxGtkPackages ++ linuxGuiPackages);
 
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = npmGlobalDir;
       BUN_INSTALL = bunInstallDir;
+    }
+    // lib.optionalAttrs isLinux {
+      # macOS では Xcode CLT の cc/ld に任せる。特に LD=lld は Mach-O の
+      # リンクを壊すので darwin では設定しない。
+      CC = "clang";
+      CXX = "clang++";
+      LD = "lld";
     };
     home.sessionPath = [
       "${npmGlobalDir}/bin"

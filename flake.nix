@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     nix-hazkey = {
       url = "github:aster-void/nix-hazkey/4f791a241963f6804420d69613c25c6d25610e73";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,10 +36,10 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    # shojiwm = {
-    #   url = "github:bea4dev/ShojiWM";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    shojiwm = {
+      url = "github:bea4dev/ShojiWM";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     hyprpanopticon = {
       url = "github:Uliboooo/hyprPanopticon";
@@ -57,25 +58,35 @@
       linuxSystem = "x86_64-linux";
       darwinSystem = "aarch64-darwin"; # change to x86_64-darwin for Intel Mac
 
-      pkgs = import nixpkgs {
-        system = linuxSystem;
-      };
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
-      sampler = pkgs.callPackage ./pkgs/sampler.nix { };
+      # sampler は alsa-lib に依存するので Linux のみ。
+      sampler = (mkPkgs linuxSystem).callPackage ./pkgs/sampler.nix { };
+
+      mkHome =
+        system:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs system;
+          modules = [ ./home/seli.nix ];
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+        };
     in
     {
       packages.${linuxSystem}.sampler = sampler;
 
       # ===== Home Manager (standalone) =====
-      homeConfigurations.seli = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = linuxSystem;
-          config.allowUnfree = true;
-        };
-        modules = [ ./home/seli.nix ];
-        extraSpecialArgs = {
-          inherit inputs;
-        };
+      # nix-darwin を使わず、パッケージマネージャとしてだけ使う場合はこちら。
+      homeConfigurations = {
+        seli = mkHome linuxSystem;
+        "seli@${linuxSystem}" = mkHome linuxSystem;
+        "seli@${darwinSystem}" = mkHome darwinSystem;
       };
 
       # ===== NixOS (desktop) =====
@@ -110,32 +121,37 @@
             };
             home-manager.users.seli = import ./home/seli.nix;
           }
+
+          inputs.shojiwm.nixosModules.default
+          {
+            programs.shojiwm = {
+              enable = true;
+              initConfig = {
+                enable = true;
+                users = [ "seli" ];
+              };
+            };
+          }
         ];
       };
 
       # ===== macOS =====
       darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
-        system = darwinSystem;
         specialArgs = {
           inherit inputs;
         };
         modules = [
+          ./hosts/macbook/configuration.nix
+
           home-manager.darwinModules.home-manager
           {
-            system.stateVersion = 7;
-            nixpkgs.config.allowUnfree = true;
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
-            users.users.alice.home = "/Users/alice";
-            home-manager.users.alice = import ./home/alice.nix;
+            home-manager.users.seli = import ./home/seli.nix;
           }
         ];
       };
