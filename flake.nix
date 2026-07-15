@@ -56,7 +56,9 @@
     }@inputs:
     let
       linuxSystem = "x86_64-linux";
-      darwinSystem = "aarch64-darwin"; # change to x86_64-darwin for Intel Mac
+      # Apple Silicon 前提。nixpkgs 26.11 は x86_64-darwin を drop 済みなので、
+      # Intel Mac 対応には nixpkgs を 26.05 に pin し直す必要がある。
+      darwinSystem = "aarch64-darwin";
 
       mkPkgs =
         system:
@@ -141,6 +143,9 @@
           inherit inputs;
         };
         modules = [
+          # darwinSystem を唯一の情報源にする。ここを変えれば standalone HM 側
+          # (homeConfigurations."seli@...") と自動的に揃う。
+          { nixpkgs.hostPlatform = darwinSystem; }
           ./hosts/macbook/configuration.nix
 
           home-manager.darwinModules.home-manager

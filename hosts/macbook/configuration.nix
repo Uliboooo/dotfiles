@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  # nixpkgs.hostPlatform は flake.nix の darwinSystem から渡される。
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = 7;

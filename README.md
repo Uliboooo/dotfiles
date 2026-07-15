@@ -91,43 +91,70 @@ sudo nixos-rebuild switch --flake .#desktop
 
 ### 3. macOS
 
-Two options. Use nix-darwin if you want system settings managed by Nix too;
-use standalone Home Manager if you only want Nix as a package manager.
+Option A (nix-darwin) and Option B (standalone Home Manager) are **mutually
+exclusive** — pick one. Option A manages system settings too; Option B only
+touches the user environment and needs no `sudo`.
 
-Both assume the macOS username is `seli` and an Apple Silicon machine
-(`aarch64-darwin`). For a different username, change `hosts/macbook/configuration.nix`
-and the `home-manager.users` attribute in `flake.nix`. For an Intel Mac, set
-`darwinSystem = "x86_64-darwin"` in `flake.nix`.
+#### Prerequisites
+
+- **Apple Silicon only.** Nixpkgs 26.11 dropped `x86_64-darwin`, so an Intel Mac
+  would need `nixpkgs` re-pinned to the `nixpkgs-26.05-darwin` branch.
+- **The repo must live at `~/dotfiles`.** Home Manager symlinks `~/.config/*`
+  out of that exact path (`dotfilesDir` in `home/common_user.nix`), so cloning
+  elsewhere silently breaks every config link.
+- The macOS username must be `seli`. To use a different one, change
+  `users.users` + `system.primaryUser` in `hosts/macbook/configuration.nix` and
+  `home-manager.users` in `flake.nix`, and rename `home/seli.nix`.
+
+#### Step 1: Install Nix and clone
+
+```bash
+sh <(curl -L https://nixos.org/nix/install)
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+```
+
+The upstream installer does **not** enable flakes, and this repo only provides
+`experimental-features` *after* the first switch (Home Manager symlinks
+`~/.config/nix` from `.config/nix/`). So the bootstrap below passes the flag
+explicitly via `NIX_CONFIG`. Don't hand-create `~/.config/nix/nix.conf` — it
+would then collide with the symlink Home Manager wants to create.
 
 #### Option A: nix-darwin (system + user)
 
 ```bash
-sh <(curl -L https://nixos.org/nix/install)
-cd ~/dotfiles
-sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake .#macbook
+sudo NIX_CONFIG="experimental-features = nix-command flakes" \
+  nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#macbook
 ```
 
-Subsequent updates:
+nix-darwin takes over `/etc/nix/nix.conf` and `/etc/zshrc`. It moves a
+pre-existing file aside to `*.before-nix-darwin` **only if it recognizes the
+content** (the stock macOS or Nix-installer version); if you hand-edited one,
+activation aborts and asks you to rename it yourself. That is the other reason
+to pass `NIX_CONFIG` above instead of editing `/etc/nix/nix.conf` by hand.
+
+After the first switch, flakes are enabled system-wide via `nix.settings`, so
+subsequent updates are just:
 
 ```bash
-sudo darwin-rebuild switch --flake .#macbook
+sudo darwin-rebuild switch --flake ~/dotfiles#macbook
 ```
 
 #### Option B: Standalone Home Manager (packages only)
 
-No `sudo`, no system settings touched — just the user environment.
-
 ```bash
-sh <(curl -L https://nixos.org/nix/install)
-cd ~/dotfiles
-nix run home-manager/master -- switch --flake .#seli@aarch64-darwin
+NIX_CONFIG="experimental-features = nix-command flakes" \
+  nix run home-manager/master -- switch --flake ~/dotfiles#seli@aarch64-darwin
 ```
 
 Subsequent updates:
 
 ```bash
-home-manager switch --flake .#seli@aarch64-darwin
+home-manager switch --flake ~/dotfiles#seli@aarch64-darwin
 ```
+
+Unlike the NixOS/nix-darwin module paths, standalone Home Manager has no
+`backupFileExtension` set, so it aborts if a file it manages already exists.
+Add `-b hm-backup` to move such files aside instead.
 
 ## Structure (simple)
 
@@ -180,14 +207,12 @@ sudo nixos-rebuild switch --flake .#desktop
 
 **macOS (nix-darwin)**
 ```bash
-cd ~/dotfiles
-sudo darwin-rebuild switch --flake .#macbook
+sudo darwin-rebuild switch --flake ~/dotfiles#macbook
 ```
 
 **macOS (standalone Home Manager)**
 ```bash
-cd ~/dotfiles
-home-manager switch --flake .#seli@aarch64-darwin
+home-manager switch --flake ~/dotfiles#seli@aarch64-darwin
 ```
 
 ### Update Packages (Flake Inputs)
