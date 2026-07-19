@@ -1,7 +1,7 @@
 # Empty values reset the configuration to the default value
 font-family = "Monaspace Radon Var"
-font-family = "Cica"
-font-size = 12
+# font-family = "Cica"
+font-size = 13
 
 # font-feature = "-calt,-liga,-dlig"
 cursor-opacity = 0.2
@@ -13,8 +13,8 @@ window-width = 200
 # background-image-opacity = 1.5
 background-image-fit = cover
 
-background-opacity = 0.90
-background-blur-radius = 6
+background-opacity = 0.92
+background-blur-radius = 8
 
 #  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
 #   ║  ╠═╣ ║╣  ║║║ ║╣

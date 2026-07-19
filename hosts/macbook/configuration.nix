@@ -26,4 +26,6 @@
     curl
     vim
   ];
+
+  services.tailscale.enable = true;
 }

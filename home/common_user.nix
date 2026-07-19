@@ -140,6 +140,12 @@ let
     discord
   ];
 
+  # GUI で macOS 限定。ghostty はソースビルドだと重いので、macOS では
+  # ghostty-bin (prebuilt) を使う。
+  darwinGuiPackages = with pkgs; [
+    ghostty-bin
+  ];
+
   linuxGuiPackages = with pkgs; [
     # Linux-only
     ashell
@@ -225,7 +231,8 @@ in
       basePackages
       ++ lib.optionals isLinux linuxPackages
       ++ lib.optionals enableGui guiPackages
-      ++ lib.optionals (enableGui && isLinux) (linuxGtkPackages ++ linuxGuiPackages);
+      ++ lib.optionals (enableGui && isLinux) (linuxGtkPackages ++ linuxGuiPackages)
+      ++ lib.optionals (enableGui && isDarwin) darwinGuiPackages;
 
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = npmGlobalDir;
