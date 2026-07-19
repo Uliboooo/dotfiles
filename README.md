@@ -121,16 +121,30 @@ would then collide with the symlink Home Manager wants to create.
 
 #### Option A: nix-darwin (system + user)
 
+nix-darwin generates `/etc/bashrc` and `/etc/zshrc`, but it only moves an
+existing file aside to `*.before-nix-darwin` when it recognizes the content.
+The Nix installer has already appended its own block to both, so activation
+aborts with *"Unexpected files in /etc"* until you move them yourself:
+
+```bash
+sudo mv /etc/bashrc{,.before-nix-darwin}
+sudo mv /etc/zshrc{,.before-nix-darwin}
+```
+
+This is safe: nix-darwin regenerates both, and its `/etc/zshenv` exports
+`environment.systemPath`, which includes `/nix/var/nix/profiles/default/bin` —
+so Nix itself stays on `PATH`. Keep the current terminal open until the switch
+succeeds, though: between the `mv` and the switch, nothing puts Nix on `PATH`
+for a *newly opened* shell. If you get stranded there, recover with
+`. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh`. Then:
+
 ```bash
 sudo NIX_CONFIG="experimental-features = nix-command flakes" \
   nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#macbook
 ```
 
-nix-darwin takes over `/etc/nix/nix.conf` and `/etc/zshrc`. It moves a
-pre-existing file aside to `*.before-nix-darwin` **only if it recognizes the
-content** (the stock macOS or Nix-installer version); if you hand-edited one,
-activation aborts and asks you to rename it yourself. That is the other reason
-to pass `NIX_CONFIG` above instead of editing `/etc/nix/nix.conf` by hand.
+The same "unrecognized content" rule applies to `/etc/nix/nix.conf`, which is
+why the bootstrap passes `NIX_CONFIG` instead of editing that file by hand.
 
 After the first switch, flakes are enabled system-wide via `nix.settings`, so
 subsequent updates are just:
