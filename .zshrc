@@ -188,12 +188,12 @@ export EDITOR=nvim
 export SSH_ASKPASS_REQUIRE=never
 export SSH_ASKPASS=""
 
-# load .env
-while IFS='=' read -r key value; do
-  [[ -z "$key" || "$key" == \#* ]] && continue
-  export "$key=$value"
-done < "$HOME/.env"
-
+if [[ -f "$HOME/.env" ]]; then
+  while IFS='=' read -r key value; do
+    [[ -z "$key" || "$key" == \#* ]] && continue
+    export "$key=$value"
+  done < "$HOME/.env"
+fi
 # ==============================================================================
 # functions
 # ==============================================================================
