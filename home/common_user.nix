@@ -200,13 +200,13 @@ in
       '';
     };
 
-    programs.obs-studio = {
+    programs.obs-studio = lib.mkIf pkgs.stdenv.isLinux {
       enable = true;
+
       plugins = with pkgs.obs-studio-plugins; [
         obs-pipewire-audio-capture
       ];
     };
-
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
