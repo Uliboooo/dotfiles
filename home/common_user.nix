@@ -43,6 +43,7 @@ let
     sheldon
     zsh
     zsh-abbr
+    fish
     lazygit
     gh
     zip
@@ -149,7 +150,7 @@ let
   linuxGuiPackages = with pkgs; [
     # Linux-only
     ashell
-    noctalia-shell
+    # noctalia-shell
     kdePackages.kdenlive
     libnotify # freedesktop の D-Bus 通知。macOS には対応する仕組みが無い。
     # mpv は GTK 非依存で meta 上も darwin 対応だが、この nixpkgs では
@@ -303,6 +304,13 @@ in
         source = mkConfigLink "zsh-abbr";
         recursive = false;
       };
+      # fisher が fish_plugins や functions/ に書き込むため、store 外の
+      # symlink で dotfiles 側を直接参照させる (programs.fish だと
+      # config.fish を home-manager が所有して衝突する)。
+      "fish" = {
+        source = mkConfigLink "fish";
+        recursive = false;
+      };
       "btop" = {
         source = mkConfigLink "btop";
         recursive = false;
@@ -326,10 +334,10 @@ in
         source = mkConfigLink "swaync";
         recursive = false;
       };
-      "noctalia" = {
-        source = mkConfigLink "noctalia";
-        recursive = false;
-      };
+      # "noctalia" = {
+      #   source = mkConfigLink "noctalia";
+      #   recursive = false;
+      # };
       "nixpkgs" = {
         source = mkConfigLink "nixpkgs";
         recursive = false;
