@@ -175,9 +175,19 @@ window-rule {
     clip-to-geometry true
 }
 
+blur {
+    on
+    passes 3
+    offset 1.5
+    noise 0.05
+}
+
 window-rule {
     match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
     draw-border-with-background false
+    background-effect {
+        blur true
+    }
 }
 
 switch-events {

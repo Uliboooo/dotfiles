@@ -170,7 +170,7 @@ let
     wlmstr
     zathura-gui
     hyprpanopticon
-    obs-studio
+    # obs-studio
     # shojiwm
   ];
 
@@ -203,6 +203,13 @@ in
           source "${dotfilesDir}/.zshrc"
         fi
       '';
+    };
+
+    programs.obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-pipewire-audio-capture
+      ];
     };
 
     programs.direnv = {
