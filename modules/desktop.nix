@@ -77,6 +77,34 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
+  # Fonts: JP glyphs for CJK on lang-less pages, Monaspace Radon for Latin monospace
+  fonts = {
+    packages = with pkgs; [
+      monaspace
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-color-emoji
+      nerd-fonts.symbols-only
+    ];
+    fontconfig.defaultFonts = {
+      sansSerif = [
+        "Noto Sans"
+        "Noto Sans CJK JP"
+      ];
+      serif = [
+        "Noto Serif"
+        "Noto Serif CJK JP"
+      ];
+      monospace = [
+        "Monaspace Radon"
+        "Noto Sans Mono CJK JP"
+        "Symbols Nerd Font Mono"
+      ];
+      emoji = [ "Noto Color Emoji" ];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     awww
     waybar
