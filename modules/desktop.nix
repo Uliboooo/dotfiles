@@ -103,33 +103,6 @@
       ];
       emoji = [ "Noto Color Emoji" ];
     };
-
-    # Firefox resolves a quoted "system-ui" (used by chatgpt.com and claude.ai)
-    # through its internal system-font path, which bypasses the sans-serif
-    # alias above and lands on the KR face for Han characters. Dropping the
-    # non-JP CJK faces is the only thing that forces JP glyphs on that path.
-    # Hangul and Hanzi still render: the JP faces carry the same glyph set.
-    fontconfig.localConf = ''
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-      <fontconfig>
-        <selectfont>
-          <rejectfont>
-            <pattern><patelt name="family"><string>Noto Sans CJK KR</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans CJK SC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans CJK TC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans CJK HK</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Serif CJK KR</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Serif CJK SC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Serif CJK TC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans Mono CJK KR</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans Mono CJK SC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans Mono CJK TC</string></patelt></pattern>
-            <pattern><patelt name="family"><string>Noto Sans Mono CJK HK</string></patelt></pattern>
-          </rejectfont>
-        </selectfont>
-      </fontconfig>
-    '';
   };
 
   environment.systemPackages = with pkgs; [
