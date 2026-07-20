@@ -19,7 +19,11 @@
 
   # /etc/zshrc から nix プロファイルを PATH に載せる。
   programs.zsh.enable = true;
-  environment.shells = [ pkgs.zsh ];
+  programs.fish.enable = true;
+  environment.shells = [
+    pkgs.zsh
+    pkgs.fish
+  ];
 
   environment.systemPackages = with pkgs; [
     git

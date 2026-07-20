@@ -77,13 +77,8 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-  services.flatpak = {
-    enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
     awww
-    flatpak
     waybar
     rofi
     hyprpaper

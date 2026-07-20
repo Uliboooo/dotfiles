@@ -35,7 +35,6 @@
   };
   services.hazkey.enable = true;
   services.tailscale.enable = true;
-  services.flatpak.enable = true;
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
@@ -130,10 +129,11 @@
       "libvirtd"
       "kvm"
     ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   # Manage /etc/crypttab via Nix to override manual/broken entries
   environment.etc."crypttab".text = lib.mkForce "";

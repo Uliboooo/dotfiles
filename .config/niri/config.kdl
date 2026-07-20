@@ -107,6 +107,7 @@ output "DP-1" {
 
 layout {
     gaps 2
+    background-color "transparent"
 
     struts {
         left -2
@@ -208,12 +209,12 @@ binds {
     Super+E { spawn "kitty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
     Super+D { spawn "rofi" "-show" "drun"; }
-    Super+F { fullscreen-window; }
+    Super+Shift+F { fullscreen-window; }
     Super+O repeat=false { toggle-overview; }
 
     // maximize: Shift+F fills the column width (keeps gaps/border),
     // Ctrl+F expands the window edge-to-edge (no gaps/border)
-    Super+Shift+F { maximize-column; }
+    Super+F { maximize-column; }
     Super+Ctrl+F { maximize-window-to-edges; }
 
     // --- focus ---

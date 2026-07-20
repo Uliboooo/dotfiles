@@ -50,8 +50,9 @@
       "key": "{#separator}│  {#separator}󰏓 Packages"
     },
     {
-      "type": "users",
-      "key": "{#separator}│  {#separator} Users   "
+      "type": "command",
+      "key": "{#separator}│  {#separator}󰀄 Users   ",
+      "text": "who | while read u tty d t _; do printf '%s@%s at %s\\n' \"$u\" \"$(hostname)\" \"$(LC_TIME=C date -d \"$d $t\" '+%b %d %H:%M')\"; done | sort -u | paste -sd ', '"
     },
 
     {
@@ -78,7 +79,7 @@
     },
     {
       "type": "terminal",
-      "key": "{#separator}│  {#separator} Terminal"
+      "key": "{#separator}│  {#separator} Terminal"
     },
 
     {

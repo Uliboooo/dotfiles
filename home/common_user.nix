@@ -72,13 +72,6 @@ let
     nil
     nixfmt
     typescript
-    # typescript-language-server
-    # vscode-langservers-extracted
-    # lua-language-server
-    # marksman
-    # basedpyright
-    # astro-language-server
-    # emmet-language-server
     mediainfo
     rust-analyzer
     rustfmt
@@ -139,6 +132,7 @@ let
     libreoffice
     firefox
     discord
+    gnome-text-editor
   ];
 
   # GUI で macOS 限定。ghostty はソースビルドだと重いので、macOS では
@@ -304,9 +298,8 @@ in
         source = mkConfigLink "zsh-abbr";
         recursive = false;
       };
-      # fisher が fish_plugins や functions/ に書き込むため、store 外の
-      # symlink で dotfiles 側を直接参照させる (programs.fish だと
-      # config.fish を home-manager が所有して衝突する)。
+      # Because fisher writes to fish_plugins and functions/, we use a symlink outside the store
+      # to directly reference the dotfiles side (with programs.fish, home-manager owns config.fish and conflicts).
       "fish" = {
         source = mkConfigLink "fish";
         recursive = false;
@@ -334,10 +327,6 @@ in
         source = mkConfigLink "swaync";
         recursive = false;
       };
-      # "noctalia" = {
-      #   source = mkConfigLink "noctalia";
-      #   recursive = false;
-      # };
       "nixpkgs" = {
         source = mkConfigLink "nixpkgs";
         recursive = false;

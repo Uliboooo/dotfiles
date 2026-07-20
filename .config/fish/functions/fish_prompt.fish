@@ -1,35 +1,70 @@
+# .zshrc の PROMPT (remote_info / nix_shell_prompt / git_prompt / face_prompt)
+# と同じ見た目に揃えている。
 function fish_prompt
     set -l last_status $status
-    set -l cyan (set_color -o cyan)
-    set -l yellow (set_color -o yellow)
-    set -l red (set_color -o red)
-    set -l blue (set_color -o blue)
-    set -l green (set_color -o green)
-    set -l status_face (set_color -o blue)
+    set -l yellow (set_color yellow)
+    set -l red (set_color red)
+    set -l blue (set_color blue)
+    set -l green (set_color green)
+    set -l magenta (set_color magenta)
     set -l normal (set_color normal)
 
-    if set -q SSH_TTY
-        echo -n -s $red (whoami) $normal "@" $yellow (prompt_hostname) " " $normal
+    # remote_info
+    if test -n "$SSH_CONNECTION"
+        echo -n -s $yellow (whoami) "@" (prompt_hostname) $normal " "
     end
 
-    echo -n -s $blue (prompt_pwd) $normal
+    # path
+    echo -n -s $blue (prompt_pwd) $normal " "
 
-    set -l git_info (fish_git_prompt)
-    if test -n "$git_info"
-        echo -n -s $blue $git_info $normal
+    # nix_shell_prompt
+    if set -q IN_NIX_SHELL
+        echo -n -s $magenta "[nix:$IN_NIX_SHELL]" $normal " "
     end
 
-    if test -n "$CMD_DURATION"
-        if test $CMD_DURATION -gt 5000
-            set -l duration (math -s1 $CMD_DURATION / 1000)
-            echo -n -s $yellow " (" $duration "s)" $normal
+    # git_prompt: (branch|✔) / (branch|✘|↑1↓2)
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1
+        set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
+        test -z "$branch"; and set branch (git rev-parse --short HEAD 2>/dev/null)
+
+        set -l changed (git status --porcelain 2>/dev/null | count)
+
+        set -l ahead 0
+        set -l behind 0
+        set -l upstream (git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null)
+        if test -n "$upstream"
+            set ahead (git rev-list "$upstream..HEAD" 2>/dev/null | count)
+            set behind (git rev-list "HEAD..$upstream" 2>/dev/null | count)
         end
+
+        set -l status_icon
+        if test $changed -eq 0
+            set status_icon "$green✔$normal"
+        else
+            set status_icon "$red✘$normal"
+        end
+
+        set -l remote_info ""
+        if test $ahead -gt 0 -o $behind -gt 0
+            test $ahead -gt 0; and set remote_info "$remote_info$yellow↑$ahead$normal"
+            test $behind -gt 0; and set remote_info "$remote_info$yellow↓$behind$normal"
+            set remote_info "|$remote_info"
+        end
+
+        echo -n -s "(" $green $branch $normal "|" $status_icon $remote_info ")"
+    end
+
+    # fish 独自: 5 秒を超えたコマンドの実行時間
+    if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt 5000
+        echo -n -s $yellow " (" (math -s1 $CMD_DURATION / 1000) "s)" $normal
     end
 
     echo
-    if test $last_status -ne 0
-        echo -n -s $red ":(" $normal " "
+
+    # face_prompt
+    if test $last_status -eq 0
+        echo -n -s (set_color -o green) ":)" $normal " "
     else
-        echo -n -s $status_face ":)" $normal " "
+        echo -n -s (set_color -o red) ":(" $normal " "
     end
 end
