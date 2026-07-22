@@ -27,6 +27,8 @@ return {
               "target",
               "--exclude",
               ".mooncakes",
+              "--exclude",
+              "build",
             },
             win = {
               input = {
