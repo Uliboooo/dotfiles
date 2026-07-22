@@ -185,8 +185,9 @@ export XMODIFIERS=@im=fcitx
 export HYPRSHOT_DIR="$HOME/Desktop/"
 
 export EDITOR=nvim
-export SSH_ASKPASS_REQUIRE=never
-export SSH_ASKPASS=""
+# SSH_ASKPASS_REQUIRE / SSH_ASKPASS は設定しないこと（config.fish の同箇所参照）。
+# セッション環境に漏れると gcr-ssh-agent の鍵解錠が askpass を使えず、
+# GitHub への署名が「agent refused operation」で失敗する。
 
 if [[ -f "$HOME/.env" ]]; then
   while IFS='=' read -r key value; do

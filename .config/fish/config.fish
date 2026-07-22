@@ -86,8 +86,13 @@ set -gx XMODIFIERS @im=fcitx
 set -gx HYPRSHOT_DIR "$HOME/Desktop/"
 
 set -gx EDITOR nvim
-set -gx SSH_ASKPASS_REQUIRE never
-set -gx SSH_ASKPASS ""
+# SSH_ASKPASS_REQUIRE / SSH_ASKPASS はここで設定しないこと。
+# GDM は niri-session をログインシェル (fish -c) 経由で起動するため、
+# ここでの set -gx が niri-session の `systemctl --user import-environment` で
+# systemd user manager に取り込まれ、全ユーザーサービスに伝播する。
+# SSH_ASKPASS_REQUIRE=never が gcr-ssh-agent に入ると、鍵の解錠に使う ssh-add が
+# askpass (キーリングから passphrase を取る経路) を拒否し、
+# 「agent refused operation」で GitHub の署名が失敗する。
 
 # home-manager が zsh には session vars で渡している分 (fish は HM 非管理)
 set -gx NPM_CONFIG_PREFIX $HOME/.npm-global
@@ -108,8 +113,9 @@ end
 # ║    ║║      ╔╩╦╝ ╔╩╦╝ ╔╩╦╝
 # ╚═╝ ═╩╝      ╩ ╩  ╩ ╩  ╩ ╩
 abbr -a cdd 'cd $HOME/Develop'
-abbr -a cdn 'cd $HOME/Documents/notes/'
+abbr -a cdn 'cd $HOME/Documents/note_books/'
 abbr -a cdr 'cd $HOME/Recent/'
+abbr -a no 'nvim $HOME/Documents/note_books/notebook.md'
 abbr -a g "cd (ghq root)/(ghq list | fzf --preview 'ls (ghq root)/{}')"
 
 # ╔═╗ ╦ ╔╦╗      ╔═╗ ╔╗  ╔╗  ╦═╗
@@ -173,6 +179,8 @@ abbr -a tmr 'tmux kill-session -t'
 abbr -a rtss 'rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
 abbr -a rg 'rg --hidden'
 abbr -a fd 'fd'
+abbr -a t 'touch'
+abbr -a mk 'mkdir'
 
 abbr -a y 'yazi'
 abbr -a l 'lazygit'
@@ -297,6 +305,9 @@ abbr -a mb 'moon build'
 abbr -a mr 'moon run'
 abbr -a mf 'moon fmt'
 abbr -a mh 'moon check'
+
+abbr -a gb 'gleam build'
+abbr -a gr 'gleam run'
 
 # ╔╗╔ ╦ ═╗ ╦
 # ║║║ ║ ╔╩╦╝

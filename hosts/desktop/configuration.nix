@@ -32,6 +32,12 @@
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
+    # GTK_IM_MODULE/QT_IM_MODULE を設定しない (XMODIFIERS は残るので XWayland は XIM で動く)。
+    # GTK3 は GTK_IM_MODULE の値に関係なく zwp_text_input_v3 を張るため、これを設定すると
+    # Firefox が DBus フロントエンドと wayland_v2 フロントエンドの両方に InputContext を
+    # 持ってしまう。どちらがフォーカスを取るかがウィンドウごと・タイミングごとに変わり、
+    # classicui が候補ウィンドウを描き直すたびにちらつく。経路を wayland_v2 の一本に揃える。
+    fcitx5.waylandFrontend = true;
   };
   services.hazkey.enable = true;
   services.tailscale.enable = true;
@@ -43,6 +49,10 @@
   security.pam.services = {
     login.fprintAuth = lib.mkForce true;
     sudo.fprintAuth = true;
+    # hyprlock scans the sensor itself over fprintd's DBus API. Leaving
+    # pam_fprintd in the stack (fprintAuth defaults to services.fprintd.enable)
+    # makes PAM claim the same device concurrently, which breaks both paths.
+    hyprlock.fprintAuth = false;
   };
 
   # nixbuild.net remote builder. The nix-daemon runs as root, so the key must be
@@ -116,6 +126,14 @@
 
   programs.ssh.startAgent = false;
   services.gnome.gcr-ssh-agent.enable = true;
+  # gcr-ssh-agent は鍵の解錠時に ssh-add を fork し、passphrase を askpass 経由で
+  # キーリングから取る。セッション環境に SSH_ASKPASS_REQUIRE=never が紛れ込むと
+  # ssh-add が askpass を拒否して署名が「agent refused operation」で落ちるため、
+  # このサービスでは明示的に落とす（シェル rc からの流入に対する保険）。
+  systemd.user.services.gcr-ssh-agent.serviceConfig.UnsetEnvironment = [
+    "SSH_ASKPASS_REQUIRE"
+    "SSH_ASKPASS"
+  ];
 
   programs.direnv.enable = true;
 
@@ -142,7 +160,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = "dayly";
+    dates = "daily";
     options = "--delete-older-than 7d";
   };
 }

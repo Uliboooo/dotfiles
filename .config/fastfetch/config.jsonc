@@ -105,9 +105,9 @@
       "key": "{#separator}│  {#separator}󰍛 Memory  "
     },
     {
-      "type": "disk",
+      "type": "command",
       "key": "{#separator}│  {#separator}󰋊 Disk (/)",
-      "folders": "/"
+      "text": "df -B1 --output=used,size,pcent,fstype / | awk 'NR==2{printf \"%.1fGiB / %.1fGiB (%s) - %s\\n\", $1/1024/1024/1024, $2/1024/1024/1024, $3, $4}'"
     },
 
     {

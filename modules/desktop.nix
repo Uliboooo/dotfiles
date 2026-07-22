@@ -3,6 +3,10 @@
   # ===== desktop base (entire system) =====
   programs.hyprland.enable = true;
   programs.niri.enable = true;
+  # Installs hyprlock *and* creates /etc/pam.d/hyprlock. Without the PAM
+  # service, hyprlock falls through to /etc/pam.d/other (pam_deny) and the
+  # password fallback can never succeed.
+  programs.hyprlock.enable = true;
   # PipeWire + rtkit
   security.rtkit.enable = true;
   services.pipewire = {
@@ -24,6 +28,12 @@
 
   # polkit
   security.polkit.enable = true;
+  # An authentication agent is required for any action whose polkit default is
+  # auth_self / auth_admin (fprintd enroll, udisks mounts, ...). Without one the
+  # request is denied outright with no prompt. GDM only supplies an agent to its
+  # own greeter, so a bare niri/Hyprland session has none.
+  systemd.packages = [ pkgs.hyprpolkitagent ];
+  systemd.user.services.hyprpolkitagent.wantedBy = [ "graphical-session.target" ];
   # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
   # unlock keyring by PAM relation when login
@@ -47,6 +57,14 @@
       pagedown = "noop";
 
       assistant = "rightmeta";
+
+      # Delete は単押しでは何も送らない（実質無効化）。300ms 長押しで coffee
+      # (evdev 152 = KEY_SCREENLOCK) を送り、コンポジタ側でロックする
+      # （hypr/config/binds.lua と niri/config.kdl の XF86ScreenSaver）。
+      # evdev rules は必ず inet(evdev) を混ぜるので、この keycode は us 配列でも
+      # XF86ScreenSaver という keysym を持つ = Hyprland でも niri でも拾える。
+      # 長押し時間はここで調整する。
+      delete = "timeout(noop, 300, coffee)";
     };
   };
 
@@ -110,8 +128,8 @@
     waybar
     rofi
     hyprpaper
-    hyprlock
     hypridle
+    hyprpolkitagent
     hyprpicker
     hyprshot
     wl-clipboard

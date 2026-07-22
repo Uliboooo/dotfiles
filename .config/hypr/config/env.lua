@@ -1,5 +1,11 @@
 hl.env("MOZ_ENABLE_WAYLAND", "1")
-hl.env("GDK_BACKEND", "wayland, x11, *")
+-- GDK_BACKEND はここで設定しないこと。dbus-update-activation-environment 経由で
+-- systemd --user に伝播し、xdg-desktop-portal-gnome の display server 互換チェックを
+-- 落として settings only モードにしてしまう (FileChooser / ScreenCast が消え、
+-- Firefox のファイル選択が "No such interface org.freedesktop.impl.portal.FileChooser"
+-- で死ぬ)。さらに一度入ると systemd --user 環境に残り、次に niri セッションへ
+-- 入っても効き続ける。GTK は WAYLAND_DISPLAY があれば自動で wayland を選ぶので不要。
+-- 同じ注意書きが .config/niri/config.kdl の environment ブロックにもある。
 
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
