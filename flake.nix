@@ -67,9 +67,6 @@
           config.allowUnfree = true;
         };
 
-      # sampler は alsa-lib に依存するので Linux のみ。
-      sampler = (mkPkgs linuxSystem).callPackage ./pkgs/sampler.nix { };
-
       mkHome =
         system:
         home-manager.lib.homeManagerConfiguration {
@@ -81,8 +78,6 @@
         };
     in
     {
-      packages.${linuxSystem}.sampler = sampler;
-
       # ===== Home Manager (standalone) =====
       # nix-darwin を使わず、パッケージマネージャとしてだけ使う場合はこちら。
       homeConfigurations = {
