@@ -119,6 +119,15 @@ layout {
     center-focused-column "never"
     default-column-width { proportion 0.5; }
 
+    // Super+R / Super+Shift+R でこの候補を順に切り替え
+    preset-column-widths {
+        proportion 0.25
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
     focus-ring {
         off
     }
@@ -230,6 +239,10 @@ binds {
     // jump to first/last column (head/tail)
     Super+Home { focus-column-first; }
     Super+End { focus-column-last; }
+
+    // --- monitors (stacked vertically: DP-1 top, eDP-1 bottom) ---
+    Super+Ctrl+J { focus-monitor-down; }
+    Super+Ctrl+K { focus-monitor-up; }
     Super+Ctrl+Home { move-column-to-first; }
     Super+Ctrl+End { move-column-to-last; }
 
@@ -272,8 +285,6 @@ binds {
     // resize: niri has no submaps; Super+Ctrl+HJKL mirrors hypr resize-mode keys
     Super+Ctrl+H repeat=true { set-column-width "-10"; }
     Super+Ctrl+L repeat=true { set-column-width "10"; }
-    Super+Ctrl+K repeat=true { set-window-height "-10"; }
-    Super+Ctrl+J repeat=true { set-window-height "10"; }
     Super+Ctrl+R repeat=false { reset-window-height; }
 
     // cycle through preset column-width "templates" (see layout.preset-column-widths)

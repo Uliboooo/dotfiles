@@ -4,7 +4,7 @@
   "position": "top",
   "height": 32,
   "spacing": 0,
-  "modules-left": ["niri/workspaces", "custom/niri-windows"],
+  "modules-left": ["niri/workspaces", "custom/niri-windows", "custom/niri-ratio"],
   "modules-center": ["mpris", "clock"],
   "modules-right": [
     "temperature",
@@ -28,6 +28,12 @@
   },
   "custom/niri-windows": {
     "exec": "~/dotfiles/.config/waybar/scripts/niri-ws-windows.sh",
+    "return-type": "json",
+    "escape": false,
+    "tooltip": true
+  },
+  "custom/niri-ratio": {
+    "exec": "~/dotfiles/.config/waybar/scripts/niri-window-ratio.sh",
     "return-type": "json",
     "escape": false,
     "tooltip": true
