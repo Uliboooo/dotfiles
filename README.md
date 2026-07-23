@@ -1,6 +1,16 @@
-## Overview
+## Overview (Gallery)
 
-![image](./README/jul14.png)
+![top](./README/images/Top_float.png)
+![top2](./README/images/Top_split.png)
+
+[Rofi](https://github.com/davatorium/rofi)
+
+App launcher
+![](./README/images/Rofi/apps.png)
+chiphist
+![](./README/images/Rofi/cliphist.png)
+command palette
+![](./README/images/Rofi/cmd.png)
 
 view [Hyprland manual](./README/Hyprland.md), view [Uncoated Paper design manual](./README/PaperDesign.md)
 
