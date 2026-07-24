@@ -95,6 +95,7 @@ let
     codex
     # tirith
     claude-code
+    obsidian
   ];
 
   # GUI ではない Linux 専用 CLI。
