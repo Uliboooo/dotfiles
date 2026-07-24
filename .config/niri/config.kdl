@@ -56,7 +56,10 @@ spawn-at-startup "hyprpolkitagent"
 spawn-at-startup "fcitx5"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-at-startup "hypridle"
+// hypridle はここでは起動しない。systemd user サービス hypridle.service
+// (graphical-session.target.wants) が単一インスタンスで面倒を見る。ここでも
+// spawn すると 2 重起動し、ロックの度に hyprlock が複数走って ext-session-lock
+// の敗者が futex でハング → pidof hyprlock が居座り lock_cmd が空振りになる。
 spawn-at-startup "swaync"
 spawn-at-startup "awww-daemon"
 spawn-sh-at-startup "ysh $HOME/dotfiles/script/_cycle_wallpaper.ysh seq"

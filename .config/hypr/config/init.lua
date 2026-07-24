@@ -5,7 +5,9 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("fcitx5")
   hl.exec_cmd("wl-paste --type text --watch cliphist store")
   hl.exec_cmd("wl-paste --type image --watch cliphist store")
-  hl.exec_cmd("hypridle")
+  -- hypridle はここで起動しない。systemd user サービス hypridle.service に一本化。
+  -- 2 重起動するとロックの度に hyprlock が複数走り、ext-session-lock の敗者が
+  -- ハングして pidof hyprlock が居座り、以後 lock_cmd が空振りする。
   hl.exec_cmd("swaync")
   hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
   hl.exec_cmd("awww-daemon")

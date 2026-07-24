@@ -45,6 +45,12 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
+  # 外部モニタ接続中は logind が「ドック」と判定し、HandleLidSwitchDocked の
+  # 既定値 ignore で lid を閉じても何も起きない（＝ロックもされない）。
+  # ドック中も lid を閉じたらサスペンドさせる。サスペンドすれば hypridle の
+  # before_sleep_cmd = loginctl lock-session が走り、復帰時にロックされる。
+  services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
+
   services.fprintd.enable = true;
   security.pam.services = {
     login.fprintAuth = lib.mkForce true;
