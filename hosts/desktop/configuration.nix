@@ -125,10 +125,12 @@
   boot.resumeDevice = "/dev/mapper/luks-5c4ff8a1-c35d-4244-8a36-f81bc112f164";
   boot.kernelParams = [ "resume_offset=78503936" ];
 
-  # hibernate は hypridle が「アイドル 30 分 → systemctl hibernate」で直接
-  # 発行する（.config/hypr/hypridle.conf）。この機は wake 可能な RTC が s2idle
-  # から起こせず suspend-then-hibernate が成立しないため、s2idle を挟まず直接
-  # S4 に落とす方針。したがって HibernateDelaySec は不要。
+  # hibernate は hypridle が「アイドル 30 分 → バッテリー駆動時のみ
+  # systemctl hibernate」で直接発行する（.config/hypr/hypridle.conf）。AC(ドック)
+  # 時はしない: ドック中の S4 は USB-C/PCIe PME wake で巻き戻り再起動になる上、
+  # AC 時はそもそも落としたくないため。この機は wake 可能な RTC が s2idle から
+  # 起こせず suspend-then-hibernate が成立しないので、s2idle を挟まず直接 S4 に
+  # 落とす。したがって HibernateDelaySec は不要。
 
   fileSystems."/mnt/bk_disk" = {
     device = "/dev/mapper/bk_disk";

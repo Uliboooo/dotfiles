@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   # ===== desktop base (entire system) =====
+  services.desktopManager.gnome.enable = true;
   programs.hyprland.enable = true;
   programs.niri.enable = true;
   # Installs hyprlock *and* creates /etc/pam.d/hyprlock. Without the PAM
