@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   # ===== desktop base (entire system) =====
   services.desktopManager.gnome.enable = true;
@@ -39,16 +39,41 @@
   services.gnome.gnome-keyring.enable = true;
   # unlock keyring by PAM relation when login
   security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.gdm.enableGnomeKeyring = true;
-  security.pam.services.gdm-password.enableGnomeKeyring = true;
+  # greetd 経由のログインでも login キーリングを解錠する。これが無いと
+  # gcr-ssh-agent が ~/.ssh/id_ed25519 のパスフレーズを取り出せず、GitHub への
+  # SSH が署名待ちで固まる（gcr 4.x は askpass GUI を出せないため）。
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   services.upower.enable = true;
 
-  # GDM
+  # greetd + tuigreet。GDM をやめた理由:
+  #   - ログイン後も greeter セッション(gnome-shell 一式で RSS 約 946MB)が
+  #     常駐し続ける。
+  #   - その gsd-media-keys が handle-power-key / handle-suspend-key /
+  #     handle-hibernate-key を block モードで握り、niri 側の power-key 処理と
+  #     競合する。
+  #   - gnome-shell と gsd-power が sleep の delay inhibitor を持つため
+  #     サスペンド開始が余計に遅れる。
+  # tuigreet は TTY 上で動きログイン後に終了するので、いずれも起きない。
+  #
+  # --sessions は必須。tuigreet の既定の探索先は /usr/share/wayland-sessions で、
+  # NixOS にはそこが無いためセッション一覧が空になる。
   services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.displayManager.defaultSession = "hyprland";
-  services.greetd.enable = false;
+  services.displayManager.gdm.enable = false;
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = lib.concatStringsSep " " [
+        "${pkgs.tuigreet}/bin/tuigreet"
+        "--time"
+        "--remember"
+        "--remember-user-session"
+        "--asterisks"
+        "--sessions /run/current-system/sw/share/wayland-sessions"
+      ];
+      user = "greeter";
+    };
+  };
 
   services.keyd = {
     enable = true;
@@ -125,6 +150,11 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # hypridle.conf が /run/current-system/sw/bin から叩くので、ユーザプロファイル
+    # ではなくシステム側に入れておく(hypridle.service の PATH は最小限)。
+    # brightnessctl = 減光、jq = PipeWire の再生中判定。
+    brightnessctl
+    jq
     awww
     waybar
     rofi

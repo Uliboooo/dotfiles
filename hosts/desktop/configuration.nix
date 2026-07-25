@@ -45,11 +45,36 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-  # 外部モニタ接続中は logind が「ドック」と判定し、HandleLidSwitchDocked の
-  # 既定値 ignore で lid を閉じても何も起きない（＝ロックもされない）。
-  # ドック中も lid を閉じたらサスペンドさせる。サスペンドすれば hypridle の
-  # before_sleep_cmd = loginctl lock-session が走り、復帰時にロックされる。
-  services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
+  # lid を閉じたときの挙動。logind は 3 つを状況で使い分ける:
+  #   HandleLidSwitchDocked        … ドック中(外部モニタ接続中)。最優先
+  #   HandleLidSwitchExternalPower … AC 接続中かつ非ドック
+  #   HandleLidSwitch              … それ以外(= バッテリー かつ 非ドック)
+  #
+  # 3 つとも suspend。外部モニタ接続中は logind が「ドック」と判定し、
+  # HandleLidSwitchDocked の既定値 ignore だと lid を閉じても何も起きない
+  # （＝ロックもされない）ので、明示的に指定する必要がある。suspend すれば
+  # hypridle の before_sleep_cmd = loginctl lock-session が走り復帰時にロック
+  # される。
+  #
+  # HandleLidSwitch = "hibernate" は試したが戻した(2026-07-25)。この機は
+  # /sys/power/mem_sleep が [s2idle] のみ(Modern Standby, S3 無し)なので S4 に
+  # 落とせれば持ち運び中の電力はほぼゼロにできる。しかし蓋起因の hibernate は
+  # amdgpu と競合して危険:
+  #   16:03:18 Lid closed / Hibernating...
+  #   16:03:19 Lid opened            ← 凍結処理中(6 秒超)に開け直した
+  #   16:03:26 soft lockup, Tainted: [D]=DIE
+  #   16:03:54 amdgpu_dm_atomic_commit_tail → amdgpu_bo_unpin → ttm_bo_unpin
+  #            _raw_spin_lock で停止 → ハング → 強制電源断
+  # イメージは書かれないので次回は cold boot(PM: Image not found (code -22))に
+  # なりセッションが飛ぶ。同日 16:00 の試行も Lid opened と同時刻で中断した。
+  # 一方 hypridle の 30 分アイドル hibernate は蓋イベントを伴わないため成功実績
+  # がある(7/24 23:46 に 7391040 kbytes 書き込み → 翌 00:05 に resume 成功)。
+  # よって長時間放置の省電力は hypridle 側に任せ、蓋は suspend に留める。
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "suspend";
+  };
 
   services.fprintd.enable = true;
   security.pam.services = {
