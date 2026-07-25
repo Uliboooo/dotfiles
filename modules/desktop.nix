@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   # ===== desktop base (entire system) =====
   services.desktopManager.gnome.enable = true;
@@ -46,7 +46,7 @@
 
   services.upower.enable = true;
 
-  # greetd + tuigreet。GDM をやめた理由:
+  # greetd + ReGreet(cage 上の GTK4)。GDM をやめた理由:
   #   - ログイン後も greeter セッション(gnome-shell 一式で RSS 約 946MB)が
   #     常駐し続ける。
   #   - その gsd-media-keys が handle-power-key / handle-suspend-key /
@@ -54,26 +54,51 @@
   #     競合する。
   #   - gnome-shell と gsd-power が sleep の delay inhibitor を持つため
   #     サスペンド開始が余計に遅れる。
-  # tuigreet は TTY 上で動きログイン後に終了するので、いずれも起きない。
+  # ReGreet はログイン時に cage ごと終了し gnome-settings-daemon も持たないので、
+  # いずれも起きない。
   #
-  # --sessions は必須。tuigreet の既定の探索先は /usr/share/wayland-sessions で、
-  # NixOS にはそこが無いためセッション一覧が空になる。
+  # tuigreet ではなく ReGreet を選んだ理由は README/PaperDesign.md 参照。
+  # tuigreet は Linux VT 上で動くため 16 色に落ち、paper の色が出せない。
   services.xserver.enable = true;
   services.displayManager.gdm.enable = false;
-  services.greetd = {
+  # greetd 本体と cage 経由の default_session.command は programs.regreet が
+  # mkDefault で設定する。ここで command を書くとそちらが勝つので書かない。
+  programs.regreet = {
     enable = true;
-    settings.default_session = {
-      command = lib.concatStringsSep " " [
-        "${pkgs.tuigreet}/bin/tuigreet"
-        "--time"
-        "--remember"
-        "--remember-user-session"
-        "--asterisks"
-        "--sessions /run/current-system/sw/share/wayland-sessions"
-      ];
-      user = "greeter";
+    font = {
+      package = pkgs.monaspace;
+      # Waybar / SwayNC と同じ family に揃える。
+      name = "Monaspace Radon Var";
+      size = 12;
+    };
+    extraCss = ../.config/greetd/regreet.css;
+    settings = {
+      # [background] は書かない = 壁紙を敷かず紙面 1 色にする。
+      GTK.application_prefer_dark_theme = false;
+      appearance.greeting_msg = "welcome back.";
+      commands = {
+        reboot = [
+          "systemctl"
+          "reboot"
+        ];
+        poweroff = [
+          "systemctl"
+          "poweroff"
+        ];
+      };
+      widget.clock = {
+        format = "%Y-%m-%d %a %H:%M";
+        resolution = "1s";
+        label_width = 260;
+      };
     };
   };
+
+  # tuigreet の --sessions と同じ罠。ReGreet は XDG_DATA_DIRS の各要素に
+  # /wayland-sessions を足して探すが、greetd.service の環境には
+  # XDG_DATA_DIRS が無く、既定値の /usr/share/... は NixOS に存在しない。
+  # 結果セッション一覧が空になる。GTK のテーマ/アイコン探索先も兼ねる。
+  systemd.services.greetd.environment.XDG_DATA_DIRS = "/run/current-system/sw/share";
 
   services.keyd = {
     enable = true;

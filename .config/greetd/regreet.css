@@ -1,0 +1,234 @@
+/* Quiet uncoated-paper ReGreet theme. */
+@define-color paper #f1eee5;
+@define-color paper-light #fbf9f2;
+@define-color ink #2d302b;
+@define-color ink-muted #77766d;
+@define-color rule #b7b0a2;
+@define-color rule-soft #d0c9bb;
+@define-color rose #d38ca0;
+@define-color rose-wash #ead2d9;
+@define-color warning #a84435;
+
+* {
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+/* ReGreet の widget には id が付かない（#[name = ...] は Rust の
+   フィールド名で CSS には出ない）ので、要素セレクタと Adwaita の
+   クラスだけで当てる。 */
+window,
+.background {
+  background-color: @paper;
+  background-image: none;
+  color: @ink;
+}
+
+/* 背景画像は使わないので、Picture も紙面色で潰す。 */
+picture {
+  background-color: @paper;
+}
+
+/* ログインカードと時計フレーム。 */
+frame,
+frame > border {
+  background-color: @paper;
+  border: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+label {
+  color: @ink;
+}
+
+/* User: / Session: などの見出しは二次情報。 */
+frame label:disabled,
+frame > grid > label {
+  color: @ink-muted;
+}
+
+entry,
+entry > text,
+passwordentry,
+passwordentry > text {
+  background-color: @paper-light;
+  background-image: none;
+  border: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: @ink;
+  caret-color: @ink;
+  padding: 4px 8px;
+}
+
+entry:focus,
+entry:focus-within,
+passwordentry:focus,
+passwordentry:focus-within {
+  border-color: @rose;
+  box-shadow: none;
+  outline: none;
+}
+
+entry > text > placeholder {
+  color: @ink-muted;
+}
+
+entry selection,
+passwordentry selection {
+  background-color: @rose-wash;
+  color: @ink;
+}
+
+button,
+combobox button,
+dropdown button,
+combobox entry,
+togglebutton {
+  background-color: @paper;
+  background-image: none;
+  border: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: @ink;
+  padding: 4px 10px;
+}
+
+/* hover は塗らず、罫線と文字色だけで示す。 */
+button:hover,
+combobox button:hover,
+dropdown button:hover,
+togglebutton:hover {
+  background-color: @paper;
+  background-image: none;
+  border-color: @rose;
+  box-shadow: none;
+  color: @rose;
+}
+
+button:active,
+button:checked,
+togglebutton:active,
+togglebutton:checked {
+  background-color: @rose-wash;
+  background-image: none;
+  border-color: @rose;
+  box-shadow: none;
+  color: @ink;
+}
+
+button:focus,
+button:focus-visible,
+combobox button:focus,
+dropdown button:focus,
+togglebutton:focus {
+  border-color: @rose;
+  box-shadow: none;
+  outline: none;
+}
+
+button:disabled,
+togglebutton:disabled {
+  background-color: @paper;
+  border-color: @rule-soft;
+  color: @ink-muted;
+}
+
+/* Login。active/selected は rose 系に寄せる。 */
+button.suggested-action {
+  background-color: @rose-wash;
+  background-image: none;
+  border-color: @rose;
+  color: @ink;
+}
+
+button.suggested-action:hover {
+  background-color: @rose-wash;
+  border-color: @rose;
+  color: @ink;
+}
+
+/* Reboot / Power off。塗らず、文字色だけ warning にする。 */
+button.destructive-action {
+  background-color: @paper;
+  background-image: none;
+  border-color: @rule;
+  color: @warning;
+}
+
+button.destructive-action:hover {
+  background-color: @paper;
+  border-color: @warning;
+  color: @warning;
+}
+
+popover,
+popover > contents,
+popover > arrow,
+combobox window.popup,
+combobox window.popup > * {
+  background-color: @paper-light;
+  background-image: none;
+  border: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+  color: @ink;
+}
+
+popover > arrow {
+  border: 0;
+}
+
+popover listview,
+popover row,
+menuitem,
+combobox window.popup cellview {
+  background-color: transparent;
+  border-radius: 0;
+  color: @ink;
+}
+
+popover row:hover,
+menuitem:hover {
+  background-color: transparent;
+  color: @rose;
+}
+
+popover row:selected,
+menuitem:selected {
+  background-color: @rose-wash;
+  color: @ink;
+}
+
+/* 通知バー。critical だけ warning を使う。 */
+infobar,
+infobar > revealer > box {
+  background-color: @paper-light;
+  background-image: none;
+  border-top: 1px solid @rule;
+  border-bottom: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+  color: @ink;
+}
+
+infobar.error,
+infobar.error label,
+infobar.warning,
+infobar.warning label {
+  color: @warning;
+}
+
+tooltip {
+  background-color: @paper-light;
+  border: 1px solid @rule;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+tooltip label {
+  color: @ink;
+}
