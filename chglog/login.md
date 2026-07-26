@@ -14,6 +14,51 @@ Ctrl+Alt+F2 の getty で逃げられることを確認しておく。
 
 ## 2026-07-27
 
+### 4K 接続時に greeter の位置とドロップダウンが壊れる → cage を `-m last` に
+
+- `modules/desktop.nix`
+
+**cage の multi-monitor mode の既定は `extend` で、そのとき ReGreet の window は
+全出力を連結したレイアウト全体に maximize される。** eDP-1(1920x1200) と
+DP-1(3840x2160) を両方繋ぐと surface は幅 5760px の 1 枚になり、
+
+- ログインカードは「連結レイアウトの中心」= 2 枚の継ぎ目付近に置かれ、位置が壊れて見える
+- User / Session のドロップダウンもその巨大 surface 基準で配置され、ポップオーバが
+  モニタを跨いで開く
+
+という 2 症状が同じ原因で出る。`cageArgs = [ "-s" "-d" "-m" "last" ]` を渡して解決。
+
+根拠(cage 0.3.1、`nix build nixpkgs#cage.src` で展開したソース):
+
+- `cage.c:296` … `struct cg_server server = {.log_level = WLR_INFO}`。`output_mode` は
+  0 = `CAGE_MULTI_OUTPUT_MODE_EXTEND`(`server.h:20-22`)。**`-m` を省くと extend**
+- `view.c:94 view_position()` … primary view は `wlr_output_layout_get_box(..., NULL)`
+  で取った**レイアウト全体の box** に `view_maximize()` される
+- `output.c:304` … `last` モードでは新しい出力を有効にした時点で他を `output_disable()`
+- `output.c:220` … その出力が外れると前の出力を自動で `output_enable()`。
+  4K を抜けば eDP-1 に自動で戻る
+
+ハマりどころ:
+
+- **`cageArgs` を書くと既定値ごと置き換わる**。nixpkgs の既定は `[ "-s" "-d" ]`
+  (`nixos/modules/programs/regreet.nix:41-47`)なので、`-s`(VT 切替許可)と `-d`(CSD 無効)
+  を明示的に引き継ぐこと。落とすと Ctrl+Alt+F2 の逃げ道が消える
+- **出力を名前で指定する手段は cage 0.3.1 には無い**。`-m` は `last` / `extend` の
+  2 値だけ(`cage.c:271-275`)。「最後に接続された出力」に出るので、DRM の列挙順
+  (通常 eDP-1 が先)により両挿し時は DP-1 側に出る。eDP-1 に固定したいなら cage を
+  やめて sway / niri を greeter compositor にし output config を書くしかない
+- **cage は出力スケールを設定できない**(scale 1 固定。`output.c` は
+  `wlr_output->scale` を読むだけで設定しない)。4K 側では greeter の UI が物理的に
+  小さく見える。`programs.regreet.font.size` を上げると eDP-1 単体のときも大きく
+  なるトレードオフになるので、今回は触っていない
+- niri / Hyprland 側の `output` 設定(scale 1.5、DP-1 を上に縦積み)は greeter には
+  一切効かない。greeter は cage の世界にいるので、コンポジタの monitor 設定を
+  いじっても直らない
+
+検証は `nix eval --raw .#nixosConfigurations.desktop.config.services.greetd.settings.default_session.command`
+で `cage -s -d -m last -- regreet` になることまで。**実機のログイン画面は未確認**
+(switch とログアウトが要る)。
+
 ### Hyprland でも gcr-ssh-agent のソケットをクライアントへ渡す
 
 - `.config/hypr/config/env.lua`

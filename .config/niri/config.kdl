@@ -203,12 +203,21 @@ window-rule {
     }
 }
 
-switch-events {
-    lid-close { spawn "sh" "-c" "$HOME/.config/hypr/handle_lid.sh close"; }
-    lid-open { spawn "sh" "-c" "$HOME/.config/hypr/handle_lid.sh open"; }
+// lid の開閉は logind に一本化した (hosts/desktop/configuration.nix の
+// HandleLidSwitch* を参照)。handle_lid.sh は既に存在しないので switch-events
+// ごと削除した。同じ注意書きが .config/hypr/config/binds.lua にもある。
+
+// 外部モニタ (DP-1) があればそちらに、無ければ eDP-1 に出る。
+// named workspace は「元の出力」を忘れないので、DP-1 を挿し直すと戻ってくる。
+workspace "chats" {
+    open-on-output "DP-1"
 }
 
-workspace "chats"
+// Discord (desktop app) は常に chats に開く
+window-rule {
+    match app-id=r#"^discord$"#
+    open-on-workspace "chats"
+}
 
 binds {
     Super+S { focus-workspace "chats"; }

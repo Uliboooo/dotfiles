@@ -65,6 +65,24 @@
   # mkDefault で設定する。ここで command を書くとそちらが勝つので書かない。
   programs.regreet = {
     enable = true;
+    # 既定の cageArgs は [ "-s" "-d" ] で、cage の multi-monitor mode は
+    # 未指定だと extend(server.output_mode = 0)。extend では全出力が
+    # output_layout に横並びで並び、view_position() が primary view を
+    # レイアウト全体(eDP-1 1920x1200 + DP-1 3840x2160 = 5760px 幅)に
+    # maximize する。その結果:
+    #   - ReGreet のログインカードは「連結レイアウトの中心」= 2 枚の
+    #     モニタの継ぎ目付近に置かれ、位置が壊れて見える。
+    #   - User/Session のドロップダウンは巨大な surface 基準で配置されるので
+    #     ポップオーバがモニタを跨いで開く。
+    # -m last で cage は最後に接続された出力だけを有効にし、他を disable
+    # するため、greeter は常に 1 枚のモニタ内に収まる(4K を挿していれば
+    # そちら、外せば自動で eDP-1 に戻る)。-s -d は既定値なので引き継ぐ。
+    cageArgs = [
+      "-s"
+      "-d"
+      "-m"
+      "last"
+    ];
     font = {
       package = pkgs.monaspace;
       # Waybar / SwayNC と同じ family に揃える。

@@ -172,14 +172,6 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 
--- for laptop?
-hl.bind(
-  "switch:on:Lid Switch",
-  hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh close"),
-  { locked = true }
-)
-hl.bind(
-  "switch:off:Lid Switch",
-  hl.dsp.exec_cmd("~/.config/hypr/handle_lid.sh open"),
-  { locked = true }
-)
+-- lid の開閉は logind に一本化した (hosts/desktop/configuration.nix の
+-- HandleLidSwitch* を参照)。かつてここから叩いていた handle_lid.sh は
+-- lua 移行時 (9a8bb6c) に消えており、バインドだけが空振りで残っていた。

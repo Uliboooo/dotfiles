@@ -34,4 +34,11 @@ if runtime_dir then
   hl.env("SSH_AUTH_SOCK", runtime_dir .. "/gcr/ssh")
 end
 
+-- 同じ「ログインシェルを経由しない」問題。home-manager の hm-session-vars.sh が
+-- 読まれないため XDG_DATA_HOME がバインド経由の子プロセスに渡らない。wlmstr は
+-- 未設定時に ~/.local/share へフォールバックせず rc=1 で即死するので、SUPER+W /
+-- SUPER+SHIFT+W が何のエラーも出さずに空振りする (2026-07-27 に判明)。
+-- systemd user 環境には別途入っているので cycle_wallpaper.timer だけは動いていた。
+hl.env("XDG_DATA_HOME", os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share"))
+
 hl.env("GTK_USE_PORTAL", "1")

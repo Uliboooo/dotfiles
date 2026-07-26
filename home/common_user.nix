@@ -154,6 +154,7 @@ let
     # 同様に失敗するためキャッシュも無い)。macOS では IINA 等を使う。
     mpv
     wl-clipboard
+    wlrctl # binds.lua の ALT+J/K (pointer scroll) が依存する。
     ghostty
     hollywood
     bluetui

@@ -1,7 +1,22 @@
 hl.on("hyprland.start", function()
-  hl.exec_cmd("dbus-update-activation-environment --systemd --all")
-  hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-  hl.exec_cmd("systemctl --user start hyprpolkitagent")
+  -- 環境変数の伝播 → portal 再起動 → polkit agent の順序を保証するため 1 コマンドに
+  -- まとめる。exec_cmd は fire-and-forget なので別行に分けると競合し、portal が古い
+  -- WAYLAND_DISPLAY / HYPRLAND_INSTANCE_SIGNATURE を掴んで起動しうる。
+  --
+  -- portal を restart するのは前セッションの残骸を確実に置き換えるため。
+  -- hyprland.desktop 直起動では graphical-session.target が上がらないので
+  -- ユニットの PartOf= が効かず、Hyprland を再起動しても前の
+  -- xdg-desktop-portal-hyprland が生き残る。そいつは Wayland ソケットの対向が
+  -- 消えた後もイベントループを空回りし続け、CPU を 1.5 コア以上食い続ける
+  -- (hyprwm/xdg-desktop-portal-hyprland#103, #116)。同時にスクリーン共有と
+  -- スクリーンショットも死ぬ。
+  hl.exec_cmd(
+    "dbus-update-activation-environment --systemd --all; "
+      .. "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP; "
+      .. "systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service; "
+      .. "systemctl --user reset-failed hyprpolkitagent.service; "
+      .. "systemctl --user start hyprpolkitagent.service"
+  )
   hl.exec_cmd("fcitx5")
   hl.exec_cmd("wl-paste --type text --watch cliphist store")
   hl.exec_cmd("wl-paste --type image --watch cliphist store")
