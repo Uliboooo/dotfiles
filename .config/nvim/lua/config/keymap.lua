@@ -1,5 +1,11 @@
 vim.g.mapleader = " "
 
+vim.keymap.set("i", "<C-h>", "<Left>")
+vim.keymap.set("i", "<C-j>", "<Down>")
+vim.keymap.set("i", "<C-k>", "<Up>")
+vim.keymap.set("i", "<C-l>", "<Right>")
+vim.keymap.set({ "n", "i", "v" }, "<C-n>", "<Esc><Cmd>tabnew<CR>")
+
 vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
 vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
@@ -12,7 +18,16 @@ vim.keymap.set(
   ":lua vim.lsp.inlay_hint.enable(true, { bufnr = 0}) <CR>",
   { desc = "enable lsp inlay hint" }
 )
-vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR>", { desc = "Save buffer" })
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", function()
+  vim.cmd("stopinsert")
+  if vim.api.nvim_buf_get_name(0) == "" then
+    local path = vim.fn.input("Save as: ", "", "file")
+    if path == "" then return end
+    vim.cmd("write " .. vim.fn.fnameescape(path))
+  else
+    vim.cmd("write")
+  end
+end, { desc = "Save buffer" })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 

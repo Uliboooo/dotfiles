@@ -136,7 +136,6 @@ let
     discord
     gnome-text-editor
     gnome-tweaks
-    variety
   ];
 
   # GUI で macOS 限定。ghostty はソースビルドだと重いので、macOS では
