@@ -62,8 +62,8 @@ spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 // の敗者が futex でハング → pidof hyprlock が居座り lock_cmd が空振りになる。
 spawn-at-startup "swaync"
 spawn-at-startup "awww-daemon"
-spawn-sh-at-startup "ysh $HOME/dotfiles/script/_cycle_wallpaper.ysh seq"
-spawn-sh-at-startup "ysh $HOME/dotfiles/script/launch-waybar.ysh"
+spawn-at-startup "wlmstr" "next" "seq"
+spawn-sh-at-startup "$HOME/dotfiles/script/launch-waybar.sh"
 spawn-at-startup "udiskie" "-a" "-t" "--notify"
 
 input {

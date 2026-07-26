@@ -9,7 +9,6 @@ usr/.tmux/plugins/
 !usr/.config/tmux/plugins/tpm
 .config/helix/runtime/grammars/
 
-.config/hypr/env
 **/timers.target.wants/
 .config/helix/runtime
 

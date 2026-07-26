@@ -120,7 +120,7 @@
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
   "custom/tlp": {
-    "exec": "~/dotfiles/script/tlp-waybar-status.ysh",
+    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "interval": 10,
     "format": "󰌪 {}"
   },

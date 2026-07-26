@@ -95,7 +95,7 @@
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
     "max-length": 11,
-    "on-click": "kitty --class='dev-float' -e ~/dotfiles/script/wifi.bash"
+    "on-click": "kitty --class='dev-float' -e ~/dotfiles/script/wifi.sh"
   },
   "battery": {
     "states": {
@@ -108,7 +108,7 @@
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
   "custom/tlp": {
-    "exec": "~/dotfiles/script/tlp-waybar-status.ysh",
+    "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "interval": 10,
     "format": "󰌪 {}"
   },

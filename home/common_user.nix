@@ -39,7 +39,6 @@ let
     fastfetch
     bun
     nodejs
-    oils-for-unix
     sheldon
     zsh
     zsh-abbr

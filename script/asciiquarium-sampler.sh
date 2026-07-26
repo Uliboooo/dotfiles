@@ -1,4 +1,5 @@
-#!/usr/bin/env ysh
+#!/usr/bin/env bash
+set -uo pipefail
 
 # Render Asciiquarium inside sampler by running it in a tmux session
 # and capturing the pane contents.

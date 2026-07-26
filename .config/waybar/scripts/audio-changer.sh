@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # --- 1. 設定: 内蔵オーディオの定義 ---
 # あなたの環境の "Ryzen HD Audio Controller" のカードIDを取得
