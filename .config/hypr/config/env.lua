@@ -26,4 +26,12 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
+-- niri-session はログインシェルを経由し、/etc/profile が gcr の SSH agent
+-- ソケットを渡す。一方 Hyprland の start-hyprland は直接起動なので、この指定が
+-- ないと端末を含むクライアントで SSH_AUTH_SOCK が空になり GitHub の鍵署名ができない。
+local runtime_dir = os.getenv("XDG_RUNTIME_DIR")
+if runtime_dir then
+  hl.env("SSH_AUTH_SOCK", runtime_dir .. "/gcr/ssh")
+end
+
 hl.env("GTK_USE_PORTAL", "1")

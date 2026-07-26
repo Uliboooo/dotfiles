@@ -12,6 +12,24 @@ Ctrl+Alt+F2 の getty で逃げられることを確認しておく。
 
 ---
 
+## 2026-07-27
+
+### Hyprland でも gcr-ssh-agent のソケットをクライアントへ渡す
+
+- `.config/hypr/config/env.lua`
+
+**Hyprland の標準セッションは `SSH_AUTH_SOCK` を設定しない**。`niri.desktop` は
+`niri-session` を起動し、これはログインシェルを経由するため NixOS の `/etc/profile`
+にある gcr 用の `SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"` が引き継がれる。対して
+`hyprland.desktop` は `start-hyprland` を直接実行するので、その経路を通らず、端末では
+`ssh-add -l` が `Could not open a connection to your authentication agent.` となる。
+
+`env.lua` で同じソケットを Hyprland のクライアント環境に設定する。Hyprland 起動時の
+`dbus-update-activation-environment --systemd --all` がこの値を systemd --user と D-Bus
+にも同期するため、端末以外の GUI クライアントにも効く。gcr の実ソケット
+`/run/user/1000/gcr/ssh` の存在を確認済み。`SSH_ASKPASS*` は設定しない（下記の既知の
+制約を維持する）。
+
 ## 2026-07-25
 
 ### greeter を tuigreet から ReGreet に、Paper Design を適用
