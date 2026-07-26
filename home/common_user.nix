@@ -167,8 +167,8 @@ let
     wlmstr
     zathura-gui
     hyprpanopticon
-    # obs-studio
     # shojiwm
+    chromium
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";

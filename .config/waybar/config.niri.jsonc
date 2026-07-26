@@ -4,7 +4,11 @@
   "position": "top",
   "height": 32,
   "spacing": 0,
-  "modules-left": ["niri/workspaces", "custom/niri-windows", "custom/niri-ratio"],
+  "modules-left": [
+    "niri/workspaces",
+    "custom/niri-windows",
+    "custom/niri-ratio"
+  ],
   "modules-center": ["mpris", "clock"],
   "modules-right": [
     "temperature",
@@ -43,6 +47,7 @@
     "max-length": 40,
     "separate-outputs": true,
     "rewrite": {
+      "chromium-browser": " Chromium",
       "ghostty": "󰊠 Ghostty",
       "com.mitchellh.ghostty": "󰊠 Ghostty",
       "com.obsproject.Studio": "󰻃 OBS-Studio",
