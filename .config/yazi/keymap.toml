@@ -16,6 +16,16 @@ fi
 desc = "Zip/Unzip toggle"
 
 [[mgr.prepend_keymap]]
+on = ["<C-y>"]
+run = "plugin gui-copy -- uri"
+desc = "Copy to GUI clipboard as file:// URI (for browser upload drop zones)"
+
+[[mgr.prepend_keymap]]
+on = ["<A-y>"]
+run = "plugin gui-copy -- auto"
+desc = "Copy to GUI clipboard: content, or file:// URI if not pasteable"
+
+[[mgr.prepend_keymap]]
 on = ["g", "z"]
 run = "plugin fzf"
 desc = "Jump to a file/directory via fzf"
