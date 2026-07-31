@@ -1,7 +1,7 @@
 # Emacs Quick Start
 
 このメモは、この dotfiles の Emacs 設定に合わせた最小限の使い方です。
-前提は `Evil + leader key` です。Neovim から移るなら、まずここだけ覚えれば十分です。
+前提は `Evil + leader key` です。この設定は **org mode 専用** で、LSP・フォーマッタ・デバッガ・Git クライアント・端末は入っていません。
 
 ## 起動
 
@@ -12,44 +12,36 @@
 
 ## 画面の見方
 
-- 左端の行番号は相対行番号です
-- 変更行は `diff-hl` で表示されます
+- 左端の行番号は相対行番号です (org buffer では非表示)
 - 右上のモード表示は `doom-modeline` です
 - `which-key` により `SPC` の候補が少し待つと出ます
+- 開いている buffer は上部の `tab-line` に並びます
 
 ## 基本の考え方
 
 - `Evil` が入っているので、通常は Normal mode で操作します
 - `SPC` は leader key です
 - `C-s` は保存です
-- `C-\` はターミナル切り替えです
-- `C-c` はコメント切り替えです
+- `C-c` は org の prefix (`C-c C-c` など) です
 
 ## 最初に覚えるキー
 
 - `SPC f`: ファイル検索 (`fd`)
-- `SPC /`: grep 検索
-- `SPC SPC`: コマンド実行
-- `SPC l`: Magit
-- `SPC tb`: light/dark テーマ切り替え
-- `SPC d d`: 現在行の diagnostics
-- `SPC d c`: 現在行の diagnostic をコピー
-- `SPC a`: code action
-- `SPC r`: rename
-- `SPC \\`: terminal
-- `gd`: 定義へ移動
-- `gr`: 参照へ移動
-- `K`: hover
+- `SPC /`: grep 検索 (`rg`)
+- `SPC SPC`: コマンド実行 (`M-x`)
+- `SPC s`: 現在バッファの見出し一覧
+- `SPC S`: org 見出し検索
+- `SPC o t`: TODO 状態を切り替え
+- `SPC tb`: テーマを読み込み直す
 
 ## 編集の基本
 
 - `i`: insert mode に入る
 - `Esc`: Normal mode に戻る
 - `U`: redo
-- `C-a`: 数値を増やす、`true/false` も切り替える
-- `C-x`: 数値を減らす、`true/false` も切り替える
+- `C-a`: 数値を増やす
+- `C-x`: 数値を減らす
 - `>` / `<`: インデント
-- `C-c`: 1 行または選択範囲をコメント化/解除
 
 ## 検索と移動
 
@@ -57,21 +49,49 @@
 
 - `SPC f`: `fd` ベースのファイル検索
 - `SPC /`: `rg` ベースの全文検索
-- `SPC s`: 現在バッファのシンボル一覧
-- `SPC S`: workspace シンボル一覧
+- `SPC s`: 現在バッファの見出し / imenu
+- `SPC S`: org 見出しへジャンプ
 - `SPC m`: マーク一覧
-- `SPC u`: undo 履歴
+- `SPC n`: マッチしない行を隠す
+- `SPC u`: undo / redo
 
 補足:
 
 - `C-x b` は buffer 切り替えです
 - `M-y` は yank 履歴です
 
-## Git
+## Org
 
-- `SPC l`: Magit を開く
-- `diff-hl` が差分を左端に表示します
-- 行単位で blame を見たいときは Magit 側の blame 機能を使います
+`.org` を開くと org mode になります。既定の置き場は `~/org` (`org-directory`) です。
+
+### 見た目
+
+- `org-modern` で見出し・タグ・チェックボックス・表を装飾します
+- 起動時は `org-startup-folded 'content` なので、見出しだけが開いた状態になります
+- `org-startup-indented` により本文は見出しに合わせてインデント表示されます
+- `*bold*` などの強調記号は隠します (`org-hide-emphasis-markers`)
+- 画像リンクはインライン表示します (幅 600px)
+- `visual-line-mode` で長い行は折り返します
+
+### よく使うキー
+
+- `TAB`: 見出しの開閉、`S-TAB`: 全体の開閉
+- `M-RET`: 同じレベルの見出し / リスト項目を追加
+- `M-h` / `M-l`: 見出しのレベルを上げ下げ (evil-org)
+- `M-k` / `M-j`: 見出しを上下に移動 (evil-org)
+- `SPC o t`: TODO / DONE を切り替え
+- `SPC o c`: チェックボックスを切り替え
+- `SPC o l`: リンクを挿入、`SPC o o`: リンクを開く
+- `SPC o i`: インライン画像の表示切り替え
+- `C-c C-c`: その場のもの (表・チェックボックス・タグ等) を更新
+
+### テンプレート (org-tempo)
+
+行頭で `<` に続けて文字を入力し `TAB` を押すとブロックが展開されます。
+
+- `<q` → quote ブロック
+- `<e` → example ブロック
+- `<v` → verse ブロック
 
 ## Filer
 
@@ -82,66 +102,21 @@
 - `h` または `^`: 親ディレクトリへ戻る
 - `q`: filer を閉じる
 
-## LSP
+## 補完
 
-LSP は `eglot` です。
-
-- Rust: `rust-analyzer`
-- Go: `gopls`
-- C/C++: `clangd`
-- TypeScript/JavaScript: `typescript-language-server`
-- Python: `basedpyright`
-- Lua: `lua-language-server`
-- Nix: `nil`
-- Markdown: `marksman`
-- Typst: `tinymist`
-- Astro: `web-mode` + `astro-ls`
-
-動作は次のとおりです。
-
-- ファイルを開くと自動で LSP が付く
-- `K` で hover
-- `gd` で定義
-- `gr` で参照
-- `SPC a` で code action
-- `SPC r` で rename
-
-## Format on Save
-
-保存時に formatter が走ります。
-
-- Rust: `rustfmt`
-- Go: `gofmt`
-- Lua: `stylua`
-- JSON / JSONC / JS / TS: `biome`
-- shell: `shfmt`
-- Nix: `nixfmt`
-- TOML: `taplo`
-- C/C++: `clang-format`
-
-## Terminal
-
-- `SPC \\` または `C-\\` で terminal を切り替えます
-- `eat` を使うので、Emacs 内で shell を開けます
-- terminal を閉じるときも `SPC \\` または `C-\\` を使います
-- terminal は下側の専用 window として開きます
-
-## Debug
-
-- `SPC b`: breakpoint の切り替え
-- `SPC d r`: debug REPL
-
-この設定では `dape` を使っています。
+- `corfu` によりバッファ内補完が自動で出ます (2 文字入力後)
+- `RET` で確定します
+- `cape` によりファイル名 (`cape-file`) とバッファ内単語 (`cape-dabbrev`) が候補に入ります
 
 ## Theme
 
-- 起動時は `modus-vivendi` が基本です
-- `SPC tb` で `modus-vivendi` と `modus-operandi` を切り替えます
+- 起動時は同梱の `rose-pine-moon` を読み込みます (`.config/emacs/themes/`)
+- `SPC tb` はテーマを読み込み直します (light/dark の切り替えではありません)
 - GUI では背景透過を有効にしています
 
 ## 文字化けや警告について
 
-- 危険文字は赤背景で強調します
+- 危険文字 (ゼロ幅文字・bidi 制御文字) は赤背景で強調します
 - `*Warnings*` と `*Compile-Log*` は通常は前面に出しません
 - 初回起動時の package install は少し時間がかかります
 
@@ -159,6 +134,6 @@ LSP は `eglot` です。
 
 1. `SPC f` でファイルを開く
 2. `SPC /` で検索する
-3. `gd` / `gr` で移動する
-4. `SPC a` / `SPC r` で LSP 操作をする
-5. `SPC l` で Git を見る
+3. `SPC s` / `SPC S` で見出しへ飛ぶ
+4. `TAB` で折りたたみを開閉する
+5. `SPC SPC` でコマンドを探す
