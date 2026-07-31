@@ -116,7 +116,11 @@ abbr -a cdd 'cd $HOME/Develop'
 abbr -a cdn 'cd $HOME/Documents/note_books/'
 abbr -a cdr 'cd $HOME/Recent/'
 abbr -a no 'nvim $HOME/Documents/note_books/notebook.md'
-abbr -a g "cd (ghq root)/(ghq list | fzf --preview 'ls (ghq root)/{}')"
+function g
+    set -l repo (ghq list | fzf --preview 'ls (ghq root)/{}')
+    and test -n "$repo"
+    and cd (ghq root)/$repo
+end
 
 # ╔═╗ ╦ ╔╦╗      ╔═╗ ╔╗  ╔╗  ╦═╗
 # ║ ╦ ║  ║       ╠═╣ ╠╩╗ ╠╩╗ ╠╦╝

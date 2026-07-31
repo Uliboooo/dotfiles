@@ -268,7 +268,10 @@ function ff() {
 }
 
 function g() {
-  cd "$(ghq root)/$(ghq list | fzf --preview 'ls $(ghq root)/{}')"
+  local repo
+
+  repo=$(ghq list | fzf --preview 'ls $(ghq root)/{}') || return
+  [[ -n $repo ]] && cd "$(ghq root)/$repo"
 }
 
 function gg() {
