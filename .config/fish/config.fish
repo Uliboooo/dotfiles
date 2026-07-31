@@ -167,6 +167,7 @@ end
 # ╦ ╦ ╔╦╗ ╦ ╦   ╔═╗
 # ║ ║  ║  ║ ║   ╚═╗
 # ╚═╝  ╩  ╩ ╩═╝ ╚═╝
+abbr -a l 'eza --icons=always -l'
 abbr -a lss 'ls -l'
 abbr -a ls 'eza --icons=always -l'
 abbr -a glist '/bin/ls'
@@ -186,8 +187,9 @@ abbr -a fd 'fd'
 abbr -a t 'touch'
 abbr -a mk 'mkdir'
 
+abbr -a lg 'lazygit'
+
 abbr -a y 'yazi'
-abbr -a l 'lazygit'
 
 abbr -a hxd 'hx .'
 abbr -a h 'hx .'
