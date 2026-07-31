@@ -2,7 +2,7 @@
 
 対象ファイル: `.config/emacs/init.el`
 
-この設定は、Emacs を Vim 風の操作体系に寄せつつ、補完、検索、LSP、整形、Git、端末をまとめて使える開発環境として構成している。状態ファイルやキャッシュは XDG ディレクトリに逃がし、設定ディレクトリを汚しにくくしている。
+この設定は、Emacs を Vim 風の操作体系に寄せたうえで、**org mode で文章とノートを書くこと**に用途を絞っている。LSP、診断、フォーマッタ、デバッガ、各言語の major mode、Git クライアント、端末は持たない。状態ファイルやキャッシュは XDG ディレクトリに逃がし、設定ディレクトリを汚しにくくしている。
 
 ## 1. ファイル先頭と基本ロード設定
 
@@ -14,10 +14,9 @@
 
 ```elisp
 (require 'package)
-(require 'seq)
 ```
 
-`package` は Emacs 標準のパッケージ管理機能。`seq` は `seq-find` などのシーケンス操作関数を使うために読み込んでいる。後半の診断コピー関数で `seq-find` が使われる。
+`package` は Emacs 標準のパッケージ管理機能。
 
 ## 2. コンパイル警告を起動時に出さない設定
 
@@ -64,7 +63,7 @@ Emacs 用キャッシュ置き場。`XDG_CACHE_HOME` があればそこを使い
   (expand-file-name "emacs/" (or (getenv "XDG_DATA_HOME") "~/.local/share/")))
 ```
 
-`state-dir` は履歴や custom 設定などの状態ファイル用。`data-dir` は ELPA パッケージや tree-sitter grammar など、再利用されるデータ用。
+`state-dir` は履歴や custom 設定などの状態ファイル用。`data-dir` は ELPA パッケージなど、再利用されるデータ用。
 
 ```elisp
 (defconst seli/config-dir
@@ -143,7 +142,7 @@ Evil は読み込み前に設定しておくべき変数がある。ここでは
 - `evil-want-keybinding nil`: `evil-collection` を使うため、Evil 本体側の一部キーバインド統合を無効化。
 - `evil-want-C-u-scroll t`: Vim と同じように `C-u` を上スクロールにする。
 - `evil-want-C-i-jump nil`: `C-i` のジャンプ動作を無効化し、Tab との衝突を避ける。
-- `evil-respect-visual-line-mode t`: 表示行単位の移動を尊重する。
+- `evil-respect-visual-line-mode t`: 表示行単位の移動を尊重する。org buffer は `visual-line-mode` なので、折り返し行を 1 行として扱わない。
 - 各 `evil-*-cursor`: normal は箱、insert は縦棒、operator は横棒など、状態ごとにカーソル形状を変える。
 
 ```elisp
@@ -201,18 +200,14 @@ Emacs が作る副産物を XDG 配下にまとめる設定。
 - `recentf-save-file`, `savehist-file`, `bookmark-default-file`: 最近使ったファイル、ミニバッファ履歴、ブックマークを state に置く。
 
 ```elisp
-(setq treesit-extra-load-path (list (expand-file-name "tree-sitter/" seli/data-dir)))
+(dolist (dir (list (expand-file-name "backup/" seli/cache-dir)
+                  (expand-file-name "auto-save/" seli/cache-dir)
+                  (expand-file-name "auto-save-list/" seli/cache-dir)))
+  (unless (file-directory-p dir)
+    (make-directory dir t)))
 ```
 
-tree-sitter grammar の探索パスを XDG data 配下にする。
-
-```elisp
-(when (boundp 'treesit--install-language-grammar-out-dir)
-  (setq treesit--install-language-grammar-out-dir
-        (expand-file-name "tree-sitter/" seli/data-dir)))
-```
-
-Emacs のバージョンによって存在する内部変数がある場合だけ、grammar のインストール先も同じ場所に合わせる。`boundp` により、未定義変数でエラーになるのを避けている。
+バックアップと自動保存の置き場を、初回起動時に作っておく。
 
 ## 7. エディタ基本動作
 
@@ -222,12 +217,11 @@ Emacs のバージョンによって存在する内部変数がある場合だ�
       visible-bell nil
       use-short-answers t
       confirm-kill-processes nil
-      read-process-output-max (* 1024 1024)
       sentence-end-double-space nil
       require-final-newline t)
 ```
 
-起動画面を消し、ベルを無効化し、`yes-or-no-p` 系の回答を短くし、終了時のプロセス確認を抑えている。`read-process-output-max` は LSP など外部プロセスとの通信を大きめに読み取るための調整。
+起動画面を消し、ベルを無効化し、`yes-or-no-p` 系の回答を短くし、終了時のプロセス確認を抑えている。`sentence-end-double-space nil` は、英文で文末をピリオド + スペース 1 個と判定する設定。
 
 ```elisp
 (setq scroll-margin 3
@@ -276,7 +270,7 @@ Emacs のバージョンによって存在する内部変数がある場合だ�
 
 よく使う標準機能をまとめて有効化している。
 
-- 相対行番号を表示。
+- 相対行番号を表示 (org buffer では後述の hook で無効化)。
 - 現在行をハイライト。
 - モードラインに桁番号を表示。
 - 対応する括弧を表示。
@@ -286,16 +280,6 @@ Emacs のバージョンによって存在する内部変数がある場合だ�
 - ウィンドウ構成の undo/redo を有効化。
 
 ```elisp
-(defun seli/prog-mode-defaults ()
-  (setq-local indent-tabs-mode nil)
-  (display-fill-column-indicator-mode 0))
-
-(add-hook 'prog-mode-hook #'seli/prog-mode-defaults)
-```
-
-プログラミング系モードでタブインデントを無効にし、fill column indicator を消す。全体では `fill-column 100` を設定しているが、縦線表示は使わない方針。
-
-```elisp
 (defun seli/save-all-buffers ()
   "Save modified file buffers without prompting."
   (save-some-buffers t))
@@ -303,7 +287,7 @@ Emacs のバージョンによって存在する内部変数がある場合だ�
 (add-hook 'focus-out-hook #'seli/save-all-buffers)
 ```
 
-Emacs からフォーカスが外れた時に、変更済みファイルバッファを確認なしで保存する。外部ツールやビルドツールとの連携を重視した設定。
+Emacs からフォーカスが外れた時に、変更済みファイルバッファを確認なしで保存する。書きかけの org ファイルを保存し忘れないための設定。
 
 ```elisp
 (defface seli-dangerous-char
@@ -315,7 +299,7 @@ Emacs からフォーカスが外れた時に、変更済みファイルバッ�
  '(("[\u200B\u200C\u200D\uFEFF\u202E\u2066-\u2069]" 0 'seli-dangerous-char prepend)))
 ```
 
-ゼロ幅文字や bidi 制御文字を赤背景で目立たせる。見えない文字や方向制御文字による混乱、いわゆる Trojan Source 系の問題を発見しやすくする。
+ゼロ幅文字や bidi 制御文字を赤背景で目立たせる。コピー & ペーストで紛れ込んだ見えない文字を発見しやすくする。
 
 ## 8. UI、透過、フォント、テーマ
 
@@ -329,28 +313,14 @@ Emacs からフォーカスが外れた時に、変更済みファイルバッ�
 ```elisp
 (defconst seli/opaque-ui-faces
   '((menu . seli/opaque-ui-background-active)
-    (tool-bar . seli/opaque-ui-background-active)
     (tab-bar . seli/opaque-ui-background-active)
-    (tab-bar-tab . seli/opaque-ui-background)
-    (tab-bar-tab-inactive . seli/opaque-ui-background-active)
-    (tab-bar-tab-group-current . seli/opaque-ui-background)
-    (tab-bar-tab-group-inactive . seli/opaque-ui-background-active)
-    (tab-bar-tab-ungrouped . seli/opaque-ui-background-active)
     (tab-line . seli/opaque-ui-background)
-    (tab-line-tab . seli/opaque-ui-background-active)
-    (tab-line-tab-current . seli/opaque-ui-background-active)
-    (tab-line-tab-inactive . seli/opaque-ui-background)
-    (tab-line-highlight . seli/opaque-ui-background-active)
-    (tab-line-close-highlight . seli/opaque-ui-background-active)
     (header-line . seli/opaque-ui-background)
-    (header-line-highlight . seli/opaque-ui-background-active)
     (mode-line . seli/opaque-ui-background-active)
-    (mode-line-active . seli/opaque-ui-background-active)
-    (mode-line-inactive . seli/opaque-ui-background)
-    (mode-line-highlight . seli/opaque-ui-background-active)))
+    ...))
 ```
 
-GUI Emacs で透けてほしくない UI 部品の face 一覧。メニューバーやモードラインなどは、透明背景を継承させず、テーマの濃い背景色を明示的に設定する。`tab-line` 系も含めることで、ファイル/バッファタブとして表示される行を不透明にする。
+GUI Emacs で透けてほしくない UI 部品の face 一覧。メニューバーやモードラインなどは、透明背景を継承させず、テーマの濃い背景色を明示的に設定する。`tab-line` 系も含めることで、バッファタブとして表示される行を不透明にする。
 
 ```elisp
 (defun seli/apply-frame-appearance (&optional frame)
@@ -359,9 +329,6 @@ GUI Emacs で透けてほしくない UI 部品の face 一覧。メニューバ
       (when (facep face)
         (set-face-attribute face frame :background 'unspecified)
         (set-face-attribute face t :background 'unspecified)))
-    (when (display-graphic-p frame)
-      (dolist (entry seli/opaque-ui-faces)
-        ...))
     (if (display-graphic-p frame)
         (progn
           (set-frame-parameter frame 'alpha '(100 . 100))
@@ -388,7 +355,7 @@ GUI フレームでは `alpha` を active/inactive とも `100` に固定し、�
 (defconst seli/cjk-font-family "Yomogi")
 ```
 
-GUI Emacs の既定フォントと日本語など CJK 用フォールバックフォント。`130` は 13pt 相当の高さ。
+GUI Emacs の既定フォントと日本語など CJK 用フォールバックフォント。`130` は 13pt 相当の高さ。日本語で org を書く前提なので、CJK フォールバックは重要。
 
 ```elisp
 (defun seli/apply-fonts ()
@@ -419,7 +386,7 @@ Emacs 標準の `tab-bar` は無効化し、バッファをタブとして表示
 (load-theme 'rose-pine-moon t)
 ```
 
-`.config/emacs/themes/` をテーマ探索パスに追加し、ローカルテーマ `rose-pine-moon` を読み込む。
+`.config/emacs/themes/` をテーマ探索パスに追加し、ローカルテーマ `rose-pine-moon` を読み込む。このテーマは org と org-modern の face も定義している。
 
 ```elisp
 (defun seli/toggle-theme ()
@@ -437,25 +404,11 @@ Emacs 標準の `tab-bar` は無効化し、バッファをタブとして表示
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-height 22)
-  (doom-modeline-buffer-file-name-style 'relative-from-project)
+  (doom-modeline-buffer-file-name-style 'auto)
   (doom-modeline-icon t))
 ```
 
-モードラインを `doom-modeline` に置き換える。ファイル名はプロジェクト相対で表示し、アイコンを有効化する。
-
-```elisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-```
-
-括弧のネストを色分けする。
-
-```elisp
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode))
-```
-
-`TODO` や `FIXME` などのコメントを目立たせる。
+モードラインを `doom-modeline` に置き換える。ファイル名表示は `auto` で、アイコンを有効化する。
 
 ```elisp
 (use-package which-key
@@ -475,7 +428,7 @@ Emacs 標準の `tab-bar` は無効化し、バッファをタブとして表示
   :demand t)
 ```
 
-カーソル位置の数値を増減するパッケージ。後述の `C-a` / `C-x` に組み込まれている。
+カーソル位置の数値を増減するパッケージ。`C-a` / `C-x` に割り当てる。
 
 ```elisp
 (use-package evil
@@ -497,22 +450,16 @@ Evil の state が変わるたびにカーソル形状を更新する。
 ```elisp
 (define-key evil-normal-state-map (kbd "U") #'evil-redo)
 (define-key evil-normal-state-map (kbd "C-b") nil)
-(define-key evil-normal-state-map (kbd "C-a") #'seli/increment-or-toggle-at-point)
-(define-key evil-normal-state-map (kbd "C-x") #'seli/decrement-or-toggle-at-point)
-(define-key evil-normal-state-map (kbd "K") #'eldoc-doc-buffer)
-(define-key evil-normal-state-map (kbd "gd") #'xref-find-definitions)
-(define-key evil-normal-state-map (kbd "gr") #'xref-find-references)
+(define-key evil-normal-state-map (kbd "C-a") #'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-x") #'evil-numbers/dec-at-pt)
 ```
 
 normal state のキーを調整している。
 
 - `U`: redo。
 - `C-b`: 既定割り当てを解除。
-- `C-a`: 数値増加、または `true` / `false` トグル。
-- `C-x`: 数値減少、または `true` / `false` トグル。
-- `K`: Eldoc のドキュメントバッファを開く。
-- `gd`: 定義ジャンプ。
-- `gr`: 参照検索。
+- `C-a`: カーソル位置の数値を +1。
+- `C-x`: カーソル位置の数値を -1。
 
 ```elisp
 (use-package evil-collection
@@ -521,7 +468,7 @@ normal state のキーを調整している。
   (evil-collection-init))
 ```
 
-Dired、Magit、Help など Emacs 標準・外部パッケージの各モードに Evil 風キーバインドを入れる。
+Dired、Help、Org など Emacs 標準・外部パッケージの各モードに Evil 風キーバインドを入れる。
 
 ```elisp
 (use-package general
@@ -540,23 +487,22 @@ Dired、Magit、Help など Emacs 標準・外部パッケージの各モード�
 ```elisp
 (seli/leader
   "SPC" '(execute-extended-command :which-key "M-x")
-  "a" '(eglot-code-actions :which-key "code action")
-  "r" '(eglot-rename :which-key "rename")
   "f" '(seli/consult-fd-buffer-tab :which-key "find files")
   "/" '(consult-ripgrep :which-key "grep")
-  "l" '(magit-status :which-key "magit")
-  "\\" '(seli/toggle-terminal :which-key "terminal")
-  "dr" '(dape-repl :which-key "debug repl"))
+  "s" '(consult-imenu :which-key "outline")
+  "S" '(consult-org-heading :which-key "org headings")
+  "o" '(:ignore t :which-key "org")
+  "ot" '(org-todo :which-key "todo state")
+  ...)
 ```
 
-主要機能を `SPC` から呼べるようにしている。検索、LSP アクション、診断、Git、端末、デバッグが leader に集約されている。
+検索・移動と org 操作を `SPC` に集約している。`o` は org 用のサブプレフィックスで、`which-key` に "org" として表示される。
 
 ```elisp
 (global-set-key (kbd "C-s") #'save-buffer)
-(global-set-key (kbd "C-\\") #'seli/toggle-terminal)
 ```
 
-Emacs 標準では `C-s` は検索だが、この設定では保存に割り当てる。端末トグルはグローバルに `C-\`。
+Emacs 標準では `C-s` は検索だが、この設定では保存に割り当てる。なお `C-c` はグローバルに再割り当てしていないため、`C-c C-c` などの org 標準キーがそのまま使える。
 
 ## 10. 補完、検索、ナビゲーション
 
@@ -589,11 +535,11 @@ Emacs 標準では `C-s` は検索だが、この設定では保存に割り当�
   :bind (("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop))
   :custom
-  (consult-fd-args "fd --color=never --hidden --exclude .git ...")
-  (consult-ripgrep-args "rg --null --line-buffered ... --hidden --glob !.git ..."))
+  (consult-fd-args "fd --color=never --hidden --exclude .git")
+  (consult-ripgrep-args "rg --null --line-buffered ... --hidden --glob !.git"))
 ```
 
-検索・移動系の強化パッケージ。`C-x b` は高機能バッファ切り替え、`M-y` は kill ring 履歴選択になる。`fd` と `rg` は hidden file も対象にするが、`.git`、`node_modules`、`target`、`.mooncakes` は除外している。
+検索・移動系の強化パッケージ。`C-x b` は高機能バッファ切り替え、`M-y` は kill ring 履歴選択になる。`fd` と `rg` は hidden file も対象にするが、`.git` は除外する。
 
 ```elisp
 (defun seli/consult-fd-buffer-tab ()
@@ -603,13 +549,6 @@ Emacs 標準では `C-s` は検索だが、この設定では保存に割り当�
 ```
 
 `consult-fd` で選んだファイルを通常のバッファとして開く関数。`global-tab-line-mode` が有効なので、開いたファイルは tab-line 上のバッファタブとして表示される。
-
-```elisp
-(use-package consult-eglot
-  :after (consult eglot))
-```
-
-Eglot の workspace symbol 検索を Consult UI で使うための連携。
 
 ```elisp
 (use-package corfu
@@ -625,7 +564,7 @@ Eglot の workspace symbol 検索を Consult UI で使うための連携。
               ("<return>" . corfu-insert)))
 ```
 
-バッファ内補完 UI。2 文字入力後、0.15 秒で自動補完を出す。候補リストは循環可能で、Return で候補を確定する。
+バッファ内補完 UI。2 文字入力後、0.15 秒で自動補完を出す。候補リストは循環可能で、Return で候補を確定する。org でもリンクや見出し語の入力補助として効く。
 
 ```elisp
 (use-package cape
@@ -637,244 +576,87 @@ Eglot の workspace symbol 検索を Consult UI で使うための連携。
 
 Corfu が使う補完ソースを追加する。ファイル名補完と dabbrev 補完を `completion-at-point-functions` に足している。
 
-```elisp
-(use-package yasnippet
-  :hook (after-init . yas-global-mode))
+## 11. Org mode
 
-(use-package yasnippet-snippets
-  :after yasnippet)
+```elisp
+(defun seli/org-mode-defaults ()
+  "Prose-friendly defaults for `org-mode' buffers."
+  (display-line-numbers-mode 0)
+  (setq-local truncate-lines nil))
 ```
 
-スニペット展開を全体で有効化し、汎用スニペット集も導入する。
-
-## 11. 編集支援とフォーマッタ
+org buffer では行番号を消し、長い行を折り返す。文章を書く用途では行番号よりも本文の幅を優先する。
 
 ```elisp
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode)
-  :config
-  (require 'smartparens-config))
-```
-
-括弧やクォートのペア入力、構造編集を支援する。プログラミング系モードで有効。
-
-```elisp
-(use-package apheleia
-  :hook (after-init . apheleia-global-mode)
-  :config
-  ...)
-```
-
-保存時などに外部フォーマッタを実行する整形パッケージ。
-
-```elisp
-(setf (alist-get 'stylua apheleia-formatters)
-      '("stylua" "--column-width" "100" "--indent-type" "Spaces" "--indent-width" "2"
-        "--quote-style" "AutoPreferDouble" "--collapse-simple-statement" "Always" "-"))
-```
-
-Lua formatter の `stylua` を細かく指定している。100 桁、スペース 2、引用符は自動だが double quote 寄り、単純文は畳む。
-
-```elisp
-(setf (alist-get 'rustic-mode apheleia-mode-alist) 'rustfmt)
-(setf (alist-get 'go-mode apheleia-mode-alist) 'gofmt)
-(setf (alist-get 'typescript-ts-mode apheleia-mode-alist) 'biome)
-(setf (alist-get 'nix-mode apheleia-mode-alist) 'nixfmt)
-(setf (alist-get 'sh-mode apheleia-mode-alist) 'shfmt)
-```
-
-各 major mode と formatter の対応を指定している。Rust、Go、Lua、JSON、TypeScript、TSX、JavaScript、Nix、TOML、Shell、C/C++ が対象。
-
-```elisp
-(defun seli/toggle-comment ()
-  (interactive)
-  (if (use-region-p)
-      (comment-or-uncomment-region (region-beginning) (region-end))
-    (comment-line 1)))
-
-(global-set-key (kbd "C-c") #'seli/toggle-comment)
-```
-
-選択範囲があれば範囲コメント、なければ現在行をコメントトグルする。`C-c` は Emacs では通常 prefix key なので、この設定ではかなり強く上書きしている。
-
-### true/false トグルと数値増減
-
-```elisp
-(defun seli/boolean-at-point ()
-  (let* ((bounds (bounds-of-thing-at-point 'symbol))
-         (word (and bounds (buffer-substring-no-properties (car bounds) (cdr bounds)))))
-    (cond
-     ((string= word "true") (list bounds "false"))
-     ((string= word "false") (list bounds "true"))
-     (t nil))))
-```
-
-カーソル位置の symbol が `true` なら `false`、`false` なら `true` にするため、対象範囲と置換文字列を返す。
-
-```elisp
-(defun seli/toggle-boolean-at-point ()
-  (when-let* ((pair (seli/boolean-at-point))
-              (bounds (car pair))
-              (replacement (cadr pair)))
-    (delete-region (car bounds) (cdr bounds))
-    (insert replacement)
-    t))
-```
-
-実際に `true` / `false` を置換する。変更できた時は `t` を返す。
-
-```elisp
-(defun seli/increment-or-toggle-at-point ()
-  (interactive)
-  (unless (seli/toggle-boolean-at-point)
-    (evil-numbers/inc-at-pt 1)))
-```
-
-カーソル位置が boolean ならトグルし、そうでなければ数値を 1 増やす。`decrement` 版は同じ考えで数値を 1 減らす。
-
-## 12. LSP、診断、言語モード
-
-```elisp
-(use-package flymake
+(use-package org
   :ensure nil
-  :hook (prog-mode . flymake-mode)
+  :mode ("\\.org\\'" . org-mode)
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . seli/org-mode-defaults))
   :custom
-  (flymake-no-changes-timeout 0.8)
-  (flymake-show-diagnostics-at-end-of-line nil))
+  (org-directory "~/org")
+  (org-startup-indented t)
+  (org-startup-folded 'content)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(600))
+  (org-pretty-entities t)
+  (org-hide-emphasis-markers t)
+  (org-ellipsis " ▾")
+  (org-fontify-quote-and-verse-blocks t)
+  (org-return-follows-link t)
+  (org-insert-heading-respect-content t)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-auto-align-tags nil)
+  (org-tags-column 0))
 ```
 
-Emacs 標準の診断 UI。プログラミング系モードで有効化し、変更後 0.8 秒で診断を走らせる。行末への診断表示は無効。
+org は Emacs 標準添付なので `:ensure nil`。各設定の意味は次のとおり。
+
+- `org-directory`: org ファイルの既定の置き場。`~/org`。
+- `org-startup-indented`: `org-indent-mode` を有効にし、本文を見出しのレベルに合わせて字下げ表示する。実ファイルにはスペースを入れない。
+- `org-startup-folded 'content`: 開いた直後は見出しだけを見せる。全体像を掴んでから本文に入る運用。
+- `org-startup-with-inline-images` と `org-image-actual-width`: 画像リンクをインライン表示し、幅を 600px に揃える。
+- `org-pretty-entities`: `\alpha` などの LaTeX エンティティを実際の文字で表示する。
+- `org-hide-emphasis-markers`: `*bold*` や `/italic/` の記号を隠し、装飾結果だけを見せる。
+- `org-ellipsis`: 折りたたまれた見出しの末尾記号を `▾` にする。
+- `org-fontify-quote-and-verse-blocks`: quote / verse ブロックに専用 face を当てる。
+- `org-return-follows-link`: リンク上で Return を押すとリンクを開く。
+- `org-insert-heading-respect-content`: `M-RET` での見出し追加を、本文の途中ではなく現在のセクションの末尾に行う。
+- `org-catch-invisible-edits 'show-and-error`: 折りたたまれて見えない部分をうっかり編集しそうになったら、展開してエラーにする。
+- `org-auto-align-tags nil` と `org-tags-column 0`: タグを右端揃えにせず見出し直後に置く。`org-modern` の表示と相性が良い。
 
 ```elisp
-(use-package eglot
+(use-package org-tempo
   :ensure nil
-  :init
-  (dolist (hook '(rust-mode-hook rust-ts-mode-hook ...))
-    (add-hook hook #'eglot-ensure))
-  ...)
+  :after org
+  :demand t)
 ```
 
-Emacs 標準 LSP クライアント Eglot。Rust、Go、C/C++、Python、JavaScript/TypeScript、CSS、HTML、Lua、Zig、Markdown、Nix、Typst、Astro などで自動起動する。
+org 添付のテンプレート展開機能。行頭で `<q` と入力して `TAB` を押すと quote ブロックに展開される。`<e` は example、`<v` は verse。
 
 ```elisp
-(setq eglot-autoshutdown t
-      eglot-events-buffer-size 0
-      eglot-ignored-server-capabilities '(:documentHighlightProvider))
+(use-package evil-org
+  :after (evil org)
+  :hook (org-mode . evil-org-mode)
+  :config
+  (evil-org-set-key-theme '(navigation insert textobjects additional calendar)))
 ```
 
-Eglot の挙動調整。
-
-- `eglot-autoshutdown t`: 管理対象バッファがなくなったら LSP サーバーを終了。
-- `eglot-events-buffer-size 0`: Eglot イベントログを保持しない。
-- `:documentHighlightProvider` を無視: カーソル位置のシンボルハイライトを LSP 側から受け取らない。
+org buffer に Evil 風の操作を足す。`navigation` は見出し間移動、`textobjects` は見出しや要素を対象にしたテキストオブジェクト、`additional` は `M-h` / `M-l` によるレベル変更や `M-j` / `M-k` による見出し移動、`calendar` は日付入力時の Vim 風カーソル移動。
 
 ```elisp
-(add-to-list 'eglot-server-programs
-             '((rust-mode rust-ts-mode)
-               . ("rust-analyzer" :initializationOptions
-                  (:cargo (:allFeatures t)
-                   :check (:command "clippy")
-                   :inlayHints ...))))
+(use-package org-modern
+  :hook (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star 'replace)
+  (org-modern-hide-stars nil)
+  (org-modern-table t)
+  (org-modern-list '((?+ . "◦") (?- . "–") (?* . "•"))))
 ```
 
-Rust は `rust-analyzer` を使い、全 features 有効、check は `clippy`、inlay hints を有効化している。
+org の見た目を整えるパッケージ。`org-modern-star 'replace` で見出しの `*` を記号に置き換え、TODO やタグはラベル風に、表は罫線を整えて表示する。リストの記号も箇条書き用の文字に置き換える。
 
-```elisp
-(add-to-list 'eglot-server-programs
-             '((js-mode js-ts-mode typescript-ts-mode tsx-ts-mode)
-               . ("typescript-language-server" "--stdio")))
-```
-
-JavaScript / TypeScript / TSX は `typescript-language-server`。
-
-```elisp
-(add-to-list 'eglot-server-programs
-             '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd")))
-(add-to-list 'eglot-server-programs
-             '((go-mode go-ts-mode) . ("gopls")))
-(add-to-list 'eglot-server-programs
-             '(zig-mode . ("zls")))
-(add-to-list 'eglot-server-programs
-             '(lua-mode . ("lua-language-server")))
-(add-to-list 'eglot-server-programs
-             '((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio")))
-(add-to-list 'eglot-server-programs
-             '(nix-mode . ("nil")))
-(add-to-list 'eglot-server-programs
-             '(typst-ts-mode . ("tinymist")))
-(add-to-list 'eglot-server-programs
-             '(web-mode . ("astro-ls" "--stdio")))
-(add-to-list 'eglot-server-programs
-             '(markdown-mode . ("marksman")))
-```
-
-各言語の LSP サーバー対応。外部コマンドが PATH にある前提で動作する。
-
-```elisp
-(add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode)
-```
-
-Eglot 管理下のバッファで inlay hints を有効にする。
-
-### 診断コピー関数
-
-```elisp
-(defun seli/copy-current-diagnostic ()
-  "Copy first Flymake diagnostic on the current line with source context."
-  ...)
-```
-
-現在行にある Flymake 診断を探し、前後 3 行のソース文脈つきで kill ring にコピーする関数。leader key の `SPC dc` に割り当てられている。
-
-```elisp
-(seq-find
- (lambda (d)
-   (and (<= (flymake-diagnostic-beg d) line-end)
-        (>= (flymake-diagnostic-end d) line-start)))
- (flymake-diagnostics line-start line-end))
-```
-
-現在行の範囲と重なる診断を 1 つ探す。
-
-```elisp
-(kill-new text)
-(message "Diagnostic copied to clipboard.")
-```
-
-診断種別、診断本文、行番号、周辺コードをまとめてコピーする。AI や issue に貼る用途に向いた関数。
-
-### 言語 major mode
-
-```elisp
-(use-package markdown-mode)
-(use-package nix-mode)
-(use-package lua-mode)
-(use-package go-mode)
-(use-package rust-mode)
-(use-package zig-mode)
-(use-package json-mode)
-```
-
-各言語の major mode を導入する。
-
-```elisp
-(use-package toml-ts-mode
-  :ensure nil
-  :mode "\\.toml\\'")
-```
-
-Emacs 標準の tree-sitter TOML mode を `.toml` に関連付ける。
-
-```elisp
-(use-package typst-ts-mode
-  :mode "\\.typ\\'")
-(use-package web-mode
-  :mode "\\.astro\\'")
-```
-
-Typst と Astro 用の mode 関連付け。
-
-### Dired
+## 12. Dired
 
 ```elisp
 (use-package dired
@@ -890,100 +672,9 @@ Typst と Astro 用の mode 関連付け。
       (kbd "q") #'quit-window)))
 ```
 
-Dired の一覧を詳細表示、サイズ human readable、ディレクトリ優先にする。Evil normal state では `l` / Enter で開き、`h` で上のディレクトリ、`q` で閉じる。
+Dired の一覧を詳細表示、サイズ human readable、ディレクトリ優先にする。Evil normal state では `l` / Enter で開き、`h` で上のディレクトリ、`q` で閉じる。org ファイルを置いたディレクトリを行き来する用途に使う。
 
-```elisp
-(add-to-list 'auto-mode-alist '("\\.mbt\\'" . prog-mode))
-```
-
-`.mbt` ファイルを最低限 `prog-mode` として扱う。専用 major mode は使っていない。
-
-## 13. Git
-
-```elisp
-(use-package magit
-  :commands (magit-status magit-blame-addition))
-```
-
-Git UI として Magit を導入する。`magit-status` などのコマンドが呼ばれた時にロードする。
-
-```elisp
-(use-package diff-hl
-  :hook ((prog-mode text-mode conf-mode) . diff-hl-mode)
-  :config
-  (diff-hl-flydiff-mode 1))
-```
-
-Git の変更行を fringe などに表示する。`flydiff` により編集中の差分表示も更新される。
-
-## 14. 端末とデバッグ
-
-```elisp
-(use-package eat
-  :commands (eat eat-make)
-  :config
-  (define-key eat-mode-map (kbd "C-\\") #'seli/toggle-terminal)
-  ...)
-```
-
-Emacs 内ターミナルとして `eat` を使う。`eat-mode`、`eat-semi-char-mode`、`eat-char-mode` の各 keymap で `C-\` を端末トグルに割り当てる。
-
-```elisp
-(defvar seli/terminal-buffer-name "*terminal*")
-(defconst seli/terminal-window-height 0.3)
-```
-
-専用端末バッファ名と、下部サイドウィンドウの高さ。`0.3` はフレーム高さの 30%。
-
-```elisp
-(defun seli/project-root-or-default-directory ()
-  (let ((project (project-current nil)))
-    (if project (project-root project) default-directory)))
-```
-
-現在位置がプロジェクト内ならプロジェクトルートを返し、そうでなければ現在ディレクトリを返す。端末起動時の作業ディレクトリに使う。
-
-```elisp
-(defun seli/get-or-create-terminal-buffer ()
-  (let* ((default-directory (seli/project-root-or-default-directory))
-         (buffer (get-buffer seli/terminal-buffer-name))
-         (process (and buffer (get-buffer-process buffer))))
-    (if (and process (process-live-p process))
-        buffer
-      (eat-make "terminal" (or explicit-shell-file-name shell-file-name)))))
-```
-
-既存の `*terminal*` バッファに生きているプロセスがあれば再利用し、なければ `eat-make` で新しい端末を作る。`default-directory` を let で束縛しているため、端末はプロジェクトルートから起動する。
-
-```elisp
-(defun seli/toggle-terminal ()
-  (interactive)
-  (let* ((buf (seli/get-or-create-terminal-buffer))
-         (win (get-buffer-window buf t)))
-    (if (and buf (get-buffer-window buf))
-        (delete-window win)
-      (select-window
-       (display-buffer-in-side-window
-        buf
-        `((side . bottom)
-          (slot . 0)
-          (window-height . ,seli/terminal-window-height)
-          (preserve-size . (nil . t))
-          (dedicated . t)))))))
-```
-
-専用端末を下部サイドウィンドウとして表示・非表示する。表示済みなら閉じ、未表示なら高さ 30% の dedicated window として開く。
-
-```elisp
-(use-package dape
-  :commands (dape dape-breakpoint-toggle dape-repl)
-  :config
-  (setq dape-buffer-window-arrangement 'right))
-```
-
-Debug Adapter Protocol クライアント `dape` を導入する。デバッグ関連バッファは右側配置にする。
-
-## 15. 最後の custom-file 読み込み
+## 13. 最後の custom-file 読み込み
 
 ```elisp
 (when (file-exists-p custom-file)
@@ -992,66 +683,51 @@ Debug Adapter Protocol クライアント `dape` を導入する。デバッグ�
 
 Customize UI などが書いた `custom.el` が存在すれば読み込む。`nil t` により、メッセージを抑えつつエラーには寛容に読み込む。
 
-## 16. 主なキーバインド一覧
+## 14. 主なキーバインド一覧
 
 | キー | 意味 |
 | --- | --- |
 | `C-s` | 現在バッファを保存 |
-| `C-\` | 専用端末を表示・非表示 |
-| `C-c` | 行または選択範囲のコメントトグル |
+| `C-x b` | バッファ切り替え (consult) |
+| `M-y` | kill ring 履歴 |
 | normal `U` | redo |
-| normal `C-a` | `true` / `false` トグル、または数値 +1 |
-| normal `C-x` | `true` / `false` トグル、または数値 -1 |
-| normal `K` | Eldoc ドキュメント表示 |
-| normal `gd` | 定義へ移動 |
-| normal `gr` | 参照を検索 |
+| normal `C-a` | 数値 +1 |
+| normal `C-x` | 数値 -1 |
 | `SPC SPC` | `M-x` |
-| `SPC a` | LSP code action |
-| `SPC r` | LSP rename |
 | `SPC f` | `fd` でファイル検索し、tab-line のバッファタブとして開く |
 | `SPC /` | `ripgrep` 検索 |
+| `SPC n` | マッチしない行を隠す |
 | `SPC m` | mark 一覧 |
-| `SPC dd` | Flymake 診断一覧 |
-| `SPC dc` | 現在行の診断を周辺コードつきでコピー |
-| `SPC s` | buffer 内 symbol 検索 |
-| `SPC S` | workspace symbol 検索 |
-| `SPC l` | Magit status |
-| `SPC \` | 専用端末を表示・非表示 |
+| `SPC u` | undo / redo |
+| `SPC s` | buffer 内の見出し / imenu |
+| `SPC S` | org 見出し検索 |
 | `SPC tb` | `rose-pine-moon` テーマ再読み込み |
-| `SPC b` | Dape breakpoint toggle |
-| `SPC dr` | Dape REPL |
+| `SPC o t` | TODO 状態の切り替え |
+| `SPC o c` | チェックボックスの切り替え |
+| `SPC o l` | リンク挿入 |
+| `SPC o o` | リンクを開く |
+| `SPC o i` | インライン画像の表示切り替え |
+| org `TAB` | 見出しの開閉 |
+| org `M-RET` | 見出し / リスト項目の追加 |
+| org `M-h` / `M-l` | 見出しレベルの上げ下げ (evil-org) |
+| org `M-j` / `M-k` | 見出しの移動 (evil-org) |
 
-## 17. 外部コマンド依存
+## 15. 外部コマンド依存
 
-この `init.el` は Emacs パッケージだけでなく、いくつかの外部コマンドが PATH にある前提で動く。
+この `init.el` が前提にしている外部コマンドは 2 つだけ。
 
 | 用途 | コマンド |
 | --- | --- |
 | ファイル検索 | `fd` |
 | grep | `rg` |
-| Rust LSP | `rust-analyzer` |
-| Rust check | `clippy` |
-| TypeScript LSP | `typescript-language-server` |
-| C/C++ LSP | `clangd` |
-| Go LSP / formatter | `gopls`, `gofmt` |
-| Zig LSP | `zls` |
-| Lua LSP / formatter | `lua-language-server`, `stylua` |
-| Python LSP | `basedpyright-langserver` |
-| Nix LSP / formatter | `nil`, `nixfmt` |
-| Typst LSP | `tinymist` |
-| Astro LSP | `astro-ls` |
-| Markdown LSP | `marksman` |
-| Shell formatter | `shfmt` |
-| C/C++ formatter | `clang-format` |
-| JS/TS/JSON formatter | `biome` |
-| TOML formatter | `taplo` |
 
-## 18. 設定全体の設計意図
+言語サーバーやフォーマッタへの依存はない。
 
-この設定の中心は次の 5 点。
+## 16. 設定全体の設計意図
+
+この設定の中心は次の 4 点。
 
 1. `~/.emacs.d` を前提にせず、cache/state/data を XDG 配下に分ける。
 2. Evil と leader key で Vim 風の高速操作に寄せる。
 3. Vertico / Orderless / Marginalia / Consult / Corfu で、ミニバッファ補完とバッファ内補完を軽量に整える。
-4. Eglot / Flymake / Apheleia で、LSP 診断と自動整形を標準機能寄りにまとめる。
-5. Magit、diff-hl、eat、dape を入れて、Git、端末、デバッグまで Emacs 内で完結しやすくする。
+4. org mode に用途を絞り、org / evil-org / org-modern と自作テーマの org face だけで、書くことに集中できる状態にする。プログラミング向けの機能 (LSP、診断、フォーマッタ、デバッガ、言語 major mode、Git クライアント、端末) は意図的に持たない。

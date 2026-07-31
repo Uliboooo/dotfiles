@@ -1,9 +1,12 @@
 ;;; init.el --- Seli Emacs config -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Org mode 専用の構成。プログラミング向けの機能 (LSP, 診断, フォーマッタ,
+;; デバッガ, 各言語 major mode, Git クライアント, 端末) は持たない。
+
 ;;; Package bootstrap
 
 (require 'package)
-(require 'seq)
 
 ;; Keep third-party byte/native compilation noise out of the startup UI.
 (setq native-comp-async-report-warnings-errors 'silent
@@ -109,12 +112,6 @@
       savehist-file (expand-file-name "savehist" seli/state-dir)
       bookmark-default-file (expand-file-name "bookmarks" seli/state-dir))
 
-(setq treesit-extra-load-path (list (expand-file-name "tree-sitter/" seli/data-dir)))
-
-(when (boundp 'treesit--install-language-grammar-out-dir)
-  (setq treesit--install-language-grammar-out-dir
-        (expand-file-name "tree-sitter/" seli/data-dir)))
-
 (dolist (dir (list (expand-file-name "backup/" seli/cache-dir)
                   (expand-file-name "auto-save/" seli/cache-dir)
                   (expand-file-name "auto-save-list/" seli/cache-dir)))
@@ -128,7 +125,6 @@
       visible-bell nil
       use-short-answers t
       confirm-kill-processes nil
-      read-process-output-max (* 1024 1024)
       sentence-end-double-space nil
       require-final-newline t
       scroll-margin 3
@@ -165,12 +161,6 @@
       global-auto-revert-non-file-buffers t)
 
 (setq-default show-trailing-whitespace nil)
-
-(defun seli/prog-mode-defaults ()
-  (setq-local indent-tabs-mode nil)
-  (display-fill-column-indicator-mode 0))
-
-(add-hook 'prog-mode-hook #'seli/prog-mode-defaults)
 
 (defun seli/save-all-buffers ()
   "Save modified file buffers without prompting."
@@ -289,14 +279,8 @@
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-height 22)
-  (doom-modeline-buffer-file-name-style 'relative-from-project)
+  (doom-modeline-buffer-file-name-style 'auto)
   (doom-modeline-icon t))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode))
 
 (use-package which-key
   :ensure nil
@@ -325,11 +309,8 @@
   (seli/apply-evil-cursor-shape)
   (define-key evil-normal-state-map (kbd "U") #'evil-redo)
   (define-key evil-normal-state-map (kbd "C-b") nil)
-  (define-key evil-normal-state-map (kbd "C-a") #'seli/increment-or-toggle-at-point)
-  (define-key evil-normal-state-map (kbd "C-x") #'seli/decrement-or-toggle-at-point)
-  (define-key evil-normal-state-map (kbd "K") #'eldoc-doc-buffer)
-  (define-key evil-normal-state-map (kbd "gd") #'xref-find-definitions)
-  (define-key evil-normal-state-map (kbd "gr") #'xref-find-references))
+  (define-key evil-normal-state-map (kbd "C-a") #'evil-numbers/inc-at-pt)
+  (define-key evil-normal-state-map (kbd "C-x") #'evil-numbers/dec-at-pt))
 
 (use-package evil-collection
   :after evil
@@ -348,26 +329,22 @@
 
   (seli/leader
     "SPC" '(execute-extended-command :which-key "M-x")
-    "a" '(eglot-code-actions :which-key "code action")
-    "r" '(eglot-rename :which-key "rename")
     "n" '(consult-focus-lines :which-key "hide non-matches")
     "f" '(seli/consult-fd-buffer-tab :which-key "find files")
     "/" '(consult-ripgrep :which-key "grep")
     "m" '(consult-mark :which-key "marks")
     "u" '(undo-redo :which-key "undo redo")
-    "d" '(:ignore t :which-key "diagnostics/debug")
-    "dd" '(consult-flymake :which-key "diagnostics")
-    "dc" '(seli/copy-current-diagnostic :which-key "copy diagnostic")
-    "s" '(consult-imenu :which-key "symbols")
-    "S" '(consult-eglot-symbols :which-key "workspace symbols")
-    "l" '(magit-status :which-key "magit")
-    "\\" '(seli/toggle-terminal :which-key "terminal")
+    "s" '(consult-imenu :which-key "outline")
+    "S" '(consult-org-heading :which-key "org headings")
     "tb" '(seli/toggle-theme :which-key "toggle theme")
-    "b" '(dape-breakpoint-toggle :which-key "toggle breakpoint")
-    "dr" '(dape-repl :which-key "debug repl")))
+    "o" '(:ignore t :which-key "org")
+    "ot" '(org-todo :which-key "todo state")
+    "oc" '(org-toggle-checkbox :which-key "toggle checkbox")
+    "ol" '(org-insert-link :which-key "insert link")
+    "oo" '(org-open-at-point :which-key "open link")
+    "oi" '(org-toggle-inline-images :which-key "toggle images")))
 
 (global-set-key (kbd "C-s") #'save-buffer)
-(global-set-key (kbd "C-\\") #'seli/toggle-terminal)
 
 ;;; Completion, search, and navigation
 
@@ -387,16 +364,13 @@
   :bind (("C-x b" . consult-buffer)
          ("M-y" . consult-yank-pop))
   :custom
-  (consult-fd-args "fd --color=never --hidden --exclude .git --exclude node_modules --exclude target --exclude .mooncakes")
-  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --hidden --glob !.git --glob !node_modules --glob !target --glob !.mooncakes"))
+  (consult-fd-args "fd --color=never --hidden --exclude .git")
+  (consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --hidden --glob !.git"))
 
 (defun seli/consult-fd-buffer-tab ()
   "Find files with `consult-fd', showing opened buffers in `tab-line-mode'."
   (interactive)
   (call-interactively #'consult-fd))
-
-(use-package consult-eglot
-  :after (consult eglot))
 
 (use-package corfu
   :hook (after-init . global-corfu-mode)
@@ -416,182 +390,55 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
-(use-package yasnippet
-  :hook (after-init . yas-global-mode))
+;;; Org mode
 
-(use-package yasnippet-snippets
-  :after yasnippet)
+(defun seli/org-mode-defaults ()
+  "Prose-friendly defaults for `org-mode' buffers."
+  (display-line-numbers-mode 0)
+  (setq-local truncate-lines nil))
 
-;;; Editing tools
-
-(use-package smartparens
-  :hook (prog-mode . smartparens-mode)
-  :config
-  (require 'smartparens-config))
-
-(use-package apheleia
-  :hook (after-init . apheleia-global-mode)
-  :config
-  (setf (alist-get 'stylua apheleia-formatters)
-        '("stylua" "--column-width" "100" "--indent-type" "Spaces" "--indent-width" "2"
-          "--quote-style" "AutoPreferDouble" "--collapse-simple-statement" "Always" "-"))
-  (setf (alist-get 'shfmt apheleia-formatters) '("shfmt" "-i" "2"))
-  (setf (alist-get 'rustic-mode apheleia-mode-alist) 'rustfmt)
-  (setf (alist-get 'rust-mode apheleia-mode-alist) 'rustfmt)
-  (setf (alist-get 'go-mode apheleia-mode-alist) 'gofmt)
-  (setf (alist-get 'lua-mode apheleia-mode-alist) 'stylua)
-  (setf (alist-get 'json-mode apheleia-mode-alist) 'biome)
-  (setf (alist-get 'js-json-mode apheleia-mode-alist) 'biome)
-  (setf (alist-get 'typescript-ts-mode apheleia-mode-alist) 'biome)
-  (setf (alist-get 'tsx-ts-mode apheleia-mode-alist) 'biome)
-  (setf (alist-get 'js-ts-mode apheleia-mode-alist) 'biome)
-  (setf (alist-get 'nix-mode apheleia-mode-alist) 'nixfmt)
-  (setf (alist-get 'toml-ts-mode apheleia-mode-alist) 'taplo)
-  (setf (alist-get 'sh-mode apheleia-mode-alist) 'shfmt)
-  (setf (alist-get 'c-mode apheleia-mode-alist) 'clang-format)
-  (setf (alist-get 'c++-mode apheleia-mode-alist) 'clang-format))
-
-(defun seli/toggle-comment ()
-  "Toggle comment on current line or active region."
-  (interactive)
-  (if (use-region-p)
-      (comment-or-uncomment-region (region-beginning) (region-end))
-    (comment-line 1)))
-
-(global-set-key (kbd "C-c") #'seli/toggle-comment)
-
-(defun seli/boolean-at-point ()
-  "Return bounds and replacement for boolean at point."
-  (let* ((bounds (bounds-of-thing-at-point 'symbol))
-         (word (and bounds (buffer-substring-no-properties (car bounds) (cdr bounds)))))
-    (cond
-     ((string= word "true") (list bounds "false"))
-     ((string= word "false") (list bounds "true"))
-     (t nil))))
-
-(defun seli/toggle-boolean-at-point ()
-  "Toggle true/false at point. Return non-nil when changed."
-  (when-let* ((pair (seli/boolean-at-point))
-              (bounds (car pair))
-              (replacement (cadr pair)))
-    (delete-region (car bounds) (cdr bounds))
-    (insert replacement)
-    t))
-
-(defun seli/increment-or-toggle-at-point ()
-  "Toggle boolean at point, otherwise increment number at point."
-  (interactive)
-  (unless (seli/toggle-boolean-at-point)
-    (evil-numbers/inc-at-pt 1)))
-
-(defun seli/decrement-or-toggle-at-point ()
-  "Toggle boolean at point, otherwise decrement number at point."
-  (interactive)
-  (unless (seli/toggle-boolean-at-point)
-    (evil-numbers/dec-at-pt 1)))
-
-;;; LSP, diagnostics, and language modes
-
-(use-package flymake
+(use-package org
   :ensure nil
-  :hook (prog-mode . flymake-mode)
+  :mode ("\\.org\\'" . org-mode)
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . seli/org-mode-defaults))
   :custom
-  (flymake-no-changes-timeout 0.8)
-  (flymake-show-diagnostics-at-end-of-line nil))
+  (org-directory "~/org")
+  (org-startup-indented t)
+  (org-startup-folded 'content)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(600))
+  (org-pretty-entities t)
+  (org-hide-emphasis-markers t)
+  (org-ellipsis " ▾")
+  (org-fontify-quote-and-verse-blocks t)
+  (org-return-follows-link t)
+  (org-insert-heading-respect-content t)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-auto-align-tags nil)
+  (org-tags-column 0))
 
-(use-package eglot
+;; `<q' TAB などのブロックテンプレート。
+(use-package org-tempo
   :ensure nil
-  :init
-  (dolist (hook '(rust-mode-hook rust-ts-mode-hook
-                  go-mode-hook go-ts-mode-hook
-                  c-mode-hook c-ts-mode-hook c++-mode-hook c++-ts-mode-hook
-                  python-mode-hook python-ts-mode-hook
-                  js-mode-hook js-ts-mode-hook typescript-ts-mode-hook tsx-ts-mode-hook
-                  css-mode-hook css-ts-mode-hook html-mode-hook
-                  lua-mode-hook
-                  zig-mode-hook
-                  markdown-mode-hook
-                  nix-mode-hook
-                  typst-ts-mode-hook
-                  web-mode-hook))
-    (add-hook hook #'eglot-ensure))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-events-buffer-size 0)
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  :after org
+  :demand t)
+
+(use-package evil-org
+  :after (evil org)
+  :hook (org-mode . evil-org-mode)
   :config
-  (add-to-list 'eglot-server-programs
-               '((rust-mode rust-ts-mode)
-                 . ("rust-analyzer" :initializationOptions
-                    (:cargo (:allFeatures t)
-                     :check (:command "clippy")
-                     :inlayHints (:typeHints (:enable t)
-                                  :parameterHints (:enable t)
-                                  :chainingHints (:enable t)
-                                  :lifetimeElisionHints (:enable t))))))
-  (add-to-list 'eglot-server-programs
-               '((js-mode js-ts-mode typescript-ts-mode tsx-ts-mode)
-                 . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '((c-mode c-ts-mode c++-mode c++-ts-mode) . ("clangd")))
-  (add-to-list 'eglot-server-programs
-               '((go-mode go-ts-mode) . ("gopls")))
-  (add-to-list 'eglot-server-programs
-               '(zig-mode . ("zls")))
-  (add-to-list 'eglot-server-programs
-               '(lua-mode . ("lua-language-server")))
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(nix-mode . ("nil")))
-  (add-to-list 'eglot-server-programs
-               '(typst-ts-mode . ("tinymist")))
-  (add-to-list 'eglot-server-programs
-               '(web-mode . ("astro-ls" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(markdown-mode . ("marksman")))
-  (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode))
+  (evil-org-set-key-theme '(navigation insert textobjects additional calendar)))
 
-(defun seli/copy-current-diagnostic ()
-  "Copy first Flymake diagnostic on the current line with source context."
-  (interactive)
-  (let* ((line (line-number-at-pos))
-         (line-start (line-beginning-position))
-         (line-end (line-end-position))
-         (diag (seq-find
-                (lambda (d)
-                  (and (<= (flymake-diagnostic-beg d) line-end)
-                       (>= (flymake-diagnostic-end d) line-start)))
-                (flymake-diagnostics line-start line-end))))
-    (if (not diag)
-        (message "No diagnostics found on current line.")
-      (let* ((beg-line (max 1 (- line 3)))
-             (end-line (+ line 3))
-             (context (buffer-substring-no-properties
-                       (save-excursion (goto-char (point-min)) (forward-line (1- beg-line)) (point))
-                       (save-excursion (goto-char (point-min)) (forward-line end-line) (point))))
-             (text (format "%s: %s at %d\n%s"
-                           (flymake-diagnostic-type diag)
-                           (flymake-diagnostic-text diag)
-                           line
-                           context)))
-        (kill-new text)
-        (message "Diagnostic copied to clipboard.")))))
+(use-package org-modern
+  :hook (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star 'replace)
+  (org-modern-hide-stars nil)
+  (org-modern-table t)
+  (org-modern-list '((?+ . "◦") (?- . "–") (?* . "•"))))
 
-(use-package markdown-mode)
-(use-package nix-mode)
-(use-package lua-mode)
-(use-package go-mode)
-(use-package rust-mode)
-(use-package zig-mode)
-(use-package json-mode)
-(use-package toml-ts-mode
-  :ensure nil
-  :mode "\\.toml\\'")
-(use-package typst-ts-mode
-  :mode "\\.typ\\'")
-(use-package web-mode
-  :mode "\\.astro\\'")
+;;; Files
 
 (use-package dired
   :ensure nil
@@ -606,67 +453,6 @@
       (kbd "h") #'dired-up-directory
       (kbd "^") #'dired-up-directory
       (kbd "q") #'quit-window)))
-
-(add-to-list 'auto-mode-alist '("\\.mbt\\'" . prog-mode))
-
-;;; Git
-
-(use-package magit
-  :commands (magit-status magit-blame-addition))
-
-(use-package diff-hl
-  :hook ((prog-mode text-mode conf-mode) . diff-hl-mode)
-  :config
-  (diff-hl-flydiff-mode 1))
-
-;;; Terminal and debug
-
-(use-package eat
-  :commands (eat eat-make)
-  :config
-  (define-key eat-mode-map (kbd "C-\\") #'seli/toggle-terminal)
-  (when (boundp 'eat-semi-char-mode-map)
-    (define-key eat-semi-char-mode-map (kbd "C-\\") #'seli/toggle-terminal))
-  (when (boundp 'eat-char-mode-map)
-    (define-key eat-char-mode-map (kbd "C-\\") #'seli/toggle-terminal)))
-
-(defvar seli/terminal-buffer-name "*terminal*")
-(defconst seli/terminal-window-height 0.3)
-
-(defun seli/project-root-or-default-directory ()
-  "Return project root when available, otherwise `default-directory'."
-  (let ((project (project-current nil)))
-    (if project (project-root project) default-directory)))
-
-(defun seli/get-or-create-terminal-buffer ()
-  "Return the dedicated terminal buffer, creating it when needed."
-  (let* ((default-directory (seli/project-root-or-default-directory))
-         (buffer (get-buffer seli/terminal-buffer-name))
-         (process (and buffer (get-buffer-process buffer))))
-    (if (and process (process-live-p process))
-        buffer
-      (eat-make "terminal" (or explicit-shell-file-name shell-file-name)))))
-
-(defun seli/toggle-terminal ()
-  "Toggle the dedicated terminal side window."
-  (interactive)
-  (let* ((buf (seli/get-or-create-terminal-buffer))
-         (win (get-buffer-window buf t)))
-    (if (and buf (get-buffer-window buf))
-        (delete-window win)
-      (select-window
-       (display-buffer-in-side-window
-        buf
-        `((side . bottom)
-          (slot . 0)
-          (window-height . ,seli/terminal-window-height)
-          (preserve-size . (nil . t))
-          (dedicated . t)))))))
-
-(use-package dape
-  :commands (dape dape-breakpoint-toggle dape-repl)
-  :config
-  (setq dape-buffer-window-arrangement 'right))
 
 ;;; Final local customizations
 
