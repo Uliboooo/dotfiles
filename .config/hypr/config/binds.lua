@@ -64,9 +64,6 @@ hl.bind("SUPER + SHIFT + L", hl.dsp.window.swap({ direction = "right" }))
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
-hl.bind("ALT + J", hl.dsp.exec_cmd("wlrctl pointer scroll 120 0"), { repeating = true })
-hl.bind("ALT + K", hl.dsp.exec_cmd("wlrctl pointer scroll -120 0"), { repeating = true })
-
 -- resize: niri-style toggle, cycles column width through 1/4, 1/3, 1/2 (see scrolling.explicit_column_widths)
 -- hl.bind("SUPER + R", hl.dsp.layout("colresize +conf"))
 -- hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl keyword general:layout equalcolumns"))
@@ -171,6 +168,8 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+-- hl.bind("ALT + J", hl.dsp.exec_cmd(""), { repeating = true })
+hl.bind("ALT + K", hl.dsp.exec_cmd("playerctl play-pause"))
 
 -- lid の開閉は logind に一本化した (hosts/desktop/configuration.nix の
 -- HandleLidSwitch* を参照)。かつてここから叩いていた handle_lid.sh は

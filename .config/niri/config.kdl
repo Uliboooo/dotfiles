@@ -306,10 +306,6 @@ binds {
     Super+R { switch-preset-column-width; }
     Super+Shift+R { switch-preset-column-width-back; }
 
-    // horizontal scroll (match hypr Alt+J/K)
-    Alt+J repeat=true { spawn-sh "wlrctl pointer scroll 120 0"; }
-    Alt+K repeat=true { spawn-sh "wlrctl pointer scroll -120 0"; }
-
     // --- screenshots (native niri) ---
     Print repeat=false { screenshot-window; }
     Super+P repeat=false { screenshot-window; }
@@ -355,6 +351,11 @@ binds {
     XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
     XF86Favorites allow-when-locked=true { spawn "playerctl" "play-pause"; }
+
+    // horizontal scroll (match hypr Alt+J/K)
+    Alt+J repeat=true { spawn "playerctl" "previous"; }
+    Alt+K repeat=true { spawn "playerctl" "play-pause"; }
+    Alt+L repeat=true { spawn "playerctl" "next"; }
 
     Super+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 }
