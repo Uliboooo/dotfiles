@@ -285,6 +285,10 @@ in
         source = mkConfigLink "yazi";
         recursive = false;
       };
+      "vim" = {
+        source = mkConfigLink "vim";
+        recursive = false;
+      };
       "nix" = {
         source = mkConfigLink "nix";
         recursive = false;
