@@ -4,14 +4,15 @@ vim.keymap.set("i", "<C-h>", "<Left>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-l>", "<Right>")
+vim.keymap.set("i", "<C-i>", "<Esc>")
 vim.keymap.set({ "n", "i", "v" }, "<C-n>", "<Esc><Cmd>tabnew<CR>")
+vim.keymap.set("i", "jj", "<Esc>", { silent = true })
 
 vim.keymap.set("n", "<Leader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
 vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, { desc = "lsp rename" })
 vim.keymap.set("n", "<Leader>n", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "U", "<C-r>", { noremap = true, desc = "Redo" })
 vim.keymap.set("n", "<C-b>", "<Nop>", { noremap = true })
-vim.keymap.set("i", "jj", "<Esc>", { silent = true })
 vim.keymap.set(
   "n",
   "eh",
