@@ -65,6 +65,7 @@ else
     set -gx CC clang
     set -gx CXX clang++
     set -gx LD lld
+    set -gx ZIGGITY_CONFIG "$HOME/.config/ziggity/config.ini"
     # npm
     fish_add_path -g $HOME/.npm-global/bin
     fish_add_path -g $HOME/.cache/.bun/bin
@@ -170,26 +171,27 @@ end
 abbr -a l 'eza --icons=always -l'
 abbr -a lss 'ls -l'
 abbr -a ls 'eza --icons=always -l'
-abbr -a glist '/bin/ls'
+abbr -a glist /bin/ls
 abbr -a printimg 'chafa -f kitty'
-abbr -a cow 'cowsay'
-abbr -a mi 'mediainfo'
-abbr -a nv 'nvim'
+abbr -a cow cowsay
+abbr -a mi mediainfo
+abbr -a nv nvim
 abbr -a n 'nvim .'
 abbr -a e 'emacs -nw .'
-abbr -a nnv 'nightly_nvim'
+abbr -a nnv nightly_nvim
 abbr -a nnvd 'nightly_nvim .'
 abbr -a tl 'tmux ls'
 abbr -a tmr 'tmux kill-session -t'
 abbr -a rtss 'rts -cli | jq -r ".list[] | \"title: \\(.title)\\nlink: \\(.link)\\n\""'
 abbr -a rg 'rg --hidden'
-abbr -a fd 'fd'
-abbr -a t 'touch'
-abbr -a mk 'mkdir'
+abbr -a fd fd
+abbr -a t touch
+abbr -a mk mkdir
 
-abbr -a lg 'lazygit'
+abbr -a lg lazygit
+abbr -a z ziggity
 
-abbr -a y 'yazi'
+abbr -a y yazi
 
 abbr -a hxd 'hx .'
 abbr -a h 'hx .'
@@ -197,10 +199,10 @@ abbr -a w '$EDITOR ~/work.md'
 
 abbr -a update 'yay -Syu --noconfirm'
 
-abbr -a :q 'exit'
-abbr -a :Q 'exit'
-abbr -a :wq 'exit'
-abbr -a :Wq 'exit'
+abbr -a :q exit
+abbr -a :Q exit
+abbr -a :wq exit
+abbr -a :Wq exit
 
 abbr -a reboot 'systemctl reboot'
 
@@ -229,7 +231,7 @@ function distro
     if test -f /etc/os-release
         grep '^NAME=' /etc/os-release | sed 's/NAME=//; s/"//g'
     else
-        echo "Unknown"
+        echo Unknown
     end
 end
 

@@ -315,6 +315,10 @@ in
         source = mkConfigLink "btop";
         recursive = false;
       };
+      "ziggity" = {
+        source = mkConfigLink "ziggity";
+        recursive = false;
+      };
     }
     // pkgs.lib.optionalAttrs isLinux {
       # Linux-only xdg configs (Wayland/Hyprland)
