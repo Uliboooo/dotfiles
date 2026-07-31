@@ -1,7 +1,7 @@
 # Empty values reset the configuration to the default value
 font-family = "Monaspace Radon Var"
 # font-family = "Cica"
-font-size = 12
+font-size = 13
 
 # font-feature = "-calt,-liga,-dlig"
 cursor-opacity = 0.2
@@ -13,8 +13,8 @@ window-width = 200
 # background-image-opacity = 1.5
 background-image-fit = cover
 
-background-opacity = 0.92
-background-blur-radius = 8
+background-opacity = 0.4
+background-blur-radius = 18
 
 #  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
 #   ║  ╠═╣ ║╣  ║║║ ║╣
@@ -23,6 +23,8 @@ background-blur-radius = 8
 # theme = catppuccin-macchiato
 # theme = catppuccin-mocha
 theme = rose-pine-moon
+# 透過背景でも埋もれにくい、明るい白寄りの文字色。
+foreground = #ffffff
 
 window-theme = dark
 
@@ -56,4 +58,3 @@ term=xterm-256color
 notify-on-command-finish = unfocused
 notify-on-command-finish-action = bell,notify
 notify-on-command-finish-after = 5s
-
