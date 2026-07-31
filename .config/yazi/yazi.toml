@@ -18,16 +18,24 @@ prepend_previewers = [{ url = "*.wav", run = "wav-transcribe" }]
 [opener]
 pdf = [
   { run = 'zathura "$@"', orphan = true, desc = "Zathura" },
-  { run = 'flatpak run com.google.Chrome "$@"', orphan = true, desc = "Google Chrome" },
+  { run = 'chromium "$@"', orphan = true, desc = "Chromium" },
+  { run = 'firefox "$@"', orphan = true, desc = "Firefox" },
 ]
 
 image = [
   { run = 'loupe "$@"', orphan = true, desc = "loupe" },
-  { run = 'flatpak run com.google.Chrome "$@"', orphan = true, desc = "Google Chrome" },
+  { run = 'chromium "$@"', orphan = true, desc = "Chromium" },
+]
+
+html = [
+  { run = 'chromium "$@"', orphan = true, desc = "Chromium" },
+  { run = 'firefox "$@"', orphan = true, desc = "Firefox" },
 ]
 
 [open]
 prepend_rules = [
   { mime = "application/pdf", use = "pdf" },
   { mime = "image/*", use = "image" },
+  { mime = "text/html", use = "html" },
+  { url = "*.html", use = "html" },
 ]
