@@ -36,10 +36,10 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-    shojiwm = {
-      url = "github:bea4dev/ShojiWM";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # shojiwm = {
+    #   url = "github:bea4dev/ShojiWM";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     hyprpanopticon = {
       url = "github:Uliboooo/hyprPanopticon";
@@ -119,16 +119,16 @@
             home-manager.users.seli = import ./home/seli.nix;
           }
 
-          inputs.shojiwm.nixosModules.default
-          {
-            programs.shojiwm = {
-              enable = true;
-              initConfig = {
-                enable = true;
-                users = [ "seli" ];
-              };
-            };
-          }
+          # inputs.shojiwm.nixosModules.default
+          # {
+          #   programs.shojiwm = {
+          #     enable = true;
+          #     initConfig = {
+          #       enable = true;
+          #       users = [ "seli" ];
+          #     };
+          #   };
+          # }
         ];
       };
 
