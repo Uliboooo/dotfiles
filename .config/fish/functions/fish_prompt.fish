@@ -55,11 +55,15 @@ function fish_prompt
     end
 
     # fish 独自: 5 秒を超えたコマンドの実行時間
-    # 120 秒を超えたら分表示 (例: 2m30s)
+    # 120 秒を超えたら分表示 (例: 2m30s)、120 分を超えたら時間表示 (例: 2h5m)
     if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt 5000
         set -l secs (math -s0 $CMD_DURATION / 1000)
-        if test $secs -gt 120
-            set -l mins (math -s0 $secs / 60)
+        set -l mins (math -s0 $secs / 60)
+        if test $mins -gt 120
+            set -l hours (math -s0 $mins / 60)
+            set -l remmins (math -s0 $mins % 60)
+            echo -n -s $yellow " (" $hours "h" $remmins "m)" $normal
+        else if test $secs -gt 120
             set -l rem (math -s0 $secs % 60)
             echo -n -s $yellow " (" $mins "m" $rem "s)" $normal
         else
