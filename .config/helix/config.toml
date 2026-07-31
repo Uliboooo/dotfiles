@@ -74,6 +74,11 @@ C-r = ":reload"
 [keys.normal.g]
 g = "goto_file_start"
 c = "toggle_comments"
+t = "goto_next_buffer"
+T = "goto_previous_buffer"
+
+[keys.normal.Z]
+Z = ":wqa"
 
 [keys.select]
 y = [":pipe-to tmux load-buffder -", "yank"]
@@ -81,3 +86,6 @@ y = [":pipe-to tmux load-buffder -", "yank"]
 
 [keys.insert]
 C-r = ":reload"
+
+[keys.insert.j]
+j = "normal_mode"
