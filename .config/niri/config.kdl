@@ -225,7 +225,7 @@ binds {
 
     // --- apps (match hypr binds.lua) ---
     Super+Q repeat=false { close-window; }
-    Super+T { spawn "kitty"; }
+    Super+T { spawn "ghostty"; }
     Super+M { quit; }
     Super+E { spawn "kitty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }

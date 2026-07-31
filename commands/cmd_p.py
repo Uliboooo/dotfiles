@@ -15,15 +15,15 @@ script = home + "/dotfiles/script/"
 slide_dev = home + "/Develop/linux_slide/"
 
 cmds = {
-    "󰸉 Toggle WP slideshow":              ["bash", script + "wallpaper_toggle.sh", "pse"],
-    "󰔎 Toggle theme L-D":                 ["bash", script + "toggle_theme.sh"],
-    " Random WP":                        ["wlmstr", "next", "rnd"],
-    "󰴰 Change to pub WP":                 ["bash", script + "safe_wallpaper.sh"],
-    " Show status of WP slide":          ["bash", script + "status_of_slide.sh"],
-    "󱎐 Launch white in kitty":            ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
-    "󰹑 Screenshot active monitor":        ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
-    "󱂬 Screenshot active window":         ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
-    "󰑓 Reload Hyprland config":           ["hyprctl", "reload"],
+    "󰸉 Turn on wallpaper cycle":      ["bash", script + "wallpaper_cycle_helper.sh", "enable"],
+    "󰸉 Turn off wallpaper cycle":     ["bash", script + "wallpaper_cycle_helper.sh", "disable"],
+    "󰔎 Toggle theme light-dark":      ["bash", script + "toggle_theme.sh"],
+    "󰸉 Random wallpaper":             ["wlmstr", "next", "rnd"],
+    "󰸉 Status of wallpaper cycle":    ["bash", script + "status_of_slide.sh"],
+    "󱎐 Launch white in kitty":        ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
+    "󰹑 Screenshot active monitor":    ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
+    "󱂬 Screenshot active window":     ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
+    "󰑓 Reload Hyprland config":       ["hyprctl", "reload"],
 }
 
 general_cmd_p.pa(cmds)
