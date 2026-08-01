@@ -15,11 +15,34 @@
 
   networking.hostName = "selitank";
   networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "none";
+
+  # DNS は systemd-resolved に一本化する。dns = "none" のままだと tailscaled が
+  # resolv.conf を「直接書き換えて良い」と判断し (direct manager)、Tailscale 起動中は
+  # /etc/resolv.conf が nameserver 100.100.100.100 だけに置き換わって下の 1.1.1.1 が
+  # 完全に無視される。resolved を挟むと tailscaled は D-Bus (SetLinkDNS/SetLinkDomains)
+  # 経由で tailscale0 リンクにだけ 100.100.100.100 と ~<tailnet>.ts.net を登録するので、
+  # MagicDNS は効いたままグローバルな解決先は 1.1.1.1 に残る。
+  #
+  # 前提: 管理コンソールの DNS → "Override local DNS" は無効のままにすること。有効だと
+  # tailscaled が tailscale0 に ~. (デフォルトルート) を張り、結局全クエリが MagicDNS に
+  # 吸われる。
+  networking.networkmanager.dns = "systemd-resolved";
+  services.resolved.enable = true;
+
+  # resolved の DNS= になる (services.resolved.settings.Resolve.DNS の既定値)。
   networking.nameservers = [
     "1.1.1.1"
     "1.0.0.1"
   ];
+
+  # DHCP が配ってくる DNS を NetworkManager がリンク単位で resolved に push すると、
+  # そちらが上の DNS= より優先されて 1.1.1.1 に来なくなる。全接続で既定 off にして
+  # dns = "none" 時代の「常に 1.1.1.1」という挙動を維持する。
+  # 副作用としてルータのローカル名前解決 (foo.local 等) は引けないが、これは従来と同じ。
+  networking.networkmanager.connectionConfig = {
+    "ipv4.ignore-auto-dns" = true;
+    "ipv6.ignore-auto-dns" = true;
+  };
   virtualisation.libvirtd = {
     enable = true;
     onBoot = "start";

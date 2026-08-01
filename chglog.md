@@ -12,6 +12,9 @@
 - [chglog/login.md](chglog/login.md) — greetd + ReGreet / PAM / gnome-keyring。
   GDM と tuigreet は却下済み。キーリング解錠が SSH に効く。
   マルチモニタ時の greeter の位置は cage の `-m` 次第(コンポジタの output 設定は無関係)
+- [chglog/network.md](chglog/network.md) — DNS / systemd-resolved / Tailscale。
+  `networking.nameservers` だけでは Tailscale 起動中に効かない。
+  MagicDNS と 1.1.1.1 の両立は resolved を挟んで split DNS にする
 - [chglog/wayland.md](chglog/wayland.md) — クリップボードと D&D。
   端末アプリからブラウザへの D&D は原理的に不可、クリップボード経由で渡す
 
