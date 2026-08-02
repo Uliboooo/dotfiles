@@ -94,6 +94,7 @@ let
     codex
     # tirith
     claude-code
+    opencode
     obsidian
     spotify
   ];
@@ -105,7 +106,7 @@ let
     clang
     llvm
     lld
-    # macOS 版は NetworkExtension の entitlement が要るため App 版を使う。
+    prismlauncher
     tailscale
   ];
 

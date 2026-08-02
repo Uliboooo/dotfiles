@@ -88,10 +88,13 @@
 
   # nixbuild.net remote builder. The nix-daemon runs as root, so the key must be
   # passphrase-less and reachable from root's ssh config (/etc/ssh/ssh_config).
+  # A dropped connection while copying results back is reported as a build
+  # failure, so keep the keepalive tolerant of brief network hiccups.
   programs.ssh.extraConfig = ''
     Host eu.nixbuild.net
       PubkeyAcceptedKeyTypes ssh-ed25519
       ServerAliveInterval 60
+      ServerAliveCountMax 15
       IdentityFile /home/seli/.ssh/nixbuild
   '';
 
@@ -115,7 +118,11 @@
   # Let nixbuild.net fetch dependencies from cache.nixos.org itself instead of
   # uploading them from this machine.
   nix.settings.builders-use-substitutes = true;
-
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", \
+      ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0a70", \
+      MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+  '';
   # LUKS devices
   # boot.initrd.luks.devices = {
   # Swap partition

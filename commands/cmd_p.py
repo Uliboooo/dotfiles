@@ -17,13 +17,10 @@ slide_dev = home + "/Develop/linux_slide/"
 cmds = {
     "󰸉 Turn on wallpaper cycle":      ["bash", script + "wallpaper_cycle_helper.sh", "enable"],
     "󰸉 Turn off wallpaper cycle":     ["bash", script + "wallpaper_cycle_helper.sh", "disable"],
+    "󰸉 Status of wallpaper cycle":    ["bash", script + "wallpaper_cycle_helper.sh", "status"],
     "󰔎 Toggle theme light-dark":      ["bash", script + "toggle_theme.sh"],
     "󰸉 Random wallpaper":             ["wlmstr", "next", "rnd"],
-    "󰸉 Status of wallpaper cycle":    ["bash", script + "status_of_slide.sh"],
     "󱎐 Launch white in kitty":        ["kitty", "--config", home + "/dotfiles/.config/kitty/light.conf"],
-    "󰹑 Screenshot active monitor":    ["hyprshot", "-m", "output", "-m", "active", "--freeze"],
-    "󱂬 Screenshot active window":     ["hyprshot", "-m", "window", "-m", "active", "--freeze"],
-    "󰑓 Reload Hyprland config":       ["hyprctl", "reload"],
 }
 
 general_cmd_p.pa(cmds)

@@ -7,23 +7,10 @@ font-size = 12
 cursor-opacity = 0.2
 cursor-style = bar
 
-window-height = 100
-window-width = 200
-
-# background-image-opacity = 1.5
-background-image-fit = cover
-
 background-opacity = 0.5
 background-blur-radius = 40
 
-#  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
-#   ║  ╠═╣ ║╣  ║║║ ║╣
-#   ╩  ╩ ╩ ╚═╝ ╩ ╩ ╚═╝
-# theme = catppuccin-frappe
-# theme = catppuccin-macchiato
-# theme = catppuccin-mocha
 theme = rose-pine-moon
-# 透過背景でも埋もれにくい、明るい白寄りの文字色。
 foreground = #ffffff
 
 window-theme = dark
@@ -37,16 +24,23 @@ quick-terminal-animation-duration = 0.3
 keybind = "global:option+shift+t=toggle_quick_terminal"
 
 # split term
-keybind = ctrl+shift+down=new_split:down
-keybind = ctrl+shift+right=new_split:right
-keybind = ctrl+shift+up=new_split:up
-keybind = ctrl+shift+left=new_split:left
+keybind = ctrl+shift+w=close_surface
+
+keybind = ctrl+shift+j=new_split:down
+keybind = ctrl+shift+l=new_split:right
+keybind = ctrl+shift+k=new_split:up
+keybind = ctrl+shift+h=new_split:left
 
 # move splited term
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+l=goto_split:right
 keybind = ctrl+j=goto_split:bottom
 keybind = ctrl+k=goto_split:top
+
+keybind = ctrl+[=resize_split:left,10
+keybind = ctrl+]=resize_split:right,10
+keybind = ctrl+up=resize_split:up,10
+keybind = ctrl+down=resize_split:down,10
 
 # disable toggle fullscreen
 keybind = super+enter=unbind

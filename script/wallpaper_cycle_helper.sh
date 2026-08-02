@@ -2,15 +2,12 @@
 
 disable() {
   systemctl --user stop cycle_wallpaper.timer &&
-    systemctl --user mask cycle_wallpaper.timer &&
     notify-send "wallpaper cycle disabled." -a "wch"
 }
 
 enable() {
-  systemctl --user unmask cycle_wallpaper.timer &&
-    systemctl --user start cycle_wallpaper.timer &&
+  systemctl --user start cycle_wallpaper.timer &&
     notify-send "wallpaper cycle enabled." -a "wch"
-
 }
 
 case "$1" in
@@ -21,14 +18,30 @@ enable)
   enable
   ;;
 toggle)
-  if systemctl is-enabled --quiet cycle_wallpaper.timer; then
+  if systemctl --user is-active --quiet cycle_wallpaper.timer; then
     disable
   else
     enable
   fi
   ;;
 status)
-  notify-send $(systemctl --user status cycle_wallpaper.timer)
+  if systemctl --user is-active --quiet cycle_wallpaper.timer; then
+
+    res=$(
+      wlmstr status json |
+        jq -r '
+      ["status:", "cycle is active"],
+      ["current:", (.paper_path | split("/") | last)],
+      ["next:", (.next_path | split("/") | last)]
+      | @tsv
+    ' |
+        column -t -s $'\t'
+    )
+  else
+    res="cycle is not active"
+  fi
+
+  notify-send "$res"
   ;;
 *)
   echo "unkown. support only enable, disable, status or toggle"

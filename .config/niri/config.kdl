@@ -230,8 +230,11 @@ binds {
     Super+E { spawn "kitty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
     Super+D { spawn "rofi" "-show" "drun"; }
+    Super+shift+D { spawn-sh "$HOME/dotfiles/script/niri_views.sh"; }
+    // Super+Shift+E { spawn-sh "$HOME/dotfiles/commands/logout.py"; }
     Super+Shift+F { fullscreen-window; }
     Super+O repeat=false { toggle-overview; }
+    Super+C { spawn-sh "swaync-client --toggle-panel"; }
 
     // maximize: Shift+F fills the column width (keeps gaps/border),
     // Ctrl+F expands the window edge-to-edge (no gaps/border)
@@ -327,6 +330,7 @@ binds {
     // --- wallpapers ---
     Super+W { spawn "wlmstr" "next" "seq"; }
     Super+Shift+W { spawn "wlmstr" "next" "pre"; }
+    Alt+W {spawn-sh "$HOME/dotfiles/script/wallpaper_selcetor.sh $HOME/Pictures/wallpapers"; }
 
     // --- media / brightness ---
     XF86AudioRaiseVolume allow-when-locked=true repeat=true {
@@ -356,6 +360,8 @@ binds {
     Alt+J repeat=true { spawn "playerctl" "previous"; }
     Alt+K repeat=true { spawn "playerctl" "play-pause"; }
     Alt+L repeat=true { spawn "playerctl" "next"; }
+    Alt+Equal repeat=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"; }
+    Alt+Minus repeat=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"; }
 
     Super+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 }

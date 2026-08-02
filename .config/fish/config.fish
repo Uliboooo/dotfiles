@@ -31,6 +31,7 @@ fish_add_path -g $HOME/Library/Android/sdk/platform-tools
 fish_add_path -g $HOME/my_tools/bin $HOME/my_apps/bin
 # Moonbit
 fish_add_path -g $HOME/.moon/bin
+fish_add_path -g $HOME/.brass/bin
 # copilot
 fish_add_path -g $HOME/.local/bin
 # go bin
@@ -86,7 +87,7 @@ set -gx QT_IM_MODULE fcitx
 set -gx XMODIFIERS @im=fcitx
 set -gx HYPRSHOT_DIR "$HOME/Desktop/"
 
-set -gx EDITOR nvim
+set -gx EDITOR hx
 # SSH_ASKPASS_REQUIRE / SSH_ASKPASS はここで設定しないこと。
 # GDM は niri-session をログインシェル (fish -c) 経由で起動するため、
 # ここでの set -gx が niri-session の `systemctl --user import-environment` で

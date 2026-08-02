@@ -1,9 +1,11 @@
 hl.bind("SUPER + Q", hl.dsp.window.close())
-hl.bind("SUPER + T", hl.dsp.exec_cmd("kitty"))
+hl.bind("SUPER + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind("SUPER + M", hl.dsp.exit(), { locked = true })
 hl.bind("SUPER + E", hl.dsp.exec_cmd("EDITOR=nvim kitty -e yazi ."))
 hl.bind("SUPER + V", hl.dsp.window.float())
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi -show drun"))
+hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("~/dotfiles/script/hypr_views.sh"))
+hl.bind("SUPER + C", hl.dsp.exec_cmd("swaync-client --toggle-panel"))
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("hyprpanopticon"))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ "fullscreen", "toggele" }))
 hl.bind("SUPER + SHIFT + J", hl.dsp.layout("togglesplit"))
@@ -129,7 +131,7 @@ hl.bind(
 -- wallpapers
 hl.bind("SUPER + W", hl.dsp.exec_cmd("wlmstr next seq"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("wlmstr next pre"))
--- hl.bind("ALT + W", hl.dsp.exec_cmd("wlmstr status"))
+hl.bind("ALT + W", hl.dsp.exec_cmd("~/dotfiles/script/wallpaper_selcetor.sh ~/Pictures/wallpapers"))
 
 -- control Volume and brightness
 hl.bind(
@@ -168,8 +170,14 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86Favorites", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
--- hl.bind("ALT + J", hl.dsp.exec_cmd(""), { repeating = true })
-hl.bind("ALT + K", hl.dsp.exec_cmd("playerctl play-pause"))
+-- playerctl with Alt+J/K/L (match niri config.kdl)
+hl.bind("ALT + J", hl.dsp.exec_cmd("playerctl previous"), { repeating = true })
+hl.bind("ALT + K", hl.dsp.exec_cmd("playerctl play-pause"), { repeating = true })
+hl.bind("ALT + L", hl.dsp.exec_cmd("playerctl next"), { repeating = true })
+
+-- volume with Alt+= / Alt+- (match niri config.kdl)
+hl.bind("ALT + equal", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"), { repeating = true })
+hl.bind("ALT + minus", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"), { repeating = true })
 
 -- lid の開閉は logind に一本化した (hosts/desktop/configuration.nix の
 -- HandleLidSwitch* を参照)。かつてここから叩いていた handle_lid.sh は
