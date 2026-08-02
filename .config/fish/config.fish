@@ -318,6 +318,8 @@ abbr -a mh 'moon check'
 abbr -a gb 'gleam build'
 abbr -a gr 'gleam run'
 
+abbr -a oc 'opencode'
+
 # ╔╗╔ ╦ ═╗ ╦
 # ║║║ ║ ╔╩╦╝
 # ╝╚╝ ╩ ╩ ╚═

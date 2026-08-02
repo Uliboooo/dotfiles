@@ -320,6 +320,10 @@ in
         source = mkConfigLink "ziggity";
         recursive = false;
       };
+      "opencode" = {
+        source = mkConfigLink "opencode";
+        recursive = false;
+      };
     }
     // pkgs.lib.optionalAttrs isLinux {
       # Linux-only xdg configs (Wayland/Hyprland)
