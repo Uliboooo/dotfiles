@@ -23,6 +23,19 @@ formatter = { command = "nixfmt" }
 auto-format = true
 
 [[language]]
+name = "lua"
+formatter = { command = "stylua", args = [
+  "--column-width", "100",
+  "--indent-type", "Spaces",
+  "--indent-width", "2",
+  "--quote-style", "AutoPreferDouble",
+  "--collapse-simple-statement", "Always",
+  "--stdin-filepath", "%{buffer_name}",
+  "-",
+] }
+auto-format = true
+
+[[language]]
 name = "astro"
 file-types = ["astro"]
 roots = ["package.json", "astro.config.mjs"]

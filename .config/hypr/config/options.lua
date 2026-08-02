@@ -69,4 +69,8 @@ hl.config({
       scroll_factor = 0.5,
     },
   },
+
+  binds = {
+    window_direction_monitor_fallback = false,
+  },
 })
