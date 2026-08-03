@@ -45,6 +45,11 @@
       url = "github:Uliboooo/hyprPanopticon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur = {
+      url = "github:charmbracelet/nur";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

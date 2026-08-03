@@ -215,6 +215,8 @@ in
       enable = true;
       nix-direnv.enable = true;
     };
+    programs.crush.enable = true;
+
     programs.tmux = {
       enable = true;
       package = pkgs.tmux;
