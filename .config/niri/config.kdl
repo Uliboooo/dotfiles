@@ -295,6 +295,8 @@ binds {
     Super+Shift+9 { move-window-to-workspace 9; }
     Super+Shift+0 { move-window-to-workspace 10; }
 
+    Super+Shift+M { spawn-sh "$HOME/dotfiles/script/move_to_display.sh"; }
+    
     // --- swap / layout ---
     Super+Shift+H { swap-window-left; }
     Super+Shift+L { swap-window-right; }
