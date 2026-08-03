@@ -99,7 +99,7 @@ input {
 output "eDP-1" {
     mode "1920x1200"
     scale 1
-    position x=320 y=1440
+    position x=-1920 y=420
 }
 
 output "DP-1" {
@@ -231,7 +231,7 @@ binds {
     Super+V { toggle-window-floating; }
     Super+D { spawn "rofi" "-show" "drun"; }
     Super+shift+D { spawn-sh "$HOME/dotfiles/script/niri_views.sh"; }
-    // Super+Shift+E { spawn-sh "$HOME/dotfiles/commands/logout.py"; }
+    // Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
     Super+Shift+F { fullscreen-window; }
     Super+O repeat=false { toggle-overview; }
     Super+C { spawn-sh "swaync-client --toggle-panel"; }
@@ -318,8 +318,8 @@ binds {
     Super+Print repeat=false { screenshot-screen; }
 
     // --- utilities ---
-    Super+Shift+P { spawn-sh "$HOME/dotfiles/commands/cmd_p.py"; }
-    Super+Shift+E { spawn-sh "$HOME/dotfiles/commands/logout.py"; }
+    Super+Shift+P { spawn-sh "$HOME/dotfiles/script/cmd_p.py"; }
+    Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
 
     // Delete 長押し = ロックボタン（hypr の binds.lua と同じ）。keyd が 500ms
     // 長押しで KEY_SCREENLOCK を送ってくる (modules/desktop.nix)。実際のロックは

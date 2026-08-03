@@ -113,10 +113,10 @@ hl.bind(
 )
 
 -- command pallete
-hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/commands/cmd_p.py"))
+hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/script/cmd_p.py"))
 
 -- Immediately lock
-hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/commands/logout.py"))
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/script/logout.py"))
 
 -- Delete 長押し = ロックボタン。keyd が 500ms 長押しで KEY_SCREENLOCK を送って
 -- くる (modules/desktop.nix)。ロック自体は hypridle の lock_cmd に任せる。
