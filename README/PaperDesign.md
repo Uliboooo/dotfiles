@@ -153,30 +153,16 @@ SwayNC は黒い media card や album-art blur が入りやすいので、標準
 
 MPRIS は特に黒い overlay が残りやすいので、通知と同じ紙面・罫線に揃えます。アルバムアートを装飾背景として使うより、情報カードとして読めることを優先します。
 
-## greetd (ReGreet)
+## ログイン画面 (対象外)
 
-対象ファイル:
+ログイン画面は **Paper Design の対象外**です。2026-08-04 に greeter を greetd + ReGreet
+から GDM に戻したため、見た目は GNOME の Adwaita 固定になります。GDM の greeter は
+gnome-shell そのもので、テーマを差し替える口が `extraCss` のような形では無く、
+ここで規約を持っても実装できません。
 
-- `.config/greetd/regreet.css`
-- `modules/desktop.nix`
-
-ログイン画面も紙面として扱います。greeter は tuigreet ではなく ReGreet (cage 上の GTK4) を使います。tuigreet は Linux VT 上で動くため 24bit カラーが 16 色に落ち、`paper` / `ink` / `rose` を再現できません。
-
-方針:
-
-- 背景画像は敷かない。`[background]` を書かず、`window` / `picture` を `paper` の一色にする。
-- ログインカードと時計は `frame` の 1px `rule` 罫線だけで区切る。角丸と影は消す。
-- entry / passwordentry は `paper-light` 地に `rule` の 1px 枠。focus 時だけ枠を `rose` にする。
-- button の hover は塗らない。枠と文字色を `rose` にするだけにする。
-- Login (`button.suggested-action`) は `rose-wash` の地に `rose` の枠。
-- Reboot / Power off (`button.destructive-action`) は塗らず、文字色だけ `warning` にする。
-- popover / combobox の popup は `paper-light` + `rule` の 1px 枠。selected は `rose-wash`。
-
-注意:
-
-- ReGreet の widget には CSS id が付かない (`#[name = ...]` は Rust のフィールド名)。要素セレクタと Adwaita のクラスで当てる。
-- `application_prefer_dark_theme = false` を必ず入れる。true のままだと Adwaita の暗い地が残る。
-- `extraCss` は path で渡すと Nix store にコピーされるので、CSS を直したら `nixos-rebuild switch` するまで反映されない。
+かつては ReGreet(cage 上の GTK4)に `.config/greetd/regreet.css` で paper 配色を
+当てていました。その設計と、tuigreet では 16 色に落ちて `paper` / `ink` / `rose` を
+再現できなかった経緯は [../chglog/login.md](../chglog/login.md) に残してあります。
 
 ## Checklist
 

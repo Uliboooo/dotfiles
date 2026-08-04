@@ -9,9 +9,9 @@
 
 - [chglog/power.md](chglog/power.md) — lid / suspend / hibernate / hypridle。
   S3 が無い機なので蓋起因の hibernate は amdgpu と競合して不可
-- [chglog/login.md](chglog/login.md) — greetd + ReGreet / PAM / gnome-keyring。
-  GDM と tuigreet は却下済み。キーリング解錠が SSH に効く。
-  マルチモニタ時の greeter の位置は cage の `-m` 次第(コンポジタの output 設定は無関係)
+- [chglog/login.md](chglog/login.md) — GDM / PAM / gnome-keyring。
+  greetd + ReGreet は 2026-08-04 に撤回して GDM に戻した(GNOME の設定アプリが
+  開かなくなるため)。キーリング解錠が SSH に効く
 - [chglog/wayland.md](chglog/wayland.md) — クリップボードと D&D。
   端末アプリからブラウザへの D&D は原理的に不可、クリップボード経由で渡す
 

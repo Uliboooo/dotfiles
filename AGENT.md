@@ -30,7 +30,7 @@ chglog を**日付で分けない**のは、読むのが常に「これから触
   触る前に該当箇所を読む
 - `hosts/desktop/hardware-configuration.nix` … 自動生成。手で書き換えない
 - `modules/common.nix` … CLI の最小セット。`modules/desktop.nix` … デスクトップ基盤
-  (PipeWire / portal / polkit / gnome-keyring / greetd + ReGreet / fonts)。
+  (PipeWire / portal / polkit / gnome-keyring / GDM / fonts)。
   `modules/thinkpad.nix` … 現在は空で import もされていない
 - `home/seli.nix` … home-manager のエントリ。`home/common_user.nix` が本体
   (パッケージ、`xdg.configFile` の symlink 定義、wallpaper の user timer)
@@ -45,8 +45,9 @@ chglog を**日付で分けない**のは、読むのが常に「これから触
   指す(`home/common_user.nix:174` の `mkConfigLink`)。**編集は即反映で rebuild 不要**
 - ただし `xdg.configFile` に列挙されたディレクトリだけが対象。**新しい
   `.config/<name>` を足したときは列挙に追加して rebuild しないと存在しないのと同じ**
-- 例外として store 経由になるものがある。`.config/greetd/regreet.css` は
-  `modules/desktop.nix` が `../.config/greetd/...` として読むので rebuild が要る
+- 現在、`.config/*` を Nix store 経由で読んでいる箇所は無い(`grep -rn '\.\./\.config/'
+  --include='*.nix'` が空)。store 経由にすると編集のたびに rebuild が要るので、
+  増やすなら理由と共に chglog に残す
 - `.config/zsh` は home-manager が `programs.zsh` で生成する側。`.zshrc`(リポジトリ
   直下)を non-nix マシンと共用しており、そちらを正としている
 - `.config/fish` は fisher が書き込むため out-of-store。`programs.fish` は使わない

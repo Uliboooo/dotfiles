@@ -173,7 +173,7 @@ abbr -a l 'eza --icons=always -l'
 abbr -a lss 'ls -l'
 abbr -a ls 'eza --icons=always -l'
 abbr -a glist /bin/ls
-abbr -a printimg 'chafa -f kitty'
+abbr -a img 'chafa -f kitty'
 abbr -a cow cowsay
 abbr -a mi mediainfo
 abbr -a nv nvim

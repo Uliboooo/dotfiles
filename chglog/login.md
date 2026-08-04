@@ -2,8 +2,9 @@
 
 display manager、PAM、gnome-keyring / gcr-ssh-agent まわり。
 
-現行は **greetd + ReGreet**(cage 上の GTK4)。GDM と tuigreet はどちらも却下済みで、
-理由は下のエントリにある。戻す提案をする前に読むこと。
+現行は **GDM**。2026-07-25 に greetd + tuigreet → greetd + ReGreet と移ったが、
+2026-08-04 に GDM へ戻した(下の最新エントリ)。greetd 系を再提案する前に、
+なぜ戻したかを読むこと。tuigreet は却下済み。
 
 ここを壊すとログインできなくなる。作業前に世代ロールバックの手順と、
 Ctrl+Alt+F2 の getty で逃げられることを確認しておく。
@@ -11,6 +12,130 @@ Ctrl+Alt+F2 の getty で逃げられることを確認しておく。
 書き方は [../AGENT.md](../AGENT.md) を参照。
 
 ---
+
+## 2026-08-04
+
+### GDM の「power key 奪取」は実際には起きない(2026-07-25 の記述を訂正)
+
+- 調査のみ。設定変更は無し
+
+**inactive なセッションが持つ `block` インヒビタは、logind のキー処理判定から除外
+される。** よって GDM の greeter が常駐していても、その gsd-media-keys が
+`handle-power-key` / `handle-suspend-key` / `handle-hibernate-key` を握ったまま
+niri / Hyprland から電源キーを奪うことは無い。2026-07-25 の「gsd-media-keys の
+power key 奪取」はこの点で誤り。greeter が active なとき(= ログイン画面に居るとき)
+だけ効くが、それは期待どおりの動作。
+
+根拠(systemd 261.1、`nixpkgs#systemd.src` を展開して確認):
+
+- `src/login/logind-action.c:374` … 電源 / サスペンド / ハイバネートキーの処理は
+  `manager_is_inhibited(..., MANAGER_IS_INHIBITED_IGNORE_INACTIVE, ...)` で判定する
+- `src/login/logind-inhibit.c:426-428` … そのフラグが立っていると
+  `pidref_is_active_session(m, &i->pid) <= 0` のインヒビタを `continue` で飛ばす
+
+**一方、sleep の delay インヒビタにはこのフラグが無く、inactive でも効く。**
+
+- `src/login/logind-dbus.c:2158` … `MANAGER_IS_INHIBITED_CHECK_DELAY` だけを渡し、
+  `IGNORE_INACTIVE` は渡していない
+
+したがって GDM で実際に残るコストは、**greeter の gnome-shell / gsd-power が持つ
+sleep delay ロックによるサスペンド開始の遅延**の方。上限は `InhibitDelayMaxSec`
+(既定 5 秒)で、保持側が `PrepareForSleep` に応答すれば早く抜ける。この機は電源管理を
+hypridle の 30 分アイドル hibernate に寄せている(`chglog/power.md`)ので、効くとしたら
+そこ。
+
+未確認:
+
+- **実機で電源キーを試していない**。この機では電源キーをほとんど使わないため優先度を
+  下げた。確認するなら niri セッションで電源キーを押し、niri 側のハンドラが動くかを見る
+- サスペンド遅延も実測していない。`journalctl -b -u systemd-logind` で、サスペンド
+  要求から `Entering sleep state` までの間隔を見る
+
+ハマりどころ:
+
+- **`systemd-inhibit --list` は active / inactive を区別せず全インヒビタを出す。**
+  gdm の行が出ていること自体は「効いている」証拠にならない。上記の active 判定は
+  list には現れない
+
+### greetd + ReGreet をやめて GDM に戻した
+
+- `modules/desktop.nix`
+- `.config/greetd/regreet.css` (削除)
+- `README/PaperDesign.md` / `AGENT.md` / `chglog.md`
+
+**DM が `XDG_CURRENT_DESKTOP` を export しないと GNOME の設定アプリが起動しない。**
+greetd + ReGreet では GNOME セッションで gnome-control-center が
+
+```
+Running gnome-control-center is only supported under GNOME and Unity, exiting
+dbus-:1.2-org.gnome.Settings@0.service: Main process exited, code=exited, status=1/FAILURE
+```
+
+で即終了する(2026-08-02 の journal)。ユーザ判断で、個別に手当てするのではなく
+DM ごと GDM に戻した。2026-07-25 の「GDM をやめた」判断を覆したことになる。
+
+なぜ ReGreet だと壊れるか、確認した事実:
+
+- `wayland-sessions/*.desktop` の `DesktopNames=` を読んでセッションリーダに
+  `XDG_CURRENT_DESKTOP` / `XDG_SESSION_DESKTOP` を export するのは **DM の仕事**。
+  `gdm-session-worker` にはこの 3 つの文字列が全部入っているが、
+  `regreet` 0.4.0 のバイナリには `XDG_CURRENT_DESKTOP` の文字列自体が無い
+- **`gnome-session` もこの変数をさわらない**。`gnome-session-service` /
+  `gnome-session-init-worker` / `.gnome-session-wrapped` のいずれにも文字列が無く、
+  DM が立てる前提になっている。Hyprland と niri は自前の設定
+  (`hypr/config/env.lua`, `niri/config.kdl`)で立てているので greetd でも無傷だった。
+  **壊れるのは GNOME だけ**という非対称はここから来る
+- **`systemd --user` はログアウトしても生き残る**。前セッションの
+  `systemctl --user import-environment` が入れた値が次のセッションに残る。実機で
+  niri 稼働中の user manager に Hyprland 由来の `HYPRLAND_CMD` /
+  `HL_INITIAL_WORKSPACE_TOKEN` が残っているのを確認した。`gnome-session` の
+  init-worker は自分の環境を `UnsetAndSetEnvironment` で流し込むだけなので、
+  **自分が持っていない変数は上書きされず古い値が生き続ける**
+- `org.gnome.Settings` は D-Bus activation なので、環境は gnome-shell ではなく
+  `systemd --user` 側から来る。gnome-shell の環境が正しくても関係なく落ちる
+- 再現確認: `env XDG_CURRENT_DESKTOP=niri gnome-control-center` と
+  `env -u XDG_CURRENT_DESKTOP gnome-control-center` の両方で同じメッセージが出る。
+  `XDG_CURRENT_DESKTOP` はコロン区切りで、`GNOME` か `Unity` を含めば通る
+
+ついでに分かった、直交する不具合(GDM に戻したので解消):
+
+- **ReGreet の一覧に GNOME が出ていなかった**。`greetd.service` の `XDG_DATA_DIRS` は
+  `/run/current-system/sw/share` だけで、そこの `wayland-sessions/` には
+  `hyprland` / `hyprland-uwsm` / `niri` しか無い。GNOME は
+  `services.displayManager.sessionPackages` にしか登録されず、実体は
+  `services.displayManager.sessionData.desktops`(全セッションの linkFarm)側にある。
+  `/var/lib/regreet/state.toml` も `seli = "Niri"` のままだった。
+  greetd 系を再び使うなら `sessionData.desktops` を `XDG_DATA_DIRS` に足すこと
+- ReGreet はセッションを名前キーの `HashMap<String, SessionInfo>` で持つ
+  (バイナリのシンボルで確認)。探索パスを複数足しても重複表示にはならない
+
+ハマりどころ:
+
+- **`security.pam.services.greetd.enableGnomeKeyring` は消してよい**。既にある
+  `login.enableGnomeKeyring = true` だけで gcr-ssh-agent の鍵解錠は保たれる。
+  生成物で確認した経路は 2 本ある:
+  - `/etc/pam.d/gdm-password` は `auth substack login` / `session include login` の
+    4 行だけで、**自前の `pam_gnome_keyring` 行を持たない**。`/etc/pam.d/login` 側の
+    auth / password / session(`auto_start`)の 3 行がそのまま効く
+  - `/etc/pam.d/gdm-fingerprint` は自前の `pam_gnome_keyring` 行を持つ。こちらも
+    `login.enableGnomeKeyring` で gate されている
+    (`nixos/modules/services/display-managers/gdm.nix:551,557,640,646`)
+  grep するなら `gdm-password` ではなく `login` を見ること。gdm-password を直接
+  grep して「keyring が無い」と誤読しやすい
+- **GDM のコストは 2026-07-25 のエントリのうち 2 つが復活する**。greeter 常駐
+  (RSS 約 946MB)と、`gnome-shell` / `gsd-power` の sleep delay inhibitor。後者は
+  `chglog/power.md` の hypridle 経由 hibernate と噛み合うので、サスペンド開始が遅いと
+  感じたらここを疑う。3 つ目の「`gsd-media-keys` の power key 奪取」は**起きない**
+  (同日の上のエントリで訂正済み)
+- `services.xserver.enable = true` は GDM でもそのまま要る(残してある)
+- Paper Design から greeter が外れた。GDM の greeter は gnome-shell そのもので
+  `extraCss` 相当の口が無い。`README/PaperDesign.md` は「対象外」に書き換えた
+
+**実機のログイン画面は未確認**(switch とログアウトが要る)。検証は
+`nixos-rebuild build --flake .#desktop` が通ること、生成物に `greetd.service` が
+無く `display-manager.service` が GDM になっていること、`/etc/pam.d/gdm-password` に
+`pam_gnome_keyring` が入っていることまで。失敗したら Ctrl+Alt+F2 の getty か
+前世代へのロールバックで戻す。
 
 ## 2026-07-27
 
@@ -131,6 +256,10 @@ command が cage + regreet になり tuigreet が消えたこと、greetd.servic
 ### GDM をやめて greetd + tuigreet に
 
 - `modules/desktop.nix`
+
+> **2026-08-04 訂正**: 下記のうち「`gsd-media-keys` が power key を奪う」は誤り。
+> inactive セッションの block インヒビタは logind のキー処理から除外される。
+> 同日の最新エントリを参照。sleep delay inhibitor の話はそのまま有効。
 
 GDM はログイン後も greeter セッションが常駐し続ける(gnome-shell 一式で RSS 約
 946MB)。さらにその `gsd-media-keys` が `handle-power-key` / `handle-suspend-key` /

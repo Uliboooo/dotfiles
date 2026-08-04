@@ -38,85 +38,32 @@
   # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
   # unlock keyring by PAM relation when login
+  # GDM 経由のログインでも login キーリングが解錠される。/etc/pam.d/gdm-password は
+  # login を substack/include するだけなので、ここの pam_gnome_keyring がそのまま
+  # 効く(gdm-fingerprint は自前の行を持つが、同じくこのオプションで gate される)。
+  # よって GDM 用に別途書く必要は無い。これが効いていないと gcr-ssh-agent が
+  # ~/.ssh/id_ed25519 のパスフレーズを取り出せず、GitHub への SSH が署名待ちで
+  # 固まる（gcr 4.x は askpass GUI を出せないため）。
   security.pam.services.login.enableGnomeKeyring = true;
-  # greetd 経由のログインでも login キーリングを解錠する。これが無いと
-  # gcr-ssh-agent が ~/.ssh/id_ed25519 のパスフレーズを取り出せず、GitHub への
-  # SSH が署名待ちで固まる（gcr 4.x は askpass GUI を出せないため）。
-  security.pam.services.greetd.enableGnomeKeyring = true;
 
   services.upower.enable = true;
 
-  # greetd + ReGreet(cage 上の GTK4)。GDM をやめた理由:
-  #   - ログイン後も greeter セッション(gnome-shell 一式で RSS 約 946MB)が
-  #     常駐し続ける。
-  #   - その gsd-media-keys が handle-power-key / handle-suspend-key /
-  #     handle-hibernate-key を block モードで握り、niri 側の power-key 処理と
-  #     競合する。
-  #   - gnome-shell と gsd-power が sleep の delay inhibitor を持つため
-  #     サスペンド開始が余計に遅れる。
-  # ReGreet はログイン時に cage ごと終了し gnome-settings-daemon も持たないので、
-  # いずれも起きない。
+  # ===== display manager =====
+  # GDM。greetd + ReGreet(cage 上の GTK4)から 2026-08-04 に戻した。
+  # 経緯と、GDM で復活する既知のコスト(greeter 常駐 / gsd-media-keys の
+  # power key 奪取 / sleep の delay inhibitor)は chglog/login.md を読むこと。
   #
-  # tuigreet ではなく ReGreet を選んだ理由は README/PaperDesign.md 参照。
-  # tuigreet は Linux VT 上で動くため 16 色に落ち、paper の色が出せない。
+  # ここを greetd 系に戻すなら、GNOME セッションが壊れることを先に理解しておく。
+  # wayland-sessions/*.desktop の DesktopNames= を読んでセッションリーダに
+  # XDG_CURRENT_DESKTOP / XDG_SESSION_DESKTOP を export するのは DM の仕事で、
+  # gdm-session-worker はやるが greetd/ReGreet はやらない。Hyprland と niri は
+  # 自前の設定(hypr/config/env.lua, niri/config.kdl)で立てているので無傷だが、
+  # gnome-session はこの変数を一切さわらない(バイナリに文字列すら無い)。
+  # 値が付かないと gnome-control-center が
+  #   Running gnome-control-center is only supported under GNOME and Unity, exiting
+  # で即終了し、GNOME の設定アプリが開かなくなる。
   services.xserver.enable = true;
-  services.displayManager.gdm.enable = false;
-  # greetd 本体と cage 経由の default_session.command は programs.regreet が
-  # mkDefault で設定する。ここで command を書くとそちらが勝つので書かない。
-  programs.regreet = {
-    enable = true;
-    # 既定の cageArgs は [ "-s" "-d" ] で、cage の multi-monitor mode は
-    # 未指定だと extend(server.output_mode = 0)。extend では全出力が
-    # output_layout に横並びで並び、view_position() が primary view を
-    # レイアウト全体(eDP-1 1920x1200 + DP-1 3840x2160 = 5760px 幅)に
-    # maximize する。その結果:
-    #   - ReGreet のログインカードは「連結レイアウトの中心」= 2 枚の
-    #     モニタの継ぎ目付近に置かれ、位置が壊れて見える。
-    #   - User/Session のドロップダウンは巨大な surface 基準で配置されるので
-    #     ポップオーバがモニタを跨いで開く。
-    # -m last で cage は最後に接続された出力だけを有効にし、他を disable
-    # するため、greeter は常に 1 枚のモニタ内に収まる(4K を挿していれば
-    # そちら、外せば自動で eDP-1 に戻る)。-s -d は既定値なので引き継ぐ。
-    cageArgs = [
-      "-s"
-      "-d"
-      "-m"
-      "last"
-    ];
-    font = {
-      package = pkgs.monaspace;
-      # Waybar / SwayNC と同じ family に揃える。
-      name = "Monaspace Radon Var";
-      size = 12;
-    };
-    extraCss = ../.config/greetd/regreet.css;
-    settings = {
-      # [background] は書かない = 壁紙を敷かず紙面 1 色にする。
-      GTK.application_prefer_dark_theme = false;
-      appearance.greeting_msg = "welcome back.";
-      commands = {
-        reboot = [
-          "systemctl"
-          "reboot"
-        ];
-        poweroff = [
-          "systemctl"
-          "poweroff"
-        ];
-      };
-      widget.clock = {
-        format = "%Y-%m-%d %a %H:%M";
-        resolution = "1s";
-        label_width = 260;
-      };
-    };
-  };
-
-  # tuigreet の --sessions と同じ罠。ReGreet は XDG_DATA_DIRS の各要素に
-  # /wayland-sessions を足して探すが、greetd.service の環境には
-  # XDG_DATA_DIRS が無く、既定値の /usr/share/... は NixOS に存在しない。
-  # 結果セッション一覧が空になる。GTK のテーマ/アイコン探索先も兼ねる。
-  systemd.services.greetd.environment.XDG_DATA_DIRS = "/run/current-system/sw/share";
+  services.displayManager.gdm.enable = true;
 
   services.keyd = {
     enable = true;

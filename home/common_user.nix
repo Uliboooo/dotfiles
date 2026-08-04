@@ -171,6 +171,7 @@ let
     hyprpanopticon
     # shojiwm
     chromium
+    geeqie
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
