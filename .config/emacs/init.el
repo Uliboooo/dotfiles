@@ -21,7 +21,7 @@
 
 (defconst seli/opaque-ui-background "#2a273f")
 (defconst seli/opaque-ui-background-active "#393552")
-(defconst seli/buffer-alpha-background 88)
+(defconst seli/buffer-alpha-background 100)
 
 (defconst seli/cache-dir
   (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache/")))
@@ -47,7 +47,28 @@
 (setq package-user-dir (expand-file-name "elpa" seli/data-dir))
 (package-initialize)
 
-(unless package-archive-contents
+(defconst seli/package-archive-max-age (* 3 24 60 60)
+  "Maximum age of a cached package archive before refreshing it.")
+
+(defun seli/package-archives-fresh-p ()
+  "Return non-nil if all cached package archives are fresh."
+  (and package-archive-contents
+       (catch 'stale
+         (dolist (archive package-archives)
+           (let* ((name (car archive))
+                  (file (expand-file-name
+                         (format "archives/%s/archive-contents" name)
+                         package-user-dir)))
+             (when (or (not (file-exists-p file))
+                       (> (float-time (time-subtract
+                                       (current-time)
+                                       (file-attribute-modification-time
+                                        (file-attributes file))))
+                          seli/package-archive-max-age))
+               (throw 'stale nil))))
+         t)))
+
+(unless (seli/package-archives-fresh-p)
   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)

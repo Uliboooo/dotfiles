@@ -172,6 +172,7 @@ let
     # shojiwm
     chromium
     geeqie
+    zed-editor
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
