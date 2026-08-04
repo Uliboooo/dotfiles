@@ -60,10 +60,10 @@ spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 // (graphical-session.target.wants) が単一インスタンスで面倒を見る。ここでも
 // spawn すると 2 重起動し、ロックの度に hyprlock が複数走って ext-session-lock
 // の敗者が futex でハング → pidof hyprlock が居座り lock_cmd が空振りになる。
-spawn-at-startup "swaync"
+spawn-at-startup "swaync -s $HOME/dotfiles/.config/swaync/style.rose-pine-moon-neon.css"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "wlmstr" "next" "seq"
-spawn-sh-at-startup "$HOME/dotfiles/script/launch-waybar.sh"
+spawn-sh-at-startup "$HOME/dotfiles/script/launch-waybar.sh $HOME/.config/waybar/style.rose-pine-moon-neon.css"
 spawn-at-startup "udiskie" "-a" "-t" "--notify"
 
 input {
@@ -109,14 +109,14 @@ output "DP-1" {
 }
 
 layout {
-    gaps 2
+    gaps 4
     background-color "transparent"
 
     struts {
-        left -2
-        right -2
-        top -2
-        bottom -2
+        left 4
+        right 4
+        top 4
+        bottom 4
     }
 
     center-focused-column "never"
@@ -184,7 +184,7 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 0
+    geometry-corner-radius 5
     clip-to-geometry true
 }
 
@@ -198,6 +198,15 @@ blur {
 window-rule {
     match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
     draw-border-with-background false
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    // Rofi uses either "rofi" (Wayland) or "Rofi" (XWayland WM_CLASS)
+    // depending on the backend used for the current session.
+    match app-id=r#"(?i)^rofi$"#
     background-effect {
         blur true
     }
@@ -229,7 +238,7 @@ binds {
     Super+M { quit; }
     Super+E { spawn "kitty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
-    Super+D { spawn "rofi" "-show" "drun"; }
+    Super+D { spawn-sh "rofi -show drun -theme $HOME/dotfiles/.config/rofi/rose-pine-moon-neon.rasi"; }
     Super+shift+D { spawn-sh "$HOME/dotfiles/script/niri_views.sh"; }
     // Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
     Super+Shift+F { fullscreen-window; }
@@ -259,8 +268,8 @@ binds {
     // --- monitors (stacked vertically: DP-1 top, eDP-1 bottom) ---
     Super+Ctrl+J { focus-monitor-down; }
     Super+Ctrl+K { focus-monitor-up; }
-    Super+Ctrl+H { focus-monitor-right; }
-    Super+Ctrl+L { focus-monitor-left; }
+    Super+Ctrl+L { focus-monitor-right; }
+    Super+Ctrl+H { focus-monitor-left; }
     Super+Ctrl+Home { move-column-to-first; }
     Super+Ctrl+End { move-column-to-last; }
 
