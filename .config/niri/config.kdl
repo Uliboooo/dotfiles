@@ -251,8 +251,6 @@ binds {
     // scroll to move focus to the next/previous column
     Super+WheelScrollDown cooldown-ms=150 { focus-column-right; }
     Super+WheelScrollUp cooldown-ms=150 { focus-column-left; }
-    // Super+K { focus-window-up; }
-    // Super+J { focus-window-down; }
 
     // jump to first/last column (head/tail)
     Super+Home { focus-column-first; }
@@ -261,6 +259,8 @@ binds {
     // --- monitors (stacked vertically: DP-1 top, eDP-1 bottom) ---
     Super+Ctrl+J { focus-monitor-down; }
     Super+Ctrl+K { focus-monitor-up; }
+    Super+Ctrl+H { focus-monitor-right; }
+    Super+Ctrl+L { focus-monitor-left; }
     Super+Ctrl+Home { move-column-to-first; }
     Super+Ctrl+End { move-column-to-last; }
 
@@ -303,8 +303,8 @@ binds {
     Super+Shift+J { consume-or-expel-window-right; }
 
     // resize: niri has no submaps; Super+Ctrl+HJKL mirrors hypr resize-mode keys
-    Super+Ctrl+H repeat=true { set-column-width "-10"; }
-    Super+Ctrl+L repeat=true { set-column-width "10"; }
+    Alt+Shift+H repeat=true { set-column-width "-10"; }
+    Alt+Shift+L repeat=true { set-column-width "10"; }
     Super+Ctrl+R repeat=false { reset-window-height; }
 
     // cycle through preset column-width "templates" (see layout.preset-column-widths)
