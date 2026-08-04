@@ -379,5 +379,27 @@ in
 
       Install.WantedBy = [ "timers.target" ];
     };
+
+    systemd.user.services.cliphist-clean = lib.mkIf isLinux {
+      Unit.Description = "Clean cliphist";
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${lib.getExe pkgs.cliphist} wipe";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.timers.cliphist-clean = lib.mkIf isLinux {
+      Unit.Description = "Clean cliphist every week";
+
+      Timer = {
+        OnCalendar = "weekly";
+        Persistent = false;
+      };
+
+      Install.WantedBy = [ "timers.target" ];
+    };
   };
 }
