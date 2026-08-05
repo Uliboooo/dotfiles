@@ -173,6 +173,7 @@ let
     chromium
     geeqie
     zed-editor
+    digikam
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
