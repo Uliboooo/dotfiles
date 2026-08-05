@@ -47,3 +47,4 @@ config.local.fish
 .config/fish/themes
 /lualatex-japanese-guide.md
 /.config/emacs/eln-cache/
+/.config/emacs/transient/history.el
