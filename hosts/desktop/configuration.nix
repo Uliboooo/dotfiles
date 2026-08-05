@@ -41,6 +41,9 @@
   services.hazkey.enable = true;
   services.tailscale.enable = true;
 
+  services.openssh.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22 ];
+
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 

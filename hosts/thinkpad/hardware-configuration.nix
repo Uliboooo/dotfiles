@@ -30,6 +30,10 @@
     [ { device = "/dev/mapper/luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978"; }
     ];
 
+  swapDevices = [
+    { device = "/dev/mapper/luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978"; }
+  ];
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

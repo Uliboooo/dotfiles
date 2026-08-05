@@ -198,8 +198,6 @@ abbr -a hxd 'hx .'
 abbr -a h 'hx .'
 abbr -a w '$EDITOR ~/work.md'
 
-abbr -a update 'yay -Syu --noconfirm'
-
 abbr -a :q exit
 abbr -a :Q exit
 abbr -a :wq exit
@@ -326,7 +324,7 @@ abbr -a oc 'opencode'
 
 abbr -a nd 'nix develop -c $SHELL'
 abbr -a nbuild 'sudo nixos-rebuild switch --flake .#(rebuild_host)'
-abbr -a nupdate 'nix flake update'
+abbr -a update 'nix flake update'
 
 function rebuild_host
     set -l cur (hostname)
@@ -385,4 +383,8 @@ function fcp
     and echo "use flake" >.envrc
     and echo ".direnv/" >>.gitignore
     and direnv allow
+end
+
+function ib
+  emacs -nw $HOME/org/inbox.org
 end
