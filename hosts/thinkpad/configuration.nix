@@ -137,32 +137,20 @@
   # };
   # };
 
-  # ===== ハイバネート(S4)用 swap =====
-  # このマシンは Modern Standby (S0ix) 専用で S3 が無いため、離席時の電池を
-  # 抑えるには s2idle からさらに S4(hibernate) へ落とす必要がある。既存の
-  # swap パーティション(luks-82faf233)は 8.8GiB しかなく RAM 30GiB を退避
-  # できないので、root(ext4) 上に RAM 超の swapfile を置く。
+  # ===== swap =====
+  # この機の swap は hardware-configuration.nix が生成する LUKS パーティション
+  # (luks-0432ea0c, 8.8GiB) のみ。initrd 中に解錠しないと起動時に
+  # /dev/mapper/luks-0432ea0c を待って固まるので、下の boot.initrd.luks.devices で
+  # 登録する(/etc/nixos の gen 1 と同じ対応)。
   #
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 34 * 1024; # MiB = 34 GiB (> RAM 30GiB)
-    }
-  ];
-
-  # ハイバネートからの復帰設定。/swapfile は root(=luks-5c4ff8a1 の ext4)上に
-  # あるので resumeDevice はその mapper。resume_offset は swapfile の先頭物理
-  # ブロック番号（`filefrag -v /swapfile` の 0: の physical_offset 開始値、
-  # 単位 4KiB = PAGE_SIZE）。swapfile を再作成したら必ず取り直すこと。
-  boot.resumeDevice = "/dev/mapper/luks-5c4ff8a1-c35d-4244-8a36-f81bc112f164";
-  boot.kernelParams = [ "resume_offset=78503936" ];
-
-  # hibernate は hypridle が「アイドル 30 分 → バッテリー駆動時のみ
-  # systemctl hibernate」で直接発行する（.config/hypr/hypridle.conf）。AC(ドック)
-  # 時はしない: ドック中の S4 は USB-C/PCIe PME wake で巻き戻り再起動になる上、
-  # AC 時はそもそも落としたくないため。この機は wake 可能な RTC が s2idle から
-  # 起こせず suspend-then-hibernate が成立しないので、s2idle を挟まず直接 S4 に
-  # 落とす。したがって HibernateDelaySec は不要。
+  # 2026-08-05: ここにあった /swapfile(34GiB) + boot.resumeDevice の組はデスクトップ機
+  # (root=luks-5c4ff8a1, swap=luks-82faf233) からコピペした残骸で、この機には存在しない
+  # /dev/mapper/luks-5c4ff8a1-… を resume= に指定していた。systemd initrd がその
+  # デバイス待ちでハングし、gen 2/3 が起動不能になっていた(resume_offset も不要)。
+  # swap は 8.8GiB で RAM(30GiB) に届かないため、この機では hibernate は使えない。
+  boot.initrd.luks.devices."luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978" = {
+    device = "/dev/disk/by-uuid/0432ea0c-d8a2-4750-9cb3-ce3229f53978";
+  };
 
   fileSystems."/mnt/bk_disk" = {
     device = "/dev/mapper/bk_disk";
