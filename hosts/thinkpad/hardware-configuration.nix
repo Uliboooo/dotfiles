@@ -26,15 +26,15 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/mapper/luks-5c4ff8a1-c35d-4244-8a36-f81bc112f164";
+    device = "/dev/mapper/luks-0c8d6ba1-e368-4c9f-b34d-a818b272ba58";
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."luks-5c4ff8a1-c35d-4244-8a36-f81bc112f164".device =
-    "/dev/disk/by-uuid/5c4ff8a1-c35d-4244-8a36-f81bc112f164";
+  boot.initrd.luks.devices."luks-0c8d6ba1-e368-4c9f-b34d-a818b272ba58".device =
+    "/dev/disk/by-uuid/0c8d6ba1-e368-4c9f-b34d-a818b272ba58";
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/3810-C777";
+    device = "/dev/disk/by-uuid/0242-AE00";
     fsType = "vfat";
     options = [
       "fmask=0077"
@@ -42,12 +42,13 @@
     ];
   };
 
-  # swapDevices = [
-  #   { device = "/dev/mapper/luks-82faf233-904a-4f35-8b07-47c8b1cad332"; }
-  # ];
-  boot.initrd.luks.devices."luks-82faf233-904a-4f35-8b07-47c8b1cad332" = {
-    device = "/dev/disk/by-uuid/82faf233-904a-4f35-8b07-47c8b1cad332";
+  boot.initrd.luks.devices."luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978" = {
+    device = "/dev/disk/by-uuid/0432ea0c-d8a2-4750-9cb3-ce3229f53978";
   };
+
+  swapDevices = [
+    { device = "/dev/mapper/luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978"; }
+  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
