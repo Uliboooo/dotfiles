@@ -375,7 +375,7 @@ in
       Timer = {
         OnBootSec = "1min";
         OnCalendar = "*-*-* *:00,15,30,45:00";
-        Persistent = true;
+        Persistent = false;
       };
 
       Install.WantedBy = [ "timers.target" ];
