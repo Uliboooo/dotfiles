@@ -312,12 +312,23 @@ function rebuild() {
     echo "sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook"
     sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook
   elif [[ -f /etc/NIXOS ]]; then
-    echo "sudo nixos-rebuild switch --flake .#desktop"
-    sudo nixos-rebuild switch --flake .#desktop
+    echo "sudo nixos-rebuild switch --flake .#$(rebuild_host)"
+    sudo nixos-rebuild switch --flake .#$(rebuild_host)
   else
     echo "home-manager switch --flake .#seli"
     home-manager switch --flake .#seli
   fi
+}
+
+function rebuild_host() {
+  local cur="$(hostname)"
+  for dir in $HOME/dotfiles/hosts/*/; do
+    if grep -q "networking.hostName = \"$cur\"" "$dir/configuration.nix" 2>/dev/null; then
+      basename "$dir"
+      return
+    fi
+  done
+  echo desktop
 }
 
 function fcp() {

@@ -92,6 +92,40 @@
       };
 
       # ===== NixOS (desktop) =====
+      nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
+        system = linuxSystem;
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/thinkpad/configuration.nix
+
+          (
+            {
+              pkgs,
+              ...
+            }:
+            {
+              environment.systemPackages = with pkgs; [
+                bash
+              ];
+              environment.pathsToLink = [ "/bin" ];
+            }
+          )
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+            home-manager.users.seli = import ./home/seli.nix;
+          }
+        ];
+      };
+
       nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
         specialArgs = {

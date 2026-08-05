@@ -87,98 +87,33 @@ home-manager switch --flake .#seli
 
 ### 2. NixOS
 
-#### Initial Setup
-Clone this repo to `~/dotfiles`, then link your hardware configuration:
+There are two Linux hosts, each with its own hardware config:
+
+| Host | Directory | Hostname | Notes |
+| :---: | :--- | :---: | :--- |
+| ThinkPad | `hosts/thinkpad/` | `selinoir` | AMD, fingerprint, lid/hibernate |
+| Desktop | `hosts/desktop/` | `selipaq` | Intel, LUKS swap |
+
+Machine-specific settings live in the host directory; shared desktop setup lives in `modules/desktop.nix`.
+
+#### Initial Setup (per host)
+
+Clone this repo to `~/dotfiles`, then generate and copy the hardware configuration:
+
 ```bash
+sudo nixos-generate-config --dir /etc/nixos
+sudo cp /etc/nixos/hardware-configuration.nix ~/dotfiles/hosts/thinkpad/
 sudo cp /etc/nixos/hardware-configuration.nix ~/dotfiles/hosts/desktop/
+# pick the directory matching the machine, then commit the new UUIDs
 ```
 
 #### Apply Configuration
+
 ```bash
 cd ~/dotfiles
-sudo nixos-rebuild switch --flake .#desktop
+sudo nixos-rebuild switch --flake .#thinkpad   # on the ThinkPad
+sudo nixos-rebuild switch --flake .#desktop    # on the desktop
 ```
-
-### 3. macOS
-
-Option A (nix-darwin) and Option B (standalone Home Manager) are **mutually
-exclusive** — pick one. Option A manages system settings too; Option B only
-touches the user environment and needs no `sudo`.
-
-#### Prerequisites
-
-- **Apple Silicon only.** Nixpkgs 26.11 dropped `x86_64-darwin`, so an Intel Mac
-  would need `nixpkgs` re-pinned to the `nixpkgs-26.05-darwin` branch.
-- **The repo must live at `~/dotfiles`.** Home Manager symlinks `~/.config/*`
-  out of that exact path (`dotfilesDir` in `home/common_user.nix`), so cloning
-  elsewhere silently breaks every config link.
-- The macOS username must be `seli`. To use a different one, change
-  `users.users` + `system.primaryUser` in `hosts/macbook/configuration.nix` and
-  `home-manager.users` in `flake.nix`, and rename `home/seli.nix`.
-
-#### Step 1: Install Nix and clone
-
-```bash
-sh <(curl -L https://nixos.org/nix/install)
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-```
-
-The upstream installer does **not** enable flakes, and this repo only provides
-`experimental-features` *after* the first switch (Home Manager symlinks
-`~/.config/nix` from `.config/nix/`). So the bootstrap below passes the flag
-explicitly via `NIX_CONFIG`. Don't hand-create `~/.config/nix/nix.conf` — it
-would then collide with the symlink Home Manager wants to create.
-
-#### Option A: nix-darwin (system + user)
-
-nix-darwin generates `/etc/bashrc` and `/etc/zshrc`, but it only moves an
-existing file aside to `*.before-nix-darwin` when it recognizes the content.
-The Nix installer has already appended its own block to both, so activation
-aborts with *"Unexpected files in /etc"* until you move them yourself:
-
-```bash
-sudo mv /etc/bashrc{,.before-nix-darwin}
-sudo mv /etc/zshrc{,.before-nix-darwin}
-```
-
-This is safe: nix-darwin regenerates both, and its `/etc/zshenv` exports
-`environment.systemPath`, which includes `/nix/var/nix/profiles/default/bin` —
-so Nix itself stays on `PATH`. Keep the current terminal open until the switch
-succeeds, though: between the `mv` and the switch, nothing puts Nix on `PATH`
-for a *newly opened* shell. If you get stranded there, recover with
-`. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh`. Then:
-
-```bash
-sudo NIX_CONFIG="experimental-features = nix-command flakes" \
-  nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#macbook
-```
-
-The same "unrecognized content" rule applies to `/etc/nix/nix.conf`, which is
-why the bootstrap passes `NIX_CONFIG` instead of editing that file by hand.
-
-After the first switch, flakes are enabled system-wide via `nix.settings`, so
-subsequent updates are just:
-
-```bash
-sudo darwin-rebuild switch --flake ~/dotfiles#macbook
-```
-
-#### Option B: Standalone Home Manager (packages only)
-
-```bash
-NIX_CONFIG="experimental-features = nix-command flakes" \
-  nix run home-manager/master -- switch --flake ~/dotfiles#seli@aarch64-darwin
-```
-
-Subsequent updates:
-
-```bash
-home-manager switch --flake ~/dotfiles#seli@aarch64-darwin
-```
-
-Unlike the NixOS/nix-darwin module paths, standalone Home Manager has no
-`backupFileExtension` set, so it aborts if a file it manages already exists.
-Add `-b hm-backup` to move such files aside instead.
 
 ## Structure (simple)
 
@@ -186,8 +121,11 @@ Add `-b hm-backup` to move such files aside instead.
 ~/dotfiles
 ├── flake.nix
 ├── hosts/
+│   ├── thinkpad/
+│   │   ├── configuration.nix   # selinoir (AMD, fingerprint, lid/hibernate)
+│   │   └── hardware-configuration.nix
 │   ├── desktop/
-│   │   ├── configuration.nix
+│   │   ├── configuration.nix   # selipaq (Intel desktop)
 │   │   └── hardware-configuration.nix
 │   └── macbook/
 │       └── configuration.nix
@@ -206,7 +144,8 @@ Add `-b hm-backup` to move such files aside instead.
 └── ...
 ```
 
-- `modules/desktop.nix`: system-wide desktop infrastructure (Hyprland, PipeWire, portal, polkit, etc.)
+- `hosts/<name>/configuration.nix`: per-machine settings (hostname, hardware-specific bits)
+- `modules/desktop.nix`: system-wide desktop infrastructure shared by all NixOS hosts (Hyprland/niri, PipeWire, portal, polkit, etc.)
 - `home/seli.nix`: personal apps and user config
 - real app config files stay in this dotfiles repo as normal files/directories
 - Home Manager deploys `~/.config/*` via `xdg.configFile` symlinks
@@ -226,7 +165,8 @@ home-manager switch --flake .#seli
 **NixOS**
 ```bash
 cd ~/dotfiles
-sudo nixos-rebuild switch --flake .#desktop
+sudo nixos-rebuild switch --flake .#thinkpad   # on the ThinkPad
+sudo nixos-rebuild switch --flake .#desktop    # on the desktop
 ```
 
 **macOS (nix-darwin)**

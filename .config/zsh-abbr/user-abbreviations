@@ -88,7 +88,7 @@ abbr reboot="systemctl reboot"
 # ---------------------------------------------------------------------
 # NixOS
 # ---------------------------------------------------------------------
-abbr nbuild="sudo nixos-rebuild switch --flake .#desktop"
+abbr nbuild="sudo nixos-rebuild switch --flake .#\$(rebuild_host)"
 abbr nupdate="nix flake update"
 
 abbr w='$EDITOR ~/work.md'

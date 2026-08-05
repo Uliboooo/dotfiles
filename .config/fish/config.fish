@@ -325,16 +325,28 @@ abbr -a oc 'opencode'
 # ╝╚╝ ╩ ╩ ╚═
 
 abbr -a nd 'nix develop -c $SHELL'
-abbr -a nbuild 'sudo nixos-rebuild switch --flake .#desktop'
+abbr -a nbuild 'sudo nixos-rebuild switch --flake .#(rebuild_host)'
 abbr -a nupdate 'nix flake update'
+
+function rebuild_host
+    set -l cur (hostname)
+    for dir in $HOME/dotfiles/hosts/*/
+        if grep -q "networking.hostName = \"$cur\"" $dir/configuration.nix 2>/dev/null
+            path basename $dir
+            return
+        end
+    end
+    echo desktop
+end
 
 function rebuild
     if test (uname -s) = Darwin
         echo "sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook"
         sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook
     else if test -f /etc/NIXOS
-        echo "sudo nixos-rebuild switch --flake .#desktop"
-        sudo nixos-rebuild switch --flake .#desktop
+        set -l host (rebuild_host)
+        echo "sudo nixos-rebuild switch --flake .#$host"
+        sudo nixos-rebuild switch --flake .#$host
     else
         echo "home-manager switch --flake .#seli"
         home-manager switch --flake .#seli
