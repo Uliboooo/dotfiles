@@ -46,10 +46,10 @@ and many of these scripts are dependent on my personal environment, it might not
 
 ## Installation & Setup
 
-This repository supports three main setup methods:
-1. **NixOS** (Full system + user management)
-2. **macOS** (System + user management via nix-darwin)
-3. **Standalone Home Manager** (User management on generic Linux distros like Debian/Ubuntu)
+This repository supports two main setup methods:
+
+- **NixOS** (Full system + user management)
+- **Standalone Home Manager** (User management on generic Linux distros like Debian/Ubuntu)
 
 ### 1. Standalone Home Manager (Generic Linux)
 
@@ -127,8 +127,6 @@ sudo nixos-rebuild switch --flake .#desktop    # on the desktop
 │   ├── desktop/
 │   │   ├── configuration.nix   # selipaq (Intel desktop)
 │   │   └── hardware-configuration.nix
-│   └── macbook/
-│       └── configuration.nix
 ├── modules/
 │   ├── common.nix
 │   ├── desktop.nix
@@ -157,6 +155,7 @@ After making changes to your configuration files, use the following commands to 
 ### Rebuild (Apply Changes)
 
 **Standalone Linux (Debian, Ubuntu, etc.)**
+
 ```bash
 cd ~/dotfiles
 home-manager switch --flake .#seli
@@ -169,17 +168,8 @@ sudo nixos-rebuild switch --flake .#thinkpad   # on the ThinkPad
 sudo nixos-rebuild switch --flake .#desktop    # on the desktop
 ```
 
-**macOS (nix-darwin)**
-```bash
-sudo darwin-rebuild switch --flake ~/dotfiles#macbook
-```
-
-**macOS (standalone Home Manager)**
-```bash
-home-manager switch --flake ~/dotfiles#seli@aarch64-darwin
-```
-
 ### Update Packages (Flake Inputs)
+
 To update the underlying packages (nixpkgs, etc.) to their latest versions:
 ```bash
 cd ~/dotfiles

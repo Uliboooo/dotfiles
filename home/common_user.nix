@@ -11,15 +11,7 @@ let
   bunInstallDir = "${config.home.homeDirectory}/.cache/.bun";
   bunBinDir = "${bunInstallDir}/bin";
 
-  isLinux = pkgs.stdenv.isLinux;
-  isDarwin = pkgs.stdenv.isDarwin;
   system = pkgs.stdenv.hostPlatform.system;
-  chromeSupported = pkgs.lib.elem system [
-    "x86_64-linux"
-    "x86_64-darwin"
-    "aarch64-darwin"
-  ];
-  enableGui = config.dotfiles.enableGui;
 
   wlmstr = inputs.wlmstr.packages.${system}.default;
   # tirith = inputs.tirith.packages.${pkgs.system}.default;
@@ -27,12 +19,12 @@ let
   # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
   hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
 
-  basePackages = with pkgs; [
-    # common
+  packages = with pkgs; [
+    # ===== CLI / エディタ =====
     git
     vim
     neovim
-    (if isLinux then emacs-pgtk else emacs)
+    emacs-pgtk
     helix
     yazi
     fzf
@@ -95,34 +87,13 @@ let
     # tirith
     claude-code
     opencode
+
+    # ===== GUI アプリ =====
     obsidian
     spotify
-  ];
-
-  # GUI ではない Linux 専用 CLI。
-  linuxPackages = with pkgs; [
-    # macOS では Xcode CLT の clang / ld を使う。nixpkgs の clang を profile に
-    # 入れると Apple clang を PATH で覆い、SDK/framework 参照が壊れる。
-    clang
-    llvm
-    lld
-    prismlauncher
-    tailscale
-  ];
-
-  # GUI だが GTK に依存しないもの。macOS ではネイティブ (Cocoa) で動く。
-  guiPackages =
-    (with pkgs; [
-      nerd-fonts.symbols-only
-      nerd-fonts.jetbrains-mono
-    ])
-    ++ lib.optionals chromeSupported [
-      pkgs.google-chrome
-    ];
-
-  # GTK に依存するものは Linux 限定。darwin でも eval は通るが、GTK ごと
-  # ソースビルドになる上に X11/quartz 経由で実用にならない。
-  linuxGtkPackages = with pkgs; [
+    nerd-fonts.symbols-only
+    nerd-fonts.jetbrains-mono
+    google-chrome
     zathura
     sioyek # Qt だが qtbase の platformtheme 経由で gtk+3 を引く
     pinta
@@ -136,23 +107,10 @@ let
     discord
     gnome-text-editor
     gnome-tweaks
-  ];
-
-  # GUI で macOS 限定。ghostty はソースビルドだと重いので、macOS では
-  # ghostty-bin (prebuilt) を使う。
-  darwinGuiPackages = with pkgs; [
-    ghostty-bin
-  ];
-
-  linuxGuiPackages = with pkgs; [
-    # Linux-only
     ashell
     # noctalia-shell
     kdePackages.kdenlive
-    libnotify # freedesktop の D-Bus 通知。macOS には対応する仕組みが無い。
-    # mpv は GTK 非依存で meta 上も darwin 対応だが、この nixpkgs では
-    # aarch64-darwin のリンクが cctools ld のクラッシュで通らない (Hydra も
-    # 同様に失敗するためキャッシュも無い)。macOS では IINA 等を使う。
+    libnotify # freedesktop の D-Bus 通知
     mpv
     wl-clipboard
     wlrctl # binds.lua の ALT+J/K (pointer scroll) が依存する。
@@ -174,22 +132,21 @@ let
     geeqie
     zed-editor
     digikam
+    prismlauncher
+
+    # ===== ツールチェーン =====
+    clang
+    llvm
+    lld
+    tailscale
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
 in
 {
-  options.dotfiles.enableGui = lib.mkOption {
-    type = lib.types.bool;
-    default = true;
-    description = "Install GUI and desktop-related packages.";
-  };
-
   config = {
     home.username = pkgs.lib.mkDefault "seli";
-    home.homeDirectory = pkgs.lib.mkDefault (
-      if isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}"
-    );
+    home.homeDirectory = pkgs.lib.mkDefault "/home/${config.home.username}";
     home.stateVersion = "24.11";
 
     programs.home-manager.enable = true;
@@ -207,7 +164,7 @@ in
       '';
     };
 
-    programs.obs-studio = lib.mkIf pkgs.stdenv.isLinux {
+    programs.obs-studio = {
       enable = true;
 
       plugins = with pkgs.obs-studio-plugins; [
@@ -235,23 +192,14 @@ in
       extraConfig = builtins.readFile ../.tmux.conf;
     };
 
-    targets.genericLinux.enable = isLinux;
+    targets.genericLinux.enable = true;
 
     # ===== packages =====
-    home.packages =
-      basePackages
-      ++ lib.optionals isLinux linuxPackages
-      ++ lib.optionals enableGui guiPackages
-      ++ lib.optionals (enableGui && isLinux) (linuxGtkPackages ++ linuxGuiPackages)
-      ++ lib.optionals (enableGui && isDarwin) darwinGuiPackages;
+    home.packages = packages;
 
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = npmGlobalDir;
       BUN_INSTALL = bunInstallDir;
-    }
-    // lib.optionalAttrs isLinux {
-      # macOS では Xcode CLT の cc/ld に任せる。特に LD=lld は Mach-O の
-      # リンクを壊すので darwin では設定しない。
       CC = "clang";
       CXX = "clang++";
       LD = "lld";
@@ -329,9 +277,7 @@ in
         source = mkConfigLink "opencode";
         recursive = false;
       };
-    }
-    // pkgs.lib.optionalAttrs isLinux {
-      # Linux-only xdg configs (Wayland/Hyprland)
+      # Wayland/Hyprland 系の Linux-only configs
       "hypr" = {
         source = mkConfigLink "hypr";
         recursive = false;
@@ -354,7 +300,7 @@ in
       };
     };
 
-    systemd.user.services.cycle_wallpaper = lib.mkIf isLinux {
+    systemd.user.services.cycle_wallpaper = {
       Unit.Description = "wallpaper cycle by awww";
 
       Service = {
@@ -369,7 +315,7 @@ in
       };
     };
 
-    systemd.user.timers.cycle_wallpaper = lib.mkIf isLinux {
+    systemd.user.timers.cycle_wallpaper = {
       Unit.Description = "Change wallpaper every 15 minutes";
 
       Timer = {
@@ -381,7 +327,7 @@ in
       Install.WantedBy = [ "timers.target" ];
     };
 
-    systemd.user.services.cliphist-clean = lib.mkIf isLinux {
+    systemd.user.services.cliphist-clean = {
       Unit.Description = "Clean cliphist";
 
       Service = {
@@ -392,7 +338,7 @@ in
       };
     };
 
-    systemd.user.timers.cliphist-clean = lib.mkIf isLinux {
+    systemd.user.timers.cliphist-clean = {
       Unit.Description = "Clean cliphist every week";
 
       Timer = {
