@@ -138,8 +138,11 @@ layout {
     border {
         on
         width 4
-        active-color "#d38ca0"
-        inactive-color "#989286"
+        // rose-pine-moon-neon: active windows get a pink→iris neon gradient,
+        // inactive use the muted border tone from the theme.
+        active-gradient from="#ea9a97" to="#c4a7e7" angle=135 in="oklch"
+        inactive-color "#44415a"
+        urgent-color "#eb6f92"
     }
 
     shadow {
