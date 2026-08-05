@@ -384,3 +384,7 @@ function fcp
     and echo ".direnv/" >>.gitignore
     and direnv allow
 end
+
+function ib
+  emacs -nw $HOME/org/inbox.org
+end

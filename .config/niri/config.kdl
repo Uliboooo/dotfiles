@@ -60,7 +60,11 @@ spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 // (graphical-session.target.wants) が単一インスタンスで面倒を見る。ここでも
 // spawn すると 2 重起動し、ロックの度に hyprlock が複数走って ext-session-lock
 // の敗者が futex でハング → pidof hyprlock が居座り lock_cmd が空振りになる。
-spawn-at-startup "swaync -s $HOME/dotfiles/.config/swaync/style.rose-pine-moon-neon.css"
+// swaync は swaync.service (graphical-session.target 配下) が素のまま先に起動して
+// DBus 名を掴むので、spawn-sh-at-startup から launch-swaync.sh で止め直して
+// rose-pine-moon-neon を当てる。spawn-at-startup はシェル展開されないので
+// $HOME を含むコマンドには使えない。
+spawn-sh-at-startup "$HOME/dotfiles/script/launch-swaync.sh rose-pine-neon"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "wlmstr" "next" "seq"
 spawn-sh-at-startup "$HOME/dotfiles/script/launch-waybar.sh $HOME/.config/waybar/style.rose-pine-moon-neon.css"
