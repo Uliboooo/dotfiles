@@ -141,6 +141,10 @@ in
       serviceConfig = {
         ExecStart = "${pkgs.awww}/bin/awww-daemon";
         Restart = "on-failure";
+        # awww-daemon は壁紙を描画する際に `awww` クライアントを fork する。
+        # systemd user サービスには NixOS が既定の Environment PATH を注入するため、
+        # standalone の PATH= では上書きされてしまう。Environment で後勝ちさせる。
+        Environment = [ "PATH=/run/current-system/sw/bin" ];
       };
       wantedBy = [ "graphical-session.target" ];
     };
@@ -158,6 +162,9 @@ in
       serviceConfig = {
         Type = "oneshot";
         ExecStart = "${wlmstr}/bin/wlmstr next seq";
+        # wlmstr は `awww img` を subprocess で叩くので、awww の入った
+        # /run/current-system/sw/bin を PATH に足す (Environment で後勝ちさせる)。
+        Environment = [ "PATH=/run/current-system/sw/bin" ];
       };
       wantedBy = [ "graphical-session.target" ];
     };
@@ -171,13 +178,28 @@ in
       serviceConfig = {
         ExecStart = waybarLaunch;
         Restart = "on-failure";
+        # waybar の module が swaync-client 等を exec するので、systemPackages 側の
+        # /run/current-system/sw/bin を PATH に足す (Environment で後勝ちさせる)。
+        Environment = [ "PATH=/run/current-system/sw/bin" ];
       };
       wantedBy = [ "graphical-session.target" ];
     };
 
     # swaynotificationcenter 同梱の swaync.service を、テーマを当てた起動で上書きする。
-    # (従来は launch-swaync.sh が素の swaync を止め直していた。)
-    swaync.serviceConfig.ExecStart = [ "" swayncLaunch ];
+    # NixOS 側で上書きすると vendor unit の [Install] が落ちるので、ここで
+    # graphical-session.target への WantedBy も明示する (従来は launch-swaync.sh が
+    # 素の swaync を止め直していた)。
+    swaync = {
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = [ "" swayncLaunch ];
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
   };
   # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
