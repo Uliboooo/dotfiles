@@ -168,7 +168,7 @@ else
     # fi
     # export SSH_ASKPASS_REQUIRE=prefer
 
-    if [[ -n "$SSH_CONNECTION" ]]; then
+    if [[ -n "$SSH_CONNECTION" && -z "$TERM" ]]; then
       export TERM=xterm-256color
     fi
 

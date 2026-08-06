@@ -71,7 +71,7 @@ else
     fish_add_path -g $HOME/.npm-global/bin
     fish_add_path -g $HOME/.cache/.bun/bin
 
-    if test -n "$SSH_CONNECTION"
+    if test -n "$SSH_CONNECTION"; and test -z "$TERM"
         set -gx TERM xterm-256color
     end
 
