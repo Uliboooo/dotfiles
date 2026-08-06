@@ -380,4 +380,9 @@ binds {
     Alt+Minus repeat=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"; }
 
     Super+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    Alt+H repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh left"; }
+    Alt+K repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh up"; }
+    Alt+J repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh down"; }
+    Alt+L repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh right"; }
 }
