@@ -2,7 +2,7 @@
 	defaultBranch = main
 [user]
 	name = seli
-	email = l1lan@proton.me
+	email = seli.am2@proton.me
 [includeIf "gitdir:/Users/"]
   path = ~/.config/git/config_mac
 [core]
