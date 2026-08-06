@@ -362,6 +362,20 @@ return {
       })
 
       vim.lsp.enable("tinymist")
+
+      -- Brass (.cz). Per the Brass docs, `czpm lsp` resolves package.toml deps
+      -- before starting the server, and falls back to the plain `czls` server
+      -- in directories without a package.toml, so the same config works anywhere.
+      vim.filetype.add({ extension = { cz = "brass" } })
+
+      vim.lsp.config("brass", {
+        cmd = { "czpm", "lsp" },
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "brass" },
+        root_dir = vim.fs.root(0, { "package.toml" }),
+      })
+      vim.lsp.enable("brass")
     end,
   },
   {
