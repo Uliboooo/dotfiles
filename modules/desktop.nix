@@ -1,4 +1,54 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+let
+  wlmstr = inputs.wlmstr.packages.${pkgs.system}.default;
+
+  # バー/通知は compositor の spawn-at-startup ではなく systemd user サービスで
+  # 立ち上げる。テーマはセッションの compositor (XDG_CURRENT_DESKTOP) で分岐する
+  # が、niri は rose-pine-moon-neon、それ以外 (Hyprland/sway) は既定の css を使う
+  # 従来通りの挙動を保つ。exec するので systemd が実プロセスを追跡できる。
+  waybarLaunch = pkgs.writeShellScript "waybar-launch" ''
+    set -eu
+    BASE="$HOME/dotfiles/.config/waybar"
+    case "''${XDG_CURRENT_DESKTOP:-}" in
+      niri)
+        exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.niri.jsonc" -s "$BASE/style.rose-pine-moon-neon.css"
+        ;;
+      sway:wlroots)
+        exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.sway.jsonc" -s "$BASE/style.css"
+        ;;
+      *)
+        exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.hypr.jsonc" -s "$BASE/style.css"
+        ;;
+    esac
+  '';
+
+  swayncLaunch = pkgs.writeShellScript "swaync-launch" ''
+    set -eu
+    BASE="$HOME/dotfiles/.config/swaync"
+    case "''${XDG_CURRENT_DESKTOP:-}" in
+      niri)
+        exec ${pkgs.swaynotificationcenter}/bin/swaync -s "$BASE/style.rose-pine-moon-neon.css"
+        ;;
+      *)
+        exec ${pkgs.swaynotificationcenter}/bin/swaync
+        ;;
+    esac
+  '';
+
+  # wl-paste --watch は選択が変わるたびに cliphist store を走らせて居続けるので、
+  # text/image の 2 つをバックグラウンドで起動して待つ (cgroup 単位で管理される)。
+  cliphistStore = pkgs.writeShellScript "cliphist-store" ''
+    set -eu
+    ${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store &
+    ${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store &
+    wait
+  '';
+in
 {
   # ===== desktop base (entire system) =====
   services.desktopManager.gnome.enable = true;
@@ -35,6 +85,100 @@
   # own greeter, so a bare niri/Hyprland session has none.
   systemd.packages = [ pkgs.hyprpolkitagent ];
   systemd.user.services.hyprpolkitagent.wantedBy = [ "graphical-session.target" ];
+
+  # ===== desktop session services =====
+  # 以前は compositor の spawn-at-startup / hypr の exec_cmd で起動していた
+  # セッション部品を systemd user サービスに移管した。graphical-session.target
+  # 配下なので compositor が立った後に起動し、停止時は一緒に終わる。
+  # 環境変数の伝播 (dbus-update-activation-environment / import-environment) と
+  # xdg-desktop-portal の restart だけは compositor 側に残している。
+  systemd.user.services = {
+    udiskie = {
+      description = "udiskie automount daemon";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = "${lib.getExe pkgs.udiskie} -a -t --notify";
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    cliphist-store = {
+      description = "cliphist clipboard store";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = "${cliphistStore}/bin/cliphist-store";
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    fcitx5 = {
+      description = "fcitx5 input method";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = "${lib.getExe pkgs.fcitx5}";
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    awww-daemon = {
+      description = "awww wallpaper engine daemon";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = "${pkgs.awww}/bin/awww-daemon";
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    wlmstr-init = {
+      description = "set initial wallpaper";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [
+          "graphical-session.target"
+          "awww-daemon.service"
+        ];
+        Requires = [ "awww-daemon.service" ];
+      };
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${wlmstr}/bin/wlmstr next seq";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    waybar = {
+      description = "Waybar status bar";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = waybarLaunch;
+        Restart = "on-failure";
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
+
+    # swaynotificationcenter 同梱の swaync.service を、テーマを当てた起動で上書きする。
+    # (従来は launch-swaync.sh が素の swaync を止め直していた。)
+    swaync.serviceConfig.ExecStart = [ "" swayncLaunch ];
+  };
   # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
   # unlock keyring by PAM relation when login

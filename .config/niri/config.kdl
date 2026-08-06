@@ -52,23 +52,10 @@ spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CUR
 // start; otherwise a long-lived xdg-desktop-portal.service can keep routing
 // ScreenCast to xdg-desktop-portal-hyprland (unsupported under niri, crashes).
 spawn-sh-at-startup "systemctl --user restart xdg-desktop-portal.service"
-spawn-at-startup "hyprpolkitagent"
-spawn-at-startup "fcitx5"
-spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
-spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-// hypridle はここでは起動しない。systemd user サービス hypridle.service
-// (graphical-session.target.wants) が単一インスタンスで面倒を見る。ここでも
-// spawn すると 2 重起動し、ロックの度に hyprlock が複数走って ext-session-lock
-// の敗者が futex でハング → pidof hyprlock が居座り lock_cmd が空振りになる。
-// swaync は swaync.service (graphical-session.target 配下) が素のまま先に起動して
-// DBus 名を掴むので、spawn-sh-at-startup から launch-swaync.sh で止め直して
-// rose-pine-moon-neon を当てる。spawn-at-startup はシェル展開されないので
-// $HOME を含むコマンドには使えない。
-spawn-sh-at-startup "$HOME/dotfiles/script/launch-swaync.sh rose-pine-neon"
-spawn-at-startup "awww-daemon"
-spawn-at-startup "wlmstr" "next" "seq"
-spawn-sh-at-startup "$HOME/dotfiles/script/launch-waybar.sh $HOME/.config/waybar/style.rose-pine-moon-neon.css"
-spawn-at-startup "udiskie" "-a" "-t" "--notify"
+// セッション部品 (swaync / waybar / udiskie / fcitx5 / cliphist / awww-daemon /
+// wlmstr / hyprpolkitagent / hypridle) はここで spawn しない。すべて systemd user
+// サービス (modules/desktop.nix, graphical-session.target 配下) が起動する。
+// ここで spawn すると二重起動になる。環境変数の伝播と portal restart だけ残す。
 
 input {
     focus-follows-mouse
@@ -243,7 +230,7 @@ binds {
     Super+Q repeat=false { close-window; }
     Super+T { spawn "ghostty"; }
     Super+M { quit; }
-    Super+E { spawn "kitty" "-e" "yazi" "."; }
+    Super+E { spawn "ghostty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
     Super+D { spawn-sh "rofi -show drun -theme $HOME/dotfiles/.config/rofi/rose-pine-moon-neon.rasi"; }
     Super+shift+D { spawn-sh "$HOME/dotfiles/script/niri_views.sh"; }

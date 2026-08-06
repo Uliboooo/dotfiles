@@ -17,17 +17,10 @@ hl.on("hyprland.start", function()
       .. "systemctl --user reset-failed hyprpolkitagent.service; "
       .. "systemctl --user start hyprpolkitagent.service"
   )
-  hl.exec_cmd("fcitx5")
-  hl.exec_cmd("wl-paste --type text --watch cliphist store")
-  hl.exec_cmd("wl-paste --type image --watch cliphist store")
-  -- hypridle はここで起動しない。systemd user サービス hypridle.service に一本化。
-  -- 2 重起動するとロックの度に hyprlock が複数走り、ext-session-lock の敗者が
-  -- ハングして pidof hyprlock が居座り、以後 lock_cmd が空振りする。
-  hl.exec_cmd("swaync")
+  -- セッション部品 (swaync / waybar / udiskie / fcitx5 / cliphist / awww-daemon /
+  -- wlmstr / hypridle / hyprpolkitagent) はここで起動しない。すべて systemd user
+  -- サービス (modules/desktop.nix, graphical-session.target 配下) に移管した。
+  -- ここで exec すると二重起動になる。
   hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
-  hl.exec_cmd("awww-daemon")
-  hl.exec_cmd("wlmstr next seq")
-  hl.exec_cmd("~/dotfiles/script/launch-waybar.sh")
-  hl.exec_cmd("udiskie -a -t --notify")
   -- hl.exec_cmd("noctalia-shell")
 end)
