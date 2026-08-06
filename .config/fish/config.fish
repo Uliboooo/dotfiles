@@ -338,13 +338,19 @@ function rebuild_host
 end
 
 function rebuild
+    set -l opts
+    if contains -- --local $argv
+        set opts '--option' 'builders' ''
+        echo "rebuild: remote builder disabled (--local); builders=\"\""
+    end
+
     if test (uname -s) = Darwin
-        echo "sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook"
-        sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook
+        echo "sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook $opts"
+        sudo darwin-rebuild switch --flake $HOME/dotfiles#macbook $opts
     else if test -f /etc/NIXOS
         set -l host (rebuild_host)
-        echo "sudo nixos-rebuild switch --flake .#$host"
-        sudo nixos-rebuild switch --flake .#$host
+        echo "sudo nixos-rebuild switch --flake .#$host $opts"
+        sudo nixos-rebuild switch --flake .#$host $opts
     else
         echo "home-manager switch --flake .#seli"
         home-manager switch --flake .#seli

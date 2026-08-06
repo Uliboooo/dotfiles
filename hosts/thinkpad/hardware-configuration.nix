@@ -26,10 +26,6 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices =
-    [ { device = "/dev/mapper/luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978"; }
-    ];
-
   swapDevices = [
     { device = "/dev/mapper/luks-0432ea0c-d8a2-4750-9cb3-ce3229f53978"; }
   ];

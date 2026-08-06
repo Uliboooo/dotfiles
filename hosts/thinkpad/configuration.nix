@@ -110,6 +110,7 @@
   nix.buildMachines = [
     {
       hostName = "eu.nixbuild.net";
+      sshUser = "seli";
       system = "x86_64-linux";
       maxJobs = 100;
       supportedFeatures = [
