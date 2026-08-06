@@ -75,6 +75,14 @@ else
         set -gx TERM xterm-256color
     end
 
+    # gcr-ssh-agent (GDM ログイン時に gnome-keyring が解錠した鍵) を SSH セッション
+    # からも使う。SSH_AUTH_SOCK が既にあれば (例: ssh -A の agent forwarding)
+    # そちらを優先する。コンソール未ログイン (ヘッドレス起動) なら socket が無く
+    # 何も起きない。
+    if test -z "$SSH_AUTH_SOCK"; and test -S "$XDG_RUNTIME_DIR/gcr/ssh"
+        set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gcr/ssh"
+    end
+
     abbr -a copy wl-copy
 end
 

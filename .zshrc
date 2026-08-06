@@ -154,6 +154,13 @@ else
     #   eval "$(ssh-agent -s)" > /dev/null
     # fi
 
+    # gcr-ssh-agent (GDM ログイン時に gnome-keyring が解錠した鍵) を SSH セッション
+    # からも使う。SSH_AUTH_SOCK が既にあれば (例: ssh -A の agent forwarding)
+    # そちらを優先する。
+    if [[ -z "$SSH_AUTH_SOCK" && -S "$XDG_RUNTIME_DIR/gcr/ssh" ]]; then
+      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+    fi
+
     # for KDE
     # export SSH_ASKPASS=/usr/bin/ksshaskpass
     # if ! pgrep -u "$USER" ssh-agent >/dev/null; then

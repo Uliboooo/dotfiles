@@ -15,6 +15,24 @@ vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.showbreak = "⤷ "
 vim.opt.clipboard = "unnamedplus"
+
+-- SSH / tmux 越しではローカルの wl-copy/wl-paste が使えないので、OSC52 で
+-- クライアント端末 (kitty / ghostty) のクリップボードへ直接渡す。
+-- ローカル (コンソール) では従来どおり Wayland クリップボードを使う。
+if vim.env.SSH_CONNECTION or vim.env.SSH_TTY or vim.env.TMUX then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
+    },
+    paste = {
+      ["+"] = osc52.paste("+"),
+      ["*"] = osc52.paste("*"),
+    },
+  }
+end
 vim.opt.hlsearch = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
