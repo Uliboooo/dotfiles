@@ -84,8 +84,9 @@
     },
 
     {
-      "type": "cpu",
-      "key": "{##00b894}│  󰻠 CPU     "
+      "type": "command",
+      "key": "{##00b894}│  󰻠 CPU     ",
+      "text": "$HOME/dotfiles/script/cpu-info.sh"
     },
     {
       "type": "gpu",

@@ -16,6 +16,7 @@
     zip
     unzip
     python3
+    util-linux
   ];
 
   security.sudo.wheelNeedsPassword = true;

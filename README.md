@@ -18,31 +18,20 @@ view [Hyprland manual](./README/Hyprland.md), view [Uncoated Paper design manual
 
 | Tool | |
 | :---: | :---: |
-| Terminal | Kitty |
+| Terminal | ghostty, kitty |
 | Editor | Neovim |
 | Shell | zsh |
 | Launcher | rofi |
 | VCS | git |
-| DE/WM | Hyprland |
+| DE/WM | niri |
 | Lock | Hypridle, Hyprlock |
-| Bar | Waybar |
+| Bar | waybar |
 | Wallpaper | awww(swww), mpvpaper |
 | Filer | yazi |
-| Scripts | Bash, Python, YSH |
+| Scripts | Bash, Python |
 
 Catppuccin, and rose-pine are used mainly themes of my tools.
 and many of these scripts are dependent on my personal environment, it might not work as-is in your environment...
-
-## Requires of Hyprland
-
-- hyprshot:   take screenshots
-- hypridle:   auto start lock
-- hyprlock:   lock screen
-- hyprpicker: to use `freeze` option of hyprshot
-- awww:       wallpapers manager
-- systemd:    manage wallpapers slideshow
-- waybar:     status bar
-- btop,bluetui,nmtui: TUI tools for waybar
 
 ## Installation & Setup
 

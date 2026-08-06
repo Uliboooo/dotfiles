@@ -375,9 +375,7 @@ binds {
     XF86Favorites allow-when-locked=true { spawn "playerctl" "play-pause"; }
 
     // horizontal scroll (match hypr Alt+J/K)
-    Alt+J repeat=true { spawn "playerctl" "previous"; }
-    Alt+K repeat=true { spawn "playerctl" "play-pause"; }
-    Alt+L repeat=true { spawn "playerctl" "next"; }
+    Alt+P repeat=true { spawn "playerctl" "play-pause"; }
     Alt+Equal repeat=true { spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 3%+"; }
     Alt+Minus repeat=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-"; }
 
