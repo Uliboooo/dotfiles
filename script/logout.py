@@ -14,7 +14,7 @@ import general_cmd_p
 cmds = {
     "󰗽 Logout": ["hyprctl", "dispatch", "hl.dsp.exit()"],
     "󰜉 Reboot": ["reboot"],
-    " Lock":   ["hyprlock"],
+    " Lock":   ["hyprlock"],
 }
 
 general_cmd_p.pa(cmds)

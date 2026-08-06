@@ -203,7 +203,7 @@ blur {
 }
 
 window-rule {
-    match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
+    match app-id=r#"^(ghostty|com\.mitchellh\.ghostty)$"#
     draw-border-with-background false
     background-effect {
         blur true
