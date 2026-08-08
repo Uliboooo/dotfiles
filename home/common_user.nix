@@ -18,6 +18,7 @@ let
   zathura-gui = inputs.zathura-gui.packages.${system}.default;
   # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
   hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
+  niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
 
   packages = with pkgs; [
     # ===== CLI / エディタ =====
@@ -133,6 +134,7 @@ let
     zed-editor
     digikam
     prismlauncher
+    niri-float-sticky
 
     # ===== ツールチェーン =====
     clang

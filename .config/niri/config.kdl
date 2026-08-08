@@ -52,10 +52,7 @@ spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CUR
 // start; otherwise a long-lived xdg-desktop-portal.service can keep routing
 // ScreenCast to xdg-desktop-portal-hyprland (unsupported under niri, crashes).
 spawn-sh-at-startup "systemctl --user restart xdg-desktop-portal.service"
-// セッション部品 (swaync / waybar / udiskie / fcitx5 / cliphist / awww-daemon /
-// wlmstr / hyprpolkitagent / hypridle) はここで spawn しない。すべて systemd user
-// サービス (modules/desktop.nix, graphical-session.target 配下) が起動する。
-// ここで spawn すると二重起動になる。環境変数の伝播と portal restart だけ残す。
+spawn-at-startup "niri-float-sticky" "-title" "Picture in picture|Picture-in-Picture"
 
 input {
     focus-follows-mouse
@@ -204,6 +201,17 @@ window-rule {
     background-effect {
         blur true
     }
+}
+
+window-rule {
+    match title="^Picture in picture$"
+
+    open-floating true
+
+    default-column-width { fixed 480; }
+    default-window-height { fixed 270; }
+
+    default-floating-position x=24 y=24 relative-to="bottom-right"
 }
 
 // lid の開閉は logind に一本化した (hosts/desktop/configuration.nix の

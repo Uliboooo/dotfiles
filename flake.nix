@@ -31,6 +31,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri-float-sticky = {
+      url = "github:probeldev/niri-float-sticky";
+    };
+
     # tirith = {
     #   url = "github:sheeki03/tirith";
     #   inputs.nixpkgs.follows = "nixpkgs";
