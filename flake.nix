@@ -31,16 +31,6 @@
       url = "github:probeldev/niri-float-sticky";
     };
 
-    # tirith = {
-    #   url = "github:sheeki03/tirith";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # shojiwm = {
-    #   url = "github:bea4dev/ShojiWM";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     hyprpanopticon = {
       url = "github:Uliboooo/hyprPanopticon";
       inputs.nixpkgs.follows = "nixpkgs";

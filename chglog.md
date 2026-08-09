@@ -16,6 +16,7 @@
   端末アプリからブラウザへの D&D は原理的に不可、クリップボード経由で渡す
 - [chglog/ssh.md](chglog/ssh.md) — SSH 越しの接続性。
   解錠済み gcr-ssh-agent の再利用、OSC52 クリップボード、kitty graphics / sixel
+- [chglog/status-bar.md](chglog/status-bar.md) — Noctalia / Waybar の起動と切替。
 
 ## 使い方
 

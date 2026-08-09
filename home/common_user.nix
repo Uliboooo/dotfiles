@@ -109,7 +109,7 @@ let
     gnome-text-editor
     gnome-tweaks
     ashell
-    # noctalia-shell
+    noctalia-shell
     kdePackages.kdenlive
     libnotify # freedesktop の D-Bus 通知
     mpv
@@ -296,6 +296,10 @@ in
         source = mkConfigLink "swaync";
         recursive = false;
       };
+      "noctalia" = {
+        source = mkConfigLink "noctalia";
+        recursive = false;
+      };
       "nixpkgs" = {
         source = mkConfigLink "nixpkgs";
         recursive = false;
@@ -323,6 +327,29 @@ in
           "-title"
           "Picture in picture|Picture-in-Picture"
         ];
+        Restart = "on-failure";
+        RestartSec = 2;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    # ステータスバー noctalia を compositor と同じライフサイクルで起動する。
+    # 以前は compositor の init.lua から直接起動していたが、クラッシュ時の
+    # 自動再起動や journal へのログ出力を systemd に任せるためサービス化する。
+    systemd.user.services.noctalia = {
+      Unit = {
+        Description = "Noctalia status bar";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+        Conflicts = [ "waybar.service" ];
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "${lib.getExe pkgs.noctalia-shell}";
         Restart = "on-failure";
         RestartSec = 2;
         StandardOutput = "journal";

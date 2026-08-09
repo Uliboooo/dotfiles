@@ -228,6 +228,7 @@ in
       unitConfig = {
         PartOf = [ "graphical-session.target" ];
         After = [ "graphical-session.target" ];
+        Conflicts = [ "noctalia.service" ];
       };
       serviceConfig = {
         ExecStart = waybarLaunch;
@@ -236,7 +237,8 @@ in
         # /run/current-system/sw/bin を PATH に足す (Environment で後勝ちさせる)。
         Environment = [ "PATH=/run/current-system/sw/bin" ];
       };
-      wantedBy = [ "graphical-session.target" ];
+      # Noctalia を既定のバーとする。Waybar は必要なときだけ
+      # `systemctl --user start waybar` で切り替える。
     };
 
     # swaynotificationcenter 同梱の swaync.service を、テーマを当てた起動で上書きする。
