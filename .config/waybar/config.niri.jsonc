@@ -87,7 +87,7 @@
     "format": "{icon} {temperatureC}°C",
     "format-icons": [""],
     "interval": 10,
-    "on-click": "ghostty --title='dev-float' -e btop"
+    "on-click": "ghostty -e btop"
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
@@ -97,13 +97,13 @@
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-click": "ghostty --class='dev-float' -e wiremix"
+    "on-click": "ghostty -e wiremix"
   },
   "bluetooth": {
     "format": "{status}",
     "format-connected": " {device_alias}",
     "format-connected-battery": " {device_alias}",
-    "on-click": "ghostty --class='dev-float' -e bluetui",
+    "on-click": "ghostty -e bluetui",
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
@@ -114,7 +114,7 @@
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
     "max-length": 11,
-    "on-click": "ghostty --class='dev-float' -e nmtui"
+    "on-click": "ghostty -e nmtui"
   },
   "battery": {
     "states": {
