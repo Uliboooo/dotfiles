@@ -47,12 +47,17 @@ gestures {
 }
 
 spawn-sh-at-startup "dbus-update-activation-environment --systemd --all"
-spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+// NIRI_SOCKET は niri が子プロセスにしか渡さないので、systemd user サービス
+// (niri-float-sticky など) が使えるよう manager 環境へ import する。
+spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIRI_SOCKET"
 // Ensure the desktop portal re-reads XDG_CURRENT_DESKTOP=niri on every niri
 // start; otherwise a long-lived xdg-desktop-portal.service can keep routing
 // ScreenCast to xdg-desktop-portal-hyprland (unsupported under niri, crashes).
 spawn-sh-at-startup "systemctl --user restart xdg-desktop-portal.service"
-spawn-at-startup "niri-float-sticky" "-title" "Picture in picture|Picture-in-Picture"
+// niri-float-sticky は systemd user サービス (home/common_user.nix) として起動。
+// niri の IPC ソケット切断時に CPU を食い尽くす既知バグ
+// (https://github.com/probeldev/niri-float-sticky/issues/12) を回避するため
+// spawn-at-startup では起動しない。
 
 input {
     focus-follows-mouse
@@ -167,7 +172,6 @@ animations {
 }
 
 window-rule {
-    match app-id="com.mitchellh.ghostty"
     match title="^(btop|nmtui|wiremix|bluetui)$"
     open-floating true
     default-column-width { proportion 0.75; }

@@ -17,10 +17,13 @@ hl.on("hyprland.start", function()
       .. "systemctl --user reset-failed hyprpolkitagent.service; "
       .. "systemctl --user start hyprpolkitagent.service"
   )
-  -- セッション部品 (swaync / waybar / udiskie / fcitx5 / cliphist / awww-daemon /
+  -- セッション部品 (swaync / waybar / udiskie / cliphist / awww-daemon /
   -- wlmstr / swayidle / hyprpolkitagent) はここで起動しない。すべて systemd user
   -- サービス (modules/desktop.nix, graphical-session.target 配下) に移管した。
-  -- ここで exec すると二重起動になる。
+  -- ここで exec すると二重起動になる。fcitx5 は明示 unit を持たせず D-Bus
+  -- アクティベーション (NixOS i18n.inputMethod) に任せる。graphical-session 直起動だと
+  -- コンポジタの zwp_input_method_v2 が ready になる前に張り付いて失敗し、
+  -- `fcitx5 -r` しないと日本語入力が復活しなくなるため。
   hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
   -- hl.exec_cmd("noctalia-shell")
 end)

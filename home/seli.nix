@@ -22,7 +22,6 @@ in
 {
   imports = [
     ./common_user.nix
-    inputs.nur.homeModules.crush
   ];
 
   home.username = pkgs.lib.mkDefault "seli";

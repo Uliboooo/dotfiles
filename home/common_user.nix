@@ -302,6 +302,36 @@ in
       };
     };
 
+    # Picture-in-Picture ウィンドウを全 workspace で sticky にする。
+    # 以前は niri の spawn-at-startup で起動していたが、niri の IPC ソケット
+    # 切断時に CPU コアを食い尽くす既知バグがある
+    # (https://github.com/probeldev/niri-float-sticky/issues/12)。niri と
+    # 同じライフサイクルで綺麗に起動/終了させるため systemd user サービス化する。
+    # NIRI_SOCKET / WAYLAND_DISPLAY は niri が子にしか渡さないため、
+    # config.kdl の import-environment で manager 環境に注入している。
+    systemd.user.services.niri-float-sticky = {
+      Unit = {
+        Description = "Make picture-in-picture windows stick across niri workspaces";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = lib.escapeShellArgs [
+          (lib.getExe niri-float-sticky)
+          "-title"
+          "Picture in picture|Picture-in-Picture"
+        ];
+        Restart = "on-failure";
+        RestartSec = 2;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
     systemd.user.services.cycle_wallpaper = {
       Unit.Description = "wallpaper cycle by awww";
 

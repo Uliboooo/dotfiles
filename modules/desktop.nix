@@ -186,19 +186,6 @@ in
       wantedBy = [ "graphical-session.target" ];
     };
 
-    fcitx5 = {
-      description = "fcitx5 input method";
-      unitConfig = {
-        PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
-      };
-      serviceConfig = {
-        ExecStart = "${lib.getExe pkgs.fcitx5}";
-        Restart = "on-failure";
-      };
-      wantedBy = [ "graphical-session.target" ];
-    };
-
     awww-daemon = {
       description = "awww wallpaper engine daemon";
       unitConfig = {
