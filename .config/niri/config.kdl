@@ -102,12 +102,12 @@ output "DP-1" {
 }
 
 layout {
-    gaps 4
+    gaps 1
     background-color "transparent"
 
     struts {
-        left 4
-        right 4
+        left 0
+        right 0
         top 1
         bottom 4
     }
@@ -130,7 +130,7 @@ layout {
 
     border {
         on
-        width 4
+        width 3
         // rose-pine-moon-neon: active windows get a pink→iris neon gradient,
         // inactive use the muted border tone from the theme.
         active-gradient from="#ea9a97" to="#c4a7e7" angle=135 in="oklch"
