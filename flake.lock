@@ -61,11 +61,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785936982,
-        "narHash": "sha256-nuRhZbDKkfh8S+/M5TvQLVYiRXnJlvGhhybFFZW4jx4=",
+        "lastModified": 1786031233,
+        "narHash": "sha256-TIDlLTLI1/pB7IqgjzcKQjpODQsZE2oII4XGG9B6KjI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a9bcd0057073751a54ce5fd4b0dc63a391b6f349",
+        "rev": "7834e82588860aaf780cec1366524456a70898d7",
         "type": "github"
       },
       "original": {
@@ -155,26 +155,6 @@
         "type": "github"
       }
     },
-    "nix-darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785389976,
-        "narHash": "sha256-0tLW8Ff5yt8AH97jw4ZpFJ0OCJ122zIlgWGDmOfU/VU=",
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "rev": "15abb8c98f336cd8bd840d71059adebabe60bf04",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
     "nix-hazkey": {
       "inputs": {
         "home-manager": "home-manager_2",
@@ -215,11 +195,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1785692966,
-        "narHash": "sha256-vUfIeBEfpbAfZ5zjgIkYk7eHBeVfCYVjLbWnMkseYnk=",
+        "lastModified": 1786106723,
+        "narHash": "sha256-zDSUbpoeo/9ZmD2+wXnzxoo1+uhL8vxc0b8yuYMKYq0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "643809054d65fdd466a63e3155b8c498cb483c04",
+        "rev": "f13ff45afd1bb73e640eaa08a7066dbed07e3238",
         "type": "github"
       },
       "original": {
@@ -237,11 +217,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1785877420,
-        "narHash": "sha256-WiYRtIsuki//FrKv6q+XRbKS0ikdDQb6SrqtRRrxROY=",
+        "lastModified": 1786165107,
+        "narHash": "sha256-Dn+c5e04Ix5A/YYJcb0sfEcIFvxgzg2DArhorE//rJc=",
         "owner": "charmbracelet",
         "repo": "nur",
-        "rev": "7ad707a51a007e7639bbb2eb2c3a0cfa9b38e8cb",
+        "rev": "85183a515e620fb2c8d8bab3ded2044db5d48c6d",
         "type": "github"
       },
       "original": {
@@ -256,7 +236,6 @@
         "hyprpanopticon": "hyprpanopticon",
         "jolt": "jolt",
         "niri-float-sticky": "niri-float-sticky",
-        "nix-darwin": "nix-darwin",
         "nix-hazkey": "nix-hazkey",
         "nixpkgs": "nixpkgs_2",
         "nur": "nur",
