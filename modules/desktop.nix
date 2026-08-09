@@ -48,6 +48,73 @@ let
     ${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store &
     wait
   '';
+
+  # swayidle は各コマンドを 1 つの argv (内部で sh -c) として受けるため、複雑な判定は
+  # writeShellScript で個別に作り、そのパスを渡す。コンポジタは niri / Hyprland 共用
+  # なので pidof で振り分ける。swayidle のサービス PATH は最小限に絞っているため、
+  # 実行は /run/current-system/sw/bin を絶対パスで叩く (loginctl / systemctl は
+  # PATH に入るのでそのまま)。
+  #
+  # 音声再生の判定について。swayidle は ext_idle_notifier_v1 の無操作だけで発火し、
+  # 音声のみの再生でアイドル抑止を取るアプリはほぼ無い。そのため PipeWire に再生中
+  # ストリームがあるかを自前で見る。pw-dump が落ちた場合は「ロックする」側に倒れる
+  # (fail-safe)。
+  swayidleBrightnessDown = pkgs.writeShellScript "swayidle-brightness-down" ''
+    exec /run/current-system/sw/bin/brightnessctl -s set 10%
+  '';
+  swayidleBrightnessUp = pkgs.writeShellScript "swayidle-brightness-up" ''
+    exec /run/current-system/sw/bin/brightnessctl -r
+  '';
+  # 8 分: 減光。-s で現在の輝度を保存し、復帰時に -r で元に戻す。→ 上記 2 スクリプト。
+  #
+  # 10 分: ロック + 画面オフ (DPMS)。GNOME の idle-delay 600 相当。ここが無いと
+  # 30 分の hibernate まで画面が点きっぱなしになり、離席のたびにパネルが電力を
+  # 食い続ける (かつロックも掛からない)。
+  #
+  # ロックを撃たない条件が 2 つ:
+  #   - 音声再生中 (30 分の hibernate と同じ判定)
+  #   - AC 接続中。AC = 自宅/ドックで在席中という運用なので、離席時の情報漏洩より
+  #     復帰のたびの再認証のほうが邪魔になる。バッテリー駆動 = 持ち出し中なので
+  #     こちらは従来どおりロックする。
+  # AC 判定は hibernate 側の `= 0` ではなく `!= 1` にしてある。ファイルが読めない
+  # ときに「ロックする」側へ倒すため (fail-safe の向きが逆)。
+  # 画面オフは AC でも再生中でも常に行う: パネルを消しても再生は続くし、ロック
+  # しないこととも独立なので省電力上むしろ好都合。
+  swayidleLockOff = pkgs.writeShellScript "swayidle-lock-off" ''
+    [ "$(cat /sys/class/power_supply/AC/online)" != 1 ] \
+      && ! /run/current-system/sw/bin/pw-dump \
+        | /run/current-system/sw/bin/jq -e 'any(.[]; .info.props."media.class"=="Stream/Output/Audio" and .info.state=="running")' >/dev/null \
+      && loginctl lock-session
+    if pidof niri >/dev/null; then
+      /run/current-system/sw/bin/niri msg action power-off-monitors
+    else
+      /run/current-system/sw/bin/hyprctl dispatch dpms off
+    fi
+  '';
+  swayidleMonitorsOn = pkgs.writeShellScript "swayidle-monitors-on" ''
+    if pidof niri >/dev/null; then
+      /run/current-system/sw/bin/niri msg action power-on-monitors
+    else
+      /run/current-system/sw/bin/hyprctl dispatch dpms on
+    fi
+  '';
+  # アイドル 30 分で hibernate (S4)。ただし「バッテリー駆動時のみ」。before-sleep が
+  # ロックも掛ける。
+  # AC 接続 (=ドック) 時は hibernate しない (経緯は旧 hypridle.conf 参照)。
+  swayidleHibernate = pkgs.writeShellScript "swayidle-hibernate" ''
+    [ "$(cat /sys/class/power_supply/AC/online)" = 0 ] \
+      && ! /run/current-system/sw/bin/pw-dump \
+        | /run/current-system/sw/bin/jq -e 'any(.[]; .info.props."media.class"=="Stream/Output/Audio" and .info.state=="running")' >/dev/null \
+      && systemctl hibernate
+  '';
+
+  swayidleLaunch = pkgs.writeShellScript "swayidle-launch" ''
+    exec ${pkgs.swayidle}/bin/swayidle -w \
+      timeout 480 ${swayidleBrightnessDown} resume ${swayidleBrightnessUp} \
+      timeout 3600 ${swayidleLockOff} resume ${swayidleMonitorsOn} \
+      timeout 1800 ${swayidleHibernate} \
+      before-sleep 'loginctl lock-session'
+  '';
 in
 {
   # ===== desktop base (entire system) =====
@@ -200,6 +267,27 @@ in
       };
       wantedBy = [ "graphical-session.target" ];
     };
+
+    # idle manager。hypridle から swayidle に移行した (2026-08-08)。hypridle の
+    # .config/hypr/hypridle.conf は swayidle の CLI / スクリプト化に合わせて消した。
+    # swayidle の package は同梱の systemd unit を持たない (NixOS の
+    # services.swayidle モジュールも現行 nixpkgs には無い) ので、ここで立てる。
+    # ロックは loginctl lock-session 経由 (PAM で hyprlock が起動する)。
+    swayidle = {
+      description = "Idle manager for Wayland";
+      unitConfig = {
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      serviceConfig = {
+        ExecStart = swayidleLaunch;
+        Restart = "on-failure";
+        # 各コマンドは sh -c で叩く。loginctl / systemctl を解決できるよう
+        # /run/current-system/sw/bin を PATH に足す (Environment で後勝ちさせる)。
+        Environment = [ "PATH=/run/current-system/sw/bin" ];
+      };
+      wantedBy = [ "graphical-session.target" ];
+    };
   };
   # enable gnome-keyring as NixOS services
   services.gnome.gnome-keyring.enable = true;
@@ -306,16 +394,16 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    # hypridle.conf が /run/current-system/sw/bin から叩くので、ユーザプロファイル
-    # ではなくシステム側に入れておく(hypridle.service の PATH は最小限)。
-    # brightnessctl = 減光、jq = PipeWire の再生中判定。
+    # swayidle の各コマンドが /run/current-system/sw/bin から叩くので、ユーザ
+    # プロファイルではなくシステム側に入れておく (swayidle のサービス PATH は
+    # 最小限)。brightnessctl = 減光、jq = PipeWire の再生中判定。
     brightnessctl
     jq
     awww
     waybar
     rofi
     hyprpaper
-    hypridle
+    swayidle
     hyprpolkitagent
     hyprpicker
     hyprshot
@@ -326,5 +414,9 @@ in
     swtpm
     udiskie
     usbutils
+    # niri 26.04+ provides X11 exclusively through xwayland-satellite
+    # (on-demand). Without it there is no X server at all: DISPLAY stays empty
+    # and X clients (Steam, etc.) fail with "Unable to open a connection to X".
+    xwayland-satellite
   ];
 }

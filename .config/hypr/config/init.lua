@@ -18,7 +18,7 @@ hl.on("hyprland.start", function()
       .. "systemctl --user start hyprpolkitagent.service"
   )
   -- セッション部品 (swaync / waybar / udiskie / fcitx5 / cliphist / awww-daemon /
-  -- wlmstr / hypridle / hyprpolkitagent) はここで起動しない。すべて systemd user
+  -- wlmstr / swayidle / hyprpolkitagent) はここで起動しない。すべて systemd user
   -- サービス (modules/desktop.nix, graphical-session.target 配下) に移管した。
   -- ここで exec すると二重起動になる。
   hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")

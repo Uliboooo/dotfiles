@@ -54,9 +54,9 @@
   #   HandleLidSwitch              … それ以外(= バッテリー かつ 非ドック)
   #
   # 3 つとも suspend。外部モニタ接続中は logind が「ドック」と判定し、
-  # HandleLidSwitchDocked の既定値 ignore だと lid を閉じても何も起きない
+  #   HandleLidSwitchDocked の既定値 ignore だと lid を閉じても何も起きない
   # （＝ロックもされない）ので、明示的に指定する必要がある。suspend すれば
-  # hypridle の before_sleep_cmd = loginctl lock-session が走り復帰時にロック
+  # swayidle の before-sleep = loginctl lock-session が走り復帰時にロック
   # される。
   #
   # HandleLidSwitch = "hibernate" は試したが戻した(2026-07-25)。この機は
@@ -70,9 +70,9 @@
   #            _raw_spin_lock で停止 → ハング → 強制電源断
   # イメージは書かれないので次回は cold boot(PM: Image not found (code -22))に
   # なりセッションが飛ぶ。同日 16:00 の試行も Lid opened と同時刻で中断した。
-  # 一方 hypridle の 30 分アイドル hibernate は蓋イベントを伴わないため成功実績
+  # 一方 swayidle の 30 分アイドル hibernate は蓋イベントを伴わないため成功実績
   # がある(7/24 23:46 に 7391040 kbytes 書き込み → 翌 00:05 に resume 成功)。
-  # よって長時間放置の省電力は hypridle 側に任せ、蓋は suspend に留める。
+  # よって長時間放置の省電力は swayidle 側に任せ、蓋は suspend に留める。
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "suspend";

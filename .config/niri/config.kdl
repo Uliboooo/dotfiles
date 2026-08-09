@@ -167,8 +167,8 @@ animations {
 }
 
 window-rule {
-    match app-id="dev-float"
-    match title="dev-float"
+    match app-id="com.mitchellh.ghostty"
+    match title="^(btop|nmtui|wiremix|bluetui)$"
     open-floating true
     default-column-width { proportion 0.75; }
     default-window-height { proportion 0.9; }
@@ -213,7 +213,7 @@ window-rule {
 
     default-floating-position x=20 y=20 relative-to="top-right"
 
-    opacity 0.5
+    opacity 0.6
 
     draw-border-with-background false
 

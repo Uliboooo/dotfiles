@@ -119,7 +119,7 @@ hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("~/dotfiles/script/cmd_p.py"))
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("~/dotfiles/script/logout.py"))
 
 -- Delete 長押し = ロックボタン。keyd が 500ms 長押しで KEY_SCREENLOCK を送って
--- くる (modules/desktop.nix)。ロック自体は hypridle の lock_cmd に任せる。
+-- くる (modules/desktop.nix)。ロック自体は logind の PAM 経由 (hyprlock) に任せる。
 hl.bind("XF86ScreenSaver", hl.dsp.exec_cmd("loginctl lock-session"))
 
 -- cliphist
