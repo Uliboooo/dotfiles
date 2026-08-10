@@ -67,6 +67,18 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
+      local function nyan()
+        local current = vim.fn.line(".")
+        local total = vim.fn.line("$")
+
+        if total <= 1 then return "🌈🐈" end
+
+        local width = 10
+        local pos = math.floor((current - 1) / (total - 1) * width)
+
+        return string.rep("=", pos) .. "🐈" .. string.rep("-", width - pos)
+      end
+
       require("lualine").setup({
         options = {
           icons_enabled = true,
@@ -88,7 +100,7 @@ return {
             },
           },
           lualine_x = { "filesize", "filetype" },
-          lualine_y = { "progress" },
+          lualine_y = { nyan },
           lualine_z = { "location" },
         },
         inactive_sections = {
@@ -101,7 +113,7 @@ return {
             },
           },
 
-          lualine_x = { "location" },
+          lualine_x = { nyan },
           lualine_y = {},
           lualine_z = {},
         },

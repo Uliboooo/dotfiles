@@ -17,6 +17,7 @@
 - [chglog/ssh.md](chglog/ssh.md) — SSH 越しの接続性。
   解錠済み gcr-ssh-agent の再利用、OSC52 クリップボード、kitty graphics / sixel
 - [chglog/status-bar.md](chglog/status-bar.md) — Noctalia / Waybar の起動と切替。
+- [chglog/niri.md](chglog/niri.md) — niri 固有の外部ツールと連携設定。
 
 ## 使い方
 

@@ -45,5 +45,6 @@ in
 
   home.packages = [
     tex
+    inputs.herdr.packages.${pkgs.system}.default
   ];
 }

@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    firefox-nightly.url = "github:nix-community/flake-firefox-nightly";
+
     nix-hazkey = {
       url = "github:aster-void/nix-hazkey/4f791a241963f6804420d69613c25c6d25610e73";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,6 +16,11 @@
     };
     jolt = {
       url = "github:jordond/jolt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    herdr = {
+      url = "github:ogulcancelik/herdr/v0.7.5";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,6 +36,10 @@
 
     niri-float-sticky = {
       url = "github:probeldev/niri-float-sticky";
+    };
+
+    niri-scratchpad = {
+      url = "github:argosnothing/niri-scratchpad-rs";
     };
 
     hyprpanopticon = {

@@ -20,6 +20,7 @@ let
   hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
   niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
+  firefox-nightly = inputs.firefox-nightly.packages.${system}.firefox-nightly-bin;
 
   packages = with pkgs; [
     # ===== CLI / エディタ =====
@@ -106,6 +107,7 @@ let
     showtime
     libreoffice
     firefox
+    firefox-nightly
     discord
     gnome-text-editor
     gnome-tweaks
