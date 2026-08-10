@@ -19,6 +19,7 @@ let
   # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
   hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
+  niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
 
   packages = with pkgs; [
     # ===== CLI / エディタ =====
@@ -135,6 +136,7 @@ let
     digikam
     prismlauncher
     niri-float-sticky
+    niri-scratchpad
 
     # ===== ツールチェーン =====
     clang

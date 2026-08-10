@@ -198,6 +198,13 @@ window-rule {
     }
 }
 
+// Dedicated terminal toggled by niri-scratchpad. Keep ordinary Ghostty windows
+// out of the scratchpad target by giving this one a distinct app-id.
+window-rule {
+    match app-id="com.mitchellh.ghostty.scratch"
+    open-floating true
+}
+
 window-rule {
     // Rofi uses either "rofi" (Wayland) or "Rofi" (XWayland WM_CLASS)
     // depending on the backend used for the current session.
@@ -241,6 +248,9 @@ workspace "chats" {
     open-on-output "DP-1"
 }
 
+// niri-scratchpad moves hidden scratchpad windows into this workspace.
+workspace "stash" { }
+
 // Discord (desktop app) は常に chats に開く
 window-rule {
     match app-id=r#"^discord$"#
@@ -258,6 +268,8 @@ binds {
     Super+E { spawn "ghostty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
     Super+D { spawn-sh "rofi -show drun -theme $HOME/dotfiles/.config/rofi/rose-pine-moon-neon.rasi"; }
+    // Toggle a dedicated floating terminal scratchpad; spawn it on first use.
+    Super+BracketLeft { spawn "niri-scratchpad" "target" "--spawn" "ghostty --class=com.mitchellh.ghostty.scratch --background-opacity=0.8 --window-width=120 --window-height=60" "appid" "com.mitchellh.ghostty.scratch"; }
     Super+shift+D { spawn-sh "$HOME/dotfiles/script/niri_views.sh"; }
     // Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
     Super+Shift+F { fullscreen-window; }
