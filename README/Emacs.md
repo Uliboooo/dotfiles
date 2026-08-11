@@ -5,17 +5,22 @@
 
 ## 起動
 
-- GUI: `emacs`
-- TUI: `emacs -nw`
+- GUI: `emacs`（Emacs daemon に新しいフレームを開く）
+- GUI を明示: `emacsclient --create-frame`
+- TUI: `emacsclient --tty`
+
+Emacs daemon はグラフィカルセッションの開始時に systemd user service として起動する。
+rofi の「Emacs」も同じ daemon に接続するため、起動済みのバッファや設定を共有する。
+`Super+Backslash` / `Super+[` の scratchpad は独立した Emacs プロセスのため、通常の
+Emacs とはバッファ・未保存の編集・履歴を共有しない。
 
 この設定は `~/.config/emacs` を直接書き換えません。実体はこの repo の [`.config/emacs/init.el`](/home/seli/dotfiles/.config/emacs/init.el) です。
 
 ## 画面の見方
 
 - 左端の行番号は相対行番号です (org buffer では非表示)
-- 右上のモード表示は `doom-modeline` です
+- 右下のモード表示は `doom-modeline` です
 - `which-key` により `SPC` の候補が少し待つと出ます
-- 開いている buffer は上部の `tab-line` に並びます
 
 ## 基本の考え方
 

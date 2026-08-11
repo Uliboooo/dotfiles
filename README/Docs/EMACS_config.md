@@ -358,16 +358,20 @@ GUI フレームでは `alpha` を active/inactive とも `100` に固定し、�
 GUI Emacs の既定フォントと日本語など CJK 用フォールバックフォント。`130` は 13pt 相当の高さ。日本語で org を書く前提なので、CJK フォールバックは重要。
 
 ```elisp
-(defun seli/apply-fonts ()
-  (when (display-graphic-p)
-    (when (member seli/default-font-family (font-family-list))
-      (set-face-attribute 'default nil :family seli/default-font-family :height seli/default-font-height))
-    (when (member seli/cjk-font-family (font-family-list))
-      (dolist (charset '(kana han cjk-misc))
-        (set-fontset-font t charset (font-spec :family seli/cjk-font-family))))))
+(add-to-list 'default-frame-alist '(font . "Monaspace Radon Var-13"))
+
+(defun seli/apply-fonts (&optional frame)
+  (let ((frame (or frame (selected-frame))))
+    (when (display-graphic-p frame)
+      (with-selected-frame frame
+        (set-face-attribute 'default frame :family seli/default-font-family :height seli/default-font-height)
+        (dolist (charset '(kana han cjk-misc))
+          (set-fontset-font t charset (font-spec :family seli/cjk-font-family) frame))))))
+
+(add-hook 'after-make-frame-functions #'seli/apply-fonts)
 ```
 
-フォントがインストールされている場合だけ適用する。存在確認をしているため、別環境でも起動エラーになりにくい。
+`default-frame-alist` で最初の GUI フレームから Radon を選び、さらに新しい GUI フレームごとに face と CJK フォールバックを設定する。これにより、daemon 起動時には GUI が存在しない場合でも `emacsclient` で開くフレームに設定が適用される。
 
 ```elisp
 (setq tab-bar-show nil
@@ -375,11 +379,13 @@ GUI Emacs の既定フォントと日本語など CJK 用フォールバック�
       tab-line-new-button-show nil
       tab-line-separator "")
 
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 (tab-bar-mode -1)
-(global-tab-line-mode 1)
+(global-tab-line-mode -1)
 ```
 
-Emacs 標準の `tab-bar` は無効化し、バッファをタブとして表示する `tab-line-mode` を全体で有効化する。閉じるボタン、新規ボタン、区切り文字は非表示にして、上部 UI をすっきりさせている。
+メニューバー、ツールバー、`tab-bar`、バッファタブの `tab-line` を無効化して、GUI Emacs の上部 UI を表示しない。バッファの切り替えは `C-x b`（consult）で行う。
 
 ```elisp
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
@@ -543,12 +549,12 @@ Emacs 標準では `C-s` は検索だが、この設定では保存に割り当�
 
 ```elisp
 (defun seli/consult-fd-buffer-tab ()
-  "Find files with `consult-fd', showing opened buffers in `tab-line-mode'."
+  "Find files with `consult-fd'."
   (interactive)
   (call-interactively #'consult-fd))
 ```
 
-`consult-fd` で選んだファイルを通常のバッファとして開く関数。`global-tab-line-mode` が有効なので、開いたファイルは tab-line 上のバッファタブとして表示される。
+`consult-fd` で選んだファイルを通常のバッファとして開く関数。
 
 ```elisp
 (use-package corfu
@@ -694,7 +700,7 @@ Customize UI などが書いた `custom.el` が存在すれば読み込む。`ni
 | normal `C-a` | 数値 +1 |
 | normal `C-x` | 数値 -1 |
 | `SPC SPC` | `M-x` |
-| `SPC f` | `fd` でファイル検索し、tab-line のバッファタブとして開く |
+| `SPC f` | `fd` でファイル検索して開く |
 | `SPC /` | `ripgrep` 検索 |
 | `SPC n` | マッチしない行を隠す |
 | `SPC m` | mark 一覧 |

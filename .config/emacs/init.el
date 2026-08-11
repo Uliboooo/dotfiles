@@ -1,8 +1,8 @@
 ;;; init.el --- Seli Emacs config -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; Org mode 専用の構成。プログラミング向けの機能 (LSP, 診断, フォーマッタ,
-;; デバッガ, 各言語 major mode, Git クライアント, 端末) は持たない。
+;; Org とプログラミングの両方に使う構成。組み込みの Eglot / Flymake と
+;; Apheleia を中心に、外部の LSP・フォーマッタを利用する。
 
 ;;; Package bootstrap
 
@@ -21,13 +21,19 @@
 
 (defconst seli/opaque-ui-background "#2a273f")
 (defconst seli/opaque-ui-background-active "#393552")
-(defconst seli/buffer-alpha-background 100)
+(defconst seli/buffer-alpha-background 82)
+
+(defconst seli/instance-subdir
+  (if (getenv "EMACS_SCRATCHPAD") "scratchpad/" "")
+  "Per-daemon state directory beneath the Emacs XDG directories.")
 
 (defconst seli/cache-dir
-  (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache/")))
+  (expand-file-name (concat "emacs/" seli/instance-subdir)
+                    (or (getenv "XDG_CACHE_HOME") "~/.cache/")))
 
 (defconst seli/state-dir
-  (expand-file-name "emacs/" (or (getenv "XDG_STATE_HOME") "~/.local/state/")))
+  (expand-file-name (concat "emacs/" seli/instance-subdir)
+                    (or (getenv "XDG_STATE_HOME") "~/.local/state/")))
 
 (defconst seli/data-dir
   (expand-file-name "emacs/" (or (getenv "XDG_DATA_HOME") "~/.local/share/")))
@@ -164,6 +170,9 @@
               indent-tabs-mode nil
               truncate-lines nil)
 
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode 1)
+
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 
@@ -234,6 +243,15 @@
     (mode-line-highlight . seli/opaque-ui-background-active))
   "UI faces that should stay opaque in GUI frames.")
 
+(defun seli/style-tab-line (&optional frame)
+  "Give buffer tabs a compact, bufferline-like appearance in FRAME."
+  (dolist (spec '((tab-line :background "#191724" :foreground "#6e6a86" :box nil :extend t)
+                  (tab-line-tab :background "#2a273f" :foreground "#908caa" :box nil)
+                  (tab-line-tab-inactive :background "#232136" :foreground "#6e6a86" :box nil)
+                  (tab-line-tab-current :background "#c4a7e7" :foreground "#191724"
+                                        :weight bold :box nil)))
+    (apply #'set-face-attribute (car spec) frame (cdr spec))))
+
 (defun seli/apply-frame-appearance (&optional frame)
   "Apply frame appearance settings to FRAME."
   (let ((frame (or frame (selected-frame))))
@@ -250,7 +268,8 @@
                   (background (symbol-value (cdr entry))))
               (when (facep face)
                 (set-face-attribute face frame :background background)
-                (set-face-attribute face t :background background)))))
+                (set-face-attribute face t :background background))))
+          (seli/style-tab-line frame))
       (modify-frame-parameters frame '((background-color . "unspecified-bg"))))))
 
 (defun seli/reapply-frame-appearance (&rest _)
@@ -266,26 +285,48 @@
 
 (defconst seli/default-font-family "Monaspace Radon Var")
 (defconst seli/default-font-height 130)
-(defconst seli/cjk-font-family "Yomogi")
+(defconst seli/cjk-font-family "Cica")
 
-(defun seli/apply-fonts ()
-  "Set the default monospace font and the CJK fallback font, if installed."
-  (when (display-graphic-p)
-    (when (member seli/default-font-family (font-family-list))
-      (set-face-attribute 'default nil :family seli/default-font-family :height seli/default-font-height))
-    (when (member seli/cjk-font-family (font-family-list))
-      (dolist (charset '(kana han cjk-misc))
-        (set-fontset-font t charset (font-spec :family seli/cjk-font-family))))))
+(add-to-list 'default-frame-alist
+             `(font . ,(format "%s-%d" seli/default-font-family (/ seli/default-font-height 10))))
 
+(defun seli/apply-fonts (&optional frame)
+  "Apply the configured fonts to graphical FRAME.
+
+When Emacs runs as a daemon, its init file has no graphical frame yet.  The
+optional FRAME argument lets `after-make-frame-functions' apply the font as
+soon as an emacsclient GUI frame is created."
+  (let ((frame (or frame (selected-frame))))
+    (when (display-graphic-p frame)
+      (with-selected-frame frame
+        (when (member seli/default-font-family (font-family-list))
+          (set-face-attribute 'default frame
+                              :family seli/default-font-family
+                              :height seli/default-font-height))
+        (when (member seli/cjk-font-family (font-family-list))
+          (dolist (charset '(kana han cjk-misc))
+            (set-fontset-font t charset
+                              (font-spec :family seli/cjk-font-family)
+                              frame)))))))
+
+(add-hook 'after-make-frame-functions #'seli/apply-fonts)
 (seli/apply-fonts)
+
+(defun seli/tab-line-buffer-name (buffer &optional _buffers)
+  "Return a compact tab label for BUFFER."
+  (format " %s " (truncate-string-to-width (buffer-name buffer) 24 nil nil "…")))
 
 (setq tab-bar-show nil
       tab-line-close-button-show nil
       tab-line-new-button-show nil
-      tab-line-separator "")
+      tab-line-separator " "
+      tab-line-tab-name-function #'seli/tab-line-buffer-name)
 
+(menu-bar-mode -1)
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
 (tab-bar-mode -1)
-(global-tab-line-mode 1)
+(global-tab-line-mode -1)
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
 (load-theme 'rose-pine-moon t)
@@ -407,15 +448,94 @@
 
 (use-package cape
   :after corfu
+  :demand t
   :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev))
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (setq completion-at-point-functions
+        (cons #'cape-file
+              (delq #'cape-file completion-at-point-functions)))
+  :config
+  (defun seli/enable-path-completion ()
+    "Prefer file-path completion in the current buffer.
+
+`cape-file' completes relative paths after `./' and absolute paths after `/'.
+It is installed buffer-locally so LSP completion remains available for normal
+identifiers."
+    (setq-local completion-at-point-functions
+                (cons #'cape-file
+                      (delq #'cape-file completion-at-point-functions))))
+  (add-hook 'prog-mode-hook #'seli/enable-path-completion)
+  (add-hook 'eglot-managed-mode-hook #'seli/enable-path-completion))
+
+;;; Programming
+
+;; These packages provide major modes and font-lock for languages also used in
+;; the Neovim configuration.  Built-in modes cover C/C++, Python, shell,
+;; JavaScript, CSS, and JSON; the packages below cover the remaining formats.
+(use-package nix-mode :mode "\\.nix\\'")
+(use-package rust-mode :mode "\\.rs\\'")
+(use-package go-mode :mode "\\.go\\'")
+(use-package lua-mode :mode "\\.lua\\'")
+(use-package zig-mode :mode "\\.zig\\'")
+(use-package typst-ts-mode :mode "\\.typ\\'")
+(use-package json-mode :mode "\\.jsonc?\\'")
+(use-package web-mode
+  :mode ("\\.astro\\'" "\\.tsx?\\'" "\\.jsx\\'"))
+
+;; Format supported buffers asynchronously on save, preserving point and
+;; scroll position.  Apheleia already maps shfmt, nixfmt, rustfmt, gofmt,
+;; stylua, clang-format, taplo, and Prettier-backed web modes.
+(use-package apheleia
+  :demand t
+  :config
+  ;; Match the Neovim setup by using the installed Biome binary for web data
+  ;; formats instead of requiring a project-local Prettier installation.
+  (setf (alist-get 'biome apheleia-formatters)
+        '("biome" "format" "--stdin-file-path" filepath))
+  (dolist (mode '(js-mode js-ts-mode json-mode json-ts-mode css-mode css-ts-mode
+                         typescript-ts-mode tsx-ts-mode))
+    (setf (alist-get mode apheleia-mode-alist) 'biome))
+  (apheleia-global-mode 1))
+
+;; Eglot is built into Emacs.  It starts the same language servers used by the
+;; rest of this dotfiles setup and publishes diagnostics through Flymake.
+(use-package eglot
+  :ensure nil
+  :demand t
+  :hook ((nix-mode . eglot-ensure)
+         (rust-mode . eglot-ensure)
+         (go-mode . eglot-ensure)
+         (zig-mode . eglot-ensure)
+         (typst-ts-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
+         (json-mode . eglot-ensure)
+         (css-mode . eglot-ensure))
+  :config
+  (dolist (entry
+           '(((nix-mode nix-ts-mode) . ("nil"))
+             ((rust-mode rust-ts-mode) . ("rust-analyzer"))
+             ((go-mode go-ts-mode) . ("gopls"))
+             ((zig-mode zig-ts-mode) . ("zls"))
+             ((typst-ts-mode) . ("tinymist"))
+             ((c-mode c++-mode c-ts-mode c++-ts-mode) . ("clangd"))
+             ((js-mode js-ts-mode json-mode json-ts-mode css-mode css-ts-mode
+                       typescript-ts-mode tsx-ts-mode) . ("biome" "lsp-proxy"))))
+    (add-to-list 'eglot-server-programs entry)))
+
+(with-eval-after-load 'general
+  (seli/leader
+    "l" '(:ignore t :which-key "language")
+    "la" '(eglot-code-actions :which-key "code action")
+    "ld" '(xref-find-definitions :which-key "definition")
+    "lr" '(eglot-rename :which-key "rename")
+    "lf" '(apheleia-format-buffer :which-key "format")))
 
 ;;; Org mode
 
 (defun seli/org-mode-defaults ()
   "Prose-friendly defaults for `org-mode' buffers."
-  (display-line-numbers-mode 0)
   (setq-local truncate-lines nil))
 
 (use-package org
@@ -480,4 +600,49 @@
 (when (file-exists-p custom-file)
   (load custom-file nil t))
 
-;;; init.el ends here
+;;; org-mode
+
+(require 'org-datetree)
+
+(defun my/journal-entry ()
+  (interactive)
+  (find-file "~/org/journal.org")
+
+  ;; move to today or make if not exits
+  (org-datetree-find-date-create (calendar-current-date))
+
+  ;; 初回だけテンプレートを作る
+  (save-excursion
+    (unless (re-search-forward "^\\*\\*\\*\\* Diary$"
+                               (save-excursion
+                                 (org-end-of-subtree t t))
+                               t)
+      (goto-char (line-end-position))
+      (insert "\n\n**** Diary\n\n**** Done\n\n**** Tomorrow\n")))
+
+  ;; Diaryへ移動
+  (re-search-forward "^\\*\\*\\*\\* Diary$")
+  (forward-line 1));;; init.el ends here
+
+(global-set-key (kbd "C-c j") #'my/journal-entry)
+
+;;; capture
+
+(require 'org)
+
+(setq org-default-notes-file "~/org/inbox.org")
+
+(setq org-capture-templates
+      '(("t" "Todo" entry
+         (file "~/org/inbox.org")
+         "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+
+        ("n" "Note" entry
+         (file "~/org/inbox.org")
+         "* %?\n%U\n")
+
+        ("j" "Journal" entry
+         (file+olp+datetree "~/org/journal.org")
+         "* %U\n%?\n")))
+
+(global-set-key (kbd "C-c c") #'org-capture)
