@@ -27,19 +27,6 @@ let
     esac
   '';
 
-  swayncLaunch = pkgs.writeShellScript "swaync-launch" ''
-    set -eu
-    BASE="$HOME/dotfiles/.config/swaync"
-    case "''${XDG_CURRENT_DESKTOP:-}" in
-      niri)
-        exec ${pkgs.swaynotificationcenter}/bin/swaync -s "$BASE/style.rose-pine-moon-neon.css"
-        ;;
-      *)
-        exec ${pkgs.swaynotificationcenter}/bin/swaync
-        ;;
-    esac
-  '';
-
   # wl-paste --watch は選択が変わるたびに cliphist store を走らせて居続けるので、
   # text/image の 2 つをバックグラウンドで起動して待つ (cgroup 単位で管理される)。
   cliphistStore = pkgs.writeShellScript "cliphist-store" ''
@@ -180,7 +167,8 @@ in
         After = [ "graphical-session.target" ];
       };
       serviceConfig = {
-        ExecStart = "${cliphistStore}/bin/cliphist-store";
+        # writeShellScript は実行ファイルそのものを返す（/bin 配下ではない）。
+        ExecStart = "${cliphistStore}";
         Restart = "on-failure";
       };
       wantedBy = [ "graphical-session.target" ];
@@ -239,22 +227,6 @@ in
       };
       # Noctalia を既定のバーとする。Waybar は必要なときだけ
       # `systemctl --user start waybar` で切り替える。
-    };
-
-    # swaynotificationcenter 同梱の swaync.service を、テーマを当てた起動で上書きする。
-    # NixOS 側で上書きすると vendor unit の [Install] が落ちるので、ここで
-    # graphical-session.target への WantedBy も明示する (従来は launch-swaync.sh が
-    # 素の swaync を止め直していた)。
-    swaync = {
-      unitConfig = {
-        PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
-      };
-      serviceConfig = {
-        ExecStart = [ "" swayncLaunch ];
-        Restart = "on-failure";
-      };
-      wantedBy = [ "graphical-session.target" ];
     };
 
     # idle manager。hypridle から swayidle に移行した (2026-08-08)。hypridle の
@@ -397,7 +369,6 @@ in
     hyprpicker
     hyprshot
     wl-clipboard
-    swaynotificationcenter
     kitty
     cliphist
     swtpm
