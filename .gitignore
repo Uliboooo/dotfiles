@@ -48,3 +48,10 @@ config.local.fish
 /lualatex-japanese-guide.md
 /.config/emacs/eln-cache/
 /.config/emacs/transient/history.el
+
+.config/herdr/herdr-client.log
+.config/herdr/herdr-client.sock
+.config/herdr/herdr-server.log
+.config/herdr/herdr.sock
+.config/herdr/release-notes.json
+

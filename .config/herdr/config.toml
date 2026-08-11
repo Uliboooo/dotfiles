@@ -1,0 +1,10 @@
+onboarding = false
+[experimental]
+kitty_graphics = true
+
+[theme]
+name = "rose-pine"
+
+[ui.toast]
+delivery = "system"
+delay_seconds = 1
