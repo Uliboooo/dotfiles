@@ -21,13 +21,26 @@ let
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
   niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
   firefox-nightly = inputs.firefox-nightly.packages.${system}.firefox-nightly-bin;
+  zen-browser = inputs.zen-browser.packages.${system}.default;
+  emacsClient = pkgs.writeShellScriptBin "emacs" ''
+    exec ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} --create-frame "$@"
+  '';
+  emacsScratch = pkgs.writeShellScriptBin "emacs-scratch" ''
+    # PGTK の daemon は、二つ同時に起動するとフレーム初期化時に crash することがある。
+    # scratchpad は独立した通常プロセスとして起動して、バッファを確実に分離する。
+    exec env EMACS_SCRATCHPAD=1 ${lib.getExe pkgs.emacs-pgtk} \
+      --no-init-file \
+      --load "${dotfilesDir}/.config/emacs/init.el" \
+      --eval "(run-hooks 'after-init-hook)" \
+      --title "Scratchpad Emacs" \
+      "$@"
+  '';
 
   packages = with pkgs; [
     # ===== CLI / エディタ =====
     git
     vim
     neovim
-    emacs-pgtk
     helix
     yazi
     fzf
@@ -134,14 +147,15 @@ let
     # shojiwm
     chromium
     geeqie
-    zed-editor
     digikam
     prismlauncher
     niri-float-sticky
     niri-scratchpad
+    zen-browser
 
     # ===== ツールチェーン =====
     clang
+    clang-tools
     llvm
     lld
     tailscale
@@ -198,10 +212,35 @@ in
       extraConfig = builtins.readFile ../.tmux.conf;
     };
 
+    # 通常用 Emacs は graphical-session.target で daemon として一度だけ起動する。
+    # `emacs` は優先度の高い client wrapper に置き換えるため、端末からも
+    # rofi からも既存の daemon に新しいフレームを要求する。
+    programs.emacs = {
+      enable = true;
+      package = pkgs.emacs-pgtk;
+    };
+    services.emacs = {
+      enable = true;
+      startWithUserSession = "graphical";
+      defaultEditor = true;
+      client.enable = false;
+      # systemd user service では XDG_CONFIG_HOME が引き継がれない環境がある。
+      # init file を明示することで daemon でも常に dotfiles の設定を読み込む。
+      extraOptions = [
+        "--no-init-file"
+        "--load"
+        "${dotfilesDir}/.config/emacs/init.el"
+        # --load は通常の init 処理の後に評価されるため、init.el で登録した
+        # completion 等の after-init-hook を明示的に走らせる。
+        "--eval"
+        "(run-hooks 'after-init-hook)"
+      ];
+    };
+
     targets.genericLinux.enable = true;
 
     # ===== packages =====
-    home.packages = packages;
+    home.packages = packages ++ [ (lib.hiPrio emacsClient) emacsScratch ];
 
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = npmGlobalDir;
@@ -296,10 +335,6 @@ in
         source = mkConfigLink "waybar";
         recursive = false;
       };
-      "swaync" = {
-        source = mkConfigLink "swaync";
-        recursive = false;
-      };
       "noctalia" = {
         source = mkConfigLink "noctalia";
         recursive = false;
@@ -308,6 +343,33 @@ in
         source = mkConfigLink "nixpkgs";
         recursive = false;
       };
+      "herdr" = {
+        source = mkConfigLink "herdr";
+        recursive = false;
+      };
+    };
+
+    # パッケージ同梱の emacs.desktop を上書きして、rofi の "Emacs" からも
+    # daemon へ接続する。Home Manager がユーザー側の desktop entry を高優先度にする。
+    xdg.desktopEntries.emacs = {
+      name = "Emacs";
+      genericName = "Text Editor";
+      comment = "Edit text with the Emacs daemon";
+      exec = "${lib.getExe' pkgs.emacs-pgtk "emacsclient"} --create-frame %F";
+      icon = "emacs";
+      terminal = false;
+      categories = [
+        "Development"
+        "TextEditor"
+      ];
+      mimeType = [
+        "text/plain"
+        "text/x-c"
+        "text/x-c++"
+        "text/x-java"
+        "text/x-makefile"
+      ];
+      settings.StartupWMClass = "Emacsd";
     };
 
     # Picture-in-Picture ウィンドウを全 workspace で sticky にする。
