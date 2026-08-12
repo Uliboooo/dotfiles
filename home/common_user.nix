@@ -26,13 +26,11 @@ let
     exec ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} --create-frame "$@"
   '';
   emacsScratch = pkgs.writeShellScriptBin "emacs-scratch" ''
-    # PGTK の daemon は、二つ同時に起動するとフレーム初期化時に crash することがある。
-    # scratchpad は独立した通常プロセスとして起動して、バッファを確実に分離する。
-    exec env EMACS_SCRATCHPAD=1 ${lib.getExe pkgs.emacs-pgtk} \
-      --no-init-file \
-      --load "${dotfilesDir}/.config/emacs/init.el" \
-      --eval "(run-hooks 'after-init-hook)" \
-      --title "Scratchpad Emacs" \
+    # A second PGTK instance crashes while the daemon is running.  Make the
+    # scratchpad a titled, floating frame in the existing daemon instead.
+    exec ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} \
+      --create-frame \
+      --frame-parameters='((title . "Scratchpad Emacs"))' \
       "$@"
   '';
 
@@ -230,10 +228,6 @@ in
         "--no-init-file"
         "--load"
         "${dotfilesDir}/.config/emacs/init.el"
-        # --load は通常の init 処理の後に評価されるため、init.el で登録した
-        # completion 等の after-init-hook を明示的に走らせる。
-        "--eval"
-        "(run-hooks 'after-init-hook)"
       ];
     };
 

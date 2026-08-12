@@ -21,11 +21,16 @@
 
 (defconst seli/opaque-ui-background "#2a273f")
 (defconst seli/opaque-ui-background-active "#393552")
-(defconst seli/buffer-alpha-background 82)
+(defconst seli/buffer-alpha-background
+  (if (getenv "EMACS_SCRATCHPAD") 100 82)
+  "Frame background opacity; opaque in the scratchpad to avoid a GDK shm crash.")
 
 (defconst seli/instance-subdir
   (if (getenv "EMACS_SCRATCHPAD") "scratchpad/" "")
   "Per-daemon state directory beneath the Emacs XDG directories.")
+
+(when (getenv "EMACS_SCRATCHPAD")
+  (setq frame-title-format "Scratchpad Emacs"))
 
 (defconst seli/cache-dir
   (expand-file-name (concat "emacs/" seli/instance-subdir)
@@ -191,6 +196,12 @@
       global-auto-revert-non-file-buffers t)
 
 (setq-default show-trailing-whitespace nil)
+
+;; `yank' normally prefers Emacs's kill ring.  Use the desktop clipboard first
+;; so text copied in another Wayland application can be pasted with C-y; it
+;; still falls back to the latest killed text when no clipboard is available.
+(global-set-key (kbd "C-y") #'clipboard-yank)
+(global-set-key (kbd "C-S-v") #'clipboard-yank)
 
 (defun seli/save-all-buffers ()
   "Save modified file buffers without prompting."
@@ -360,6 +371,11 @@ soon as an emacsclient GUI frame is created."
   :demand t
   :config
   (evil-mode 1)
+  (when (getenv "EMACS_SCRATCHPAD")
+    (evil-insert-state))
+  (define-key evil-insert-state-map (kbd "C-y") #'clipboard-yank)
+  (define-key evil-normal-state-map (kbd "C-S-v") #'clipboard-yank)
+  (define-key evil-emacs-state-map (kbd "C-y") #'clipboard-yank)
   (dolist (hook '(evil-normal-state-entry-hook
                   evil-insert-state-entry-hook
                   evil-visual-state-entry-hook
@@ -412,6 +428,17 @@ soon as an emacsclient GUI frame is created."
 
 (use-package vertico
   :hook (after-init . vertico-mode))
+
+;; Show minibuffer completion UIs such as M-x in a centered floating frame.
+(use-package vertico-posframe
+  :after vertico
+  :demand t
+  :custom
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-center)
+  (vertico-posframe-width 100)
+  (vertico-posframe-height 20)
+  :config
+  (vertico-posframe-mode 1))
 
 (use-package orderless
   :custom
@@ -532,6 +559,14 @@ identifiers."
     "lr" '(eglot-rename :which-key "rename")
     "lf" '(apheleia-format-buffer :which-key "format")))
 
+;; The systemd daemon explicitly loads this file with --load, which happens
+;; after Emacs's normal init phase.  Run deferred startup hooks once here so
+;; Corfu and other `after-init-hook' packages are enabled in that case too.
+(defvar seli/after-init-hooks-ran nil)
+(add-hook 'after-init-hook (lambda () (setq seli/after-init-hooks-ran t)))
+(when (and after-init-time (not seli/after-init-hooks-ran))
+  (run-hooks 'after-init-hook))
+
 ;;; Org mode
 
 (defun seli/org-mode-defaults ()
@@ -578,6 +613,11 @@ identifiers."
   (org-modern-hide-stars nil)
   (org-modern-table t)
   (org-modern-list '((?+ . "◦") (?- . "–") (?* . "•"))))
+
+;;; Git
+
+(use-package magit
+  :bind ("C-x g" . magit-status))
 
 ;;; Files
 
@@ -633,9 +673,9 @@ identifiers."
 (setq org-default-notes-file "~/org/inbox.org")
 
 (setq org-capture-templates
-      '(("t" "Todo" entry
+      '(        ("t" "Todo" entry
          (file "~/org/inbox.org")
-         "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+         "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
 
         ("n" "Note" entry
          (file "~/org/inbox.org")
