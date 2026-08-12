@@ -79,11 +79,22 @@
         "widgets": {
             "center": [
                 {
+                    "colorizeIcons": false,
+                    "hideMode": "hidden",
+                    "id": "ActiveWindow",
+                    "maxWidth": 145,
+                    "scrollingMode": "hover",
+                    "showIcon": true,
+                    "showText": true,
+                    "textColor": "secondary",
+                    "useFixedWidth": false
+                },
+                {
                     "compactMode": false,
                     "hideMode": "hidden",
                     "hideWhenIdle": false,
                     "id": "MediaMini",
-                    "maxWidth": 300,
+                    "maxWidth": 400,
                     "panelShowAlbumArt": true,
                     "scrollingMode": "hover",
                     "showAlbumArt": true,
@@ -125,17 +136,6 @@
                     "showBadge": true,
                     "showLabelsOnlyWhenOccupied": true,
                     "unfocusedIconsOpacity": 1
-                },
-                {
-                    "colorizeIcons": false,
-                    "hideMode": "hidden",
-                    "id": "ActiveWindow",
-                    "maxWidth": 145,
-                    "scrollingMode": "hover",
-                    "showIcon": true,
-                    "showText": true,
-                    "textColor": "secondary",
-                    "useFixedWidth": false
                 }
             ],
             "right": [
@@ -359,7 +359,7 @@
         "enableBlurBehind": true,
         "enableLockScreenCountdown": true,
         "enableLockScreenMediaControls": false,
-        "enableShadows": true,
+        "enableShadows": false,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 1,
         "keybinds": {
