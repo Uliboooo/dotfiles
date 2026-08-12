@@ -7,6 +7,8 @@
 
 ## 索引
 
+- [chglog/immich.md](chglog/immich.md) — desktop の写真・動画ライブラリ。sda の
+  HDD にメディア、sdb の SSD に PostgreSQL を配置し、Tailscale 内だけで公開する。
 - [chglog/power.md](chglog/power.md) — lid / suspend / hibernate / hypridle。
   S3 が無い機なので蓋起因の hibernate は amdgpu と競合して不可
 - [chglog/login.md](chglog/login.md) — GDM / PAM / gnome-keyring。

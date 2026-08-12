@@ -56,14 +56,58 @@
   services.gvfs.enable = true;
 
   # Auto-mount internal data drives by UUID via systemd.
-  # sda1 (ext4, ~465G) is the HDD, sdb1 (exfat, ~238G) is the SSD.
+  # sda1 (ext4, ~465G) is the HDD, sdb1 (ext4, ~238G) is the SSD.
   fileSystems."/run/media/seli/hdd" = {
     device = "/dev/disk/by-uuid/8d675241-ce9e-4c58-b18b-fd2b686bd749";
     fsType = "ext4";
   };
   fileSystems."/run/media/seli/ssd" = {
-    device = "/dev/disk/by-uuid/FE35-EF25";
-    fsType = "exfat";
+    device = "/dev/disk/by-uuid/cd76b396-71ae-48a3-a3e3-b953bc460496";
+    fsType = "ext4";
+  };
+
+  # Immich stores original assets and generated media on the HDD. PostgreSQL
+  # needs lower-latency local storage, so its data directory lives on sdb.
+  # The application listens on all interfaces, but the firewall exposes it only
+  # through Tailscale; it is not reachable from the LAN or the Internet.
+  services.immich = {
+    enable = true;
+    host = "0.0.0.0";
+    mediaLocation = "/run/media/seli/hdd/immich";
+  };
+  services.postgresql.dataDir = "/run/media/seli/ssd/immich/postgresql";
+
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 2283 ];
+
+  # tmpfiles runs before this boot's data-disk mounts are guaranteed to be
+  # available. Prepare the paths after both mounts instead, before either
+  # service enters its private mount namespace.
+  systemd.services.immich-storage-prepare = {
+    description = "Prepare Immich storage directories";
+    unitConfig.RequiresMountsFor = [
+      "/run/media/seli/hdd"
+      "/run/media/seli/ssd"
+    ];
+    before = [
+      "immich-server.service"
+      "postgresql.service"
+    ];
+    serviceConfig.Type = "oneshot";
+    path = [ pkgs.coreutils ];
+    script = ''
+      install -d -m 0700 -o immich -g immich /run/media/seli/hdd/immich
+      install -d -m 0700 -o postgres -g postgres /run/media/seli/ssd/immich
+      install -d -m 0700 -o postgres -g postgres /run/media/seli/ssd/immich/postgresql
+    '';
+  };
+
+  systemd.services.postgresql = {
+    requires = [ "immich-storage-prepare.service" ];
+    after = [ "immich-storage-prepare.service" ];
+  };
+  systemd.services.immich-server = {
+    requires = [ "immich-storage-prepare.service" ];
+    after = [ "immich-storage-prepare.service" ];
   };
 
   # nixbuild.net remote builder. The nix-daemon runs as root, so the key must be

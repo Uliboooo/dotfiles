@@ -204,7 +204,7 @@ abbr -a z ziggity
 abbr -a y yazi
 
 abbr -a hxd 'hx .'
-abbr -a h 'hx .'
+abbr -a h 'herdr'
 abbr -a w '$EDITOR ~/work.md'
 
 abbr -a :q exit
