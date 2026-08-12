@@ -255,12 +255,26 @@
   "UI faces that should stay opaque in GUI frames.")
 
 (defun seli/style-tab-line (&optional frame)
-  "Give buffer tabs a compact, bufferline-like appearance in FRAME."
-  (dolist (spec '((tab-line :background "#191724" :foreground "#6e6a86" :box nil :extend t)
-                  (tab-line-tab :background "#2a273f" :foreground "#908caa" :box nil)
-                  (tab-line-tab-inactive :background "#232136" :foreground "#6e6a86" :box nil)
-                  (tab-line-tab-current :background "#c4a7e7" :foreground "#191724"
-                                        :weight bold :box nil)))
+  "Give tabs a flat appearance with an accent for the selected tab in FRAME."
+  (dolist (spec '((tab-bar :background "#191724" :foreground "#6e6a86"
+                            :box nil :height 1.0 :extend t)
+                  (tab-bar-tab :background "#191724" :foreground "#e0def4"
+                               :weight semi-bold :box nil
+                               :underline (:color "#c4a7e7" :style line))
+                  (tab-bar-tab-inactive :background "#191724" :foreground "#6e6a86"
+                                        :weight normal :box nil :underline nil)
+                  (tab-bar-tab-group-current :background "#191724" :foreground "#e0def4"
+                                             :weight semi-bold :box nil)
+                  (tab-bar-tab-group-inactive :background "#191724" :foreground "#6e6a86"
+                                              :weight normal :box nil)
+                  (tab-bar-tab-ungrouped :background "#191724" :foreground "#6e6a86"
+                                         :box nil)
+                  (tab-line :background "#191724" :foreground "#6e6a86" :box nil :extend t)
+                  (tab-line-tab :background "#191724" :foreground "#908caa" :box nil)
+                  (tab-line-tab-inactive :background "#191724" :foreground "#6e6a86" :box nil)
+                  (tab-line-tab-current :background "#191724" :foreground "#e0def4"
+                                        :weight semi-bold :box nil
+                                        :underline (:color "#c4a7e7" :style line))))
     (apply #'set-face-attribute (car spec) frame (cdr spec))))
 
 (defun seli/apply-frame-appearance (&optional frame)
@@ -327,7 +341,7 @@ soon as an emacsclient GUI frame is created."
   "Return a compact tab label for BUFFER."
   (format " %s " (truncate-string-to-width (buffer-name buffer) 24 nil nil "…")))
 
-(setq tab-bar-show nil
+(setq tab-bar-show t
       tab-line-close-button-show nil
       tab-line-new-button-show nil
       tab-line-separator " "
@@ -336,7 +350,7 @@ soon as an emacsclient GUI frame is created."
 (menu-bar-mode -1)
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-(tab-bar-mode -1)
+(tab-bar-mode 1)
 (global-tab-line-mode -1)
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
@@ -573,6 +587,24 @@ identifiers."
   "Prose-friendly defaults for `org-mode' buffers."
   (setq-local truncate-lines nil))
 
+(defun seli/org-insert-current-timestamp ()
+  "Insert the current date and time as an active Org timestamp at point."
+  (interactive)
+  (org-insert-time-stamp (current-time) t))
+
+(defun seli/org-meta-return-and-insert (&optional arg)
+  "Create an Org heading with `org-meta-return', then enter Insert state."
+  (interactive "P")
+  (org-meta-return arg)
+  (evil-insert-state))
+
+(defun seli/org-open-link-in-new-tab ()
+  "Open the Org link at point in a new Emacs tab, if there is one."
+  (interactive)
+  (when (eq (org-element-type (org-element-context)) 'link)
+    (tab-new)
+    (org-open-at-point)))
+
 (use-package org
   :ensure nil
   :mode ("\\.org\\'" . org-mode)
@@ -604,7 +636,15 @@ identifiers."
   :after (evil org)
   :hook (org-mode . evil-org-mode)
   :config
-  (evil-org-set-key-theme '(navigation insert textobjects additional calendar)))
+  (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+  (evil-define-key 'normal evil-org-mode-map
+    (kbd "M-<return>") #'seli/org-meta-return-and-insert)
+  (evil-define-key '(normal insert) evil-org-mode-map
+    (kbd "C-c .") #'seli/org-insert-current-timestamp
+    (kbd "S-<return>") #'seli/org-open-link-in-new-tab))
+
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "S-<return>") #'seli/org-open-link-in-new-tab))
 
 (use-package org-modern
   :hook (org-mode . org-modern-mode)
@@ -619,18 +659,43 @@ identifiers."
 (use-package magit
   :bind ("C-x g" . magit-status))
 
+(defun seli/diff-hl-enable-gui-margin (&optional frame)
+  "Show Git change markers beside line numbers in graphical FRAMEs."
+  (when (display-graphic-p frame)
+    (diff-hl-margin-mode 1)))
+
+(use-package diff-hl
+  :demand t
+  :config
+  ;; Update markers while editing as well as after saving.  `diff-hl-margin-mode'
+  ;; puts them in the left margin, next to the line-number column.
+  (global-diff-hl-mode 1)
+  (diff-hl-flydiff-mode 1)
+  (seli/diff-hl-enable-gui-margin)
+  (add-hook 'after-make-frame-functions #'seli/diff-hl-enable-gui-margin)
+  (with-eval-after-load 'magit
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+
 ;;; Files
+
+(defun seli/dired-find-file-in-new-tab ()
+  "Visit the Dired file or directory at point in a new tab."
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (tab-new)
+    (find-file file)))
 
 (use-package dired
   :ensure nil
+  :hook (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-alh --group-directories-first")
   :config
   (with-eval-after-load 'evil
     (evil-define-key 'normal dired-mode-map
-      (kbd "RET") #'dired-find-file
-      (kbd "<return>") #'dired-find-file
-      (kbd "l") #'dired-find-file
+      (kbd "RET") #'seli/dired-find-file-in-new-tab
+      (kbd "<return>") #'seli/dired-find-file-in-new-tab
+      (kbd "l") #'seli/dired-find-file-in-new-tab
       (kbd "h") #'dired-up-directory
       (kbd "^") #'dired-up-directory
       (kbd "q") #'quit-window)))
@@ -640,49 +705,158 @@ identifiers."
 (when (file-exists-p custom-file)
   (load custom-file nil t))
 
-;;; org-mode
-
-(require 'org-datetree)
-
-(defun my/journal-entry ()
-  (interactive)
-  (find-file "~/org/journal.org")
-
-  ;; move to today or make if not exits
-  (org-datetree-find-date-create (calendar-current-date))
-
-  ;; 初回だけテンプレートを作る
-  (save-excursion
-    (unless (re-search-forward "^\\*\\*\\*\\* Diary$"
-                               (save-excursion
-                                 (org-end-of-subtree t t))
-                               t)
-      (goto-char (line-end-position))
-      (insert "\n\n**** Diary\n\n**** Done\n\n**** Tomorrow\n")))
-
-  ;; Diaryへ移動
-  (re-search-forward "^\\*\\*\\*\\* Diary$")
-  (forward-line 1));;; init.el ends here
-
-(global-set-key (kbd "C-c j") #'my/journal-entry)
-
 ;;; capture
 
 (require 'org)
+(require 'org-id)
+(require 'vc-git)
 
 (setq org-default-notes-file "~/org/inbox.org")
+(setq org-agenda-files (directory-files-recursively org-directory "\\.org$"))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "WAIT(w)" "|" "NOTING(n)" "DONE(d)" "CANCELLED(c)")))
+
+(defvar seli/org-inbox-file (expand-file-name "inbox.org" org-directory)
+  "The temporary Org inbox file.")
+
+(defvar seli/org-notes-file (expand-file-name "notes.org" org-directory)
+  "The permanent Org notes file.")
+
+(defun seli/org-inbox-subtree-to-notes ()
+  "Move the Inbox subtree at point into notes.org as a level-one NOTING entry.
+
+The source subtree is replaced with an ID link.  The destination root heading
+is always level one and has the completed-side `NOTING' state; its former TODO
+state, priority, and tags are omitted.  Child headings keep their relative
+depth."
+  (interactive)
+  (unless (derived-mode-p 'org-mode)
+    (user-error "This command is only available in Org buffers"))
+  (unless (and buffer-file-name
+               (file-equal-p buffer-file-name seli/org-inbox-file))
+    (user-error "This command only moves headings from %s" seli/org-inbox-file))
+  (org-back-to-heading t)
+  (let* ((source-buffer (current-buffer))
+         (title (org-get-heading t t t t))
+         (id (org-id-get-create))
+         (level (org-outline-level))
+         (begin (point))
+         (end (save-excursion (org-end-of-subtree t t)))
+         (subtree (buffer-substring-no-properties begin end))
+         (first-newline (or (string-match "\n" subtree) (length subtree)))
+         (body (substring subtree first-newline))
+         (notes-subtree
+          (concat
+           "* NOTING " title
+           (replace-regexp-in-string
+            "^\\(\\*+\\) "
+            (lambda (heading)
+              (let ((stars (car (split-string heading " "))))
+                (concat (make-string (max 1 (1+ (- (length stars) level))) ?*) " ")))
+            body)))
+         (link (format "[[id:%s][%s]]" id title)))
+    (with-current-buffer (find-file-noselect seli/org-notes-file)
+      (goto-char (point-max))
+      (unless (bolp) (insert "\n"))
+      (unless (bobp) (insert "\n"))
+      (insert notes-subtree)
+      (unless (bolp) (insert "\n"))
+      (save-buffer))
+    (org-id-add-location id seli/org-notes-file)
+    (with-current-buffer source-buffer
+      (save-excursion
+        (goto-char begin)
+        (delete-region begin end)
+        (insert (make-string level ?*) " " link "\n"))
+      (save-buffer))
+    (message "Moved \"%s\" to notes.org as NOTING" title)))
+
+(define-key org-mode-map (kbd "C-c C-x n") #'seli/org-inbox-subtree-to-notes)
+
+(defvar seli/org-capture-git-queue nil
+  "Capture files waiting to be committed as (REPOSITORY . FILE) pairs.")
+
+(defvar seli/org-capture-git-process nil
+  "The Git process currently handling an Org capture commit.")
+
+(defun seli/org-capture-git-start (repository file step command)
+  "Run Git COMMAND asynchronously for FILE in REPOSITORY at STEP."
+  (let ((default-directory repository)
+        (process-environment (cons "GIT_TERMINAL_PROMPT=0" process-environment)))
+    (setq seli/org-capture-git-process
+          (make-process
+           :name "org-capture-git"
+           :buffer (get-buffer-create " *org-capture-git*")
+           :command command
+           :noquery t
+           :sentinel #'seli/org-capture-git-sentinel))
+    (process-put seli/org-capture-git-process 'repository repository)
+    (process-put seli/org-capture-git-process 'file file)
+    (process-put seli/org-capture-git-process 'step step)))
+
+(defun seli/org-capture-git-run-next ()
+  "Start the next queued capture commit, if any."
+  (unless (process-live-p seli/org-capture-git-process)
+    (when-let* ((entry (pop seli/org-capture-git-queue))
+                (repository (car entry))
+                (file (cdr entry)))
+      (seli/org-capture-git-start
+       repository file 'add (list "git" "add" "--" file)))))
+
+(defun seli/org-capture-git-sentinel (process _event)
+  "Continue PROCESS's asynchronous add, check, and commit sequence."
+  (when (memq (process-status process) '(exit signal))
+    (let ((repository (process-get process 'repository))
+          (file (process-get process 'file))
+          (step (process-get process 'step))
+          (status (process-exit-status process)))
+      (setq seli/org-capture-git-process nil)
+      (cond
+       ((not (zerop status))
+        ;; `git diff --quiet' uses status 1 to report staged changes.
+        (if (and (eq step 'diff) (= status 1))
+            (seli/org-capture-git-start
+             repository file 'commit
+             (list "git" "commit" "-m"
+                   (format "org capture: %s" (format-time-string "%F %R"))
+                   "--" file))
+          (message "Org capture Git %s failed for %s (exit %d)"
+                   step file status)
+          (seli/org-capture-git-run-next)))
+       ((eq step 'add)
+        (seli/org-capture-git-start
+         repository file 'diff (list "git" "diff" "--cached" "--quiet" "--" file)))
+       ((eq step 'diff)
+        (message "Org capture: no Git changes to commit for %s" file)
+        (seli/org-capture-git-run-next))
+       ((eq step 'commit)
+        (message "Org capture committed %s" file)
+        (seli/org-capture-git-run-next))))))
+
+(defun seli/org-capture-queue-git-commit ()
+  "Asynchronously commit the file written by a finalized Org capture."
+  (unless org-note-abort
+    (when-let* ((file (buffer-file-name (org-capture-get :buffer)))
+                (repository (vc-git-root file)))
+      (let ((entry (cons repository (file-relative-name file repository))))
+        (unless (member entry seli/org-capture-git-queue)
+          (push entry seli/org-capture-git-queue))
+        (seli/org-capture-git-run-next)))))
+
+(add-hook 'org-capture-after-finalize-hook #'seli/org-capture-queue-git-commit)
 
 (setq org-capture-templates
       '(        ("t" "Todo" entry
          (file "~/org/inbox.org")
-         "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+         "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
 
         ("n" "Note" entry
          (file "~/org/inbox.org")
          "* %?\n%U\n")
 
-        ("j" "Journal" entry
-         (file+olp+datetree "~/org/journal.org")
-         "* %U\n%?\n")))
+        ("j" "Journal" plain
+         (file+datetree "~/org/journal.org")
+         "%?\n")))
 
 (global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c a") #'org-agenda)

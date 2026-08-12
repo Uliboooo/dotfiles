@@ -56,3 +56,4 @@ config.local.fish
 .config/herdr/release-notes.json
 
 .config/herdr/session.json
+.config/emacs/.org-id-locations

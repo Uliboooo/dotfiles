@@ -291,7 +291,7 @@ binds {
     Super+Q repeat=false { close-window; }
     Super+T { spawn "ghostty"; }
     Super+M { quit; }
-    Super+E { spawn "ghostty" "-e" "yazi" "."; }
+    Super+E { spawn-sh "emacs $HOME/org"; }
     Super+V { toggle-window-floating; }
     Super+D { spawn-sh "rofi -show drun"; }
     // Toggle the dedicated floating Emacs frame. `emacs-scratch` is a separate
