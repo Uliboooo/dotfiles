@@ -24,8 +24,8 @@
         "showCategories": true,
         "showIconBackground": false,
         "sortByMostUsed": true,
-        "terminalCommand": "alacritty -e",
-        "viewMode": "list"
+        "terminalCommand": "ghostty",
+        "viewMode": "grid"
     },
     "audio": {
         "mprisBlacklist": [
@@ -116,6 +116,16 @@
                 }
             ],
             "left": [
+                {
+                    "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
+                    "customIconPath": "",
+                    "enableColorization": false,
+                    "icon": "rocket",
+                    "iconColor": "none",
+                    "id": "Launcher",
+                    "useDistroLogo": false
+                },
                 {
                     "characterCount": 2,
                     "colorizeIcons": false,
@@ -324,10 +334,10 @@
         "groupClickAction": "cycle",
         "groupContextMenuMode": "extended",
         "groupIndicatorStyle": "dots",
-        "inactiveIndicators": false,
+        "inactiveIndicators": true,
         "indicatorColor": "primary",
         "indicatorOpacity": 0.6,
-        "indicatorThickness": 3,
+        "indicatorThickness": 6,
         "launcherIcon": "",
         "launcherIconColor": "none",
         "launcherPosition": "end",
@@ -338,9 +348,9 @@
         "pinnedApps": [
         ],
         "pinnedStatic": false,
-        "position": "bottom",
-        "showDockIndicator": false,
-        "showLauncherIcon": false,
+        "position": "left",
+        "showDockIndicator": true,
+        "showLauncherIcon": true,
         "sitOnFrame": false,
         "size": 1
     },
@@ -497,11 +507,11 @@
             "normal": true
         },
         "sounds": {
-            "criticalSoundFile": "",
+            "criticalSoundFile": "/home/seli/.local/share/icons/sounds/mixkit-click-error-1110.wav",
             "enabled": true,
             "excludedApps": "discord,firefox,chrome,chromium,edge",
-            "lowSoundFile": "",
-            "normalSoundFile": "",
+            "lowSoundFile": "/home/seli/.local/share/icons/sounds/mixkit-click-error-1110.wav",
+            "normalSoundFile": "/home/seli/.local/share/icons/sounds/mixkit-click-error-1110.wav",
             "separateSounds": false,
             "volume": 0.5
         }

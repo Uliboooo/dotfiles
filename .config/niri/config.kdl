@@ -267,7 +267,7 @@ binds {
     Super+M { quit; }
     Super+E { spawn "ghostty" "-e" "yazi" "."; }
     Super+V { toggle-window-floating; }
-    Super+D { spawn-sh "rofi -show drun -theme $HOME/dotfiles/.config/rofi/rose-pine-moon-neon.rasi"; }
+    Super+D { spawn-sh "rofi -show drun"; }
     // Toggle the dedicated floating Emacs frame. `emacs-scratch` is a separate
     // process, so its buffers never mix with ordinary Emacs windows.
     Super+Backslash { spawn "niri-scratchpad" "target" "--spawn" "emacs-scratch" "title" "Scratchpad Emacs"; }
