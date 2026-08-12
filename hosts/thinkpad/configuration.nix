@@ -42,7 +42,7 @@
   services.hazkey.enable = true;
   # Ctrl と Alt を左右とも入れ替える。keyd は入力デバイス段階で変換するため、
   # Wayland / X11 を問わず同じ配列になる。
-  services.keyd.keyboards.default.settings.main = {
+  services.keyd.keyboards.default.settings.main = lib.mkForce {
     leftcontrol = "leftalt";
     leftalt = "leftcontrol";
     rightcontrol = "rightalt";
