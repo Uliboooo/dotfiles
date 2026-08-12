@@ -255,12 +255,11 @@
   "UI faces that should stay opaque in GUI frames.")
 
 (defun seli/style-tab-line (&optional frame)
-  "Give tabs a flat appearance with an accent for the selected tab in FRAME."
+  "Give tabs a flat appearance with a clear selected state in FRAME."
   (dolist (spec '((tab-bar :background "#191724" :foreground "#6e6a86"
                             :box nil :height 1.0 :extend t)
-                  (tab-bar-tab :background "#191724" :foreground "#e0def4"
-                               :weight semi-bold :box nil
-                               :underline (:color "#c4a7e7" :style line))
+                  (tab-bar-tab :background "#393552" :foreground "#e0def4"
+                               :weight semi-bold :box nil :underline nil)
                   (tab-bar-tab-inactive :background "#191724" :foreground "#6e6a86"
                                         :weight normal :box nil :underline nil)
                   (tab-bar-tab-group-current :background "#191724" :foreground "#e0def4"
@@ -272,9 +271,12 @@
                   (tab-line :background "#191724" :foreground "#6e6a86" :box nil :extend t)
                   (tab-line-tab :background "#191724" :foreground "#908caa" :box nil)
                   (tab-line-tab-inactive :background "#191724" :foreground "#6e6a86" :box nil)
-                  (tab-line-tab-current :background "#191724" :foreground "#e0def4"
-                                        :weight semi-bold :box nil
-                                        :underline (:color "#c4a7e7" :style line))))
+                  (tab-line-tab-current :background "#393552" :foreground "#e0def4"
+                                        :weight semi-bold :box nil :underline nil)))
+    ;; Update the global face as well as FRAME.  This is necessary when Emacs
+    ;; starts as a daemon: its initial frame is terminal-only, while the GUI
+    ;; frame is created later by emacsclient.
+    (apply #'set-face-attribute (car spec) t (cdr spec))
     (apply #'set-face-attribute (car spec) frame (cdr spec))))
 
 (defun seli/apply-frame-appearance (&optional frame)
@@ -305,6 +307,7 @@
 (add-to-list 'default-frame-alist '(alpha . (100 . 100)))
 (add-to-list 'default-frame-alist `(alpha-background . ,seli/buffer-alpha-background))
 (add-hook 'after-make-frame-functions #'seli/apply-frame-appearance)
+(add-hook 'window-setup-hook #'seli/reapply-frame-appearance)
 (advice-add 'load-theme :after #'seli/reapply-frame-appearance)
 (seli/apply-frame-appearance)
 
@@ -342,6 +345,9 @@ soon as an emacsclient GUI frame is created."
   (format " %s " (truncate-string-to-width (buffer-name buffer) 24 nil nil "…")))
 
 (setq tab-bar-show t
+      tab-bar-close-button-show nil
+      tab-bar-new-button-show nil
+      tab-bar-separator ""
       tab-line-close-button-show nil
       tab-line-new-button-show nil
       tab-line-separator " "
@@ -679,11 +685,13 @@ identifiers."
 ;;; Files
 
 (defun seli/dired-find-file-in-new-tab ()
-  "Visit the Dired file or directory at point in a new tab."
+  "Visit a file at point in a new tab, or a directory in the current tab."
   (interactive)
   (let ((file (dired-get-file-for-visit)))
-    (tab-new)
-    (find-file file)))
+    (if (file-directory-p file)
+        (dired-find-file)
+      (tab-new)
+      (find-file file))))
 
 (use-package dired
   :ensure nil
