@@ -55,3 +55,4 @@ config.local.fish
 .config/herdr/herdr.sock
 .config/herdr/release-notes.json
 
+.config/herdr/session.json

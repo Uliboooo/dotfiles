@@ -41,6 +41,14 @@
   services.hazkey.enable = true;
   services.tailscale.enable = true;
 
+  services.smartd = {
+    enable = true;
+    devices = [
+      { device = "/dev/sda"; }
+      { device = "/dev/sdb"; }
+    ];
+  };
+
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
 
