@@ -213,8 +213,9 @@ window-rule {
     }
 }
 
+// PiP: default unfocused = dimmer
 window-rule {
-    match title="^Picture in picture$"
+    match title="^Picture in picture$" is-focused=false
 
     open-floating true
 
@@ -223,7 +224,32 @@ window-rule {
 
     default-floating-position x=20 y=20 relative-to="top-right"
 
-    opacity 0.6
+    opacity 0.9
+
+    draw-border-with-background false
+
+    border {
+      off
+    }
+
+    background-effect {
+        blur false
+        xray false
+    }
+}
+
+// PiP: focused = current opacity
+window-rule {
+    match title="^Picture in picture$" is-focused=true
+
+    open-floating true
+
+    default-column-width { fixed 240; }
+    default-window-height { fixed 135; }
+
+    default-floating-position x=20 y=20 relative-to="top-right"
+
+    opacity 0.3
 
     draw-border-with-background false
 
