@@ -92,11 +92,11 @@
       "active_tab": 0
     },
     {
-      "id": "wA",
-      "custom_name": null,
+      "id": "wE",
+      "custom_name": "scrach emacs",
       "identity_cwd": "/home/seli/dotfiles",
       "public_pane_numbers": {
-        "9": 1
+        "13": 1
       },
       "next_public_pane_number": 2,
       "public_tab_numbers": [
@@ -107,29 +107,101 @@
         {
           "custom_name": null,
           "layout": {
-            "Pane": 9
+            "Pane": 13
           },
           "panes": {
-            "9": {
+            "13": {
               "cwd": "/home/seli/dotfiles",
               "agent_session": {
                 "source": "herdr:opencode",
                 "agent": "opencode",
                 "kind": "id",
-                "value": "ses_01171482affe9owROBt5P9xadb"
+                "value": "ses_00f760fceffeTtL0wzZlWKkC74"
               }
             }
           },
           "zoomed": false,
-          "focused": 9,
-          "root_pane": 9
+          "focused": 13,
+          "root_pane": 13
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wF",
+      "custom_name": null,
+      "identity_cwd": "/home/seli/dotfiles",
+      "public_pane_numbers": {
+        "14": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 14
+          },
+          "panes": {
+            "14": {
+              "cwd": "/home/seli/dotfiles",
+              "agent_session": {
+                "source": "herdr:opencode",
+                "agent": "opencode",
+                "kind": "id",
+                "value": "ses_00c482c21ffe6giKNFshu3oLVw"
+              }
+            }
+          },
+          "zoomed": false,
+          "focused": 14,
+          "root_pane": 14
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wG",
+      "custom_name": null,
+      "identity_cwd": "/home/seli/dotfiles",
+      "public_pane_numbers": {
+        "15": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 15
+          },
+          "panes": {
+            "15": {
+              "cwd": "/home/seli/dotfiles",
+              "agent_session": {
+                "source": "herdr:opencode",
+                "agent": "opencode",
+                "kind": "id",
+                "value": "ses_00c3d1deaffeIUIvR37riPUuGb"
+              }
+            }
+          },
+          "zoomed": false,
+          "focused": 15,
+          "root_pane": 15
         }
       ],
       "active_tab": 0
     }
   ],
-  "active": 3,
-  "selected": 3,
+  "active": 5,
+  "selected": 5,
   "sidebar_width": 26,
   "sidebar_section_split": 0.5,
   "collapsed_space_keys": []
