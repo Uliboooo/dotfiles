@@ -33,6 +33,31 @@ let
       --frame-parameters='((title . "Scratchpad Emacs"))' \
       "$@"
   '';
+  orgGitSync = pkgs.writeShellApplication {
+    name = "org-git-sync";
+    runtimeInputs = with pkgs; [
+      coreutils
+      git
+    ];
+    text = ''
+      org_dir="${config.home.homeDirectory}/org"
+
+      if [[ ! -d "$org_dir/.git" ]]; then
+        echo "org-git-sync: $org_dir is not a Git repository" >&2
+        exit 1
+      fi
+
+      cd "$org_dir"
+      git pull
+      git add .
+
+      if ! git diff --cached --quiet; then
+        git commit -m "org mode changes: $(date '+%Y-%m-%d %H:%M:%S %z')"
+      fi
+
+      git push
+    '';
+  };
 
   packages = with pkgs; [
     # ===== CLI / エディタ =====
@@ -234,7 +259,10 @@ in
     targets.genericLinux.enable = true;
 
     # ===== packages =====
-    home.packages = packages ++ [ (lib.hiPrio emacsClient) emacsScratch ];
+    home.packages = packages ++ [
+      (lib.hiPrio emacsClient)
+      emacsScratch
+    ];
 
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = npmGlobalDir;
@@ -462,6 +490,30 @@ in
 
       Timer = {
         OnCalendar = "weekly";
+        Persistent = false;
+      };
+
+      Install.WantedBy = [ "timers.target" ];
+    };
+
+    systemd.user.services.org-git-sync = {
+      Unit.Description = "Pull and commit changes in the org-mode repository";
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = lib.getExe orgGitSync;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.timers.org-git-sync = {
+      Unit.Description = "Synchronize the org-mode repository every 5 minutes";
+
+      Timer = {
+        OnBootSec = "1min";
+        OnUnitActiveSec = "5min";
+        Unit = "org-git-sync.service";
         Persistent = false;
       };
 
