@@ -40,6 +40,14 @@
     fcitx5.waylandFrontend = true;
   };
   services.hazkey.enable = true;
+  # Ctrl と Alt を左右とも入れ替える。keyd は入力デバイス段階で変換するため、
+  # Wayland / X11 を問わず同じ配列になる。
+  services.keyd.keyboards.default.settings.main = {
+    leftcontrol = "leftalt";
+    leftalt = "leftcontrol";
+    rightcontrol = "rightalt";
+    rightalt = "rightcontrol";
+  };
   services.tailscale.enable = true;
 
   services.openssh.enable = true;

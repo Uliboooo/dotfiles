@@ -60,13 +60,13 @@ spawn-sh-at-startup "systemctl --user restart xdg-desktop-portal.service"
 // spawn-at-startup では起動しない。
 
 input {
-    focus-follows-mouse
+//    focus-follows-mouse
     warp-mouse-to-focus
 
     keyboard {
         xkb {
             layout "us"
-            options "ctrl:swap_lalt_lctl,ctrl:swap_ralt_rctl,caps:super"
+            options "caps:super"
         }
         repeat-delay 230
         repeat-rate 42
@@ -191,7 +191,7 @@ blur {
 }
 
 window-rule {
-    match app-id=r#"^(ghostty|com\.mitchellh\.ghostty)$"#
+    match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
     draw-border-with-background false
     background-effect {
         blur true
@@ -241,14 +241,15 @@ window-rule {
 // HandleLidSwitch* を参照)。handle_lid.sh は既に存在しないので switch-events
 // ごと削除した。同じ注意書きが .config/hypr/config/binds.lua にもある。
 
-// 外部モニタ (DP-1) があればそちらに、無ければ eDP-1 に出る。
-// named workspace は「元の出力」を忘れないので、DP-1 を挿し直すと戻ってくる。
+// niri-scratchpad moves hidden scratchpad windows into this workspace.
+// Named workspaces initially appear in declaration order, so keep stash first.
+workspace "stash" { }
+
+// External monitor (DP-1) when available; otherwise eDP-1.
+// Named workspaces retain their original output, so chats returns to DP-1 on reconnect.
 workspace "chats" {
     open-on-output "DP-1"
 }
-
-// niri-scratchpad moves hidden scratchpad windows into this workspace.
-workspace "stash" { }
 
 // Discord (desktop app) は常に chats に開く
 window-rule {

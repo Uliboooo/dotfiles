@@ -287,6 +287,11 @@ in
       pageup = "noop";
       pagedown = "noop";
 
+      # keyd は既定で rightcontrol を layer(control) に束縛し、control 修飾子を
+      # 内部の MOD_CTRL(KEY_LEFTCTRL) で再送出するため、右Ctrlが左Ctrl(Control_L)
+      # に化ける。ここで素通しにして KEY_RIGHTCTRL を維持させる（Fcitx5 で個別バインド用）。
+      rightcontrol = "rightcontrol";
+
       assistant = "rightmeta";
 
       # Delete は単押しでは何も送らない（実質無効化）。300ms 長押しで coffee
