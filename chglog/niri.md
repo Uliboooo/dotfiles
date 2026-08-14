@@ -2,6 +2,17 @@
 
 niri の外部ツールと、その設定上の前提を記録する。
 
+## 2026-08-14
+
+### overview の backdrop に awww を配置する
+
+対象: `.config/niri/config.kdl`
+
+この環境の awww layer-shell surface の namespace は `awww-daemon`。`niri msg layers`
+で実機確認した。`layout.background-color "transparent"` と namespace を限定した
+`place-within-backdrop true` を組み合わせると、overview でも壁紙を backdrop に残し、
+workspace と一緒に壁紙が縮小・移動するのを防げる。
+
 ## 2026-08-11
 
 ### niri-scratchpad の stash workspace

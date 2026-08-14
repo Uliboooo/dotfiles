@@ -31,6 +31,12 @@ overview {
   backdrop-color "#777"
 }
 
+// Keep awww stationary and visible behind the zoomed-out workspaces.
+layer-rule {
+    match namespace="^awww-daemon$"
+    place-within-backdrop true
+}
+
 cursor {
     xcursor-theme "Bibata-Modern-Ice"
     xcursor-size 24
