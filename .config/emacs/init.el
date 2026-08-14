@@ -427,6 +427,7 @@ soon as an emacsclient GUI frame is created."
 
   (seli/leader
     "SPC" '(execute-extended-command :which-key "M-x")
+    "d" '(dired-jump :which-key "filer")
     "n" '(consult-focus-lines :which-key "hide non-matches")
     "f" '(seli/consult-fd-buffer-tab :which-key "find files")
     "/" '(consult-ripgrep :which-key "grep")
@@ -449,15 +450,92 @@ soon as an emacsclient GUI frame is created."
 (use-package vertico
   :hook (after-init . vertico-mode))
 
+(defconst seli/vertico-posframe-mirror-buffer " *vertico-posframe-mirror*")
+
+(defun seli/posframe-set-fixed-size-in-characters (set-size size-info)
+  "Set fixed posframe SIZE-INFO in character units."
+  (let ((posframe (plist-get size-info :posframe))
+        (width (plist-get size-info :width))
+        (height (plist-get size-info :height)))
+    (if (and width height)
+        (progn
+          (set-frame-size posframe width height)
+          (setq-local posframe--last-posframe-size size-info))
+      (funcall set-size size-info))))
+
+(defun seli/posframe-center-with-parent-metrics (info)
+  "Center a fixed Vertico posframe using its parent frame metrics."
+  (let* ((parent (plist-get info :parent-frame))
+         (parent-width (plist-get info :parent-frame-width))
+         (parent-height (plist-get info :parent-frame-height))
+         (width (min vertico-posframe-width (frame-width parent)))
+         (height (min vertico-posframe-height (frame-height parent)))
+         (border-pixels (* 2 vertico-posframe-border-width))
+         (pixel-width (+ border-pixels (* width (frame-char-width parent))))
+         (pixel-height (+ border-pixels (* height (frame-char-height parent)))))
+    (cons (max 0 (/ (- parent-width pixel-width) 2))
+          (max 0 (/ (- parent-height pixel-height) 2)))))
+
+(defun seli/posframe-mirror-live-minibuffer (show buffer-or-name &rest args)
+  "Display a snapshot of a live minibuffer instead of the buffer itself."
+  (if (not (and (buffer-live-p (get-buffer buffer-or-name))
+                (minibufferp (get-buffer buffer-or-name))))
+      (apply show buffer-or-name args)
+    (let* ((parts
+            (with-current-buffer buffer-or-name
+              (let ((count (and (boundp 'vertico--count-ov)
+                                (overlayp vertico--count-ov)
+                                (overlay-get vertico--count-ov 'before-string)))
+                    (candidates (and (boundp 'vertico--candidates-ov)
+                                     (overlayp vertico--candidates-ov)
+                                     (overlay-get vertico--candidates-ov 'before-string))))
+                (list (or count "")
+                      (buffer-substring (point-min) (point-max))
+                      (or candidates "")))))
+           (count-width (length (car parts)))
+           (string (apply #'concat parts))
+           (window-point (plist-get args :window-point)))
+      (with-current-buffer (get-buffer-create seli/vertico-posframe-mirror-buffer)
+        (setq-local face-remapping-alist nil
+                    text-scale-mode nil
+                    text-scale-mode-amount 0))
+      (setq args (plist-put args :string string))
+      (when window-point
+        (setq args (plist-put args :window-point (+ count-width window-point))))
+      ;; The standard handler tests whether the displayed buffer itself is a
+      ;; minibuffer.  The mirror is intentionally not one, so Vertico's exit
+      ;; hook below is responsible for hiding it.
+      (setq args (plist-put args :hidehandler nil))
+      (prog1 (apply show seli/vertico-posframe-mirror-buffer args)
+        ;; `posframe--create-posframe' calls `text-scale-set'.  On a daemon
+        ;; child frame its bogus initial line height can leave a 1/21 face
+        ;; remap behind, so reset the display-only mirror after creation too.
+        (with-current-buffer seli/vertico-posframe-mirror-buffer
+          (setq-local face-remapping-alist nil
+                      text-scale-mode nil
+                      text-scale-mode-amount 0))
+        (force-window-update seli/vertico-posframe-mirror-buffer)))))
+
+(defun seli/posframe-hide-minibuffer-mirror (hide buffer-or-name)
+  "Hide BUFFER-OR-NAME and its Vertico mirror, when applicable."
+  (prog1 (funcall hide buffer-or-name)
+    (when (and (buffer-live-p (get-buffer buffer-or-name))
+               (minibufferp (get-buffer buffer-or-name)))
+      (funcall hide seli/vertico-posframe-mirror-buffer))))
+
 ;; Show minibuffer completion UIs such as M-x in a centered floating frame.
 (use-package vertico-posframe
   :after vertico
   :demand t
   :custom
-  (vertico-posframe-poshandler #'posframe-poshandler-frame-center)
+  (vertico-posframe-poshandler #'seli/posframe-center-with-parent-metrics)
   (vertico-posframe-width 100)
   (vertico-posframe-height 20)
   :config
+  (advice-add 'posframe-show :around #'seli/posframe-mirror-live-minibuffer)
+  (advice-add 'posframe-hide :around #'seli/posframe-hide-minibuffer-mirror)
+  (advice-add 'posframe--set-frame-size
+              :around #'seli/posframe-set-fixed-size-in-characters)
   (vertico-posframe-mode 1))
 
 (use-package orderless

@@ -457,7 +457,6 @@ Evil の state が変わるたびにカーソル形状を更新する。
 (define-key evil-normal-state-map (kbd "U") #'evil-redo)
 (define-key evil-normal-state-map (kbd "C-b") nil)
 (define-key evil-normal-state-map (kbd "C-a") #'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-x") #'evil-numbers/dec-at-pt)
 ```
 
 normal state のキーを調整している。
@@ -465,7 +464,8 @@ normal state のキーを調整している。
 - `U`: redo。
 - `C-b`: 既定割り当てを解除。
 - `C-a`: カーソル位置の数値を +1。
-- `C-x`: カーソル位置の数値を -1。
+- normal state の `C-x`: カーソル位置の数値を -1。Emacs 標準の
+  `C-x` prefix は insert state で使う。
 
 ```elisp
 (use-package evil-collection
@@ -699,6 +699,8 @@ Customize UI などが書いた `custom.el` が存在すれば読み込む。`ni
 | normal `U` | redo |
 | normal `C-a` | 数値 +1 |
 | normal `C-x` | 数値 -1 |
+| insert `C-x C-f` | ファイルまたはディレクトリを開く |
+| `C-x d` | Dired を開く |
 | `SPC SPC` | `M-x` |
 | `SPC f` | `fd` でファイル検索して開く |
 | `SPC /` | `ripgrep` 検索 |
