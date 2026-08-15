@@ -937,7 +937,7 @@ depth."
          "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
 
         ("n" "Note" entry
-         (file "~/org/inbox.org")
+         (file "~/org/notes.org")
          "* %?\n%U\n")
 
         ("j" "Journal" plain

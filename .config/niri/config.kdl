@@ -95,16 +95,22 @@ input {
     }
 }
 
-output "eDP-1" {
-    mode "1920x1200"
-    scale 1
-    position x=-1920 y=420
-}
-
 output "DP-1" {
     mode "3840x2160"
     scale 1.5
     position x=0 y=0
+}
+
+output "Lenovo Group Limited 0x403D Unknown" {
+    mode "1920x1200"
+    scale 1
+    position x=0 y=0
+}
+
+output "Dell Inc. DELL P2214H 3JY1P45C3CUL" {
+    mode "1920x1080"
+    scale 1.0
+    position x=-1280 y=-1080
 }
 
 layout {

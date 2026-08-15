@@ -96,7 +96,7 @@ Emacs 標準の操作も使えます。`C-x o` は次のペインへ移動、`C-
 | `SPC o o` | カーソル位置のリンクを開く |
 | `S-RET` | カーソル位置のリンクを新しい Emacs タブで開く（Org のみ） |
 | `SPC o i` | インライン画像の表示を切り替え |
-| `C-c c` | capture（Todo / Note / Journal。Journal は当日の記録へ追記） |
+| `C-c c` | capture（Todo は `inbox.org`、Note は `notes.org`、Journal は当日の記録へ追記） |
 | `C-c a` | Org Agenda を開く（続けて `a` で予定、`t` で TODO） |
 
 Org の短いブロックは、行頭で `<q` と入力して `TAB` のように `org-tempo` のテンプレートも使えます。

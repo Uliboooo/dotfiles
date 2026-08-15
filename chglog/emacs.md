@@ -2,6 +2,15 @@
 
 Emacs daemon から作る GUI frame と child frame の挙動に関する記録。
 
+## 2026-08-15
+
+### capture の Note は恒久ノートへ直接保存する
+
+対象: `.config/emacs/init.el`, `.config/emacs/README.md`
+
+`n` の Note capture は一時的なタスク Inbox を経由せず、`~/org/notes.org` へ直接追記
+する。`t` の Todo capture は引き続き `~/org/inbox.org` を使う。
+
 ## 2026-08-14
 
 ### Evil normal state の C-x を数値 decrement に戻す
