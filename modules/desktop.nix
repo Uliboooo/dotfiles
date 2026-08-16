@@ -331,6 +331,13 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
+  # Prefer the external TP-Link UB500 (2357:0604).  The Intel Bluetooth
+  # function integrated with the Wi-Fi card is USB 1-14 (8087:0a2b); prevent
+  # just that device from authorizing, while leaving other btusb devices alone.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", KERNEL=="1-14", ATTR{idVendor}=="8087", ATTR{idProduct}=="0a2b", ATTR{authorized}="0"
+  '';
+
   # Fonts: JP glyphs for CJK on lang-less pages, Monaspace Radon for Latin monospace
   fonts = {
     packages = with pkgs; [
