@@ -24,7 +24,7 @@ environment {
 
 prefer-no-csd
 
-screenshot-path "~/Desktop/ScreenShot_%Y-%m-%d at %H.%M.%S.png"
+screenshot-path "~/Desktop/ScreenShot_%Y-%m-%d_at_%H.%M.%S.png"
 
 overview {
   zoom 0.48
@@ -394,7 +394,9 @@ binds {
 
     // --- screenshots (native niri) ---
     Print repeat=false { screenshot-window; }
-    Super+P repeat=false { screenshot-window; }
+    // Capture the focused window from the composited screen, so translucent
+    // terminals keep their wallpaper/background rather than PNG alpha.
+    Super+P repeat=false { spawn-sh "$HOME/dotfiles/script/niri_window_screenshot.sh"; }
     Ctrl+Shift+S repeat=false { screenshot; }
     Super+Print repeat=false { screenshot-screen; }
 
