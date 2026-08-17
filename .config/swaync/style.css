@@ -52,6 +52,12 @@
   border-color: @rule-soft;
 }
 
+/* SwayNC's upstream .image rule uses a 100px radius for notification previews. */
+.notification-row .notification-background .notification .notification-default-action .notification-content .image,
+.notification-row .notification-background .notification .notification-default-action .notification-content .body-image {
+  border-radius: 0;
+}
+
 .summary {
   color: @ink;
   font-size: 14px;

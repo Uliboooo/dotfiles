@@ -98,13 +98,13 @@
     "format-icons": {
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-click": "ghostty -e wiremix"
+    "on-click": "~/dotfiles/script/system_control.sh audio"
   },
   "bluetooth": {
     "format": "{status}",
     "format-connected": " {device_alias}",
     "format-connected-battery": " {device_alias}",
-    "on-click": "ghostty -e bluetui",
+    "on-click": "~/dotfiles/script/system_control.sh bluetooth",
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
@@ -115,7 +115,7 @@
     "format-ethernet": "󰈀 ETH",
     "format-disconnected": "󰖪 OFFLINE",
     "max-length": 11,
-    "on-click": "ghostty -e nmtui"
+    "on-click": "~/dotfiles/script/system_control.sh wifi"
   },
   "battery": {
     "states": {
@@ -125,7 +125,8 @@
     "format": "{icon}{capacity}%",
     "format-charging": "󰂄 {capacity}%",
     "format-plugged": " {capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "on-click": "~/dotfiles/script/system_control.sh brightness"
   },
   "custom/tlp": {
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",

@@ -2,6 +2,17 @@
 
 ## 2026-08-17
 
+### 状態モジュールから対応する rofi サブメニューを直接開く
+
+触ったファイル: `script/system_control.sh`, `.config/waybar/config.niri.jsonc`
+
+`system_control.sh` は `audio` / `wifi` / `bluetooth` / `brightness` / `power` を引数に
+取る。niri 用 Waybar の音量、Bluetooth、ネットワーク、バッテリーの各クリックには対応する
+サブメニューを渡し、端末上の wiremix / bluetui / nmtui を起動しないようにした。
+rofi の prompt は各カテゴリの Nerd Font アイコンにして、画面内のラベルを増やさない。
+
+## 2026-08-17
+
 ### Waybar から rofi のシステム操作メニューを開く
 
 触ったファイル: `script/system_control.sh`, `.config/waybar/config.niri.jsonc`
@@ -11,6 +22,9 @@ Noctalia の Quick Settings に依存せず、Waybar の sliders アイコンか
 Bluetooth 機器、輝度、セッション／電源操作を、それぞれ対応する標準 CLI だけで扱う。
 表示行とは別に Bash 配列で node ID / SSID / MAC address を保持し、空白を含む名前を
 そのまま操作対象へ渡せるようにしている。
+
+SwayNC のスクリーンショット通知は上流 `.image` が `border-radius: 100px` を持つため、
+Paper CSS では通知プレビューの `.image` / `.body-image` を明示的に `0` へ上書きする。
 
 ## 2026-08-17
 
