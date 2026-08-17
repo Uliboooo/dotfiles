@@ -43,6 +43,7 @@ declare -A icons=(
   ["libreoffice-impress"]=""
   [gvim]=""
   [xterm]=""
+  [zen]="◎"
 )
 
 declare -A names=(
@@ -85,6 +86,7 @@ declare -A names=(
   ["libreoffice-impress"]="Impress"
   [gvim]="GVim"
   [xterm]="XTerm"
+  [zen]="zen"
 )
 
 xml_escape() {

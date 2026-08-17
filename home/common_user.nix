@@ -128,7 +128,6 @@ let
     opencode
 
     # ===== GUI アプリ =====
-    obsidian
     spotify
     nerd-fonts.symbols-only
     nerd-fonts.jetbrains-mono

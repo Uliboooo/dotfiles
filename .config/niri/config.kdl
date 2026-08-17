@@ -275,7 +275,7 @@ binds {
 
     // --- apps (match hypr binds.lua) ---
     Super+Q repeat=false { close-window; }
-    Super+T { spawn "ghostty"; }
+    Super+T { spawn "kitty"; }
     Super+M { quit; }
     Super+E { spawn-sh "emacs $HOME/org"; }
     Super+V { toggle-window-floating; }
