@@ -1,5 +1,29 @@
 # Status bar
 
+## 2026-08-17
+
+### Waybar と SwayNC の通知 DBus 所有を連動
+
+触ったファイル: `modules/desktop.nix`
+
+Waybar は `swaync.service` を `Requires=` / `After=` し、SwayNC は
+`Type=dbus` と `BusName=org.freedesktop.Notifications` を使う。従って SwayNC が
+通知 DBus 名を取得するまで Waybar は起動完了にならない。SwayNC の
+`PartOf=waybar.service` により、Noctalia の `Conflicts=waybar.service` が Waybar を
+停止すると SwayNC も停止する。`Conflicts=` は停止した Noctalia を自動再起動しないため、
+Waybar 停止後の Noctalia 復帰は引き続き明示的に `systemctl --user start noctalia` する。
+
+## 2026-08-17
+
+### Waybar の niri セッションも Paper Design に統一
+
+触ったファイル: `modules/desktop.nix`
+
+niri セッションだけが `style.rose-pine-moon-neon.css` を明示指定していたため、Paper
+Design の既定 `style.css` を指定するよう戻した。SwayNC は現在 Noctalia との通知 DBus
+競合を避けるため起動していないが、保持している既定 `style.css` / `colors.css` は既に
+Paper Design である。
+
 ## 2026-08-11
 
 ### 通知デーモンを Noctalia に一本化

@@ -9,20 +9,35 @@ let
 
   # バー/通知は compositor の spawn-at-startup ではなく systemd user サービスで
   # 立ち上げる。テーマはセッションの compositor (XDG_CURRENT_DESKTOP) で分岐する
-  # が、niri は rose-pine-moon-neon、それ以外 (Hyprland/sway) は既定の css を使う
-  # 従来通りの挙動を保つ。exec するので systemd が実プロセスを追跡できる。
+  # にかかわらず Paper Design の既定 CSS を使う。exec するので systemd が実プロセスを
+  # 追跡できる。
   waybarLaunch = pkgs.writeShellScript "waybar-launch" ''
     set -eu
     BASE="$HOME/dotfiles/.config/waybar"
     case "''${XDG_CURRENT_DESKTOP:-}" in
       niri)
-        exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.niri.jsonc" -s "$BASE/style.rose-pine-moon-neon.css"
+        exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.niri.jsonc" -s "$BASE/style.css"
         ;;
       sway:wlroots)
         exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.sway.jsonc" -s "$BASE/style.css"
         ;;
       *)
         exec ${pkgs.waybar}/bin/waybar -c "$BASE/config.hypr.jsonc" -s "$BASE/style.css"
+        ;;
+    esac
+  '';
+
+  # SwayNC が通知 D-Bus 名を取得するまで Type=dbus の unit を activating に保つ。
+  # Waybar はこの unit を Requires= するため、通知先の無いバーを起動完了にしない。
+  swayncLaunch = pkgs.writeShellScript "swaync-launch" ''
+    set -eu
+    BASE="$HOME/dotfiles/.config/swaync"
+    case "''${XDG_CURRENT_DESKTOP:-}" in
+      niri)
+        exec ${pkgs.swaynotificationcenter}/bin/swaync -s "$BASE/style.css"
+        ;;
+      *)
+        exec ${pkgs.swaynotificationcenter}/bin/swaync
         ;;
     esac
   '';
@@ -215,8 +230,12 @@ in
       description = "Waybar status bar";
       unitConfig = {
         PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
+        After = [
+          "graphical-session.target"
+          "swaync.service"
+        ];
         Conflicts = [ "noctalia.service" ];
+        Requires = [ "swaync.service" ];
       };
       serviceConfig = {
         ExecStart = waybarLaunch;
@@ -227,6 +246,23 @@ in
       };
       # Noctalia を既定のバーとする。Waybar は必要なときだけ
       # `systemctl --user start waybar` で切り替える。
+    };
+
+    swaync = {
+      description = "SwayNC notification daemon for Waybar";
+      unitConfig = {
+        # Noctalia が Conflicts=waybar.service で Waybar を停止すると、この unit
+        # も連動して停止する。PartOf は SwayNC を単独起動しない。
+        PartOf = [ "waybar.service" ];
+        After = [ "graphical-session.target" ];
+        Conflicts = [ "noctalia.service" ];
+      };
+      serviceConfig = {
+        Type = "dbus";
+        BusName = "org.freedesktop.Notifications";
+        ExecStart = swayncLaunch;
+        Restart = "on-failure";
+      };
     };
 
     # idle manager。hypridle から swayidle に移行した (2026-08-08)。hypridle の
@@ -372,14 +408,15 @@ in
     # 最小限)。brightnessctl = 減光、jq = PipeWire の再生中判定。
     brightnessctl
     jq
+    grim
     awww
     waybar
+    swaynotificationcenter
     rofi
     hyprpaper
     swayidle
     hyprpolkitagent
     hyprpicker
-    hyprshot
     wl-clipboard
     kitty
     cliphist
