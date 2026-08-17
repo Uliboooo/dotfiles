@@ -86,28 +86,28 @@ end)
 hl.bind(
   "PRINT",
   hl.dsp.exec_cmd(
-    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d_at_%H.%M.%S').png\""
   ),
   { locked = true }
 )
 hl.bind(
   "SUPER + P",
   hl.dsp.exec_cmd(
-    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    "hyprshot -m window -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d_at_%H.%M.%S').png\""
   ),
   { locked = true }
 )
 hl.bind(
   "CONTROL + SHIFT + S",
   hl.dsp.exec_cmd(
-    "hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    "hyprshot -m region --freeze -f \"ScreenShot_$(date '+%Y-%m-%d_at_%H.%M.%S').png\""
   ),
   { locked = true }
 )
 hl.bind(
   "SUPER + PRINT",
   hl.dsp.exec_cmd(
-    "hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d at %H.%M.%S').png\""
+    "hyprshot -m output -m active --freeze -f \"ScreenShot_$(date '+%Y-%m-%d_at_%H.%M.%S').png\""
   ),
   { locked = true }
 )

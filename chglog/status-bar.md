@@ -2,6 +2,18 @@
 
 ## 2026-08-17
 
+### Waybar から rofi のシステム操作メニューを開く
+
+触ったファイル: `script/system_control.sh`, `.config/waybar/config.niri.jsonc`
+
+Noctalia の Quick Settings に依存せず、Waybar の sliders アイコンから Bash 製の rofi
+メニューを開けるようにした。音量・PipeWire の入出力、NetworkManager の Wi-Fi、既知の
+Bluetooth 機器、輝度、セッション／電源操作を、それぞれ対応する標準 CLI だけで扱う。
+表示行とは別に Bash 配列で node ID / SSID / MAC address を保持し、空白を含む名前を
+そのまま操作対象へ渡せるようにしている。
+
+## 2026-08-17
+
 ### Waybar と SwayNC の通知 DBus 所有を連動
 
 触ったファイル: `modules/desktop.nix`

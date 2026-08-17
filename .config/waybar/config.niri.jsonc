@@ -17,6 +17,7 @@
     "network",
     "battery",
     "custom/tlp",
+    "custom/system-control",
     "tray",
     "custom/notification"
   ],
@@ -130,6 +131,12 @@
     "exec": "~/dotfiles/script/tlp-waybar-status.sh",
     "interval": 10,
     "format": "󰌪 {}"
+  },
+  "custom/system-control": {
+    "format": "󰒓",
+    "tooltip": true,
+    "tooltip-format": "System controls",
+    "on-click": "~/dotfiles/script/system_control.sh"
   },
   "custom/notification": {
     "tooltip": true,

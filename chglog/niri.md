@@ -2,6 +2,17 @@
 
 niri の外部ツールと、その設定上の前提を記録する。
 
+## 2026-08-17
+
+### コンポジタ装飾を Paper Design に復帰
+
+触ったファイル: `.config/niri/config.kdl`
+
+active border は Paper Design の rose (`#d38ca0`) の単色、inactive は不透明な薄い罫線色
+(`#989286`)、urgent は warning (`#a84435`) に戻した。角丸を 0 にし、グローバル blur と
+terminal / Rofi の background blur を削除した。PiP も非透過に統一して、紙面に半透明の
+レイヤーが残らないようにしている。
+
 ## 2026-08-14
 
 ### overview の backdrop に awww を配置する

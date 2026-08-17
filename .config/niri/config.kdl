@@ -142,12 +142,10 @@ layout {
 
     border {
         on
-        width 3
-        // rose-pine-moon-neon: active windows get a pink→iris neon gradient,
-        // inactive use the muted border tone from the theme.
-        active-gradient from="#ea9a97" to="#c4a7e7" angle=135 in="oklch"
-        inactive-color "#44415a"
-        urgent-color "#eb6f92"
+        width 4
+        active-color "#d38ca0"
+        inactive-color "#989286"
+        urgent-color "#a84435"
     }
 
     shadow {
@@ -191,23 +189,8 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 5
+    geometry-corner-radius 0
     clip-to-geometry true
-}
-
-blur {
-    on
-    passes 3
-    offset 1.5
-    noise 0.05
-}
-
-window-rule {
-    match app-id=r#"^(kitty|ghostty|com\.mitchellh\.ghostty)$"#
-    draw-border-with-background false
-    background-effect {
-        blur true
-    }
 }
 
 // Only the specially titled Emacs frame is toggled by niri-scratchpad.
@@ -216,16 +199,7 @@ window-rule {
     open-floating true
 }
 
-window-rule {
-    // Rofi uses either "rofi" (Wayland) or "Rofi" (XWayland WM_CLASS)
-    // depending on the backend used for the current session.
-    match app-id=r#"(?i)^rofi$"#
-    background-effect {
-        blur true
-    }
-}
-
-// PiP: default unfocused = dimmer
+// PiP remains opaque so the floating window follows Paper Design too.
 window-rule {
     match title="^Picture in picture$" is-focused=false
 
@@ -236,7 +210,7 @@ window-rule {
 
     default-floating-position x=20 y=20 relative-to="top-right"
 
-    opacity 0.9
+    opacity 1.0
 
     draw-border-with-background false
 
@@ -250,7 +224,7 @@ window-rule {
     }
 }
 
-// PiP: focused = current opacity
+// PiP: focused
 window-rule {
     match title="^Picture in picture$" is-focused=true
 
@@ -261,7 +235,7 @@ window-rule {
 
     default-floating-position x=20 y=20 relative-to="top-right"
 
-    opacity 0.3
+    opacity 1.0
 
     draw-border-with-background false
 
@@ -353,6 +327,8 @@ binds {
     Super+Shift+grave { focus-workspace-up; }
     Super+J { focus-workspace-down; }
     Super+K { focus-workspace-up; }
+    Super+Shift+J { move-window-to-workspace-down; }
+    Super+Shift+K { move-window-to-workspace-up; }
 
     Super+1 { focus-workspace 1; }
     Super+2 { focus-workspace 2; }
@@ -381,7 +357,6 @@ binds {
     // --- swap / layout ---
     Super+Shift+H { swap-window-left; }
     Super+Shift+L { swap-window-right; }
-    Super+Shift+J { consume-or-expel-window-right; }
 
     // resize: niri has no submaps; Super+Ctrl+HJKL mirrors hypr resize-mode keys
     Alt+Shift+H repeat=true { set-column-width "-10"; }
@@ -394,9 +369,9 @@ binds {
 
     // --- screenshots (native niri) ---
     Print repeat=false { screenshot-window; }
-    // Capture the focused window from the composited screen, so translucent
-    // terminals keep their wallpaper/background rather than PNG alpha.
-    Super+P repeat=false { spawn-sh "$HOME/dotfiles/script/niri_window_screenshot.sh"; }
+    // Flatten the focused window's transparent pixels onto a neutral gray.
+    // Super+P repeat=false { spawn-sh "$HOME/dotfiles/script/niri_window_screenshot.sh"; }
+    Super+P repeat=false { screenshot-window; }
     Ctrl+Shift+S repeat=false { screenshot; }
     Super+Print repeat=false { screenshot-screen; }
 

@@ -43,6 +43,7 @@ tooltip label {
 #temperature,
 #tray,
 #custom-notification,
+#custom-system-control,
 #custom-tlp,
 #custom-niri-windows,
 #custom-hypr-windows {
@@ -123,6 +124,7 @@ tooltip label {
 #battery,
 #temperature,
 #custom-tlp,
+#custom-system-control,
 #custom-notification {
   color: #4e5149;
 }

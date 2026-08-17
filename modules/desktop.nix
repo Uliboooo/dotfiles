@@ -408,7 +408,6 @@ in
     # 最小限)。brightnessctl = 減光、jq = PipeWire の再生中判定。
     brightnessctl
     jq
-    grim
     awww
     waybar
     swaynotificationcenter
@@ -417,6 +416,7 @@ in
     swayidle
     hyprpolkitagent
     hyprpicker
+    hyprshot
     wl-clipboard
     kitty
     cliphist
