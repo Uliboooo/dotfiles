@@ -193,6 +193,21 @@ window-rule {
     clip-to-geometry true
 }
 
+blur {
+    on
+    passes 3
+    offset 1.5
+    noise 0.05
+}
+
+// Keep the blur treatment scoped to Kitty; all other windows remain opaque.
+window-rule {
+    match app-id="^kitty$"
+    background-effect {
+        blur true
+    }
+}
+
 // Only the specially titled Emacs frame is toggled by niri-scratchpad.
 window-rule {
     match title="Scratchpad Emacs"

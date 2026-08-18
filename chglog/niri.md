@@ -2,6 +2,16 @@
 
 niri の外部ツールと、その設定上の前提を記録する。
 
+## 2026-08-18
+
+### Kitty だけ背景 blur を許可
+
+触ったファイル: `.config/niri/config.kdl`
+
+Paper Design の非 blur 方針の例外として、`app-id=kitty` の window rule にだけ
+`background-effect { blur true; }` を設定した。niri の global `blur` block はこの
+window rule を機能させるために有効化しているが、ほかの window rule は blur を要求しない。
+
 ## 2026-08-17
 
 ### コンポジタ装飾を Paper Design に復帰
