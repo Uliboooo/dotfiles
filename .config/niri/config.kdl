@@ -443,5 +443,3 @@ binds {
     Alt+J repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh down"; }
     Alt+L repeat=true { spawn-sh "$HOME/dotfiles/script/scroll.sh right"; }
 }
-
-include "noctalia.kdl"
