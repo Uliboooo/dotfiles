@@ -113,6 +113,7 @@ let
     direnv
     nix-direnv
     typst
+    typstyle
     tinymist
     dust
     glow
@@ -217,6 +218,18 @@ in
       enable = true;
       nix-direnv.enable = true;
     };
+
+    # PGTK applications (including GUI Emacs) read the GTK cursor setting.
+    # Keep it aligned with the compositor's XCURSOR_* configuration.
+    gtk = {
+      enable = true;
+      cursorTheme = {
+        name = "Bibata-Modern-Ice";
+        package = pkgs.bibata-cursors;
+        size = 20;
+      };
+    };
+
     programs.crush.enable = true;
 
     programs.tmux = {
