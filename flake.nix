@@ -85,20 +85,6 @@
         };
     in
     {
-      # Tools exposed to direnv/envrc when working in this repository.
-      # Project buffers in Emacs inherit these through `.envrc`.
-      devShells.${linuxSystem}.default =
-        let
-          pkgs = mkPkgs linuxSystem;
-        in
-        pkgs.mkShell {
-          packages = with pkgs; [
-            typst
-            typstyle
-            tinymist
-          ];
-        };
-
       # ===== Home Manager (standalone) =====
       homeConfigurations = {
         seli = mkHome linuxSystem;

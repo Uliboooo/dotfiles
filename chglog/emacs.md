@@ -30,7 +30,6 @@ Nyancatはbuffer内のpoint位置を示す。常時animationは無効にし、�
 `envrc-global-mode`を有効にし、`.envrc`で`use flake`したprojectではdirenvが生成する
 環境をbuffer-localな`process-environment`と`exec-path`へ反映する。Emacs daemon全体の
 PATHを汚さず、ApheleiaとEglotがproject内のformatter・language serverを利用できる。
-dotfilesのdefault dev shellにも`typst`、`typstyle`、`tinymist`を追加する。
 
 ### Typstの保存時formatを有効化
 
