@@ -1,33 +1,74 @@
-# Noctalia v5 configuration. The JSON files beside this file are retained only
-# as a reference for the retired Quickshell-based v4 configuration.
+[bar]
+order = [ "main" ]
 
-[shell]
-font_family = "Monaspace Radon Var"
-corner_radius_scale = 0
-button_borders = true
-input_borders = true
-popup_borders = true
-card_borders = true
-popup_shadows = false
-setup_wizard_enabled = false
-telemetry_enabled = false
+    [bar.main]
+    auto_hide = false
+    background_opacity = 1.0
+    border = "outline"
+    border_width = 1.0
+    capsule = false
+    capsule_radius = 0
+    center = [ "active_window", "media", "clock" ]
+    color = "on_surface_variant"
+    concave_edge_corners = false
+    contact_shadow = false
+    enabled = true
+    end = [ "cpu", "battery", "volume", "tray", "control-center", "notifications" ]
+    font_weight = 600
+    hover_highlight = false
+    margin_edge = 0
+    margin_ends = 100
+    padding = 12
+    position = "top"
+    radius = 0
+    reserve_space = false
+    shadow = false
+    show_on_workspace_switch = true
+    smart_auto_hide = true
+    start = [ "launcher", "workspaces" ]
+    thickness = 48
+    widget_spacing = 10
 
-[shell.animation]
+[desktop_widgets]
 enabled = false
 
-[shell.panel]
-transparency_mode = "solid"
-borders = true
-shadow = false
-list_item_background = false
-control_center_placement = "floating"
-control_center_position = "top_right"
-floating_offset = 8
+[dock]
+smart_auto_hide = true
 
-[theme]
-mode = "light"
-source = "custom"
-custom_palette = "Paper"
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@eDP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 1018.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
 [notification]
 background_opacity = 1.0
@@ -36,69 +77,78 @@ background_opacity = 1.0
 background_opacity = 1.0
 border = true
 
-[osd.kinds]
-keyboard_layout = false
+    [osd.kinds]
+    keyboard_layout = false
 
-[bar]
-order = ["main"]
+[shell]
+avatar_path = "/home/seli/Pictures/wallpapers_insecure/rika.jpg"
+button_borders = true
+card_borders = true
+corner_radius_scale = 0
+font_family = "Monaspace Radon Var"
+input_borders = true
+popup_borders = true
+popup_shadows = false
+setup_wizard_enabled = false
+telemetry_enabled = false
 
-[bar.main]
-position = "top"
-enabled = true
-thickness = 32
-background_opacity = 1.0
-border = "outline"
-border_width = 1.0
-shadow = false
-contact_shadow = false
-radius = 0
-concave_edge_corners = false
-margin_edge = 0
-margin_ends = 0
-padding = 12
-widget_spacing = 10
-font_weight = 600
-color = "on_surface_variant"
-capsule = false
-capsule_radius = 0
-hover_highlight = false
-start = ["launcher", "workspaces"]
-center = ["active_window", "media", "clock"]
-end = ["cpu", "battery", "volume", "tray", "control-center", "notifications"]
+    [shell.animation]
+    enabled = false
 
-[widget.launcher]
-type = "launcher"
+    [shell.panel]
+    borders = true
+    control_center_placement = "floating"
+    control_center_position = "top_right"
+    floating_offset = 8
+    list_item_background = false
+    shadow = false
+    transparency_mode = "solid"
 
-[widget.workspaces]
-type = "workspaces"
+[theme]
+custom_palette = "Paper"
+mode = "light"
+source = "custom"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "gtk4", "niri" ]
+    enable_builtin_templates = false
+
+[wallpaper]
+enabled = false
 
 [widget.active_window]
 type = "active_window"
 
-[widget.media]
-type = "media"
-
-[widget.clock]
-type = "clock"
-format = "{:%a %b %-d %-H:%M}"
-font_family = "Monaspace Radon"
-font_weight = 700
-color = "on_surface"
-
-[widget.cpu]
-type = "sysmon"
-
 [widget.battery]
 type = "battery"
 
-[widget.volume]
-type = "volume"
-
-[widget.tray]
-type = "tray"
+[widget.clock]
+color = "on_surface"
+font_family = "Monaspace Radon"
+font_weight = 700
+format = "{:%a %b %-d %-H:%M}"
+type = "clock"
 
 [widget.control-center]
 type = "control-center"
 
+[widget.cpu]
+type = "sysmon"
+
+[widget.launcher]
+type = "launcher"
+
+[widget.media]
+type = "media"
+
 [widget.notifications]
 type = "notifications"
+
+[widget.tray]
+type = "tray"
+
+[widget.volume]
+type = "volume"
+
+[widget.workspaces]
+type = "workspaces"
