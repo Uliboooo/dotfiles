@@ -1,0 +1,104 @@
+# Noctalia v5 configuration. The JSON files beside this file are retained only
+# as a reference for the retired Quickshell-based v4 configuration.
+
+[shell]
+font_family = "Monaspace Radon Var"
+corner_radius_scale = 0
+button_borders = true
+input_borders = true
+popup_borders = true
+card_borders = true
+popup_shadows = false
+setup_wizard_enabled = false
+telemetry_enabled = false
+
+[shell.animation]
+enabled = false
+
+[shell.panel]
+transparency_mode = "solid"
+borders = true
+shadow = false
+list_item_background = false
+control_center_placement = "floating"
+control_center_position = "top_right"
+floating_offset = 8
+
+[theme]
+mode = "light"
+source = "custom"
+custom_palette = "Paper"
+
+[notification]
+background_opacity = 1.0
+
+[osd]
+background_opacity = 1.0
+border = true
+
+[osd.kinds]
+keyboard_layout = false
+
+[bar]
+order = ["main"]
+
+[bar.main]
+position = "top"
+enabled = true
+thickness = 32
+background_opacity = 1.0
+border = "outline"
+border_width = 1.0
+shadow = false
+contact_shadow = false
+radius = 0
+concave_edge_corners = false
+margin_edge = 0
+margin_ends = 0
+padding = 12
+widget_spacing = 10
+font_weight = 600
+color = "on_surface_variant"
+capsule = false
+capsule_radius = 0
+hover_highlight = false
+start = ["launcher", "workspaces"]
+center = ["active_window", "media", "clock"]
+end = ["cpu", "battery", "volume", "tray", "control-center", "notifications"]
+
+[widget.launcher]
+type = "launcher"
+
+[widget.workspaces]
+type = "workspaces"
+
+[widget.active_window]
+type = "active_window"
+
+[widget.media]
+type = "media"
+
+[widget.clock]
+type = "clock"
+format = "{:%a %b %-d %-H:%M}"
+font_family = "Monaspace Radon"
+font_weight = 700
+color = "on_surface"
+
+[widget.cpu]
+type = "sysmon"
+
+[widget.battery]
+type = "battery"
+
+[widget.volume]
+type = "volume"
+
+[widget.tray]
+type = "tray"
+
+[widget.control-center]
+type = "control-center"
+
+[widget.notifications]
+type = "notifications"

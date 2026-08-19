@@ -148,7 +148,7 @@ let
     gnome-text-editor
     gnome-tweaks
     ashell
-    noctalia-shell
+    noctalia
     kdePackages.kdenlive
     libnotify # freedesktop の D-Bus 通知
     mpv
@@ -449,7 +449,7 @@ in
 
       Service = {
         Type = "simple";
-        ExecStart = "${lib.getExe pkgs.noctalia-shell}";
+        ExecStart = "${lib.getExe pkgs.noctalia}";
         Restart = "on-failure";
         RestartSec = 2;
         StandardOutput = "journal";
