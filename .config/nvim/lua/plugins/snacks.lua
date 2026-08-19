@@ -7,7 +7,21 @@ return {
       bigfile = { enabled = true },
       dashboard = { enabled = false },
       explorer = { enabled = false },
-      indent = { enabled = true },
+      indent = {
+        enabled = true,
+        indent = {
+          hl = {
+            "SnacksIndent1",
+            "SnacksIndent2",
+            "SnacksIndent3",
+            "SnacksIndent4",
+            "SnacksIndent5",
+            "SnacksIndent6",
+            "SnacksIndent7",
+            "SnacksIndent8",
+          },
+        },
+      },
       input = { enabled = true },
       picker = {
         enabled = true,

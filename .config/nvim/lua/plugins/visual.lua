@@ -24,6 +24,14 @@ return {
           SnacksPickerCursor = { bg = "overlay", fg = "text", bold = true },
           SnacksPickerCursorLine = { bg = "overlay" },
           SnacksPickerSelect = { bg = "surface", fg = "iris", bold = true },
+          SnacksIndent1 = { fg = "overlay" },
+          SnacksIndent2 = { fg = "muted" },
+          SnacksIndent3 = { fg = "iris" },
+          SnacksIndent4 = { fg = "foam" },
+          SnacksIndent5 = { fg = "gold" },
+          SnacksIndent6 = { fg = "rose" },
+          SnacksIndent7 = { fg = "love" },
+          SnacksIndent8 = { fg = "pine" },
         },
       })
 
