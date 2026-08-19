@@ -497,12 +497,17 @@ Dired、Help、Org など Emacs 標準・外部パッケージの各モードに
   "/" '(consult-ripgrep :which-key "grep")
   "s" '(consult-imenu :which-key "outline")
   "S" '(consult-org-heading :which-key "org headings")
+  "t" '(:ignore t :which-key "toggle")
+  "tb" '(seli/toggle-theme :which-key "toggle theme")
+  "tt" '(seli/toggle-term :which-key "terminal")
   "o" '(:ignore t :which-key "org")
   "ot" '(org-todo :which-key "todo state")
   ...)
 ```
 
-検索・移動と org 操作を `SPC` に集約している。`o` は org 用のサブプレフィックスで、`which-key` に "org" として表示される。
+検索・移動と org 操作を `SPC` に集約している。`t` はtoggle操作、`o` はorg操作の
+サブプレフィックス。`SPC t t` はEat terminalを下部side windowに出し入れし、shell
+processが終了するまで同じbufferとsessionを再利用する。
 
 ```elisp
 (global-set-key (kbd "C-s") #'save-buffer)

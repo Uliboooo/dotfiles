@@ -38,6 +38,7 @@ Emacs とはバッファ・未保存の編集・履歴を共有しない。
 - `SPC S`: org 見出し検索
 - `SPC o t`: TODO 状態を切り替え
 - `SPC tb`: テーマを読み込み直す
+- `SPC t t`: 下部terminalを表示・非表示（同じshell sessionを再利用）
 
 ## 編集の基本
 

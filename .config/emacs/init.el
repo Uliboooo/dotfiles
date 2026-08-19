@@ -145,8 +145,8 @@
       bookmark-default-file (expand-file-name "bookmarks" seli/state-dir))
 
 (dolist (dir (list (expand-file-name "backup/" seli/cache-dir)
-                  (expand-file-name "auto-save/" seli/cache-dir)
-                  (expand-file-name "auto-save-list/" seli/cache-dir)))
+                   (expand-file-name "auto-save/" seli/cache-dir)
+                   (expand-file-name "auto-save-list/" seli/cache-dir)))
   (unless (file-directory-p dir)
     (make-directory dir t)))
 
@@ -257,7 +257,7 @@
 (defun seli/style-tab-line (&optional frame)
   "Give tabs a flat appearance with a clear selected state in FRAME."
   (dolist (spec '((tab-bar :background "#191724" :foreground "#6e6a86"
-                            :box nil :height 1.0 :extend t)
+                           :box nil :height 1.0 :extend t)
                   (tab-bar-tab :background "#393552" :foreground "#e0def4"
                                :weight semi-bold :box nil :underline nil)
                   (tab-bar-tab-inactive :background "#191724" :foreground "#6e6a86"
@@ -375,6 +375,19 @@ soon as an emacsclient GUI frame is created."
   (doom-modeline-buffer-file-name-style 'auto)
   (doom-modeline-icon t))
 
+;; Doom Modeline renders this in its buffer-position segment.  Keep animation
+;; disabled: the cat still tracks point through the buffer without a timer
+;; continuously redisplaying every frame.
+(use-package nyan-mode
+  :after doom-modeline
+  :demand t
+  :custom
+  (nyan-bar-length 35)
+  (nyan-wavy-trail t)
+  (nyan-animate-nyancat nil)
+  :config
+  (nyan-mode 1))
+
 (use-package which-key
   :ensure nil
   :hook (after-init . which-key-mode)
@@ -415,6 +428,10 @@ soon as an emacsclient GUI frame is created."
   :config
   (evil-collection-init))
 
+(use-package eat
+  :commands eat
+  :hook (eat-mode . evil-insert-state))
+
 (use-package general
   :demand t
   :after evil
@@ -424,6 +441,44 @@ soon as an emacsclient GUI frame is created."
     :keymaps 'override
     :prefix "SPC"
     :non-normal-prefix "C-SPC")
+
+  (defconst seli/toggle-term-buffer-name "*eat*")
+
+  (defun seli/toggle-term--buffer ()
+    "Return the reusable toggle terminal buffer, creating it if needed."
+    (let ((buffer (get-buffer seli/toggle-term-buffer-name)))
+      (when (and buffer
+                 (not (process-live-p (get-buffer-process buffer))))
+        (kill-buffer buffer)
+        (setq buffer nil))
+      (or buffer
+          (progn
+            ;; `eat' creates *eat* on first use and reuses it thereafter.
+            ;; Preserve the current layout because the toggle function places
+            ;; the buffer in its own bottom side window below.
+            (save-window-excursion
+              (eat))
+            (get-buffer seli/toggle-term-buffer-name)))))
+
+  (defun seli/toggle-term ()
+    "Toggle a reusable terminal in a bottom side window."
+    (interactive)
+    (let* ((buffer (get-buffer seli/toggle-term-buffer-name))
+           (window (and buffer
+                        (get-buffer-window buffer (selected-frame)))))
+      (if (window-live-p window)
+          (delete-window window)
+        (let ((window
+               (display-buffer-in-side-window
+                (seli/toggle-term--buffer)
+                '((side . bottom)
+                  (slot . -1)
+                  (window-height . 0.33)
+                  (window-parameters . ((no-delete-other-windows . t)))))))
+          (set-window-dedicated-p window t)
+          (select-window window)
+          (when (fboundp 'evil-insert-state)
+            (evil-insert-state))))))
 
   (seli/leader
     "SPC" '(execute-extended-command :which-key "M-x")
@@ -435,7 +490,9 @@ soon as an emacsclient GUI frame is created."
     "u" '(undo-redo :which-key "undo redo")
     "s" '(consult-imenu :which-key "outline")
     "S" '(consult-org-heading :which-key "org headings")
+    "t" '(:ignore t :which-key "toggle")
     "tb" '(seli/toggle-theme :which-key "toggle theme")
+    "tt" '(seli/toggle-term :which-key "terminal")
     "o" '(:ignore t :which-key "org")
     "ot" '(org-todo :which-key "todo state")
     "oc" '(org-toggle-checkbox :which-key "toggle checkbox")
@@ -594,6 +651,14 @@ identifiers."
 
 ;;; Programming
 
+;; Import direnv environments buffer-locally.  In projects whose .envrc uses
+;; `use flake`, formatters and language servers from `nix develop` become
+;; available to Apheleia and Eglot without changing the daemon-wide PATH.
+(use-package envrc
+  :demand t
+  :config
+  (envrc-global-mode 1))
+
 ;; These packages provide major modes and font-lock for languages also used in
 ;; the Neovim configuration.  Built-in modes cover C/C++, Python, shell,
 ;; JavaScript, CSS, and JSON; the packages below cover the remaining formats.
@@ -603,6 +668,7 @@ identifiers."
 (use-package lua-mode :mode "\\.lua\\'")
 (use-package zig-mode :mode "\\.zig\\'")
 (use-package typst-ts-mode :mode "\\.typ\\'")
+(use-package kdl-mode :mode "\\.kdl\\'")
 (use-package json-mode :mode "\\.jsonc?\\'")
 (use-package web-mode
   :mode ("\\.astro\\'" "\\.tsx?\\'" "\\.jsx\\'"))
@@ -618,7 +684,7 @@ identifiers."
   (setf (alist-get 'biome apheleia-formatters)
         '("biome" "format" "--stdin-file-path" filepath))
   (dolist (mode '(js-mode js-ts-mode json-mode json-ts-mode css-mode css-ts-mode
-                         typescript-ts-mode tsx-ts-mode))
+                          typescript-ts-mode tsx-ts-mode))
     (setf (alist-get mode apheleia-mode-alist) 'biome))
   (apheleia-global-mode 1))
 
@@ -669,7 +735,10 @@ identifiers."
 
 (defun seli/org-mode-defaults ()
   "Prose-friendly defaults for `org-mode' buffers."
-  (setq-local truncate-lines nil))
+  ;; Org syntax defines a TAB as eight columns.  A different value can corrupt
+  ;; org-element's position cache even when indentation itself uses spaces.
+  (setq-local tab-width 8
+              truncate-lines nil))
 
 (defun seli/org-insert-current-timestamp ()
   "Insert the current date and time as an active Org timestamp at point."
@@ -737,6 +806,17 @@ identifiers."
   (org-modern-hide-stars nil)
   (org-modern-table t)
   (org-modern-list '((?+ . "◦") (?- . "–") (?* . "•"))))
+
+;; Keep Org markup visually quiet, but reveal the source of the element at
+;; point so links such as [[URL][label]] remain straightforward to edit.
+(use-package org-appear
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-appear-autolinks t)
+  (org-appear-autoemphasis t)
+  (org-appear-autoentities t)
+  (org-appear-autosubmarkers t))
 
 ;;; Git
 
@@ -933,16 +1013,16 @@ depth."
 
 (setq org-capture-templates
       '(        ("t" "Todo" entry
-         (file "~/org/inbox.org")
-         "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
+                 (file "~/org/inbox.org")
+                 "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
 
-        ("n" "Note" entry
-         (file "~/org/notes.org")
-         "* %?\n%U\n")
+                ("n" "Note" entry
+                 (file "~/org/notes.org")
+                 "* %?\n%U\n")
 
-        ("j" "Journal" plain
-         (file+datetree "~/org/journal.org")
-         "%?\n")))
+                ("j" "Journal" plain
+                 (file+datetree "~/org/journal.org")
+                 "%?\n")))
 
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c a") #'org-agenda)

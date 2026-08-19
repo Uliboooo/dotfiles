@@ -2,6 +2,47 @@
 
 Emacs daemon から作る GUI frame と child frame の挙動に関する記録。
 
+## 2026-08-19
+
+### KDLを専用major modeでhighlightする
+
+`.kdl`が`conf-javaprop-mode`へ誤認され、quote以降の文字列範囲が崩れていたため、
+`kdl-mode`へ関連付ける。
+
+### GUI Emacsのmouse cursor themeをGTKと統一する
+
+PGTK Emacsが参照するGTK設定を`Bibata-Modern-Ice` size 20へ設定し、Niriの
+`XCURSOR_THEME`と一致させる。GTKだけAdwaitaへ戻る状態を防ぐ。
+
+### point位置のOrg markupを表示する
+
+`org-appear-mode`をOrg bufferで有効にする。通常時はlinkや強調記号を整形表示し、pointを
+置いた要素だけ`[[URL][label]]`などの編集可能なsource表現へ戻す。
+Org parserの前提に合わせ、Org bufferの`tab-width`は共通値の2ではなく8に固定する。
+
+### mode-lineにNyancatのposition barを追加
+
+Doom Modelineの`buffer-position` segmentが対応している`nyan-mode`を有効にする。
+Nyancatはbuffer内のpoint位置を示す。常時animationは無効にし、再描画負荷を抑える。
+
+### nix developのtoolをbufferごとに利用する
+
+`envrc-global-mode`を有効にし、`.envrc`で`use flake`したprojectではdirenvが生成する
+環境をbuffer-localな`process-environment`と`exec-path`へ反映する。Emacs daemon全体の
+PATHを汚さず、ApheleiaとEglotがproject内のformatter・language serverを利用できる。
+dotfilesのdefault dev shellにも`typst`、`typstyle`、`tinymist`を追加する。
+
+### Typstの保存時formatを有効化
+
+Apheleia標準の`typst-ts-mode -> typstyle`対応を利用し、Home Managerの共通パッケージへ
+`typstyle`を追加する。`.typ` bufferは保存時に非同期formatされる。
+
+### 下部terminalのtoggleを追加
+
+`SPC t t` で現在frame下部のside windowにEat terminalを表示・非表示する。同じbufferと
+shell processを再利用し、terminalへ移動したときはEvil insert stateへ入る。組み込み
+`term`ではfish promptのOSC sequenceが文字として露出したため、xterm互換性の高いEatを使う。
+
 ## 2026-08-15
 
 ### capture の Note は恒久ノートへ直接保存する
