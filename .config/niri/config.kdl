@@ -202,7 +202,7 @@ blur {
 
 // Keep the blur treatment scoped to Kitty; all other windows remain opaque.
 window-rule {
-    match app-id="^kitty$"
+    match app-id="^kitty|ghostty$"
     background-effect {
         blur true
     }
@@ -290,7 +290,7 @@ binds {
 
     // --- apps (match hypr binds.lua) ---
     Super+Q repeat=false { close-window; }
-    Super+T { spawn "kitty"; }
+    Super+T { spawn "ghostty"; }
     Super+M { quit; }
     Super+E { spawn-sh "emacs $HOME/org"; }
     Super+V { toggle-window-floating; }

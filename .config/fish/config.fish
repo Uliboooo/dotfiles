@@ -187,7 +187,7 @@ abbr -a cow cowsay
 abbr -a mi mediainfo
 abbr -a nv nvim
 abbr -a n 'nvim .'
-abbr -a e 'emacs -nw .'
+abbr -a e 'emacs .'
 abbr -a nnv nightly_nvim
 abbr -a nnvd 'nightly_nvim .'
 abbr -a tl 'tmux ls'
