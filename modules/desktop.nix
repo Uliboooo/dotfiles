@@ -244,8 +244,9 @@ in
         # /run/current-system/sw/bin を PATH に足す (Environment で後勝ちさせる)。
         Environment = [ "PATH=/run/current-system/sw/bin" ];
       };
-      # Noctalia を既定のバーとする。Waybar は必要なときだけ
-      # `systemctl --user start waybar` で切り替える。
+      # Waybar を既定のバーとする。Noctalia は必要なときだけ
+      # `systemctl --user start noctalia` で切り替える。
+      wantedBy = [ "graphical-session.target" ];
     };
 
     swaync = {

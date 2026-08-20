@@ -436,7 +436,7 @@ in
       Install.WantedBy = [ "graphical-session.target" ];
     };
 
-    # ステータスバー noctalia を compositor と同じライフサイクルで起動する。
+    # ステータスバー Noctalia を Waybar の代替として systemd で管理する。
     # 以前は compositor の init.lua から直接起動していたが、クラッシュ時の
     # 自動再起動や journal へのログ出力を systemd に任せるためサービス化する。
     systemd.user.services.noctalia = {
@@ -455,8 +455,6 @@ in
         StandardOutput = "journal";
         StandardError = "journal";
       };
-
-      Install.WantedBy = [ "graphical-session.target" ];
     };
 
     systemd.user.services.cycle_wallpaper = {

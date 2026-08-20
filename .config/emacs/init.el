@@ -314,6 +314,7 @@
 (defconst seli/default-font-family "Monaspace Radon Var")
 (defconst seli/default-font-height 130)
 (defconst seli/cjk-font-family "Cica")
+(defconst seli/icon-font-family "Symbols Nerd Font Mono")
 
 (add-to-list 'default-frame-alist
              `(font . ,(format "%s-%d" seli/default-font-family (/ seli/default-font-height 10))))
@@ -335,7 +336,14 @@ soon as an emacsclient GUI frame is created."
           (dolist (charset '(kana han cjk-misc))
             (set-fontset-font t charset
                               (font-spec :family seli/cjk-font-family)
-                              frame)))))))
+                              frame)))
+        ;; Nerd Font icons live mostly in Unicode private-use areas.  Append
+        ;; the symbols-only font as a fallback so it fills missing glyphs
+        ;; without replacing ordinary text, Japanese, or emoji glyphs.
+        (when (member seli/icon-font-family (font-family-list))
+          (set-fontset-font t 'unicode
+                            (font-spec :family seli/icon-font-family)
+                            frame 'append))))))
 
 (add-hook 'after-make-frame-functions #'seli/apply-fonts)
 (seli/apply-fonts)

@@ -1,5 +1,15 @@
 # Status bar
 
+## 2026-08-20
+
+### 既定のステータスバーを Waybar に戻す
+
+触ったファイル: `modules/desktop.nix`, `home/common_user.nix`
+
+`graphical-session.target` から自動起動する unit を Noctalia から Waybar に変更した。
+双方の `Conflicts=` は維持しているため、必要なときは
+`systemctl --user start noctalia` で Noctalia へ安全に切り替えられる。
+
 ## 2026-08-17
 
 ### 状態モジュールから対応する rofi サブメニューを直接開く
