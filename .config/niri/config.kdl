@@ -200,9 +200,9 @@ blur {
     noise 0.05
 }
 
-// Keep the blur treatment scoped to Kitty; all other windows remain opaque.
+// Blur translucent terminal and Emacs surfaces; other windows remain opaque.
 window-rule {
-    match app-id="^kitty|ghostty$"
+    match app-id=r#"^(kitty|com\.mitchellh\.ghostty|emacs)$"#
     background-effect {
         blur true
     }
