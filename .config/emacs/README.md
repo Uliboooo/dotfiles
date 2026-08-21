@@ -89,7 +89,7 @@ Emacs 標準の操作も使えます。`C-x o` は次のペインへ移動、`C-
 | `TAB` | 見出しやブロックを開閉 |
 | `M-RET` | 新しい見出しを作成し、Insert mode へ移行 |
 | `SPC o t` | TODO 状態を切り替え |
-| `C-c C-x n` | Inbox の見出しを level 1 の `NOTING` として `notes.org` へ移し、Inbox には ID リンクだけを残す |
+| `C-c C-x n` | Inbox の見出しを通常の level 1 見出しとして `notes.org` へ移し、Inbox には ID リンクだけを残す |
 | `SPC o c` | チェックボックスを切り替え |
 | `C-c .` | カーソル位置に現在日時を挿入 |
 | `SPC o l` | リンクを挿入 |
@@ -104,7 +104,7 @@ capture を確定すると、保存先が Git リポジトリの場合は対象�
 
 TODO の状態は、未完了側が `TODO`・`WAIT`、完了側が `NOTING`・`DONE`・`CANCELLED` です。`NOTING` はノート化済み、`WAIT` は外部の返答や条件待ちに使います。
 
-Inbox の見出しをノート化するときは `C-c C-x n` を使います。本文・子見出し・プロパティは `~/org/notes.org` へ移り、移送先の root 見出しは level 1 の `NOTING` になります。元の Inbox 見出しは、そのノートを開く ID リンクだけに置き換わります。
+Inbox の見出しをノート化するときは `C-c C-x n` を使います。本文・子見出し・プロパティは `~/org/notes.org` へ移り、移送先の root 見出しは TODO 状態を持たない level 1 見出しになります。元の Inbox 見出しは、そのノートを開く ID リンクだけに置き換わります。
 
 ## 見た目
 

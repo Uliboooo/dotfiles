@@ -431,6 +431,15 @@ soon as an emacsclient GUI frame is created."
   (define-key evil-normal-state-map (kbd "C-a") #'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "C-x") #'evil-numbers/dec-at-pt))
 
+(use-package evil-escape
+  :after evil
+  :custom
+  (evil-escape-key-sequence "jj")
+  (evil-escape-delay 0.25)
+  (evil-escape-excluded-states '(normal visual replace operator motion emacs))
+  :config
+  (evil-escape-mode 1))
+
 (use-package evil-collection
   :after evil
   :config
@@ -603,11 +612,14 @@ soon as an emacsclient GUI frame is created."
               :around #'seli/posframe-set-fixed-size-in-characters)
   (vertico-posframe-mode 1))
 
+(use-package hotfuzz
+  :demand t)
+
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles hotfuzz partial-completion basic)))))
 
 (use-package marginalia
   :hook (after-init . marginalia-mode))
@@ -623,6 +635,24 @@ soon as an emacsclient GUI frame is created."
   "Find files with `consult-fd', showing opened buffers in `tab-line-mode'."
   (interactive)
   (call-interactively #'consult-fd))
+
+(defun seli/ghq-open-repository ()
+  "Select a ghq repository with completion and open its root directory."
+  (interactive)
+  (unless (executable-find "ghq")
+    (user-error "ghq is not available"))
+  (let* ((root (car (process-lines "ghq" "root")))
+         (repositories (process-lines "ghq" "list"))
+         (repository
+          (if repositories
+              (completing-read "Repository: " repositories nil t)
+            (user-error "No ghq repositories found"))))
+    (find-file (expand-file-name repository root))))
+
+(with-eval-after-load 'general
+  (seli/leader
+    "p" '(:ignore t :which-key "project")
+    "pg" '(seli/ghq-open-repository :which-key "open ghq repository")))
 
 (use-package corfu
   :hook (after-init . global-corfu-mode)
@@ -897,12 +927,11 @@ identifiers."
   "The permanent Org notes file.")
 
 (defun seli/org-inbox-subtree-to-notes ()
-  "Move the Inbox subtree at point into notes.org as a level-one NOTING entry.
+  "Move the Inbox subtree at point into notes.org as a level-one entry.
 
 The source subtree is replaced with an ID link.  The destination root heading
-is always level one and has the completed-side `NOTING' state; its former TODO
-state, priority, and tags are omitted.  Child headings keep their relative
-depth."
+is always level one; its former TODO state, priority, and tags are omitted.
+Child headings keep their relative depth."
   (interactive)
   (unless (derived-mode-p 'org-mode)
     (user-error "This command is only available in Org buffers"))
@@ -921,7 +950,7 @@ depth."
          (body (substring subtree first-newline))
          (notes-subtree
           (concat
-           "* NOTING " title
+           "* " title
            (replace-regexp-in-string
             "^\\(\\*+\\) "
             (lambda (heading)
@@ -943,7 +972,7 @@ depth."
         (delete-region begin end)
         (insert (make-string level ?*) " " link "\n"))
       (save-buffer))
-    (message "Moved \"%s\" to notes.org as NOTING" title)))
+    (message "Moved \"%s\" to notes.org" title)))
 
 (define-key org-mode-map (kbd "C-c C-x n") #'seli/org-inbox-subtree-to-notes)
 
