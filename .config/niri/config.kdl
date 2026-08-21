@@ -295,6 +295,7 @@ binds {
     Super+E { spawn-sh "emacs $HOME/org"; }
     Super+V { toggle-window-floating; }
     Super+D { spawn-sh "rofi -show drun"; }
+    Super+C { spawn-sh "swaync-client --toggle-panel"; }
     // Toggle the dedicated floating Emacs frame. `emacs-scratch` is a separate
     // process, so its buffers never mix with ordinary Emacs windows.
     Super+Backslash { spawn "niri-scratchpad" "target" "--spawn" "emacs-scratch" "title" "Scratchpad Emacs"; }
@@ -304,7 +305,7 @@ binds {
     // Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
     Super+Shift+F { fullscreen-window; }
     Super+O repeat=false { toggle-overview; }
-    Super+C { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
+    // Super+C { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
 
     // maximize: Shift+F fills the column width (keeps gaps/border),
     // Ctrl+F expands the window edge-to-edge (no gaps/border)
