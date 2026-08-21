@@ -7,10 +7,17 @@ return {
       cmdline = {
         enabled = false,
       },
+      -- Noice automatically enables its cmdline handling when messages are
+      -- enabled, so disable both to restore Neovim's native command UI.
+      messages = {
+        enabled = false,
+      },
+      popupmenu = {
+        enabled = false,
+      },
       presets = {
         bottom_search = false,
-        -- Place command-line completion directly below the command popup.
-        command_palette = true,
+        command_palette = false,
       },
     },
   },
