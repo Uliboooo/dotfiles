@@ -155,6 +155,8 @@
   # uploading them from this machine.
   nix.settings.builders-use-substitutes = true;
   services.udev.extraRules = ''
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="320f", ATTRS{idProduct}=="5055", \
+      MODE="0660", GROUP="users", TAG+="uaccess"
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", \
       ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0a70", \
       MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
