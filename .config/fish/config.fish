@@ -297,7 +297,7 @@ function ff --description 'fastfetch alias'
     if set -q TERM_BACKGROUND; and test "$TERM_BACKGROUND" = light
         fastfetch --config ~/dotfiles/.config/fastfetch/light.jsonc --logo nixos_old_small
     else
-        fastfetch --config ~/dotfiles/.config/fastfetch/simple.jsonc --logo ~/Pictures/logos/cute.png --logo-type kitty
+        fastfetch --config ~/dotfiles/.config/fastfetch/simple.jsonc --logo ~/Pictures/illustrations/face.png --logo-type kitty
     end
 end
 
