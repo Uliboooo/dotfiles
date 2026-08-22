@@ -3,7 +3,7 @@
 # : App {{{
 
 [app]
-overall = { bg = "#232136" }
+overall = { bg = "reset" }
 
 # : }}}
 
@@ -85,7 +85,7 @@ unset_alt  = { fg = "#232136", bg = "#e0def4", bold = true }
 # : Status bar {{{
 
 [status]
-overall   = { bg = "#232136" }
+overall   = { bg = "reset" }
 sep_left  = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 
