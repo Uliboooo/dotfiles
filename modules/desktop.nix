@@ -121,7 +121,6 @@ in
 {
   # ===== desktop base (entire system) =====
   services.desktopManager.gnome.enable = true;
-  programs.hyprland.enable = true;
   programs.niri.enable = true;
   # Installs hyprlock *and* creates /etc/pam.d/hyprlock. Without the PAM
   # service, hyprlock falls through to /etc/pam.d/other (pam_deny) and the
@@ -137,11 +136,10 @@ in
     jack.enable = true;
   };
 
-  # Wayland portal (Hyprland + GTK)
+  # Wayland portal
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };

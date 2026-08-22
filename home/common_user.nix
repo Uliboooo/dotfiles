@@ -298,6 +298,10 @@ in
         source = mkConfigLink "emacs";
         recursive = false;
       };
+      "fastfetch" = {
+        source = mkConfigLink "fastfetch";
+        recursive = false;
+      };
       "helix" = {
         source = mkConfigLink "helix";
         recursive = false;
