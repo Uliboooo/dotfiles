@@ -3,121 +3,113 @@
 
   "logo": {
     "source": "$HOME/.config/fastfetch/ascii.txt",
+    // "type": "kitty",
+    // "source": "$HOME/Downloads/ChatGPT Image Aug 5, 2026, 10_33_43 AM.png"
+    "width": 24,
     "padding": {
-      "top": 1,
-      "right": 2
-    },
-    "color": {
-      "1": "#FF93AC"
+      "top": 3,
+      "left": 4
     }
   },
 
   "display": {
-    "separator": "  ",
+    "separator": " ",
     "color": {
       "keys": "#F962C9",
       "title": "#F72576",
-      "separator": "#FF93AC",
+      "separator": "#a29bfe",
       "1": "#F962C9"
     }
   },
 
   "modules": [
     {
-      "type": "title",
-      "format": "{#separator}╭────── User : {#separator}{user-name-colored}@{host-name-colored}"
-    },
-
-    {
       "type": "custom",
-      "format": "{#separator}│ {#separator}System Information"
+      "format": "{##a29bfe}╭──────────────── System ────────────────╮ "
     },
 
     {
       "type": "os",
-      "key": "{#separator}│  {#separator}󰍹 OS      "
+      "key": "{##a29bfe}│  󰍹 OS      "
     },
     {
       "type": "kernel",
-      "key": "{#separator}│  {#separator}󰒋 Kernel  "
+      "key": "{##a29bfe}│   Kernel  "
     },
     {
       "type": "uptime",
-      "key": "{#separator}│  {#separator}󰅐 Uptime  "
-    },
-    {
-      "type": "packages",
-      "key": "{#separator}│  {#separator}󰏓 Packages"
+      "key": "{##a29bfe}│  󰅐 Uptime  "
     },
     {
       "type": "custom",
-      "format": "{#separator}│"
+      "format": "{##a29bfe}╰────────────────────────────────────────╯"
     },
 
     {
       "type": "custom",
-      "format": "{#separator}│ {#separator}Desktop Environment"
+      "format": "{##fdcb6e}╭─────────────── Software ───────────────╮ "
     },
 
     {
       "type": "de",
-      "key": "{#separator}│  {#separator}󰧨 DE      "
+      "key": "{##fdcb6e}│  󰧨 DE      "
     },
     {
       "type": "wm",
-      "key": "{#separator}│  {#separator}󱂬 WM      "
+      "key": "{##fdcb6e}│  󱂬 WM      "
     },
     {
+      "type": "packages",
+      "key": "{##fdcb6e}│   Packages"
+    },
+
+    {
       "type": "shell",
-      "key": "{#separator}│  {#separator}󰞷 Shell   "
+      "key": "{##fdcb6e}│  󰞷 Shell   "
     },
     {
       "type": "terminal",
-      "key": "{#separator}│  {#separator} Terminal"
+      "key": "{##fdcb6e}│   Terminal"
     },
 
     {
       "type": "custom",
-      "format": "{#separator}│"
+      "format": "{##fdcb6e}╰────────────────────────────────────────╯"
     },
 
     {
       "type": "custom",
-      "format": "{#separator}│ {#separator}Hardware Information"
+      "format": "{##00b894}╭─────────────── Hardware ───────────────╮ "
     },
 
     {
-      "type": "cpu",
-      "key": "{#separator}│  {#separator}󰻠 CPU     "
+      "type": "command",
+      "key": "{##00b894}│  󰻠 CPU     ",
+      "text": "$HOME/dotfiles/script/cpu-info.sh"
     },
     {
       "type": "gpu",
-      "key": "{#separator}│  {#separator}󰢮 GPU     "
+      "key": "{##00b894}│  󰢮 GPU     "
     },
     {
       "type": "memory",
-      "key": "{#separator}│  {#separator}󰍛 Memory  "
+      "key": "{##00b894}│  󰍛 Memory  "
     },
     {
       "type": "command",
-      "key": "{#separator}│  {#separator}󰋊 Disk (/)",
+      "key": "{##00b894}│  󰋊 Disk    ",
       "text": "df -B1 --output=used,size,pcent,fstype / | awk 'NR==2{printf \"%.1fGiB / %.1fGiB (%s) - %s\\n\", $1/1024/1024/1024, $2/1024/1024/1024, $3, $4}'"
     },
 
     {
       "type": "custom",
-      "format": "{#separator}│"
+      "format": "{##00b894}╰────────────────────────────────────────╯"
     },
 
     {
       "type": "colors",
-      "key": "{#separator}│",
+      "key": " ",
       "symbol": "circle"
-    },
-
-    {
-      "type": "custom",
-      "format": "{#separator}╰────────────────────────────────────╯"
     }
   ]
 }
