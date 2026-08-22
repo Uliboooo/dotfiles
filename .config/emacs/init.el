@@ -497,6 +497,8 @@ soon as an emacsclient GUI frame is created."
           (when (fboundp 'evil-insert-state)
             (evil-insert-state))))))
 
+  (global-set-key (kbd "C-\\") #'seli/toggle-term)
+
   (seli/leader
     "SPC" '(execute-extended-command :which-key "M-x")
     "d" '(dired-jump :which-key "filer")
@@ -648,6 +650,8 @@ soon as an emacsclient GUI frame is created."
               (completing-read "Repository: " repositories nil t)
             (user-error "No ghq repositories found"))))
     (find-file (expand-file-name repository root))))
+
+(global-set-key (kbd "C-c g") #'seli/ghq-open-repository)
 
 (with-eval-after-load 'general
   (seli/leader
