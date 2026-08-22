@@ -3,8 +3,6 @@
 [user]
 	name = seli
 	email = seli.am2@proton.me
-[includeIf "gitdir:/Users/"]
-  path = ~/.config/git/config_mac
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
