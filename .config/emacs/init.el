@@ -715,6 +715,10 @@ identifiers."
 (use-package web-mode
   :mode ("\\.astro\\'" "\\.tsx?\\'" "\\.jsx\\'"))
 
+(defun seli/scratchpad-frame-p ()
+  "Return non-nil when the selected frame is the Scratchpad Emacs frame."
+  (equal (frame-parameter nil 'title) "Scratchpad Emacs"))
+
 ;; Format supported buffers asynchronously on save, preserving point and
 ;; scroll position.  Apheleia already maps shfmt, nixfmt, rustfmt, gofmt,
 ;; stylua, clang-format, taplo, and Prettier-backed web modes.
@@ -728,6 +732,9 @@ identifiers."
   (dolist (mode '(js-mode js-ts-mode json-mode json-ts-mode css-mode css-ts-mode
                           typescript-ts-mode tsx-ts-mode))
     (setf (alist-get mode apheleia-mode-alist) 'biome))
+  ;; The scratchpad is a titled frame in the regular daemon, not a separate
+  ;; process, so inhibit each operation according to the selected frame.
+  (add-to-list 'apheleia-skip-functions #'seli/scratchpad-frame-p)
   (apheleia-global-mode 1))
 
 ;; Eglot is built into Emacs.  It starts the same language servers used by the

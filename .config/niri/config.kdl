@@ -202,7 +202,7 @@ blur {
 
 // Blur translucent terminal and Emacs surfaces; other windows remain opaque.
 window-rule {
-    match app-id=r#"^(kitty|com\.mitchellh\.ghostty|emacs)$"#
+    match app-id=r#"^(com\.mitchellh\.ghostty|emacs)$"#
     background-effect {
         blur true
     }
