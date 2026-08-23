@@ -1,5 +1,18 @@
 # Status bar
 
+## 2026-08-23
+
+### btop の floating 判定を専用 Wayland app-id に戻す
+
+触ったファイル: `.config/waybar/config.niri.jsonc`, `.config/niri/config.kdl`
+
+temperature のクリックで起動する Ghostty に `class=dev.float` を指定し、niri はその
+app-id で floating にする。プロセスが後から変更する端末タイトルには依存しない。
+
+以前使っていた `dev-float` は、現行 Ghostty 1.3.1 が `class` に要求する GTK
+application ID としてはドットを含まず無効であるため、有効な `dev.float` を使う。
+Ghostty の `class` は Wayland では application ID を設定する。
+
 ## 2026-08-20
 
 ### 既定のステータスバーを Waybar に戻す
