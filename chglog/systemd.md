@@ -10,8 +10,9 @@ Home Manager の `systemd.user` で、ユーザー単位の定期処理を管理
 
 `~/org` はディレクトリ自体を Git リポジトリとして扱い、起動 1 分後、その後は前回の
 実行から 5 分ごとに `git pull` する。`git add .` 後の index に差分がある場合だけ、
-実行日時を含むメッセージで commit し、その後 `git push` する。変更がない回にも push
-するため、直前の実行で push だけ失敗した場合は次回に再送できる。
+変更ファイルの一覧を `org mode chagens: path/to/file,another/file` 形式で commit message
+に含め、その後 `git push` する。変更がない回にも push するため、直前の実行で push
+だけ失敗した場合は次回に再送できる。
 
 ハマりどころ:
 

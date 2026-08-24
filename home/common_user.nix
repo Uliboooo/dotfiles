@@ -52,7 +52,8 @@ let
       git add .
 
       if ! git diff --cached --quiet; then
-        git commit -m "org mode changes: $(date '+%Y-%m-%d %H:%M:%S %z')"
+        changed_files_list="$(git diff --cached --name-only | paste -sd, -)"
+        git commit -m "org mode chagens: $changed_files_list"
       fi
 
       git push

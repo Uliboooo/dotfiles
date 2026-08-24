@@ -195,14 +195,14 @@ window-rule {
 
 blur {
     on
-    passes 3
-    offset 1.5
-    noise 0.05
+    passes 4
+    offset 2
+    noise 0
 }
 
 // Blur translucent terminal and Emacs surfaces; other windows remain opaque.
 window-rule {
-    match app-id=r#"^(kitty|com\.mitchellh\.ghostty|emacs)$"#
+    match app-id=r#"^(neovide|kitty|com\.mitchellh\.ghostty|emacs)$"#
     background-effect {
         blur true
     }

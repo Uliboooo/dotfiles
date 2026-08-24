@@ -23,7 +23,7 @@ pdf = [
 ]
 
 image = [
-  { run = 'loupe "$@"', orphan = true, desc = "loupe" },
+  { run = "loupe %s", orphan = true, desc = "loupe" },
   { run = 'chromium "$@"', orphan = true, desc = "Chromium" },
 ]
 

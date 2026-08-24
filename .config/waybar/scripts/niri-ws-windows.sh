@@ -44,6 +44,7 @@ declare -A icons=(
   [gvim]=""
   [xterm]=""
   [zen]="◎"
+  [neovide]=""
 )
 
 declare -A names=(
@@ -87,6 +88,7 @@ declare -A names=(
   [gvim]="GVim"
   [xterm]="XTerm"
   [zen]="zen"
+  [neovide]="neovide"
 )
 
 xml_escape() {

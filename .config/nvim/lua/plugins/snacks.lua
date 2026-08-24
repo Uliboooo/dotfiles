@@ -69,7 +69,25 @@ return {
       notifier = { enabled = true },
       quickfile = { enabled = false },
       scope = { enabled = true },
-      scroll = { enabled = true },
+      scroll = {
+        -- Neovide already provides pixel-based scrolling; avoid stacking animations.
+        enabled = true,
+        animate = {
+          duration = {
+            step = 10,
+            total = 120,
+          },
+          easing = "linear",
+        },
+        animate_repeat = {
+          delay = 100,
+          duration = {
+            step = 5,
+            total = 50,
+          },
+          easing = "linear",
+        },
+      },
       statuscolumn = { enabled = false },
       words = { enabled = true },
       terminal = {
@@ -124,5 +142,15 @@ return {
         desc = "lazygit",
       },
     },
+  },
+  {
+    "nvim-mini/mini.animate",
+    version = false,
+    config = function()
+      require("mini.animate").setup({
+        -- Snacks (terminal) or Neovide handles scrolling.
+        scroll = { enable = false },
+      })
+    end,
   },
 }
