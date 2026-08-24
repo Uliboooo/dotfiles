@@ -19,6 +19,12 @@ if status is-interactive
     end
 end
 
+#  ╔╦╗ ╦ ╦ ╔═╗ ╔╦╗ ╔═╗
+#   ║  ╠═╣ ║╣  ║║║ ║╣ 
+#   ╩  ╩ ╩ ╚═╝ ╩ ╩ ╚═╝
+
+fish_config theme choose "Rosé Pine Dawn"
+
 # ╔═╗ ╔═╗ ╔╦╗ ╦ ╦
 # ╠═╝ ╠═╣  ║  ╠═╣
 # ╩   ╩ ╩  ╩  ╩ ╩

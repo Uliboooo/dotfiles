@@ -3,11 +3,9 @@
 
   "logo": {
     "source": "$HOME/.config/fastfetch/ascii.txt",
-    // "type": "kitty",
-    // "source": "$HOME/Downloads/ChatGPT Image Aug 5, 2026, 10_33_43 AM.png"
     "width": 24,
     "padding": {
-      "top": 3,
+      "top": 2,
       "left": 4
     }
   },

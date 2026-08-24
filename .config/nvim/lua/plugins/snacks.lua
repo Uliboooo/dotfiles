@@ -143,14 +143,4 @@ return {
       },
     },
   },
-  {
-    "nvim-mini/mini.animate",
-    version = false,
-    config = function()
-      require("mini.animate").setup({
-        -- Snacks (terminal) or Neovide handles scrolling.
-        scroll = { enable = false },
-      })
-    end,
-  },
 }

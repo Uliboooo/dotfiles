@@ -7,6 +7,8 @@
 
 ## 索引
 
+- [chglog/ui-theme.md](chglog/ui-theme.md) — Kitty / Neovim の Rosé Pine 配色と、
+  ライト・ダーク判定の受け渡し。
 - [chglog/immich.md](chglog/immich.md) — desktop の写真・動画ライブラリ。sda の
   HDD にメディア、sdb の SSD に PostgreSQL を配置し、Tailscale 内だけで公開する。
 - [chglog/power.md](chglog/power.md) — lid / suspend / hibernate / hypridle。

@@ -13,8 +13,8 @@ return {
         },
         highlight_groups = {
           Visual = { bg = "iris", blend = 20 },
-          Search = { bg = "foam", fg = "base" },
-          IncSearch = { bg = "gold", fg = "base" },
+          Search = { bg = "gold", fg = "text", bold = true },
+          IncSearch = { bg = "gold", fg = "text", bold = true, inherit = false },
           PmenuSel = { bg = "overlay", fg = "text", bold = true },
           MatchParen = { bg = "pine", fg = "text", bold = true },
           LspReferenceText = { bg = "highlight_med" },
@@ -79,12 +79,12 @@ return {
         local current = vim.fn.line(".")
         local total = vim.fn.line("$")
 
-        if total <= 1 then return "🌈🐈" end
+        if total <= 1 then return "🌈 " end
 
         local width = 10
         local pos = math.floor((current - 1) / (total - 1) * width)
 
-        return string.rep("=", pos) .. "🐈" .. string.rep("-", width - pos)
+        return string.rep("=", pos) .. " " .. string.rep("-", width - pos)
       end
 
       require("lualine").setup({

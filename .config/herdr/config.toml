@@ -3,7 +3,7 @@ onboarding = false
 kitty_graphics = true
 
 [theme]
-name = "rose-pine"
+name = "rose-pine-dawn"
 
 [ui.toast]
 delivery = "system"
