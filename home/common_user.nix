@@ -146,6 +146,7 @@ let
     firefox
     firefox-nightly
     discord
+    vesktop
     gnome-text-editor
     gnome-tweaks
     ashell
@@ -384,6 +385,10 @@ in
       };
       "herdr" = {
         source = mkConfigLink "herdr";
+        recursive = false;
+      };
+      "wlmstr" = {
+        source = mkConfigLink "wlmstr";
         recursive = false;
       };
     };
