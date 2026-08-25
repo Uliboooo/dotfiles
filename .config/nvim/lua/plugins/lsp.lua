@@ -124,7 +124,10 @@ return {
 
           local opts = { buffer = bufnr, silent = true }
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gd", function()
+            vim.cmd("tab split")
+            vim.lsp.buf.definition()
+          end, opts)
 
           vim.api.nvim_create_autocmd("CursorHold", {
             buffer = bufnr,
