@@ -44,6 +44,13 @@ return {
               "2",
             },
           },
+          taplo = {
+            append_args = {
+              "fmt",
+              "--option",
+              "array_auto_collapse=false",
+            },
+          },
         },
 
         format_on_save = {
