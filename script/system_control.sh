@@ -2,36 +2,30 @@
 # A small rofi front-end for the desktop controls used by Waybar.
 
 rofi_index() {
-  local prompt=$1 selection
-  shift
+  local prompt=$1 placeholder=$2 selection
+  shift 2
   ((${#@})) || return 1
-  selection=$(printf '%s\n' "$@" | rofi -dmenu -i -p "$prompt " -format i) || return 1
+  selection=$(printf '%s\n' "$@" | rofi -dmenu -i -p "$prompt " -format i \
+    -me-select-entry '' -me-accept-entry MousePrimary \
+    -theme-str "entry { placeholder: \"$placeholder\"; }") || return 1
   [[ $selection =~ ^[0-9]+$ ]] || return 1
   printf '%s\n' "$selection"
 }
 
 rofi_input() {
-  rofi -dmenu -password -p "$1 " < /dev/null
+  local prompt=$1 placeholder=$2
+  rofi -dmenu -password -p "$prompt " \
+    -theme-str "entry { placeholder: \"$placeholder\"; }" </dev/null
 }
 
 confirm() {
   local answer
-  answer=$(rofi_index "$1" "○ Cancel" "● Confirm") || return 1
+  answer=$(rofi_index '󰐥' "$1" "○ Cancel" "● Confirm") || return 1
   [[ $answer == 1 ]]
 }
 
 default_node_id() {
   wpctl inspect "$1" 2>/dev/null | sed -nE '1{s/^id ([0-9]+).*/\1/p;}'
-}
-
-node_name() {
-  local id=$1 class=$2
-  pw-dump | jq -r --argjson id "$id" --arg class "$class" '
-    .[]
-    | select(.id == $id and .type == "PipeWire:Interface:Node")
-    | select(.info.props["media.class"] == $class)
-    | (.info.props["node.description"] // .info.props["node.nick"] // .info.props["node.name"] // "Unknown")
-  ' | head -n 1
 }
 
 node_records() {
@@ -45,7 +39,7 @@ node_records() {
 }
 
 audio_device_menu() {
-  local class=$1 target=$2 title=$3 default_id record id name index
+  local class=$1 target=$2 title=$3 default_id id name index
   local -a labels=() ids=()
   default_id=$(default_node_id "$target")
   while IFS=$'\t' read -r id name; do
@@ -59,34 +53,39 @@ audio_device_menu() {
   done < <(node_records "$class")
   labels+=("← Back")
 
-  index=$(rofi_index '󰓃' "${labels[@]}") || return
+  index=$(rofi_index '󰓃' "$title" "${labels[@]}") || return
   ((index < ${#ids[@]})) || return
   wpctl set-default "${ids[index]}"
 }
 
 audio_menu() {
-  local index default_id default_name volume
+  local show_back=${1:-false} default_id id name index
+  local -a labels=() ids=()
   while :; do
+    labels=()
+    ids=()
     default_id=$(default_node_id '@DEFAULT_AUDIO_SINK@')
-    default_name=$(node_name "$default_id" 'Audio/Sink')
-    volume=$(wpctl get-volume '@DEFAULT_AUDIO_SINK@' 2>/dev/null | sed 's/^Volume: //')
-    index=$(rofi_index '󰓃' \
-      "● Output: ${default_name:-Unknown} (${volume:-unavailable})" \
-      '○ Volume up 5%' \
-      '○ Volume down 5%' \
-      '○ Toggle mute' \
-      '○ Select output device' \
-      '○ Select microphone' \
-      '← Back') || return
-    case $index in
-      0) ;;
-      1) wpctl set-volume '@DEFAULT_AUDIO_SINK@' 5%+ ;;
-      2) wpctl set-volume '@DEFAULT_AUDIO_SINK@' 5%- ;;
-      3) wpctl set-mute '@DEFAULT_AUDIO_SINK@' toggle ;;
-      4) audio_device_menu 'Audio/Sink' '@DEFAULT_AUDIO_SINK@' 'Audio output' ;;
-      5) audio_device_menu 'Audio/Source' '@DEFAULT_AUDIO_SOURCE@' 'Microphone' ;;
-      *) return ;;
-    esac
+    while IFS=$'\t' read -r id name; do
+      [[ -n $id ]] || continue
+      ids+=("$id")
+      if [[ $id == "$default_id" ]]; then
+        labels+=("● $name")
+      else
+        labels+=("○ $name")
+      fi
+    done < <(node_records 'Audio/Sink')
+    labels+=('→ Select microphone')
+    [[ $show_back == true ]] && labels+=('← Back')
+
+    index=$(rofi_index '󰓃' 'Audio' \
+      "${labels[@]}") || return
+    if ((index < ${#ids[@]})); then
+      wpctl set-default "${ids[index]}"
+    elif ((index == ${#ids[@]})); then
+      audio_device_menu 'Audio/Source' '@DEFAULT_AUDIO_SOURCE@' 'Microphone'
+    else
+      return
+    fi
   done
 }
 
@@ -118,7 +117,7 @@ wifi_network_menu() {
   done < <(nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY device wifi list --rescan auto 2>/dev/null)
   labels+=("← Back")
 
-  index=$(rofi_index '󰖩' "${labels[@]}") || return
+  index=$(rofi_index '󰖩' 'Wi-Fi networks' "${labels[@]}") || return
   ((index < ${#ssids[@]})) || return
   ssid=${ssids[index]}
   security=${securities[index]}
@@ -126,7 +125,7 @@ wifi_network_menu() {
   if nmcli -t -f NAME connection show | grep -Fqx -- "$ssid"; then
     nmcli connection up id "$ssid"
   elif [[ -n $security && $security != '--' ]]; then
-    password=$(rofi_input "󰖩 Password for $ssid") || return
+    password=$(rofi_input '󰖩' "Password for $ssid") || return
     [[ -n $password ]] && nmcli device wifi connect "$ssid" password "$password"
   else
     nmcli device wifi connect "$ssid"
@@ -139,16 +138,19 @@ wifi_menu() {
     radio=$(nmcli radio wifi 2>/dev/null)
     current=$(wifi_current_ssid)
     if [[ $radio == enabled ]]; then
-      index=$(rofi_index '󰖩' "● Wi-Fi: on${current:+ ($current)}" '○ Turn Wi-Fi off' '○ Nearby networks' '○ Disconnect' '← Back') || return
+      index=$(rofi_index '󰖩' 'Wi-Fi' "● Wi-Fi: on${current:+ ($current)}" '○ Turn Wi-Fi off' '○ Nearby networks' '○ Disconnect' '← Back') || return
       case $index in
-        0) ;;
-        1) nmcli radio wifi off ;;
-        2) wifi_network_menu ;;
-        3) device=$(wifi_device); [[ -n $device ]] && nmcli device disconnect "$device" ;;
-        *) return ;;
+      0) ;;
+      1) nmcli radio wifi off ;;
+      2) wifi_network_menu ;;
+      3)
+        device=$(wifi_device)
+        [[ -n $device ]] && nmcli device disconnect "$device"
+        ;;
+      *) return ;;
       esac
     else
-      index=$(rofi_index '󰖩' '○ Wi-Fi: off' '○ Turn Wi-Fi on' '← Back') || return
+      index=$(rofi_index '󰖩' 'Wi-Fi' '○ Wi-Fi: off' '○ Turn Wi-Fi on' '← Back') || return
       case $index in 1) nmcli radio wifi on ;; *) return ;; esac
     fi
   done
@@ -168,7 +170,7 @@ bluetooth_device_menu() {
     if [[ $state == yes ]]; then labels+=("● $name"); else labels+=("○ $name"); fi
   done < <(bluetoothctl paired-devices)
   labels+=("← Back")
-  index=$(rofi_index '󰂯' "${labels[@]}") || return
+  index=$(rofi_index '󰂯' 'Paired devices' "${labels[@]}") || return
   ((index < ${#macs[@]})) || return
   state=$(bluetoothctl info "${macs[index]}" 2>/dev/null | awk '/Connected:/ { print $2; exit }')
   if [[ $state == yes ]]; then bluetoothctl disconnect "${macs[index]}"; else bluetoothctl connect "${macs[index]}"; fi
@@ -179,10 +181,10 @@ bluetooth_menu() {
   while :; do
     powered=$(bluetooth_powered)
     if [[ $powered == yes ]]; then
-      index=$(rofi_index '󰂯' '● Bluetooth: on' '○ Turn Bluetooth off' '○ Paired devices' '← Back') || return
+      index=$(rofi_index '󰂯' 'Bluetooth' '● Bluetooth: on' '○ Turn Bluetooth off' '○ Paired devices' '← Back') || return
       case $index in 1) bluetoothctl power off ;; 2) bluetooth_device_menu ;; *) return ;; esac
     else
-      index=$(rofi_index '󰂯' '○ Bluetooth: off' '○ Turn Bluetooth on' '← Back') || return
+      index=$(rofi_index '󰂯' 'Bluetooth' '○ Bluetooth: off' '○ Turn Bluetooth on' '← Back') || return
       case $index in 1) bluetoothctl power on ;; *) return ;; esac
     fi
   done
@@ -196,51 +198,51 @@ brightness_menu() {
   local index current
   while :; do
     current=$(brightness_percent)
-    index=$(rofi_index '󰃝' "● Current: ${current:-?}%" '○ Increase 5%' '○ Decrease 5%' '○ Set 25%' '○ Set 50%' '○ Set 75%' '○ Set 100%' '← Back') || return
+    index=$(rofi_index '󰃝' 'Brightness' "● Current: ${current:-?}%" '○ Increase 5%' '○ Decrease 5%' '○ Set 25%' '○ Set 50%' '○ Set 75%' '○ Set 100%' '← Back') || return
     case $index in
-      0) ;;
-      1) brightnessctl set +5% ;;
-      2) brightnessctl set 5%- ;;
-      3) brightnessctl set 25% ;;
-      4) brightnessctl set 50% ;;
-      5) brightnessctl set 75% ;;
-      6) brightnessctl set 100% ;;
-      *) return ;;
+    0) ;;
+    1) brightnessctl set +5% ;;
+    2) brightnessctl set 5%- ;;
+    3) brightnessctl set 25% ;;
+    4) brightnessctl set 50% ;;
+    5) brightnessctl set 75% ;;
+    6) brightnessctl set 100% ;;
+    *) return ;;
     esac
   done
 }
 
 power_menu() {
   local index
-  index=$(rofi_index '󰐥' '○ Lock' '○ Suspend' '○ Reboot' '○ Power Off' '○ Logout' '← Back') || return
+  index=$(rofi_index '󰐥' 'Power' '○ Lock' '○ Suspend' '○ Reboot' '○ Power Off' '○ Logout' '← Back') || return
   case $index in
-    0) loginctl lock-session ;;
-    1) systemctl suspend ;;
-    2) confirm '󰐥 Reboot?' && systemctl reboot ;;
-    3) confirm '󰐥 Power off?' && systemctl poweroff ;;
-    4) [[ -n ${XDG_SESSION_ID:-} ]] && loginctl terminate-session "$XDG_SESSION_ID" ;;
+  0) loginctl lock-session ;;
+  1) systemctl suspend ;;
+  2) confirm 'Reboot?' && systemctl reboot ;;
+  3) confirm 'Power off?' && systemctl poweroff ;;
+  4) [[ -n ${XDG_SESSION_ID:-} ]] && loginctl terminate-session "$XDG_SESSION_ID" ;;
   esac
 }
 
 main_menu() {
   local index
   while :; do
-    index=$(rofi_index '󰒓' 'Audio' 'Wi-Fi' 'Bluetooth' 'Brightness' 'Power') || return
+    index=$(rofi_index '󰒓' 'System control' 'Audio' 'Wi-Fi' 'Bluetooth' 'Brightness' 'Power') || return
     case $index in
-      0) audio_menu ;;
-      1) wifi_menu ;;
-      2) bluetooth_menu ;;
-      3) brightness_menu ;;
-      4) power_menu ;;
+    0) audio_menu true ;;
+    1) wifi_menu ;;
+    2) bluetooth_menu ;;
+    3) brightness_menu ;;
+    4) power_menu ;;
     esac
   done
 }
 
 case ${1:-main} in
-  main) main_menu ;;
-  audio) audio_menu ;;
-  wifi) wifi_menu ;;
-  bluetooth) bluetooth_menu ;;
-  brightness) brightness_menu ;;
-  power) power_menu ;;
+main) main_menu ;;
+audio) audio_menu ;;
+wifi) wifi_menu ;;
+bluetooth) bluetooth_menu ;;
+brightness) brightness_menu ;;
+power) power_menu ;;
 esac
