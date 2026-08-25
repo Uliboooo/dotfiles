@@ -24,17 +24,8 @@ set termguicolors
 set updatetime=1000
 set cursorline
 
-" set foldtext=
-" set foldmethod=expr
-" set foldexpr=v:lua.vim.treesitter.foldexpr()
-" set foldenable
-" set foldlevel=99
-" set foldlevelstart=99
-" set foldcolumn=auto
-"
 set mouse=a
 set signcolumn=yes
-" set colorcolumn=100
 
 set autoread
 set nomodeline
@@ -158,8 +149,8 @@ function! CopyDiagnostic()
 endfunction
 
 " Settings about colorscheme
-set background=dark
-colorscheme rosepine_moon
+set background=light
+colorscheme rosepine_dawn
 
 " fzf finder
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow --exclude .git'
