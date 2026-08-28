@@ -3,6 +3,11 @@
 #  ╚   ╩ ╚═╝ ╩ ╩ ╚═╝ ╩╚═
 
 if status is-interactive
+    # pinentry-curses needs the terminal that invoked gpg.  programs.fish is
+    # intentionally not managed by Home Manager, so mirror gpg-agent's shell
+    # integration here.
+    set -gx GPG_TTY (tty)
+
     if not type -q fisher
         curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
     end
@@ -282,4 +287,3 @@ function rebuild
         home-manager switch --flake .#seli
     end
 end
-
