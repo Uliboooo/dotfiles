@@ -49,6 +49,7 @@ config.local.fish
 /lualatex-japanese-guide.md
 /.config/emacs/eln-cache/
 /.config/emacs/transient/history.el
+/.config/emacs/elpa/
 
 .config/herdr/herdr-client.log
 .config/herdr/herdr-client.sock
