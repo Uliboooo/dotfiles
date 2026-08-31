@@ -72,6 +72,22 @@ return {
     end,
   },
   {
+    "catgoose/nvim-colorizer.lua",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      filetypes = { "*" },
+      options = {
+        parsers = {
+          names = { enable = false },
+          hex = { default = false, rrggbb = true, rrggbbaa = true },
+        },
+        display = {
+          mode = "background",
+        },
+      },
+    },
+  },
+  {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
