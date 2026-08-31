@@ -1,6 +1,6 @@
 ## Overview (Gallery)
 
-![top](./README/images/Top_float.png)
+![top](./README/images/Top.png)
 ![top2](./README/images/Top_split.png)
 
 [Rofi](https://github.com/davatorium/rofi)
