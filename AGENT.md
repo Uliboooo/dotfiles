@@ -23,7 +23,7 @@ chglog を**日付で分けない**のは、読むのが常に「これから触
   - `darwinConfigurations.macbook` … nix-darwin (aarch64 前提。Intel Mac は非対応)
   - `homeConfigurations.seli` / `seli@x86_64-linux` / `seli@aarch64-darwin` …
     NixOS でないマシンで home-manager だけ使う場合
-  - inputs のうち `wlmstr` `zathura-gui` `hyprpanopticon` はユーザ自身の GitHub リポジトリ。
+  - inputs のうち `wlmstr` `zathura-gui` はユーザ自身の GitHub リポジトリ。
     挙動が怪しいときは nixpkgs ではなくそちらを見る
 - `hosts/desktop/configuration.nix` … このマシンの本体。lid の挙動、hibernate 用
   swapfile、fprintd、nixbuild.net リモートビルダーはここ。長いコメントが多いので

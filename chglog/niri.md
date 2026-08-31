@@ -2,6 +2,21 @@
 
 niri の外部ツールと、その設定上の前提を記録する。
 
+## 2026-08-29
+
+### `still` と Wooz は重ねられない
+
+触ったファイル: `home/common_user.nix`, `.config/niri/config.kdl`
+
+`still -c 'wooz …'` は使えない。実機の `niri msg layers` で、`still` が overlay layer を
+占有する一方、Wooz はそこに出ないことを確認した。overlay layer は通常ウィンドウより前面なので、
+Wooz を完全に隠してしまう。`still` を止めても子の Wooz が残り得るため、これを keybind に組み
+込むと終了処理も不完全になる。
+
+そのため `still` は package から外し、`Super+Alt+Z` を Wooz 単体起動へ戻した。Niri で静止画を
+背後に置いたまま Wooz だけを前面に出すことは、両者の layer/ウィンドウ種別が異なるため、設定だけでは
+できない。
+
 ## 2026-08-18
 
 ### Kitty だけ背景 blur を許可

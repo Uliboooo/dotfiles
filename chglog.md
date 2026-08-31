@@ -7,7 +7,7 @@
 
 ## 索引
 
-- [chglog/gpg.md](chglog/gpg.md) — GnuPG agent と端末用 pinentry。
+- [chglog/gpg.md](chglog/gpg.md) — GnuPG agent と GUI pinentry。
 - [chglog/ui-theme.md](chglog/ui-theme.md) — Kitty / Neovim の Rosé Pine 配色と、
   ライト・ダーク判定の受け渡し。
 - [chglog/immich.md](chglog/immich.md) — desktop の写真・動画ライブラリ。sda の

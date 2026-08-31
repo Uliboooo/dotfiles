@@ -17,7 +17,6 @@ let
   # tirith = inputs.tirith.packages.${pkgs.system}.default;
   zathura-gui = inputs.zathura-gui.packages.${system}.default;
   # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
-  hyprpanopticon = inputs.hyprpanopticon.packages.${system}.default;
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
   niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
   firefox-nightly = inputs.firefox-nightly.packages.${system}.firefox-nightly-bin;
@@ -60,6 +59,22 @@ let
     '';
   };
 
+  # `nix.gc` is a system service and does not manage profiles in this user's
+  # XDG state directory.  Expire their generations before the nightly system
+  # GC so their auto roots can become collectable.
+  nixProfilePrune = pkgs.writeShellApplication {
+    name = "nix-profile-prune";
+    runtimeInputs = [ pkgs.nix ];
+    text = ''
+      for profile in \
+        "${config.home.homeDirectory}/.local/state/nix/profiles/profile" \
+        "${config.home.homeDirectory}/.local/state/nix/profiles/home-manager"; do
+        if [[ -L "$profile" ]]; then
+          nix-env --profile "$profile" --delete-generations 7d
+        fi
+      done
+    '';
+  };
   packages = with pkgs; [
     # ===== CLI / エディタ =====
     git
@@ -168,7 +183,6 @@ let
     mpvpaper
     wlmstr
     zathura-gui
-    hyprpanopticon
     # shojiwm
     chromium
     geeqie
@@ -176,6 +190,7 @@ let
     prismlauncher
     niri-float-sticky
     niri-scratchpad
+    wooz
     zen-browser
 
     # ===== ツールチェーン =====
@@ -184,6 +199,9 @@ let
     llvm
     lld
     tailscale
+
+    gnupg
+    pinentry-qt
   ];
 
   mkConfigLink = name: config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.config/${name}";
@@ -195,6 +213,18 @@ in
     home.stateVersion = "24.11";
 
     programs.home-manager.enable = true;
+
+    programs.gpg.enable = true;
+    services.gpg-agent = {
+      enable = true;
+      enableZshIntegration = true;
+      # Git など端末から呼ばれる gpg にも、デスクトップ上で認証ダイアログを出す。
+      pinentry.package = pkgs.pinentry-qt;
+      # デスクトップのログインセッション中は Git 署名などで再入力しない。
+      # ログアウトまたは agent の再起動時にはキャッシュも失われる。
+      defaultCacheTtl = 43200;
+      maxCacheTtl = 43200;
+    };
 
     programs.zsh = {
       enable = true;
@@ -231,8 +261,6 @@ in
         size = 20;
       };
     };
-
-    programs.crush.enable = true;
 
     programs.tmux = {
       enable = true;
@@ -511,6 +539,29 @@ in
       Timer = {
         OnCalendar = "weekly";
         Persistent = false;
+      };
+
+      Install.WantedBy = [ "timers.target" ];
+    };
+
+    systemd.user.services.nix-profile-prune = {
+      Unit.Description = "Expire old Nix and Home Manager profile generations";
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = lib.getExe nixProfilePrune;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+
+    systemd.user.timers.nix-profile-prune = {
+      Unit.Description = "Expire user profile generations before nightly Nix GC";
+
+      Timer = {
+        OnCalendar = "*-*-* 23:40:00";
+        Persistent = true;
+        Unit = "nix-profile-prune.service";
       };
 
       Install.WantedBy = [ "timers.target" ];

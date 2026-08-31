@@ -228,4 +228,8 @@
     dates = "daily";
     options = "--delete-older-than 7d";
   };
+
+  # Deduplicate identical files among live store paths.  This complements GC:
+  # it reduces space use but does not remove any reachable paths.
+  nix.optimise.automatic = true;
 }

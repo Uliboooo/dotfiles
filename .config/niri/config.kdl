@@ -305,6 +305,7 @@ binds {
     // Super+Shift+E { spawn-sh "$HOME/dotfiles/script/logout.py"; }
     Super+Shift+F { fullscreen-window; }
     Super+O repeat=false { toggle-overview; }
+    Super+Alt+Z repeat=false { spawn "wooz" "--zoom-in" "50%" "--mouse-track"; }
     // Super+C { spawn "noctalia-shell" "ipc" "call" "notifications" "toggleHistory"; }
 
     // maximize: Shift+F fills the column width (keeps gaps/border),
@@ -320,8 +321,8 @@ binds {
     Super+H { focus-column-left; }
     Super+L { focus-column-right; }
     // scroll to move focus to the next/previous column
-    Super+WheelScrollDown cooldown-ms=150 { focus-column-right; }
-    Super+WheelScrollUp cooldown-ms=150 { focus-column-left; }
+    Super+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Super+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
 
     // jump to first/last column (head/tail)
     Super+Home { focus-column-first; }

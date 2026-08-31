@@ -160,6 +160,9 @@
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", \
       ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0a70", \
       MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", \
+      ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0440", \
+      MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
   '';
 
   # bootloader configurations for UEFI
@@ -217,4 +220,8 @@
     dates = "daily";
     options = "--delete-older-than 7d";
   };
+
+  # Deduplicate identical files among live store paths.  This complements GC:
+  # it reduces space use but does not remove any reachable paths.
+  nix.optimise.automatic = true;
 }

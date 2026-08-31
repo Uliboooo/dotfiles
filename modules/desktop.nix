@@ -121,6 +121,9 @@ in
 {
   # ===== desktop base (entire system) =====
   services.desktopManager.gnome.enable = true;
+  services.displayManager.defaultSession = "niri";
+  # Use GNOME's helper, which matches the gnome-keyring SSH-agent configuration.
+  programs.ssh.askPassword = "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
   programs.niri.enable = true;
   # Installs hyprlock *and* creates /etc/pam.d/hyprlock. Without the PAM
   # service, hyprlock falls through to /etc/pam.d/other (pam_deny) and the
