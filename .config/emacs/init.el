@@ -19,10 +19,10 @@
 (add-to-list 'display-buffer-alist
              '("\\`\\*Compile-Log\\*\\'" . (display-buffer-no-window)))
 
-(defconst seli/opaque-ui-background "#2a273f")
-(defconst seli/opaque-ui-background-active "#393552")
+(defconst seli/opaque-ui-background "#fffaf3")
+(defconst seli/opaque-ui-background-active "#f2e9e1")
 (defconst seli/buffer-alpha-background
-  (if (getenv "EMACS_SCRATCHPAD") 100 82)
+  (if (getenv "EMACS_SCRATCHPAD") 100 100)
   "Frame background opacity; opaque in the scratchpad to avoid a GDK shm crash.")
 
 (defconst seli/instance-subdir
@@ -89,6 +89,32 @@
 (setq use-package-always-ensure t
       use-package-always-defer t
       use-package-expand-minimally t)
+
+(use-package autothemer :ensure t)
+
+;; `rose-pine-emacs' is not distributed through the package archives above, so
+;; use Straight for this GitHub recipe while leaving the other packages on
+;; package.el.
+(setq straight-base-dir seli/data-dir)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el"
+                         straight-base-dir))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package
+ '(rose-pine-emacs
+   :host github
+   :repo "thongpv87/rose-pine-emacs"
+   :branch "master"))
 
 ;;; Evil must see these before any Evil-related package is loaded.
 
@@ -256,22 +282,22 @@
 
 (defun seli/style-tab-line (&optional frame)
   "Give tabs a flat appearance with a clear selected state in FRAME."
-  (dolist (spec '((tab-bar :background "#191724" :foreground "#6e6a86"
+  (dolist (spec '((tab-bar :background "#faf4ed" :foreground "#9893a5"
                            :box nil :height 1.0 :extend t)
-                  (tab-bar-tab :background "#393552" :foreground "#e0def4"
+                  (tab-bar-tab :background "#f2e9e1" :foreground "#575279"
                                :weight semi-bold :box nil :underline nil)
-                  (tab-bar-tab-inactive :background "#191724" :foreground "#6e6a86"
+                  (tab-bar-tab-inactive :background "#faf4ed" :foreground "#9893a5"
                                         :weight normal :box nil :underline nil)
-                  (tab-bar-tab-group-current :background "#191724" :foreground "#e0def4"
+                  (tab-bar-tab-group-current :background "#faf4ed" :foreground "#575279"
                                              :weight semi-bold :box nil)
-                  (tab-bar-tab-group-inactive :background "#191724" :foreground "#6e6a86"
+                  (tab-bar-tab-group-inactive :background "#faf4ed" :foreground "#9893a5"
                                               :weight normal :box nil)
-                  (tab-bar-tab-ungrouped :background "#191724" :foreground "#6e6a86"
+                  (tab-bar-tab-ungrouped :background "#faf4ed" :foreground "#9893a5"
                                          :box nil)
-                  (tab-line :background "#191724" :foreground "#6e6a86" :box nil :extend t)
-                  (tab-line-tab :background "#191724" :foreground "#908caa" :box nil)
-                  (tab-line-tab-inactive :background "#191724" :foreground "#6e6a86" :box nil)
-                  (tab-line-tab-current :background "#393552" :foreground "#e0def4"
+                  (tab-line :background "#faf4ed" :foreground "#9893a5" :box nil :extend t)
+                  (tab-line-tab :background "#faf4ed" :foreground "#797593" :box nil)
+                  (tab-line-tab-inactive :background "#faf4ed" :foreground "#9893a5" :box nil)
+                  (tab-line-tab-current :background "#f2e9e1" :foreground "#575279"
                                         :weight semi-bold :box nil :underline nil)))
     ;; Update the global face as well as FRAME.  This is necessary when Emacs
     ;; starts as a daemon: its initial frame is terminal-only, while the GUI
@@ -367,14 +393,13 @@ soon as an emacsclient GUI frame is created."
 (tab-bar-mode 1)
 (global-tab-line-mode -1)
 
-(add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
-(load-theme 'rose-pine-moon t)
+(load-theme 'rose-pine-dawn t)
 
 (defun seli/toggle-theme ()
   "Reload the configured theme."
   (interactive)
   (mapc #'disable-theme custom-enabled-themes)
-  (load-theme 'rose-pine-moon t))
+  (load-theme 'rose-pine-dawn t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
