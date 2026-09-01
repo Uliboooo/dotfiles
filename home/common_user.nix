@@ -14,13 +14,10 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 
   wlmstr = inputs.wlmstr.packages.${system}.default;
-  # tirith = inputs.tirith.packages.${pkgs.system}.default;
   zathura-gui = inputs.zathura-gui.packages.${system}.default;
-  # shojiwm = inputs.shojiwm.packages.${pkgs.system}.default;
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
   niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
   firefox-nightly = inputs.firefox-nightly.packages.${system}.firefox-nightly-bin;
-  zen-browser = inputs.zen-browser.packages.${system}.default;
   emacsClient = pkgs.writeShellScriptBin "emacs" ''
     exec ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} --create-frame "$@"
   '';
@@ -96,6 +93,7 @@ let
     unzip
     ghq
     btop
+    htop
     difftastic
     tokei
     wget
@@ -133,14 +131,11 @@ let
     tinymist
     dust
     glow
-    # inputs.antigravity.packages.${pkgs.system}.default
     antigravity-cli
-    # antigravity
     taplo
     imagemagick
     chafa
     codex
-    # tirith
     claude-code
     opencode
 
@@ -191,7 +186,6 @@ let
     niri-float-sticky
     niri-scratchpad
     wooz
-    zen-browser
 
     # ===== ツールチェーン =====
     clang

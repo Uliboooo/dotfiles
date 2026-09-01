@@ -64,7 +64,7 @@ SSH 先で `wl-copy` を叩いてもローカルのクリップボードには�
 - nvim: `SSH_CONNECTION` / `SSH_TTY` / `TMUX` のいずれかがあれば、組み込みの
   `vim.ui.clipboard.osc52` (nvim 0.12 で確認) を `vim.g.clipboard` に設定。
   ローカル (コンソール) では従来どおり wl-copy を使う。
-- tmux: `set-clipboard on` のまま `terminal-features ',*:osc52'` を追加。
+- tmux: `set-clipboard on` のまま `terminal-features ',*:clipboard'` を追加。
   **copy-pipe に渡したコマンドの stdout は tmux サーバ側で捨てられる**ので、
   ペインから自前で OSC52 を出しても届かない。tmux 自身の自動転送 (選択 →
   set-clipboard on → クライアントへ OSC52) に頼る設計。
@@ -82,30 +82,27 @@ SSH 先で `wl-copy` を叩いてもローカルのクリップボードには�
   tmux は `set-clipboard on` で OSC52 クエリに自前のバッファで応答するため、
   クライアントの最新クリップボードとはズレうる。コピー (書き込み) は問題ない。
 
-### 画像表示プロトコル (kitty graphics / sixel) を tmux 越しで通す
+### Kitty graphics protocol を tmux 越しで通す
 
 - `.tmux.conf`
 
-- `terminal-features ',*:graphics'` … kitty graphics protocol をクライアントへ
-  転送。yazi のプレビューや `chafa -f kitty` が tmux 越しで描画される。
-  tmux 3.7b で有効 (`tmux -V` で確認)。tmux が画像を自前でグリッドに描くため、
-  スクロールバックにも残る。
-- `terminal-features ',*:sixel'` … kitty protocol に未対応のクライアント向けの
-  フォールバック。
+- `allow-passthrough on` … tmux passthrough escape sequence を可視ペインから
+  クライアント端末へ転送する。`kitten icat` は tmux を自動検出し、Unicode
+  placeholder と passthrough を使う。chafa では必要なら
+  `chafa -f kitty --passthrough tmux FILE` と明示できる。
 - `set -g default-terminal "tmux-256color"` … `screen-256color` から変更。
   tmux-256color の terminfo は `Ms` (OSC52) を持ち、内側の nvim から見ても
   クリップボード対応が検出できる。
-- `allow-passthrough on` は既に有効でそのまま。
 
 yazi は端末への動的クエリで protocol を判定するので、SSH 越しの裸の端末
-(ghostty / kitty) では設定無しで画像プレビューが効く。tmux を挟むと上記の
-`graphics` feature が要る。
+(ghostty / kitty) では設定無しで画像プレビューが効く。tmux 内では yazi 側の
+passthrough 対応を利用する。
 
 ハマりどころ:
 
-- **`terminal-features ',*:sixel'` を全クライアントに付けるのは、この機の
-  kitty / ghostty 前提の割り切り**。sixel 未対応のクライアントを後で繋ぐ場合は
-  対象を限定すること。
+- tmux 3.7c の `terminal-features` に `graphics` はない。kitty graphics は
+  tmux がネイティブ描画するのではなく、対応アプリが passthrough で端末へ送る。
+- kitty は sixel 非対応なので、`terminal-features ',*:sixel'` を全クライアントへ
+  宣言しない。sixel を使う場合は対応端末の TERM だけに限定する。
 - クライアントが ghostty の場合、`~/.config/ghostty/config` の
-  `term=xterm-256color` のままでも kitty graphics / sixel は動的クエリで効く
-  (TERM 文字列には依存しない)。ghostty は両プロトコル対応。
+  `term=xterm-256color` のままでも kitty graphics は動的クエリで検出される。

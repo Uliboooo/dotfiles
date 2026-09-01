@@ -226,7 +226,7 @@ function wifi
     test -n "$ssid"; and nmcli device wifi connect "$ssid" --ask
 end
 
-abbr -a ff 'fastfetch --logo-type kitty --logo ~/Pictures/illustrations/face.png'
+abbr -a ff 'fastfetch --logo-type kitty --logo ~/Pictures/illustrations/cat_pol.jpeg'
 
 #  ╔═╗ ╦═╗ ╔═╗ ╔═╗ ╦═╗ ╔═╗ ╔╦╗ ╔╦╗ ╦ ╔╗╔ ╔═╗
 #  ╠═╝ ╠╦╝ ║ ║ ║ ╦ ╠╦╝ ╠═╣ ║║║ ║║║ ║ ║║║ ║ ╦

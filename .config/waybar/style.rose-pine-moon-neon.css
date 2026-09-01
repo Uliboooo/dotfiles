@@ -20,7 +20,7 @@ tooltip {
   box-shadow: none;
 }
 
-tooltip label { color: #e0def4; }
+tooltip label { color: #e0def4; text-shadow: none; }
 
 #workspaces, #window, #submap, #mpris, #clock, #battery, #network,
 #pulseaudio, #bluetooth, #temperature, #tray, #custom-notification,

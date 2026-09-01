@@ -24,6 +24,12 @@
     onBoot = "start";
   };
 
+  # Keep KVM and VirtualBox installed side by side.  With this disabled, KVM
+  # only claims VT-x while a KVM VM exists, so VirtualBox can use it after all
+  # KVM VMs have been shut down (and vice versa).
+  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ];
+  virtualisation.virtualbox.host.enable = true;
+
   hardware.enableAllFirmware = true;
 
   time.timeZone = "Asia/Tokyo";
@@ -203,6 +209,7 @@
       "networkmanager"
       "libvirtd"
       "kvm"
+      "vboxusers"
     ];
     shell = pkgs.fish;
   };
