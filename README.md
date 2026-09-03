@@ -40,35 +40,21 @@ This repository supports two main setup methods:
 - **NixOS** (Full system + user management)
 - **Standalone Home Manager** (User management on generic Linux distros like Debian/Ubuntu)
 
-### 1. Standalone Home Manager (Generic Linux)
+### 1. Standalone Home Manager (Fedora)
 
-Use this if you are on Debian, Ubuntu, Arch, etc., and only want to use Nix for your user environment.
-
-#### Step 1: Install Nix
-
-Install Nix with the official installer:
+Log in as `seli`, clone this repository to `~/dotfiles`, and run the bootstrap
+script. It installs the Fedora-owned system layer (`fish` and `niri`), installs
+Nix when necessary, builds the flake, and activates standalone Home Manager.
 
 ```bash
-sh <(curl -L https://nixos.org/nix/install) --daemon
-```
-
-#### Step 2: Enable Flakes
-
-Ensure Flakes and Nix-command are enabled by adding this to `~/.config/nix/nix.conf` (or `/etc/nix/nix.conf`):
-
-```text
-experimental-features = nix-command flakes
-```
-
-#### Step 3: Clone & Deploy
-
-```bash
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone <repository-url> ~/dotfiles
 cd ~/dotfiles
-nix run home-manager/master -- init --flake .#seli
-nix run home-manager/master -- switch --flake .#seli
+./script/fedora-home-manager-bootstrap.sh
 ```
-Subsequent updates:
+
+The repository path and user name are intentional: the current configuration
+uses `/home/seli/dotfiles` for its out-of-store links. After the first run,
+log out and back in. Subsequent updates use:
 
 ```bash
 home-manager switch --flake .#seli

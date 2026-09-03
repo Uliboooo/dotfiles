@@ -97,7 +97,7 @@ input {
 
 output "DP-1" {
     mode "3840x2160"
-    scale 2
+    scale 1.5
     position x=0 y=0
 }
 

@@ -2,6 +2,17 @@
 #  ╠╣  ║ ╚═╗ ╠═╣ ║╣  ╠╦╝
 #  ╚   ╩ ╚═╝ ╩ ╩ ╚═╝ ╩╚═
 
+# Fedora などの standalone Home Manager 環境では、NixOS のログイン環境が
+# /nix とユーザープロファイルを PATH に追加してくれない。Nix installer が
+# fish 用スクリプトを提供する場合はそれを読み、Home Manager の profile は
+# installer の種類にかかわらず明示的に追加する。
+if test -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+else
+    fish_add_path -g /nix/var/nix/profiles/default/bin
+end
+fish_add_path -g $HOME/.nix-profile/bin
+
 if status is-interactive
     # pinentry-curses needs the terminal that invoked gpg.  programs.fish is
     # intentionally not managed by Home Manager, so mirror gpg-agent's shell
@@ -150,9 +161,30 @@ end
 # ╚═╝ ╩  ╩       ╩ ╩ ╚═╝ ╚═╝ ╩╚═
 abbr -a gst 'git status'
 abbr -a gda 'git --no-pager diff'
-abbr -a gl "git            log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s'"
-abbr -a gla "git --no-pager log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s'"
-abbr -a gls "git --no-pager log --all --date-order --date=format:'%y-%m-%d %H:%M' --graph --format=' <%h> %ad [%an] %C(green)%d%Creset %s' -n 15"
+function git-log
+    set -l limit
+
+    if test (count $argv) -gt 0
+        set limit -n "$argv[1]"
+    end
+
+    git --no-pager log --all --date-order \
+        --date=format:'%y-%m-%d %H:%M' \
+        --graph \
+        --format=' <%h> %ad [%an] [%G?] %C(green)%d%Creset %s' \
+        $limit |
+    awk '{
+        gsub(/\[G\]/, "✓")
+        gsub(/\[U\]/, "△")
+        gsub(/\[B\]/, "✗")
+        gsub(/\[E\]/, "!")
+        gsub(/\[N\]/, "·")
+        print
+    }'
+end
+
+abbr -a gla "git-log"
+abbr -a gls "git-log 15"
 abbr -a gf 'git fetch'
 abbr -a gb 'git branch'
 

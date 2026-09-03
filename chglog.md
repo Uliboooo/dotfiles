@@ -7,6 +7,8 @@
 
 ## 索引
 
+- [chglog/fedora.md](chglog/fedora.md) — Fedora 上の standalone Home Manager 導入と
+  fish の Nix profile 統合。
 - [chglog/gpg.md](chglog/gpg.md) — GnuPG agent と GUI pinentry。
 - [chglog/ui-theme.md](chglog/ui-theme.md) — Kitty / Neovim の Rosé Pine 配色と、
   ライト・ダーク判定の受け渡し。
