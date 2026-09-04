@@ -18,6 +18,7 @@ let
   niri-float-sticky = inputs.niri-float-sticky.packages.${system}.default;
   niri-scratchpad = inputs.niri-scratchpad.packages.${system}.default;
   firefox-nightly = inputs.firefox-nightly.packages.${system}.firefox-nightly-bin;
+  zen-browser = inputs.zen-browser.packages.${system}.zen-browser;
   emacsClient = pkgs.writeShellScriptBin "emacs" ''
     exec ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} --create-frame "$@"
   '';
@@ -144,6 +145,7 @@ let
     nerd-fonts.symbols-only
     nerd-fonts.jetbrains-mono
     google-chrome
+    zen-browser
     zathura
     sioyek # Qt だが qtbase の platformtheme 経由で gtk+3 を引く
     pinta

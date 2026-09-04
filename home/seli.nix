@@ -31,6 +31,9 @@ in
     enableDefaultConfig = false;
     settings."*" = {
       AddKeysToAgent = "yes";
+      # Kitty が子プロセスへ設定する light/dark ヒントを SSH 先にも渡す。
+      # 接続先の sshd にも AcceptEnv TERM_BACKGROUND が必要。
+      SendEnv = [ "TERM_BACKGROUND" ];
     };
   };
 

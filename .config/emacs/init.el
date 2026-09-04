@@ -92,29 +92,9 @@
 
 (use-package autothemer :ensure t)
 
-;; `rose-pine-emacs' is not distributed through the package archives above, so
-;; use Straight for this GitHub recipe while leaving the other packages on
-;; package.el.
-(setq straight-base-dir seli/data-dir)
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el"
-                         straight-base-dir))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package
- '(rose-pine-emacs
-   :host github
-   :repo "thongpv87/rose-pine-emacs"
-   :branch "master"))
+;; Rose Pine Dawn is vendored with this configuration, so keep package
+;; management exclusively on package.el and load the local theme directly.
+(add-to-list 'custom-theme-load-path (expand-file-name "themes/" seli/config-dir))
 
 ;;; Evil must see these before any Evil-related package is loaded.
 
@@ -332,13 +312,14 @@
 
 (add-to-list 'default-frame-alist '(alpha . (100 . 100)))
 (add-to-list 'default-frame-alist `(alpha-background . ,seli/buffer-alpha-background))
+;; Temporarily disabled to inspect Rose Pine Dawn without local face overrides.
 (add-hook 'after-make-frame-functions #'seli/apply-frame-appearance)
 (add-hook 'window-setup-hook #'seli/reapply-frame-appearance)
 (advice-add 'load-theme :after #'seli/reapply-frame-appearance)
 (seli/apply-frame-appearance)
 
 (defconst seli/default-font-family "Monaspace Radon Var")
-(defconst seli/default-font-height 130)
+(defconst seli/default-font-height 120)
 (defconst seli/cjk-font-family "Cica")
 (defconst seli/icon-font-family "Symbols Nerd Font Mono")
 

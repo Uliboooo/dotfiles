@@ -417,7 +417,8 @@
         "nixpkgs": "nixpkgs_5",
         "nur": "nur",
         "wlmstr": "wlmstr",
-        "zathura-gui": "zathura-gui"
+        "zathura-gui": "zathura-gui",
+        "zen-browser": "zen-browser"
       }
     },
     "rust-overlay": {
@@ -593,6 +594,26 @@
       "original": {
         "owner": "Uliboooo",
         "repo": "zathura_thin_gui_wrapper",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788083005,
+        "narHash": "sha256-e6U3sXUlu/QzZyJp/+ymW8s57Jbdb7bwT9+WaTAhHfQ=",
+        "owner": "youwen5",
+        "repo": "zen-browser-flake",
+        "rev": "afbbbef7c3c00f160f4a9dfdd8c6c6b8b089a33f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "youwen5",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

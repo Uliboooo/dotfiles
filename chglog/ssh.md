@@ -14,6 +14,37 @@ SSH 越しの接続性と利便性 (クリップボード / 画像表示 / SSH �
 
 ---
 
+## 2026-09-04
+
+### 端末の light/dark ヒントを SSH 越しに引き継ぐ
+
+- `home/seli.nix`
+- `modules/common.nix`
+
+Kitty は `TERM_BACKGROUND=light` を子プロセスへ設定するが、SSH が自動転送する端末用
+変数は `TERM` だけなので、接続先では値が消えて Neovim と `fastfetch` が dark 側へ
+フォールバックしていた。Home Manager の全ホスト向け SSH 設定で
+`SendEnv TERM_BACKGROUND`、NixOS の sshd 設定で `AcceptEnv TERM_BACKGROUND` を指定する。
+
+受信した変数はセッション環境へ export されるため、同じ設定を持つホスト間なら
+`selinoir -> selipaq -> ...` のような多段 SSH でも次の接続へ引き継がれる。送信先が
+`AcceptEnv` を設定していない場合は単に無視される。
+
+ハマりどころ:
+
+- `SendEnv` だけでは不十分で、接続先 sshd の `AcceptEnv` も必要。
+- NixOS の型は `services.openssh.settings.AcceptEnv = [ "TERM_BACKGROUND" ];`、現行
+  Home Manager の型は `programs.ssh.settings."*".SendEnv = [ "TERM_BACKGROUND" ];`。
+- 反映には送信側の Home Manager 適用と受信側の NixOS `switch` が必要。既に接続中の
+  セッションには遡及しないため、適用後に SSH 接続を張り直す。
+
+検証:
+
+- desktop / thinkpad / standalone Home Manager の `nix eval` が成功。
+- `nixos-rebuild build --flake .#desktop` が成功し、生成物の `sshd_config` に
+  `AcceptEnv TERM_BACKGROUND`、Home Manager の SSH config に
+  `SendEnv TERM_BACKGROUND` が入ることを確認。
+
 ## 2026-08-06
 
 ### SSH セッションから gcr-ssh-agent の解錠済み鍵をそのまま使う (GitHub のパスフレーズ省略)

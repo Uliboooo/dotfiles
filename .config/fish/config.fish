@@ -217,7 +217,7 @@ abbr -a hxd 'hx .'
 abbr -a h 'herdr'
 abbr -a mi mediainfo
 abbr -a n 'nvim .'
-abbr -a e 'emacs .'
+abbr -a e 'emacs -nw .'
 abbr -a oc 'opencode'
 
 abbr -a reboot 'systemctl reboot'
