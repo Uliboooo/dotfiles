@@ -60,12 +60,12 @@ return {
       -- Set keymap for toggling (Leader + tb = toggle background)
       vim.keymap.set("n", "<leader>tb", toggle_background, { desc = "Toggle dark/light mode" })
 
-      -- Auto-detect terminal background and set initial theme
-      -- If TERM_BACKGROUND env var is set, use it; otherwise default to dark
-      if vim.env.TERM_BACKGROUND == "light" then
-        vim.o.background = "light"
-      else
-        vim.o.background = "dark"
+      -- Neovim 0.12 queries the terminal background with OSC 11 before loading
+      -- user config.  Preserve that result when the environment hint is absent
+      -- (notably over SSH), and only override it when a terminal explicitly
+      -- supplies a valid hint.
+      if vim.env.TERM_BACKGROUND == "light" or vim.env.TERM_BACKGROUND == "dark" then
+        vim.o.background = vim.env.TERM_BACKGROUND
       end
 
       set_colorscheme()

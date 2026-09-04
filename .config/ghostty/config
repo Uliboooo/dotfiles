@@ -12,6 +12,7 @@ background-blur-radius = 40
 
 theme = rose-pine-dawn
 foreground = #ffffff
+env = TERM_BACKGROUND=light
 
 window-theme = dark
 

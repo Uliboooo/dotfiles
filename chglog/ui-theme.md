@@ -1,7 +1,29 @@
 # Kitty / Neovim のテーマ
 
-Kitty は `TERM_BACKGROUND` を子プロセスへ渡し、Neovim はその値から起動時の
-Rosé Pine variant を選ぶ。Kitty の実際の背景とこの値は必ず揃える。
+Kitty / Ghostty は `TERM_BACKGROUND` を子プロセスへ渡し、Neovim は明示された値を
+優先して起動時の Rosé Pine variant を選ぶ。値が無い場合は Neovim 0.12 組み込みの
+OSC 11 背景検出を使う。端末の実際の背景と明示値は必ず揃える。
+
+## 2026-09-04
+
+### SSH では Neovim 組み込みの OSC 11 背景検出にもフォールバックする
+
+- `.config/nvim/lua/plugins/visual.lua`
+- `.config/ghostty/config`
+
+Neovim 0.12 はユーザー設定を読む前に OSC 11 で端末の背景色を問い合わせ、輝度から
+`background` を自動設定する。この問い合わせと応答は SSH 越しでも端末へ届く。
+ところが従来設定は `TERM_BACKGROUND` が無い場合に `background=dark` を明示して、
+組み込みの検出結果を上書きしていた。環境変数が `light` / `dark` のときだけ上書きし、
+未設定なら検出済みの値を維持するようにした。
+
+Ghostty も実際のテーマが Dawn なので `env = TERM_BACKGROUND=light` を設定する。
+Kitty / Ghostty とも、既存シェルの環境は設定再読込では書き換わらない。設定反映後に
+新しいタブまたはウィンドウを作る必要がある。
+
+根拠は Neovim 0.12.5 の `runtime/lua/vim/_core/defaults.lua`。`ttyfast` のとき
+`OSC 11 ; ?` と DSR を送り、応答の RGB 輝度が 0.5 未満なら dark、それ以外なら light
+として、ユーザー設定の読み込み前に最大 100 ms 待つ。
 
 ## 2026-08-25
 
