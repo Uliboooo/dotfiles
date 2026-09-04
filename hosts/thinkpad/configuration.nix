@@ -41,7 +41,11 @@
   };
   services.hazkey.enable = true;
   # Ctrl と Alt を左右とも入れ替える。keyd は入力デバイス段階で変換するため、
-  # Wayland / X11 を問わず同じ配列になる。
+  # Wayland / X11 を問わず同じ配列になる。Rainy 75 は本体側の配列を使うため除外する。
+  services.keyd.keyboards.default.ids = lib.mkForce [
+    "*"
+    "-320f:5055"
+  ];
   services.keyd.keyboards.default.settings.main = lib.mkForce {
     leftcontrol = "leftalt";
     leftalt = "leftcontrol";
