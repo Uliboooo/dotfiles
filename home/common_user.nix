@@ -268,7 +268,10 @@ in
         cpu
         resurrect
         continuum
-        catppuccin
+        {
+          plugin = rose-pine;
+          extraConfig = "set -g @rose_pine_variant 'dawn'";
+        }
       ];
       extraConfig = builtins.readFile ../.tmux.conf;
     };

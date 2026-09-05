@@ -8,7 +8,8 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     config = function()
-      require("mason").setup()
+      -- Prefer project-local dev shell tools and use Mason as a fallback.
+      require("mason").setup({ PATH = "append" })
 
       require("mason-lspconfig").setup({
         ensure_installed = {
