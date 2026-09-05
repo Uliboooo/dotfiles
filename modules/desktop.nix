@@ -115,6 +115,7 @@ let
       timeout 480 ${swayidleBrightnessDown} resume ${swayidleBrightnessUp} \
       timeout 3600 ${swayidleLockOff} resume ${swayidleMonitorsOn} \
       timeout 1800 ${swayidleHibernate} \
+      lock '${lib.getExe pkgs.hyprlock}' \
       before-sleep 'loginctl lock-session'
   '';
 in
@@ -271,7 +272,8 @@ in
     # .config/hypr/hypridle.conf は swayidle の CLI / スクリプト化に合わせて消した。
     # swayidle の package は同梱の systemd unit を持たない (NixOS の
     # services.swayidle モジュールも現行 nixpkgs には無い) ので、ここで立てる。
-    # ロックは loginctl lock-session 経由 (PAM で hyprlock が起動する)。
+    # loginctl lock-session の logind シグナルを lock イベントで受け、
+    # hyprlock を起動する。PAM は起動後の認証に使われる。
     swayidle = {
       description = "Idle manager for Wayland";
       unitConfig = {

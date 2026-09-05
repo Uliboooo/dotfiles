@@ -3,7 +3,7 @@
 [user]
 	name = seli
 	email = seli.am2@proton.me
-	signingKey = E80ED68D276055A6
+	signingkey = 839233C3BA088297
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less
@@ -36,4 +36,6 @@
 [pull]
 	rebase = false
 [commit]
+	gpgsign = true
+[tag]
 	gpgSign = true
