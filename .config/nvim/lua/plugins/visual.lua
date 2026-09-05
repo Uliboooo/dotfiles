@@ -100,7 +100,7 @@ return {
         local width = 10
         local pos = math.floor((current - 1) / (total - 1) * width)
 
-        return string.rep("=", pos) .. " " .. string.rep("-", width - pos)
+        return string.rep("=", pos) .. "( ^ｰ^)" .. string.rep("-", width - pos)
       end
 
       require("lualine").setup({

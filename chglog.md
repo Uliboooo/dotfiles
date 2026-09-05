@@ -26,6 +26,8 @@
 - [chglog/status-bar.md](chglog/status-bar.md) — Noctalia / Waybar の起動と切替。
 - [chglog/niri.md](chglog/niri.md) — niri 固有の外部ツールと連携設定。
 - [chglog/emacs.md](chglog/emacs.md) — Emacs daemon / GUI frame / posframe 固有の注意点。
+- [chglog/neovim.md](chglog/neovim.md) — Neovim の LSP 実行ファイルの供給元と、
+  dev shell との関係。
 - [chglog/systemd.md](chglog/systemd.md) — Home Manager で管理するユーザー単位の
   service / timer と、定期処理固有の注意点。
 
