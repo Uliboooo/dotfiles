@@ -7,6 +7,7 @@
 
 ## 索引
 
+- [chglog/keyboard.md](chglog/keyboard.md) — keyd のデバイス別リマップと外付けキーボード。
 - [chglog/fedora.md](chglog/fedora.md) — Fedora 上の standalone Home Manager 導入と
   fish の Nix profile 統合。
 - [chglog/gpg.md](chglog/gpg.md) — GnuPG agent と GUI pinentry。
